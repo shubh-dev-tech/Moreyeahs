@@ -1435,9 +1435,96 @@ if ( ! function_exists( 'twentytwentyfive_register_acf_blocks' ) ) :
 				),
 			)
 		);
+
+		// Register Image Grid Hover Block
+		acf_register_block_type(
+			array(
+				'name'            => 'image-grid-hover',
+				'title'           => __( 'Image Grid Hover', 'twentytwentyfive' ),
+				'description'     => __( 'Image grid with hover effects - 1 large image + 4 smaller images in 2x2 grid', 'twentytwentyfive' ),
+				'render_template' => get_template_directory() . '/blocks/image-grid-hover/block.php',
+				'category'        => 'media',
+				'icon'            => 'grid-view',
+				'keywords'        => array( 'image', 'grid', 'hover', 'gallery' ),
+				'supports'        => array(
+					'align' => array( 'wide', 'full' ),
+				),
+			)
+		);
 	}
 endif;
 add_action( 'acf/init', 'twentytwentyfive_register_acf_blocks' );
+
+// Enqueue ACF block assets for editor
+if ( ! function_exists( 'twentytwentyfive_enqueue_acf_block_editor_assets' ) ) :
+	/**
+	 * Enqueues ACF block assets for the editor.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_enqueue_acf_block_editor_assets() {
+		// Image Grid Hover Block styles
+		wp_enqueue_style(
+			'image-grid-hover-editor-style',
+			get_template_directory_uri() . '/blocks/image-grid-hover/style.css',
+			array(),
+			filemtime( get_template_directory() . '/blocks/image-grid-hover/style.css' )
+		);
+		
+		// Full Width Left Text Section Block styles
+		if ( file_exists( get_template_directory() . '/blocks/full-width-left-text-section.css' ) ) {
+			wp_enqueue_style(
+				'full-width-left-text-section-editor-style',
+				get_template_directory_uri() . '/blocks/full-width-left-text-section.css',
+				array(),
+				filemtime( get_template_directory() . '/blocks/full-width-left-text-section.css' )
+			);
+		}
+	}
+endif;
+add_action( 'enqueue_block_editor_assets', 'twentytwentyfive_enqueue_acf_block_editor_assets' );
+
+// Enqueue ACF block assets for frontend
+if ( ! function_exists( 'twentytwentyfive_enqueue_acf_block_frontend_assets' ) ) :
+	/**
+	 * Enqueues ACF block assets for the frontend.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_enqueue_acf_block_frontend_assets() {
+		// Only enqueue if blocks are present on the page
+		if ( has_block( 'acf/image-grid-hover' ) ) {
+			wp_enqueue_style(
+				'image-grid-hover-style',
+				get_template_directory_uri() . '/blocks/image-grid-hover/style.css',
+				array(),
+				filemtime( get_template_directory() . '/blocks/image-grid-hover/style.css' )
+			);
+			
+			wp_enqueue_script(
+				'image-grid-hover-script',
+				get_template_directory_uri() . '/blocks/image-grid-hover/script.js',
+				array(),
+				filemtime( get_template_directory() . '/blocks/image-grid-hover/script.js' ),
+				true
+			);
+		}
+		
+		if ( has_block( 'acf/full-width-left-text-section' ) && file_exists( get_template_directory() . '/blocks/full-width-left-text-section.css' ) ) {
+			wp_enqueue_style(
+				'full-width-left-text-section-style',
+				get_template_directory_uri() . '/blocks/full-width-left-text-section.css',
+				array(),
+				filemtime( get_template_directory() . '/blocks/full-width-left-text-section.css' )
+			);
+		}
+	}
+endif;
+add_action( 'wp_enqueue_scripts', 'twentytwentyfive_enqueue_acf_block_frontend_assets' );
 
 // ============================================
 // FOOTER WIDGETS API
@@ -1676,3 +1763,74 @@ if ( ! function_exists( 'twentytwentyfive_parse_footer_widget_content' ) ) :
 		);
 	}
 endif;
+
+
+// Set ACF JSON save/load paths
+if ( ! function_exists( 'twentytwentyfive_acf_json_save_point' ) ) :
+	/**
+	 * Sets the ACF JSON save point.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param string $path The default path.
+	 * @return string Modified path.
+	 */
+	function twentytwentyfive_acf_json_save_point( $path ) {
+		return get_stylesheet_directory() . '/acf-json';
+	}
+endif;
+add_filter( 'acf/settings/save_json', 'twentytwentyfive_acf_json_save_point' );
+
+if ( ! function_exists( 'twentytwentyfive_acf_json_load_point' ) ) :
+	/**
+	 * Sets the ACF JSON load point.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param array $paths Array of paths.
+	 * @return array Modified paths.
+	 */
+	function twentytwentyfive_acf_json_load_point( $paths ) {
+		unset( $paths[0] );
+		$paths[] = get_stylesheet_directory() . '/acf-json';
+		return $paths;
+	}
+endif;
+add_filter( 'acf/settings/load_json', 'twentytwentyfive_acf_json_load_point' );
+
+
+// Register Icon Text Grid ACF Block
+if ( ! function_exists( 'twentytwentyfive_register_icon_text_grid_block' ) ) :
+	/**
+	 * Registers the Icon Text Grid ACF block.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_icon_text_grid_block() {
+		// Check if ACF function exists
+		if ( ! function_exists( 'acf_register_block_type' ) ) {
+			return;
+		}
+
+		acf_register_block_type(
+			array(
+				'name'            => 'icon-text-grid',
+				'title'           => __( 'Icon Text Grid', 'twentytwentyfive' ),
+				'description'     => __( 'Flexible grid with text and icons that rotate on hover', 'twentytwentyfive' ),
+				'render_template' => get_template_directory() . '/blocks/icon-text-grid/block.php',
+				'category'        => 'formatting',
+				'icon'            => 'grid-view',
+				'keywords'        => array( 'icon', 'grid', 'text', 'link', 'clickable' ),
+				'supports'        => array(
+					'align'  => true,
+					'anchor' => true,
+				),
+				'enqueue_style'   => get_template_directory_uri() . '/blocks/icon-text-grid/style.css',
+				'enqueue_script'  => get_template_directory_uri() . '/blocks/icon-text-grid/script.js',
+			)
+		);
+	}
+endif;
+add_action( 'acf/init', 'twentytwentyfive_register_icon_text_grid_block' );

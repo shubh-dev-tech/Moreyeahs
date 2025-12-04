@@ -32,6 +32,18 @@ $title_bottom_2nd = get_field('title_bottom_2nd');
 $url_title_2nd = get_field('url_title_2nd');
 $url_link_2nd = get_field('url_link_2nd');
 $right_image = get_field('right_image');
+$reverse_layout = get_field('reverse_layout');
+
+// Get section settings
+$background_color = get_field('background_color') ?: '#b8860b';
+$section_height = get_field('section_height') ?: '100vh';
+$section_width = get_field('section_width') ?: '100%';
+$padding_top = get_field('padding_top') ?: '4rem';
+$padding_bottom = get_field('padding_bottom') ?: '4rem';
+$padding_left = get_field('padding_left') ?: '2rem';
+$padding_right = get_field('padding_right') ?: '2rem';
+$margin_top = get_field('margin_top') ?: '0';
+$margin_bottom = get_field('margin_bottom') ?: '0';
 
 // Block attributes
 $block_id = 'full-width-left-text-' . $block['id'];
@@ -39,9 +51,26 @@ $class_name = 'full-width-left-text-section';
 if (!empty($block['className'])) {
     $class_name .= ' ' . $block['className'];
 }
+if ($reverse_layout) {
+    $class_name .= ' full-width-left-text-section--reversed';
+}
+
+// Build inline styles
+$inline_styles = sprintf(
+    'background-color: %s; min-height: %s; width: %s; padding: %s %s %s %s; margin: %s 0 %s 0;',
+    esc_attr($background_color),
+    esc_attr($section_height),
+    esc_attr($section_width),
+    esc_attr($padding_top),
+    esc_attr($padding_right),
+    esc_attr($padding_bottom),
+    esc_attr($padding_left),
+    esc_attr($margin_top),
+    esc_attr($margin_bottom)
+);
 ?>
 
-<section id="<?php echo esc_attr($block_id); ?>" class="<?php echo esc_attr($class_name); ?>">
+<section id="<?php echo esc_attr($block_id); ?>" class="<?php echo esc_attr($class_name); ?>" style="<?php echo $inline_styles; ?>">
     
     <div class="full-width-left-text-section__container">
         

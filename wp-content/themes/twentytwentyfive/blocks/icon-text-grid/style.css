@@ -1,0 +1,128 @@
+.icon-text-grid {
+  width: 100%;
+  padding: 60px 20px;
+}
+.icon-text-grid__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+.icon-text-grid__item {
+  display: block;
+  text-decoration: none;
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 30px 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.icon-text-grid__item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-color: #000000;
+}
+.icon-text-grid__item:hover .icon-text-grid__icon {
+  animation: rotate360 0.6s ease-in-out;
+}
+.icon-text-grid__item:focus {
+  outline: 2px solid #000000;
+  outline-offset: 2px;
+}
+.icon-text-grid__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+.icon-text-grid__text {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+  line-height: 1.4;
+}
+.icon-text-grid__icon-wrapper {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-text-grid__icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1024px) {
+  .icon-text-grid__container {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+  }
+  .icon-text-grid__item {
+    padding: 25px 15px;
+  }
+  .icon-text-grid__text {
+    font-size: 18px;
+  }
+  .icon-text-grid__icon-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .icon-text-grid {
+    padding: 40px 15px;
+  }
+  .icon-text-grid__container {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+  }
+  .icon-text-grid__item {
+    padding: 20px 15px;
+  }
+  .icon-text-grid__text {
+    font-size: 16px;
+  }
+  .icon-text-grid__icon-wrapper {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+@media (max-width: 480px) {
+  .icon-text-grid {
+    padding: 30px 10px;
+  }
+  .icon-text-grid__container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .icon-text-grid__item {
+    padding: 25px 20px;
+  }
+  .icon-text-grid__text {
+    font-size: 18px;
+  }
+  .icon-text-grid__icon-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+}

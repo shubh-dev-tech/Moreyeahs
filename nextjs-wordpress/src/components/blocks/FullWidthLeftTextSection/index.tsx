@@ -27,6 +27,16 @@ interface FullWidthLeftTextSectionProps {
       width: number;
       height: number;
     };
+    reverse_layout?: boolean;
+    background_color?: string;
+    section_height?: string;
+    section_width?: string;
+    padding_top?: string;
+    padding_bottom?: string;
+    padding_left?: string;
+    padding_right?: string;
+    margin_top?: string;
+    margin_bottom?: string;
   };
 }
 
@@ -45,10 +55,34 @@ export function FullWidthLeftTextSection({ data }: FullWidthLeftTextSectionProps
     url_title_2nd,
     url_link_2nd,
     right_image,
+    reverse_layout,
+    background_color = '#b8860b',
+    section_height = '100vh',
+    section_width = '100%',
+    padding_top = '4rem',
+    padding_bottom = '4rem',
+    padding_left = '2rem',
+    padding_right = '2rem',
+    margin_top = '0',
+    margin_bottom = '0',
   } = data;
 
+  const sectionClassName = `full-width-left-text-section${reverse_layout ? ' full-width-left-text-section--reversed' : ''}`;
+
+  const sectionStyles: React.CSSProperties = {
+    backgroundColor: background_color,
+    minHeight: section_height,
+    width: section_width,
+    paddingTop: padding_top,
+    paddingBottom: padding_bottom,
+    paddingLeft: padding_left,
+    paddingRight: padding_right,
+    marginTop: margin_top,
+    marginBottom: margin_bottom,
+  };
+
   return (
-    <section className="full-width-left-text-section">
+    <section className={sectionClassName} style={sectionStyles}>
       <div className="full-width-left-text-section__container">
         
         {/* Left Content Section */}
