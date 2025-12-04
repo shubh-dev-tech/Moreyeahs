@@ -1203,3 +1203,427 @@ if ( ! function_exists( 'twentytwentyfive_get_site_settings' ) ) :
 		return rest_ensure_response( $settings );
 	}
 endif;
+
+
+// ============================================
+// FOOTER WIDGETS - Dynamic Footer System
+// ============================================
+
+// Register footer widget areas
+if ( ! function_exists( 'twentytwentyfive_register_footer_widgets' ) ) :
+	function twentytwentyfive_register_footer_widgets() {
+		for ( $i = 1; $i <= 5; $i++ ) {
+			register_sidebar(
+				array(
+					'name'          => 'Footer Column ' . $i,
+					'id'            => 'footer-column-' . $i,
+					'description'   => 'Footer widget area column ' . $i,
+					'before_widget' => '<div class="footer-widget">',
+					'after_widget'  => '</div>',
+					'before_title'  => '<h4 class="widget-title">',
+					'after_title'   => '</h4>',
+				)
+			);
+		}
+	}
+endif;
+add_action( 'widgets_init', 'twentytwentyfive_register_footer_widgets' );
+
+// Register custom options for copyright text
+if ( ! function_exists( 'twentytwentyfive_register_footer_copyright_settings' ) ) :
+	function twentytwentyfive_register_footer_copyright_settings() {
+		register_setting(
+			'general',
+			'footer_copyright_left',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'wp_kses_post',
+				'default'           => '',
+			)
+		);
+
+		register_setting(
+			'general',
+			'footer_copyright_right',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'wp_kses_post',
+				'default'           => '',
+			)
+		);
+	}
+endif;
+add_action( 'admin_init', 'twentytwentyfive_register_footer_copyright_settings' );
+
+// Add settings fields to General Settings page
+if ( ! function_exists( 'twentytwentyfive_add_footer_copyright_fields' ) ) :
+	function twentytwentyfive_add_footer_copyright_fields() {
+		add_settings_section(
+			'footer_copyright_section',
+			'Footer Copyright Settings',
+			function () {
+				echo '<p>Configure the left and right copyright text for your footer.</p>';
+			},
+			'general'
+		);
+
+		add_settings_field(
+			'footer_copyright_left',
+			'Copyright Left Text',
+			function () {
+				$value = get_option( 'footer_copyright_left', '' );
+				echo '<textarea name="footer_copyright_left" rows="3" cols="50" class="large-text">' . esc_textarea( $value ) . '</textarea>';
+				echo '<p class="description">HTML allowed. Use {year} for current year.</p>';
+			},
+			'general',
+			'footer_copyright_section'
+		);
+
+		add_settings_field(
+			'footer_copyright_right',
+			'Copyright Right Text',
+			function () {
+				$value = get_option( 'footer_copyright_right', '' );
+				echo '<textarea name="footer_copyright_right" rows="3" cols="50" class="large-text">' . esc_textarea( $value ) . '</textarea>';
+				echo '<p class="description">HTML allowed. Use {year} for current year.</p>';
+			},
+			'general',
+			'footer_copyright_section'
+		);
+	}
+endif;
+add_action( 'admin_init', 'twentytwentyfive_add_footer_copyright_fields' );
+
+// REST API endpoint for footer widgets
+if ( ! function_exists( 'twentytwentyfive_register_footer_widgets_endpoint' ) ) :
+	function twentytwentyfive_register_footer_widgets_endpoint() {
+		register_rest_route(
+			'wp/v2',
+			'/footer-widgets',
+			array(
+				'methods'             => 'GET',
+				'callback'            => 'twentytwentyfive_get_footer_widgets_data',
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+endif;
+add_action( 'rest_api_init', 'twentytwentyfive_register_footer_widgets_endpoint' );
+
+// Get footer widgets data
+if ( ! function_exists( 'twentytwentyfive_get_footer_widgets_data' ) ) :
+	function twentytwentyfive_get_footer_widgets_data() {
+		$footer_data = array();
+
+		// Get widget data for each column
+		for ( $i = 1; $i <= 5; $i++ ) {
+			$sidebar_id = 'footer-column-' . $i;
+
+			if ( is_active_sidebar( $sidebar_id ) ) {
+				ob_start();
+				dynamic_sidebar( $sidebar_id );
+				$content = ob_get_clean();
+
+				// Parse the widget content
+				$widget_data = twentytwentyfive_parse_footer_widget_content( $content, $sidebar_id );
+
+				if ( $widget_data ) {
+					$footer_data[ 'column' . $i ] = $widget_data;
+				}
+			}
+		}
+
+		// Get copyright text
+		$copyright_left  = get_option( 'footer_copyright_left', '' );
+		$copyright_right = get_option( 'footer_copyright_right', '' );
+
+		// Replace {year} placeholder with current year
+		$current_year    = gmdate( 'Y' );
+		$copyright_left  = str_replace( '{year}', $current_year, $copyright_left );
+		$copyright_right = str_replace( '{year}', $current_year, $copyright_right );
+
+		$footer_data['copyrightLeft']  = $copyright_left;
+		$footer_data['copyrightRight'] = $copyright_right;
+
+		return rest_ensure_response( $footer_data );
+	}
+endif;
+
+// Parse footer widget content
+if ( ! function_exists( 'twentytwentyfive_parse_footer_widget_content' ) ) :
+	function twentytwentyfive_parse_footer_widget_content( $content, $sidebar_id ) {
+		if ( empty( $content ) ) {
+			return null;
+		}
+
+		// Extract title
+		preg_match( '/<h4[^>]*class="widget-title"[^>]*>(.*?)<\/h4>/s', $content, $title_matches );
+		$title = isset( $title_matches[1] ) ? wp_strip_all_tags( $title_matches[1] ) : '';
+
+		// Remove title from content
+		$content = preg_replace( '/<h4[^>]*class="widget-title"[^>]*>.*?<\/h4>/s', '', $content );
+
+		// Extract links if it's a menu widget
+		$links = array();
+		preg_match_all( '/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/s', $content, $link_matches, PREG_SET_ORDER );
+
+		if ( ! empty( $link_matches ) ) {
+			foreach ( $link_matches as $match ) {
+				$links[] = array(
+					'url'   => $match[1],
+					'label' => wp_strip_all_tags( $match[2] ),
+				);
+			}
+		}
+
+		// Clean up content
+		$content = wp_strip_all_tags( $content, '<p><br><strong><em><a><ul><li>' );
+		$content = trim( $content );
+
+		return array(
+			'id'      => $sidebar_id,
+			'title'   => $title,
+			'content' => $content,
+			'links'   => $links,
+		);
+	}
+endif;
+
+
+// ============================================
+// FOOTER WIDGETS API
+// ============================================
+
+// Register footer widget areas
+if ( ! function_exists( 'twentytwentyfive_register_footer_widgets' ) ) :
+	/**
+	 * Registers footer widget areas.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_footer_widgets() {
+		for ( $i = 1; $i <= 5; $i++ ) {
+			register_sidebar(
+				array(
+					'name'          => 'Footer Column ' . $i,
+					'id'            => 'footer-column-' . $i,
+					'description'   => 'Footer widget area column ' . $i,
+					'before_widget' => '<div class="footer-widget">',
+					'after_widget'  => '</div>',
+					'before_title'  => '<h4 class="widget-title">',
+					'after_title'   => '</h4>',
+				)
+			);
+		}
+	}
+endif;
+add_action( 'widgets_init', 'twentytwentyfive_register_footer_widgets' );
+
+// Register custom options for copyright text
+if ( ! function_exists( 'twentytwentyfive_register_footer_copyright_settings' ) ) :
+	/**
+	 * Registers footer copyright settings.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_footer_copyright_settings() {
+		register_setting(
+			'general',
+			'footer_copyright_left',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'wp_kses_post',
+				'default'           => '',
+			)
+		);
+
+		register_setting(
+			'general',
+			'footer_copyright_right',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'wp_kses_post',
+				'default'           => '',
+			)
+		);
+	}
+endif;
+add_action( 'admin_init', 'twentytwentyfive_register_footer_copyright_settings' );
+
+// Add settings fields to General Settings page
+if ( ! function_exists( 'twentytwentyfive_add_footer_copyright_fields' ) ) :
+	/**
+	 * Adds footer copyright fields to General Settings page.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_add_footer_copyright_fields() {
+		add_settings_section(
+			'footer_copyright_section',
+			'Footer Copyright Settings',
+			function () {
+				echo '<p>Configure the left and right copyright text for your footer.</p>';
+			},
+			'general'
+		);
+
+		add_settings_field(
+			'footer_copyright_left',
+			'Copyright Left Text',
+			function () {
+				$value = get_option( 'footer_copyright_left', '' );
+				echo '<textarea name="footer_copyright_left" rows="3" cols="50" class="large-text">' . esc_textarea( $value ) . '</textarea>';
+				echo '<p class="description">HTML allowed. Use {year} for current year.</p>';
+			},
+			'general',
+			'footer_copyright_section'
+		);
+
+		add_settings_field(
+			'footer_copyright_right',
+			'Copyright Right Text',
+			function () {
+				$value = get_option( 'footer_copyright_right', '' );
+				echo '<textarea name="footer_copyright_right" rows="3" cols="50" class="large-text">' . esc_textarea( $value ) . '</textarea>';
+				echo '<p class="description">HTML allowed. Use {year} for current year.</p>';
+			},
+			'general',
+			'footer_copyright_section'
+		);
+	}
+endif;
+add_action( 'admin_init', 'twentytwentyfive_add_footer_copyright_fields' );
+
+// REST API endpoint for footer widgets
+if ( ! function_exists( 'twentytwentyfive_register_footer_widgets_endpoint' ) ) :
+	/**
+	 * Registers REST API endpoint for footer widgets.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_footer_widgets_endpoint() {
+		register_rest_route(
+			'wp/v2',
+			'/footer-widgets',
+			array(
+				'methods'             => 'GET',
+				'callback'            => 'twentytwentyfive_get_footer_widgets_data',
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+endif;
+add_action( 'rest_api_init', 'twentytwentyfive_register_footer_widgets_endpoint' );
+
+// Get footer widgets data
+if ( ! function_exists( 'twentytwentyfive_get_footer_widgets_data' ) ) :
+	/**
+	 * Returns footer widgets data for REST API.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return WP_REST_Response Footer widgets data.
+	 */
+	function twentytwentyfive_get_footer_widgets_data() {
+		$footer_data = array();
+
+		// Get widget data for each column
+		for ( $i = 1; $i <= 5; $i++ ) {
+			$sidebar_id = 'footer-column-' . $i;
+
+			if ( is_active_sidebar( $sidebar_id ) ) {
+				ob_start();
+				dynamic_sidebar( $sidebar_id );
+				$content = ob_get_clean();
+
+				// Parse the widget content
+				$widget_data = twentytwentyfive_parse_footer_widget_content( $content, $sidebar_id );
+
+				if ( $widget_data ) {
+					$footer_data[ 'column' . $i ] = $widget_data;
+				}
+			}
+		}
+
+		// Get copyright text
+		$copyright_left  = get_option( 'footer_copyright_left', '' );
+		$copyright_right = get_option( 'footer_copyright_right', '' );
+
+		// Replace {year} placeholder with current year
+		$current_year    = gmdate( 'Y' );
+		$copyright_left  = str_replace( '{year}', $current_year, $copyright_left );
+		$copyright_right = str_replace( '{year}', $current_year, $copyright_right );
+
+		$footer_data['copyrightLeft']  = $copyright_left;
+		$footer_data['copyrightRight'] = $copyright_right;
+
+		return rest_ensure_response( $footer_data );
+	}
+endif;
+
+// Parse footer widget content
+if ( ! function_exists( 'twentytwentyfive_parse_footer_widget_content' ) ) :
+	/**
+	 * Parses footer widget content.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param string $content    Widget content HTML.
+	 * @param string $sidebar_id Sidebar ID.
+	 * @return array|null Parsed widget data or null.
+	 */
+	function twentytwentyfive_parse_footer_widget_content( $content, $sidebar_id ) {
+		if ( empty( $content ) ) {
+			return null;
+		}
+
+		// Extract title
+		preg_match( '/<h4[^>]*class="widget-title"[^>]*>(.*?)<\/h4>/s', $content, $title_matches );
+		$title = isset( $title_matches[1] ) ? strip_tags( $title_matches[1] ) : '';
+
+		// Remove title from content
+		$content = preg_replace( '/<h4[^>]*class="widget-title"[^>]*>.*?<\/h4>/s', '', $content );
+
+		// Extract links if it's a menu widget
+		$links = array();
+		preg_match_all( '/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/s', $content, $link_matches, PREG_SET_ORDER );
+
+		if ( ! empty( $link_matches ) ) {
+			foreach ( $link_matches as $match ) {
+				$links[] = array(
+					'url'   => $match[1],
+					'label' => strip_tags( $match[2] ),
+				);
+			}
+
+			// If we found links, remove the entire menu/list structure from content
+			// This prevents duplicate display of menu items
+			$content = preg_replace( '/<ul[^>]*>.*?<\/ul>/s', '', $content );
+			$content = preg_replace( '/<nav[^>]*>.*?<\/nav>/s', '', $content );
+		}
+
+		// Clean up content - keep images and preserve HTML structure
+		$content = strip_tags( $content, '<p><br><strong><em><a><img><ul><li><div><span>' );
+		$content = trim( $content );
+
+		// If content is empty after removing menus, set it to empty string
+		if ( empty( $content ) || '<div class="footer-widget"></div>' === $content ) {
+			$content = '';
+		}
+
+		return array(
+			'id'      => $sidebar_id,
+			'title'   => $title,
+			'content' => $content,
+			'links'   => $links,
+		);
+	}
+endif;
