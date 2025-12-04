@@ -102,3 +102,34 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     return null;
   }
 }
+
+// Footer Widget API functions
+export interface FooterWidget {
+  id: string;
+  title: string;
+  content: string;
+  links?: Array<{
+    label: string;
+    url: string;
+  }>;
+}
+
+export interface FooterData {
+  column1?: FooterWidget;
+  column2?: FooterWidget;
+  column3?: FooterWidget;
+  column4?: FooterWidget;
+  column5?: FooterWidget;
+  copyrightLeft?: string;
+  copyrightRight?: string;
+}
+
+export async function getFooterWidgets(): Promise<FooterData | null> {
+  try {
+    const widgets = await fetchRestAPI('/footer-widgets');
+    return widgets;
+  } catch (error) {
+    console.error('Error fetching footer widgets:', error);
+    return null;
+  }
+}
