@@ -1,0 +1,150 @@
+.post-single {
+  &__header {
+    margin-bottom: 2rem;
+  }
+
+  &__categories {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__category {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: $color-primary;
+    letter-spacing: 0.5px;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+
+    @include mobile {
+      font-size: 2rem;
+    }
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    color: $color-text-light;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__author {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__author-avatar {
+    border-radius: 50%;
+  }
+
+  &__featured-image {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  &__content {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+
+    @include mobile {
+      font-size: 1rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin: 2rem 0 1rem;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin: 1.5rem 0 0.75rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+    }
+
+    ul,
+    ol {
+      margin-bottom: 1.5rem;
+      padding-left: 2rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    img {
+      border-radius: 8px;
+      margin: 2rem 0;
+    }
+
+    a {
+      text-decoration: underline;
+    }
+
+    blockquote {
+      border-left: 4px solid $color-primary;
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: $color-text-light;
+    }
+
+    code {
+      background-color: $color-bg-alt;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9em;
+      font-family: 'Courier New', monospace;
+    }
+
+    pre {
+      background-color: $color-bg-alt;
+      padding: 1.5rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 2rem 0;
+
+      code {
+        background: none;
+        padding: 0;
+      }
+    }
+  }
+
+  &__footer {
+    padding-top: 2rem;
+    border-top: 1px solid $color-border;
+  }
+
+  &__tags {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  &__tag {
+    background-color: $color-bg-alt;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    color: $color-text;
+  }
+}
