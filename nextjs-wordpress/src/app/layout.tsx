@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import JsonLd from '@/components/JsonLd';
 import { getSiteSettings } from '@/lib/wordpress';
-import './globals.css';
+import './globals.scss';
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteSettings = await getSiteSettings();
