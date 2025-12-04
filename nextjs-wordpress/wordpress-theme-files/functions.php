@@ -75,6 +75,21 @@ function register_acf_blocks() {
                 'align' => true,
             ),
         ));
+        
+        // Full Width Left Text Section Block
+        acf_register_block_type(array(
+            'name'              => 'full-width-left-text-section',
+            'title'             => __('Full Width Left Text Section'),
+            'description'       => __('A full-width section with left-aligned text content and right image.'),
+            'render_template'   => 'blocks/full-width-left-text-section.php',
+            'category'          => 'formatting',
+            'icon'              => 'align-wide',
+            'keywords'          => array('full width', 'text', 'section', 'case studies'),
+            'supports'          => array(
+                'align' => array('wide', 'full'),
+                'mode' => false,
+            ),
+        ));
     }
 }
 
@@ -97,6 +112,7 @@ add_filter('graphql_blocks_allowed_block_types', function($allowed_blocks) {
     $allowed_blocks[] = 'acf/image-text';
     $allowed_blocks[] = 'acf/content';
     $allowed_blocks[] = 'acf/moreyeahs-heading-test';
+    $allowed_blocks[] = 'acf/full-width-left-text-section';
     return $allowed_blocks;
 });
 

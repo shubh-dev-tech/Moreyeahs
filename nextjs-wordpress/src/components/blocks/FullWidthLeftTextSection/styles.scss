@@ -1,0 +1,292 @@
+/**
+ * Full Width Left Text Section Block Styles
+ * 
+ * Sections:
+ * 1. Variables
+ * 2. Base Section Styles
+ * 3. Container & Layout
+ * 4. Content Section
+ * 5. Heading & Subheading
+ * 6. Button Styles
+ * 7. Case Studies Section
+ * 8. Image Section
+ * 9. Decorative Elements
+ * 10. Responsive Design
+ */
+
+// ============================================
+// 1. Variables
+// ============================================
+$primary-color: #b8860b;
+$text-color: white;
+$border-color: white;
+$hover-bg: white;
+$hover-text: #b8860b;
+$decoration-opacity: 0.1;
+
+$section-padding: 4rem 2rem;
+$container-max-width: 1400px;
+$content-gap: 4rem;
+$image-max-width: 600px;
+
+$heading-size: 3rem;
+$heading-size-mobile: 2rem;
+$subheading-size: 1rem;
+$case-study-heading-size: 1.25rem;
+$case-study-text-size: 0.875rem;
+$label-size: 0.875rem;
+
+$transition-speed: 0.3s;
+
+// ============================================
+// 2. Base Section Styles
+// ============================================
+.full-width-left-text-section {
+  background-color: $primary-color;
+  padding: $section-padding;
+  position: relative;
+  overflow: hidden;
+}
+
+// ============================================
+// 3. Container & Layout
+// ============================================
+.full-width-left-text-section__container {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: $content-gap;
+  position: relative;
+}
+
+.full-width-left-text-section__content {
+  flex: 1;
+  color: $text-color;
+  z-index: 2;
+}
+
+// ============================================
+// 4. Heading & Subheading
+// ============================================
+.full-width-left-text-section__heading {
+  font-size: $heading-size;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  color: $text-color;
+}
+
+.full-width-left-text-section__subheading {
+  font-size: $subheading-size;
+  margin-bottom: 2rem;
+  font-style: italic;
+  opacity: 0.9;
+  color: $text-color;
+}
+
+// ============================================
+// 5. Button Styles
+// ============================================
+.full-width-left-text-section__button {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  border: 2px solid $border-color;
+  color: $text-color;
+  text-decoration: none;
+  font-weight: 600;
+  margin-bottom: 3rem;
+  transition: all $transition-speed ease;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background-color: $hover-bg;
+    color: $hover-text;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $text-color;
+    outline-offset: 4px;
+  }
+}
+
+// ============================================
+// 6. Case Studies Section
+// ============================================
+.full-width-left-text-section__case-studies {
+  margin-top: 2rem;
+}
+
+.full-width-left-text-section__case-studies-label {
+  font-size: $label-size;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+  color: $text-color;
+  text-transform: uppercase;
+}
+
+.full-width-left-text-section__case-study {
+  margin-bottom: 2rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.full-width-left-text-section__case-study-heading {
+  font-size: $case-study-heading-size;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  color: $text-color;
+}
+
+.full-width-left-text-section__case-study-text {
+  font-size: $case-study-text-size;
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+  color: $text-color;
+  line-height: 1.5;
+}
+
+.full-width-left-text-section__case-study-link {
+  color: $text-color;
+  text-decoration: none;
+  font-size: $case-study-text-size;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 0.5rem;
+  transition: opacity $transition-speed ease;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: $text-color;
+    transition: width $transition-speed ease;
+  }
+
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+
+    &::after {
+      width: 100%;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid $text-color;
+    outline-offset: 4px;
+  }
+}
+
+// ============================================
+// 7. Image Section
+// ============================================
+.full-width-left-text-section__image {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.full-width-left-text-section__image-element {
+  width: 100%;
+  height: auto;
+  max-width: $image-max-width;
+  margin-left: auto;
+  display: block;
+  border-radius: 4px;
+}
+
+// ============================================
+// 8. Decorative Elements
+// ============================================
+.full-width-left-text-section__decoration {
+  position: absolute;
+  background-color: rgba(255, 255, 255, $decoration-opacity);
+  z-index: 0;
+  pointer-events: none;
+
+  &--1 {
+    right: 10%;
+    top: 20%;
+    width: 100px;
+    height: 300px;
+  }
+
+  &--2 {
+    right: 5%;
+    bottom: 10%;
+    width: 60px;
+    height: 200px;
+  }
+}
+
+// ============================================
+// 9. Responsive Design
+// ============================================
+@media (max-width: 1024px) {
+  .full-width-left-text-section__container {
+    gap: 3rem;
+  }
+
+  .full-width-left-text-section__heading {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .full-width-left-text-section {
+    padding: 3rem 1.5rem;
+  }
+
+  .full-width-left-text-section__container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .full-width-left-text-section__heading {
+    font-size: $heading-size-mobile;
+  }
+
+  .full-width-left-text-section__button {
+    padding: 0.625rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .full-width-left-text-section__case-studies {
+    margin-top: 1.5rem;
+  }
+
+  .full-width-left-text-section__image-element {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .full-width-left-text-section__decoration {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .full-width-left-text-section {
+    padding: 2rem 1rem;
+  }
+
+  .full-width-left-text-section__heading {
+    font-size: 1.75rem;
+  }
+
+  .full-width-left-text-section__case-study-heading {
+    font-size: 1.125rem;
+  }
+}

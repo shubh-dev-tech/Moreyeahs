@@ -1391,6 +1391,55 @@ endif;
 
 
 // ============================================
+// ACF BLOCKS REGISTRATION
+// ============================================
+
+// Register ACF Blocks
+if ( ! function_exists( 'twentytwentyfive_register_acf_blocks' ) ) :
+	/**
+	 * Registers ACF blocks.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_acf_blocks() {
+		// Check if ACF function exists
+		if ( ! function_exists( 'acf_register_block_type' ) ) {
+			return;
+		}
+
+		// Register Full Width Left Text Section Block
+		acf_register_block_type(
+			array(
+				'name'            => 'full-width-left-text-section',
+				'title'           => __( 'Full Width Left Text Section', 'twentytwentyfive' ),
+				'description'     => __( 'A full-width section with left-aligned text content and right image', 'twentytwentyfive' ),
+				'render_template' => get_template_directory() . '/blocks/full-width-left-text-section.php',
+				'category'        => 'formatting',
+				'icon'            => 'align-left',
+				'keywords'        => array( 'full', 'width', 'text', 'section', 'case', 'studies' ),
+				'supports'        => array(
+					'align'  => array( 'wide', 'full' ),
+					'anchor' => true,
+				),
+				'mode'            => 'preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview',
+						'data' => array(
+							'heading'     => 'Sample Heading',
+							'sub_heading' => 'Sample subheading text',
+						),
+					),
+				),
+			)
+		);
+	}
+endif;
+add_action( 'acf/init', 'twentytwentyfive_register_acf_blocks' );
+
+// ============================================
 // FOOTER WIDGETS API
 // ============================================
 

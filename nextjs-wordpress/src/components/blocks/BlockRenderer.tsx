@@ -13,6 +13,7 @@ import { ImageTextBlock } from './ImageTextBlock';
 import { CTABlock } from './CTABlock';
 import { MoreyeahsHeadingTestBlock } from './MoreyeahsHeadingTestBlock';
 import MoreyeahsSliderBlock from './MoreyeahsSliderBlock';
+import { FullWidthLeftTextSection } from './FullWidthLeftTextSection';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
@@ -29,6 +30,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/image-text': ImageTextBlock,
   'acf/cta': CTABlock,
   'acf/moreyeahs-heading-test': MoreyeahsHeadingTestBlock,
+  'acf/full-width-left-text-section': FullWidthLeftTextSection,
   
   // Custom Blocks (without ACF)
   'moreyeahs/slider': MoreyeahsSliderBlock,
