@@ -47,8 +47,8 @@ function twentytwentyfive_register_acf_blocks() {
             'category'          => 'formatting',
             'icon'              => 'megaphone',
             'keywords'          => array('promo', 'banner', 'cta', 'promotional'),
-            'render_template'   => 'blocks/promo-block.php',
-            'enqueue_style'     => '', // Styles are inline in template
+            'render_template'   => 'blocks/promo-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/promo-block/style.css',
             'enqueue_script'    => '',
             'supports'          => array(
                 'align'  => array('full', 'wide'),
@@ -77,8 +77,8 @@ function twentytwentyfive_register_acf_blocks() {
             'category'          => 'formatting',
             'icon'              => 'align-left',
             'keywords'          => array('full', 'width', 'text', 'section', 'case', 'studies'),
-            'render_template'   => 'blocks/full-width-left-text-section.php',
-            'enqueue_style'     => get_template_directory_uri() . '/blocks/full-width-left-text-section.css',
+            'render_template'   => 'blocks/full-width-left-text-section/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/full-width-left-text-section/style.css',
             'enqueue_script'    => '',
             'supports'          => array(
                 'align'  => array('wide', 'full'),
@@ -141,8 +141,8 @@ function twentytwentyfive_register_acf_blocks() {
             'category'          => 'formatting',
             'icon'              => 'star-filled',
             'keywords'          => array('purpose', 'mission', 'vision', 'statement', 'border'),
-            'render_template'   => 'blocks/purpose-block.php',
-            'enqueue_style'     => '', // Styles are inline in template
+            'render_template'   => 'blocks/purpose-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/purpose-block/style.css',
             'enqueue_script'    => '',
             'supports'          => array(
                 'align'  => array('full', 'wide'),
@@ -170,8 +170,8 @@ function twentytwentyfive_register_acf_blocks() {
             'category'          => 'formatting',
             'icon'              => 'chart-bar',
             'keywords'          => array('counter', 'stats', 'statistics', 'numbers', 'metrics'),
-            'render_template'   => 'blocks/counter-block.php',
-            'enqueue_style'     => '', // Styles are inline in template
+            'render_template'   => 'blocks/counter-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/counter-block/style.css',
             'enqueue_script'    => '',
             'supports'          => array(
                 'align'  => array('full', 'wide'),
@@ -218,8 +218,8 @@ function twentytwentyfive_register_acf_blocks() {
             'category'          => 'formatting',
             'icon'              => 'megaphone',
             'keywords'          => array('news', 'articles', 'press', 'blog', 'media'),
-            'render_template'   => 'blocks/news-block.php',
-            'enqueue_style'     => '', // Styles are inline in template
+            'render_template'   => 'blocks/news-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/news-block/style.css',
             'enqueue_script'    => '',
             'supports'          => array(
                 'align'  => array('full', 'wide'),
@@ -257,8 +257,8 @@ function twentytwentyfive_register_acf_blocks() {
             'category'          => 'formatting',
             'icon'              => 'chart-line',
             'keywords'          => array('investor', 'finance', 'shareholders', 'reports', 'annual'),
-            'render_template'   => 'blocks/investor-block.php',
-            'enqueue_style'     => '', // Styles are inline in template
+            'render_template'   => 'blocks/investor-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/investor-block/style.css',
             'enqueue_script'    => '',
             'supports'          => array(
                 'align'  => array('full', 'wide'),

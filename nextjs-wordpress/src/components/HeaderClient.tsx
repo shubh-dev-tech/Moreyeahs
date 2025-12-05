@@ -1,16 +1,31 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getMenuByLocation, getSiteSettings } from '@/lib/wordpress';
 import { MenuItem } from '@/types/menu';
 import MobileMenu from './MobileMenu';
 import { wpUrlToPath } from '@/lib/url-utils';
+
+interface SiteSettings {
+  title: string;
+  logo: {
+    url: string;
+    width: number;
+    height: number;
+    alt: string;
+  } | null;
+}
+
+interface Menu {
+  items: MenuItem[];
+}
 
 function MenuItems({ items }: { items: MenuItem[] }) {
   return (
     <>
       {items.map((item) => (
-        <li key={item.id} className={item.children.length > 0 ? 'has-children' : ''}>
+        <li key={item.id} className={item.children && item.children.length > 0 ? 'has-children' : ''}>
           <Link 
             href={wpUrlToPath(item.url)} 
             target={item.target}
@@ -19,7 +34,7 @@ function MenuItems({ items }: { items: MenuItem[] }) {
             {item.title}
           </Link>
           
-          {item.children.length > 0 && (
+          {item.children && item.children.length > 0 && (
             <ul className="header__submenu">
               <MenuItems items={item.children} />
             </ul>
@@ -30,36 +45,74 @@ function MenuItems({ items }: { items: MenuItem[] }) {
   );
 }
 
-export default async function Header() {
-  let siteSettings = null;
-  let primaryMenu = null;
-  let secondMenu = null;
-  
-  try {
-    siteSettings = await getSiteSettings();
-    console.log('Site settings loaded:', siteSettings ? 'Success' : 'Failed');
-  } catch (error) {
-    console.error('Error loading site settings:', error);
-  }
-  
-  try {
-    primaryMenu = await getMenuByLocation('primary');
-    console.log('Primary menu loaded:', primaryMenu ? 'Success' : 'Failed');
-  } catch (error) {
-    console.error('Error loading primary menu:', error);
-  }
-  
-  try {
-    secondMenu = await getMenuByLocation('second-menu');
-    console.log('Second menu loaded:', secondMenu ? 'Success' : 'Failed');
-  } catch (error) {
-    console.error('Error loading second menu:', error);
-  }
-  
+export default function HeaderClient() {
+  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
+  const [primaryMenu, setPrimaryMenu] = useState<Menu | null>(null);
+  const [secondMenu, setSecondMenu] = useState<Menu | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost/moreyeahs-new';
+        
+        // Fetch site settings
+        const settingsRes = await fetch(`${baseUrl}/wp-json/wp/v2/site-settings`);
+        if (settingsRes.ok) {
+          const settings = await settingsRes.json();
+          setSiteSettings(settings);
+          console.log('✅ Site settings loaded:', settings.title);
+        } else {
+          console.error('❌ Failed to load site settings:', settingsRes.status);
+        }
+
+        // Fetch primary menu
+        const primaryRes = await fetch(`${baseUrl}/wp-json/wp/v2/menus/primary`);
+        if (primaryRes.ok) {
+          const menu = await primaryRes.json();
+          setPrimaryMenu(menu);
+          console.log('✅ Primary menu loaded:', menu.items?.length, 'items');
+        } else {
+          console.error('❌ Failed to load primary menu:', primaryRes.status);
+        }
+
+        // Fetch second menu
+        const secondRes = await fetch(`${baseUrl}/wp-json/wp/v2/menus/second-menu`);
+        if (secondRes.ok) {
+          const menu = await secondRes.json();
+          setSecondMenu(menu);
+          console.log('✅ Second menu loaded:', menu.items?.length, 'items');
+        } else {
+          console.log('ℹ️ Second menu not found (optional)');
+        }
+      } catch (error) {
+        console.error('❌ Error fetching header data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   const siteName = siteSettings?.title || process.env.NEXT_PUBLIC_SITE_NAME || 'My Site';
   const logo = siteSettings?.logo;
   const primaryMenuItems = primaryMenu?.items || [];
   const secondMenuItems = secondMenu?.items || [];
+
+  if (loading) {
+    return (
+      <header className="header">
+        <div className="container">
+          <nav className="header__nav">
+            <Link href="/" className="header__logo">
+              <span className="header__logo-text">Loading...</span>
+            </Link>
+          </nav>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="header">

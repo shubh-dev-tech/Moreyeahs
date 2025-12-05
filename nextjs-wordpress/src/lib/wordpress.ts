@@ -19,7 +19,19 @@ export async function fetchGraphQL<T>(query: string, variables?: Record<string, 
 }
 
 export async function fetchRestAPI(endpoint: string) {
-  const baseUrl = process.env.WORDPRESS_REST_API_URL || '';
+  // Get base URL from environment
+  let baseUrl = process.env.WORDPRESS_REST_API_URL || process.env.NEXT_PUBLIC_WORDPRESS_URL || '';
+  
+  // If baseUrl doesn't end with /wp-json, add it
+  if (!baseUrl.includes('/wp-json')) {
+    baseUrl = `${baseUrl}/wp-json`;
+  }
+  
+  // Ensure endpoint starts with /
+  if (!endpoint.startsWith('/')) {
+    endpoint = `/${endpoint}`;
+  }
+  
   const url = `${baseUrl}${endpoint}`;
   
   console.log('Fetching from URL:', url); // Debug log
@@ -29,19 +41,23 @@ export async function fetchRestAPI(endpoint: string) {
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: 'no-store' // Disable cache for now to always get fresh data
+      cache: 'no-store', // Disable cache for now to always get fresh data
+      next: { revalidate: 0 } // Next.js 13+ cache control
     });
     
     if (!response.ok) {
       console.error(`HTTP error! status: ${response.status}, URL: ${url}`);
+      const errorText = await response.text();
+      console.error('Error response:', errorText);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     
     const data = await response.json();
-    console.log('API Response:', data); // Debug log
+    console.log('API Response received:', Object.keys(data)); // Debug log
     return data;
   } catch (error) {
     console.error('REST API Error:', error);
+    console.error('Failed URL:', url);
     throw error;
   }
 }
@@ -51,7 +67,7 @@ import { Menu } from '@/types/menu';
 
 export async function getMenuByLocation(location: string): Promise<Menu | null> {
   try {
-    const menu = await fetchRestAPI(`/menus/${location}`);
+    const menu = await fetchRestAPI(`/wp/v2/menus/${location}`);
     return menu;
   } catch (error) {
     console.error(`Error fetching menu for location: ${location}`, error);
@@ -61,7 +77,7 @@ export async function getMenuByLocation(location: string): Promise<Menu | null> 
 
 export async function getAllMenus(): Promise<Menu[]> {
   try {
-    const menus = await fetchRestAPI('/menus');
+    const menus = await fetchRestAPI('/wp/v2/menus');
     return menus;
   } catch (error) {
     console.error('Error fetching menus:', error);
@@ -95,7 +111,7 @@ export interface SiteSettings {
 
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   try {
-    const settings = await fetchRestAPI('/site-settings');
+    const settings = await fetchRestAPI('/wp/v2/site-settings');
     return settings;
   } catch (error) {
     console.error('Error fetching site settings:', error);
@@ -126,7 +142,7 @@ export interface FooterData {
 
 export async function getFooterWidgets(): Promise<FooterData | null> {
   try {
-    const widgets = await fetchRestAPI('/footer-widgets');
+    const widgets = await fetchRestAPI('/wp/v2/footer-widgets');
     return widgets;
   } catch (error) {
     console.error('Error fetching footer widgets:', error);
