@@ -1,0 +1,188 @@
+{
+    "key": "group_counter_block",
+    "title": "Counter Block",
+    "fields": [
+        {
+            "key": "field_counter_heading",
+            "label": "Heading",
+            "name": "heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the main heading text",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "About us",
+            "placeholder": "About us",
+            "show_in_graphql": 1,
+            "graphql_field_name": "heading",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_counter_sub_heading",
+            "label": "Sub Heading",
+            "name": "sub_heading",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Enter the sub heading text",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "A global leader in next-generation digital services and consulting",
+            "placeholder": "A global leader in next-generation digital services and consulting",
+            "show_in_graphql": 1,
+            "graphql_field_name": "subHeading",
+            "maxlength": "",
+            "rows": 3,
+            "new_lines": ""
+        },
+        {
+            "key": "field_counter_counters",
+            "label": "Counters",
+            "name": "counters",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add counter items",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "show_in_graphql": 1,
+            "graphql_field_name": "counters",
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Add Counter",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_counter_number",
+                    "label": "Number",
+                    "name": "number",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter the counter number",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": 59,
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "number",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_counter_counters"
+                },
+                {
+                    "key": "field_counter_prefix",
+                    "label": "Prefix",
+                    "name": "prefix",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter prefix (e.g., US$, €)",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "US$",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "prefix",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_counter_counters"
+                },
+                {
+                    "key": "field_counter_suffix",
+                    "label": "Suffix",
+                    "name": "suffix",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter suffix (e.g., +, %)",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "+",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "suffix",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_counter_counters"
+                },
+                {
+                    "key": "field_counter_label",
+                    "label": "Label",
+                    "name": "label",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Enter the counter description",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "countries where we have trusting clients",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "label",
+                    "maxlength": "",
+                    "rows": 2,
+                    "new_lines": "",
+                    "parent_repeater": "field_counter_counters"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/counter-block"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "A block to display statistics and counters with heading and sub-heading",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1764914742
+}

@@ -133,6 +133,83 @@ function twentytwentyfive_register_acf_blocks() {
             ),
         ),
         
+        // Purpose Block
+        array(
+            'name'              => 'purpose-block',
+            'title'             => __('Purpose Block', 'twentytwentyfive'),
+            'description'       => __('Display your organization\'s purpose with angled corner borders and customizable border color', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'star-filled',
+            'keywords'          => array('purpose', 'mission', 'vision', 'statement', 'border'),
+            'render_template'   => 'blocks/purpose-block.php',
+            'enqueue_style'     => '', // Styles are inline in template
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'      => 'Our Purpose:',
+                        'sub_heading'  => 'To amplify human potential and create the next opportunity for people, businesses and communities',
+                        'border_color' => '#00A3E0',
+                    ),
+                ),
+            ),
+        ),
+        
+        // Counter Block
+        array(
+            'name'              => 'counter-block',
+            'title'             => __('Counter Block', 'twentytwentyfive'),
+            'description'       => __('Display statistics and counters with heading and sub-heading', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'chart-bar',
+            'keywords'          => array('counter', 'stats', 'statistics', 'numbers', 'metrics'),
+            'render_template'   => 'blocks/counter-block.php',
+            'enqueue_style'     => '', // Styles are inline in template
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'     => 'About us',
+                        'sub_heading' => 'A global leader in next-generation digital services and consulting',
+                        'counters'    => array(
+                            array(
+                                'number' => '59',
+                                'prefix' => '',
+                                'suffix' => '',
+                                'label'  => 'countries where we have trusting clients',
+                            ),
+                            array(
+                                'number' => '19.7',
+                                'prefix' => 'US$',
+                                'suffix' => '',
+                                'label'  => 'billion total revenue (LTM)',
+                            ),
+                            array(
+                                'number' => '24',
+                                'prefix' => '',
+                                'suffix' => '+',
+                                'label'  => 'million training (hours) conducted for employees, globally',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        
         // Add more blocks here following the same structure
         // Example:
         // array(
