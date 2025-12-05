@@ -16,6 +16,7 @@ import MoreyeahsSliderBlock from './MoreyeahsSliderBlock';
 import { FullWidthLeftTextSection } from './FullWidthLeftTextSection';
 import ImageGridHover from './ImageGridHover';
 import IconTextGrid from './IconTextGrid';
+import PromoBlock from './promo-block';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
@@ -35,6 +36,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/full-width-left-text-section': FullWidthLeftTextSection,
   'acf/image-grid-hover': ImageGridHover,
   'acf/icon-text-grid': IconTextGrid,
+  'acf/promo-block': PromoBlock,
   
   // Custom Blocks (without ACF)
   'moreyeahs/slider': MoreyeahsSliderBlock,
