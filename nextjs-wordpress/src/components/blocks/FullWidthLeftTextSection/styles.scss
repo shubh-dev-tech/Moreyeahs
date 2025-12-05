@@ -42,10 +42,12 @@ $transition-speed: 0.3s;
 // 2. Base Section Styles
 // ============================================
 .full-width-left-text-section {
-  background-color: $primary-color;
-  padding: $section-padding;
+  // Background color, padding, height, width, and margins are applied via inline styles
+  // from the Section Settings in ACF
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 // ============================================
@@ -64,6 +66,30 @@ $transition-speed: 0.3s;
   flex: 1;
   color: $text-color;
   z-index: 2;
+}
+
+// Reversed Layout
+.full-width-left-text-section--reversed {
+  .full-width-left-text-section__container {
+    flex-direction: row-reverse;
+  }
+
+  .full-width-left-text-section__image-element {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .full-width-left-text-section__decoration {
+    &--1 {
+      right: auto;
+      left: 10%;
+    }
+
+    &--2 {
+      right: auto;
+      left: 5%;
+    }
+  }
 }
 
 // ============================================
@@ -129,12 +155,16 @@ $transition-speed: 0.3s;
   text-transform: uppercase;
 }
 
-.full-width-left-text-section__case-study {
-  margin-bottom: 2rem;
+.full-width-left-text-section__case-studies-wrapper {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
 
-  &:last-child {
-    margin-bottom: 0;
-  }
+.full-width-left-text-section__case-study {
+  flex: 1;
+  min-width: 250px;
+  margin-bottom: 0;
 }
 
 .full-width-left-text-section__case-study-heading {
@@ -267,6 +297,15 @@ $transition-speed: 0.3s;
     margin-top: 1.5rem;
   }
 
+  .full-width-left-text-section__case-studies-wrapper {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .full-width-left-text-section__case-study {
+    min-width: 100%;
+  }
+
   .full-width-left-text-section__image-element {
     margin-left: 0;
     margin-right: 0;
@@ -274,6 +313,13 @@ $transition-speed: 0.3s;
 
   .full-width-left-text-section__decoration {
     display: none;
+  }
+
+  // Reset reversed layout on mobile
+  .full-width-left-text-section--reversed {
+    .full-width-left-text-section__container {
+      flex-direction: column;
+    }
   }
 }
 
