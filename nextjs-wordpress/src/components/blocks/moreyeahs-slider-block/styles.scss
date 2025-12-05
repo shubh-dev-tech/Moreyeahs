@@ -6,18 +6,21 @@
   &__wrapper {
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 100vh;
 
-    @media (min-width: 768px) {
-      height: 600px;
+    @media (max-width: 768px) {
+      height: 400px;
     }
   }
 
   &__slide {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease-in-out;
 
     &--active {
       opacity: 1;
@@ -36,135 +39,137 @@
 
   &__overlay {
     position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.4);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
   }
 
   &__content {
     position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
     z-index: 10;
   }
 
   &__container {
-    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 20px;
   }
 
   &__text-wrapper {
     width: 100%;
+    padding: 0;
 
     @media (min-width: 640px) {
-      width: 58.333333%;
-    }
-
-    @media (min-width: 768px) {
-      width: 58.333333%;
-    }
-
-    @media (min-width: 1024px) {
       width: 58.333333%;
     }
   }
 
   &__heading-wrapper {
-    margin-bottom: 0.75rem;
-
-    @media (min-width: 768px) {
-      margin-bottom: 1rem;
-    }
+    margin-bottom: 15px;
   }
 
   &__heading {
     color: white;
-    font-size: 1.875rem;
-    font-weight: 700;
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 15px;
     line-height: 1.2;
 
-    @media (min-width: 768px) {
-      font-size: 3rem;
-    }
-
-    @media (min-width: 1024px) {
-      font-size: 3.75rem;
+    @media (max-width: 768px) {
+      font-size: 28px;
+      margin-bottom: 10px;
     }
   }
 
   &__subheading {
     color: white;
-    font-size: 1rem;
+    font-size: 18px;
     font-weight: 400;
+    margin-bottom: 30px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
     opacity: 0.9;
 
-    @media (min-width: 768px) {
-      font-size: 1.125rem;
-      margin-bottom: 2rem;
+    @media (max-width: 768px) {
+      font-size: 14px;
+      margin-bottom: 20px;
     }
   }
 
   &__cta {
     display: inline-block;
-    padding: 0.75rem 2rem;
-    background-color: white;
-    color: black;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.875rem;
+    padding: 10px 40px;
+    background: transparent;
+    color: #fff;
     text-decoration: none;
-    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: transform 0.3s ease, color 0.4s ease;
+    border: 1px solid white;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
 
-    @media (min-width: 768px) {
-      padding: 1rem 3rem;
-      font-size: 1rem;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: #000;
+      transition: width 0.4s ease;
+      z-index: -1;
     }
 
     &:hover {
-      background-color: #f3f4f6;
-      transform: translateY(-2px);
+      border: 1px solid #000;
+
+      &::before {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      padding: 12px 30px;
+      font-size: 14px;
     }
   }
 
   &__dots {
     position: absolute;
-    bottom: 2rem;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 0.5rem;
+    gap: 10px;
     z-index: 20;
-
-    @media (min-width: 768px) {
-      gap: 0.75rem;
-    }
   }
 
   &__dot {
-    width: 0.75rem;
-    height: 0.75rem;
-    background-color: rgba(255, 255, 255, 0.5);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
     border: none;
-    border-radius: 9999px;
     cursor: pointer;
+    padding: 0;
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.75);
     }
 
     &--active {
-      width: 2.5rem;
-      background-color: white;
-
-      @media (min-width: 768px) {
-        width: 3rem;
-      }
+      background: white;
+      width: 40px;
+      border-radius: 6px;
     }
   }
 }

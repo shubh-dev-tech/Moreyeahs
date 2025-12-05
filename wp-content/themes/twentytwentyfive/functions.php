@@ -264,165 +264,7 @@ if ( ! function_exists( 'twentytwentyfive_register_menus' ) ) :
 endif;
 add_action( 'after_setup_theme', 'twentytwentyfive_register_menus' );
 
-// Add menus to REST API
-if ( ! function_exists( 'twentytwentyfive_register_menu_routes' ) ) :
-	/**
-	 * Registers REST API routes for menus.
-	 *
-	 * @since Twenty Twenty-Five 1.0
-	 *
-	 * @return void
-	 */
-	function twentytwentyfive_register_menu_routes() {
-		register_rest_route(
-			'wp/v2',
-			'/menus',
-			array(
-				'methods'             => 'GET',
-				'callback'            => 'twentytwentyfive_get_all_menus',
-				'permission_callback' => '__return_true',
-			)
-		);
-
-		register_rest_route(
-			'wp/v2',
-			'/menus/(?P<location>[a-zA-Z0-9_-]+)',
-			array(
-				'methods'             => 'GET',
-				'callback'            => 'twentytwentyfive_get_menu_by_location',
-				'permission_callback' => '__return_true',
-			)
-		);
-	}
-endif;
-add_action( 'rest_api_init', 'twentytwentyfive_register_menu_routes' );
-
-// Get all menus
-if ( ! function_exists( 'twentytwentyfive_get_all_menus' ) ) :
-	/**
-	 * Returns all registered menus.
-	 *
-	 * @since Twenty Twenty-Five 1.0
-	 *
-	 * @return WP_REST_Response Menu data.
-	 */
-	function twentytwentyfive_get_all_menus() {
-		$menus     = wp_get_nav_menus();
-		$menu_data = array();
-
-		foreach ( $menus as $menu ) {
-			$menu_items   = wp_get_nav_menu_items( $menu->term_id );
-			$menu_data[] = array(
-				'id'    => $menu->term_id,
-				'name'  => $menu->name,
-				'slug'  => $menu->slug,
-				'items' => twentytwentyfive_format_menu_items( $menu_items ),
-			);
-		}
-
-		return rest_ensure_response( $menu_data );
-	}
-endif;
-
-// Get menu by location
-if ( ! function_exists( 'twentytwentyfive_get_menu_by_location' ) ) :
-	/**
-	 * Returns menu for a specific location.
-	 *
-	 * @since Twenty Twenty-Five 1.0
-	 *
-	 * @param WP_REST_Request $request REST request object.
-	 * @return WP_REST_Response|WP_Error Menu data or error.
-	 */
-	function twentytwentyfive_get_menu_by_location( $request ) {
-		$location  = $request['location'];
-		$locations = get_nav_menu_locations();
-
-		if ( ! isset( $locations[ $location ] ) ) {
-			return new WP_Error( 'no_menu', 'No menu found at this location', array( 'status' => 404 ) );
-		}
-
-		$menu_id    = $locations[ $location ];
-		$menu_items = wp_get_nav_menu_items( $menu_id );
-		$menu       = wp_get_nav_menu_object( $menu_id );
-
-		return rest_ensure_response(
-			array(
-				'id'       => $menu->term_id,
-				'name'     => $menu->name,
-				'slug'     => $menu->slug,
-				'location' => $location,
-				'items'    => twentytwentyfive_format_menu_items( $menu_items ),
-			)
-		);
-	}
-endif;
-
-// Format menu items
-if ( ! function_exists( 'twentytwentyfive_format_menu_items' ) ) :
-	/**
-	 * Formats menu items into hierarchical structure.
-	 *
-	 * @since Twenty Twenty-Five 1.0
-	 *
-	 * @param array $menu_items Array of menu items.
-	 * @return array Formatted menu items.
-	 */
-	function twentytwentyfive_format_menu_items( $menu_items ) {
-		if ( ! $menu_items || empty( $menu_items ) ) {
-			return array();
-		}
-
-		$formatted_items = array();
-		$item_children   = array();
-
-		// First pass: format all items and track children.
-		foreach ( $menu_items as $item ) {
-			$parent_id = (int) $item->menu_item_parent;
-
-			$formatted_item = array(
-				'id'       => (int) $item->ID,
-				'title'    => $item->title,
-				'url'      => $item->url,
-				'target'   => $item->target ? $item->target : '_self',
-				'parent'   => $parent_id,
-				'order'    => (int) $item->menu_order,
-				'classes'  => is_array( $item->classes ) ? implode( ' ', $item->classes ) : '',
-				'children' => array(),
-			);
-
-			$formatted_items[ $item->ID ] = $formatted_item;
-
-			// Track children by parent ID.
-			if ( $parent_id > 0 ) {
-				if ( ! isset( $item_children[ $parent_id ] ) ) {
-					$item_children[ $parent_id ] = array();
-				}
-				$item_children[ $parent_id ][] = $item->ID;
-			}
-		}
-
-		// Second pass: build hierarchical structure.
-		$hierarchical_items = array();
-		foreach ( $formatted_items as $item_id => $item ) {
-			// Add children to this item if it has any.
-			if ( isset( $item_children[ $item_id ] ) ) {
-				foreach ( $item_children[ $item_id ] as $child_id ) {
-					if ( isset( $formatted_items[ $child_id ] ) ) {
-						$formatted_items[ $item_id ]['children'][] = $formatted_items[ $child_id ];
-					}
-				}
-			}
-
-			// If this is a top-level item (no parent), add to result.
-			if ( 0 === $item['parent'] ) {
-				$hierarchical_items[] = $formatted_items[ $item_id ];
-			}
-		}
-
-		return $hierarchical_items;
-	}
-endif;
+// Menu REST API routes are registered in inc/rest-api-endpoints.php
 
 // Register Moreyeahs Slider Block (without ACF)
 if ( ! function_exists( 'twentytwentyfive_register_moreyeahs_slider' ) ) :
@@ -435,12 +277,12 @@ if ( ! function_exists( 'twentytwentyfive_register_moreyeahs_slider' ) ) :
 	 */
 	function twentytwentyfive_register_moreyeahs_slider() {
 		// Register the editor script first
-		$block_js_path = get_template_directory() . '/blocks/moreyeahs-slider-block.js';
+		$block_js_path = get_template_directory() . '/blocks/moreyeahs-slider/editor.js';
 		
 		if ( file_exists( $block_js_path ) ) {
 			wp_register_script(
 				'moreyeahs-slider-block-editor',
-				get_template_directory_uri() . '/blocks/moreyeahs-slider-block.js',
+				get_template_directory_uri() . '/blocks/moreyeahs-slider/editor.js',
 				array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-data' ),
 				filemtime( $block_js_path ),
 				false
@@ -489,7 +331,7 @@ if ( ! function_exists( 'twentytwentyfive_render_moreyeahs_slider' ) ) :
 		$slides = isset( $attributes['slides'] ) ? $attributes['slides'] : array();
 
 		if ( empty( $slides ) ) {
-			return '<div class="moreyeahs-slider-placeholder" style="padding: 40px; background: #f0f0f0; text-align: center; border: 2px dashed #ccc;"><p style="margin: 0; color: #666;">Add slides to your slider</p></div>';
+			return '<div class="moreyeahs-slider-placeholder"><p>Add slides to your slider</p></div>';
 		}
 
 		$block_id = 'moreyeahs-slider-' . uniqid();
@@ -626,18 +468,18 @@ if ( ! function_exists( 'twentytwentyfive_render_moreyeahs_slider' ) ) :
 		}
 
 		.slide-cta {
-			    display: inline-block;
-    padding: 10px 40px;
-    background: transparent;
-    color: #fff;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-weight: 600;
-    transition: transform 0.3s ease, color 0.4s ease;
-    border: 1px solid white;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
+			display: inline-block;
+			padding: 10px 40px;
+			background: transparent;
+			color: #fff;
+			text-decoration: none;
+			text-transform: uppercase;
+			font-weight: 600;
+			transition: transform 0.3s ease, color 0.4s ease;
+			border: 1px solid white;
+			position: relative;
+			overflow: hidden;
+			z-index: 1;
 		}
 
 		.slide-cta::before {
@@ -1120,89 +962,7 @@ if ( ! function_exists( 'twentytwentyfive_render_appearance_page' ) ) :
 	}
 endif;
 
-// Register REST API endpoint for site settings
-if ( ! function_exists( 'twentytwentyfive_register_site_settings_route' ) ) :
-	/**
-	 * Registers REST API route for site settings.
-	 *
-	 * @since Twenty Twenty-Five 1.0
-	 *
-	 * @return void
-	 */
-	function twentytwentyfive_register_site_settings_route() {
-		register_rest_route(
-			'wp/v2',
-			'/site-settings',
-			array(
-				'methods'             => 'GET',
-				'callback'            => 'twentytwentyfive_get_site_settings',
-				'permission_callback' => '__return_true',
-			)
-		);
-	}
-endif;
-add_action( 'rest_api_init', 'twentytwentyfive_register_site_settings_route' );
-
-// Get site settings
-if ( ! function_exists( 'twentytwentyfive_get_site_settings' ) ) :
-	/**
-	 * Returns site settings including title, logo, and favicon.
-	 *
-	 * @since Twenty Twenty-Five 1.0
-	 *
-	 * @return WP_REST_Response Site settings data.
-	 */
-	function twentytwentyfive_get_site_settings() {
-		$custom_logo_id = get_theme_mod( 'custom_logo' );
-		$site_icon_id   = get_option( 'site_icon' );
-
-		$logo_data    = null;
-		$favicon_data = null;
-
-		// Get logo data
-		if ( $custom_logo_id ) {
-			$logo_image = wp_get_attachment_image_src( $custom_logo_id, 'full' );
-			if ( $logo_image ) {
-				$logo_data = array(
-					'url'    => $logo_image[0],
-					'width'  => $logo_image[1],
-					'height' => $logo_image[2],
-					'alt'    => get_post_meta( $custom_logo_id, '_wp_attachment_image_alt', true ),
-				);
-			}
-		}
-
-		// Get favicon data
-		if ( $site_icon_id ) {
-			$favicon_image = wp_get_attachment_image_src( $site_icon_id, 'full' );
-			if ( $favicon_image ) {
-				$favicon_data = array(
-					'url'    => $favicon_image[0],
-					'width'  => $favicon_image[1],
-					'height' => $favicon_image[2],
-				);
-
-				// Get different sizes for favicon
-				$favicon_data['sizes'] = array(
-					'32'  => wp_get_attachment_image_src( $site_icon_id, array( 32, 32 ) )[0],
-					'180' => wp_get_attachment_image_src( $site_icon_id, array( 180, 180 ) )[0],
-					'192' => wp_get_attachment_image_src( $site_icon_id, array( 192, 192 ) )[0],
-					'512' => wp_get_attachment_image_src( $site_icon_id, array( 512, 512 ) )[0],
-				);
-			}
-		}
-
-		$settings = array(
-			'title'       => get_bloginfo( 'name' ),
-			'description' => get_bloginfo( 'description' ),
-			'url'         => get_bloginfo( 'url' ),
-			'logo'        => $logo_data,
-			'favicon'     => $favicon_data,
-		);
-
-		return rest_ensure_response( $settings );
-	}
-endif;
+// Site settings REST API route is registered in inc/rest-api-endpoints.php
 
 
 // ============================================
@@ -1294,60 +1054,8 @@ if ( ! function_exists( 'twentytwentyfive_add_footer_copyright_fields' ) ) :
 endif;
 add_action( 'admin_init', 'twentytwentyfive_add_footer_copyright_fields' );
 
-// REST API endpoint for footer widgets
-if ( ! function_exists( 'twentytwentyfive_register_footer_widgets_endpoint' ) ) :
-	function twentytwentyfive_register_footer_widgets_endpoint() {
-		register_rest_route(
-			'wp/v2',
-			'/footer-widgets',
-			array(
-				'methods'             => 'GET',
-				'callback'            => 'twentytwentyfive_get_footer_widgets_data',
-				'permission_callback' => '__return_true',
-			)
-		);
-	}
-endif;
-add_action( 'rest_api_init', 'twentytwentyfive_register_footer_widgets_endpoint' );
-
-// Get footer widgets data
-if ( ! function_exists( 'twentytwentyfive_get_footer_widgets_data' ) ) :
-	function twentytwentyfive_get_footer_widgets_data() {
-		$footer_data = array();
-
-		// Get widget data for each column
-		for ( $i = 1; $i <= 5; $i++ ) {
-			$sidebar_id = 'footer-column-' . $i;
-
-			if ( is_active_sidebar( $sidebar_id ) ) {
-				ob_start();
-				dynamic_sidebar( $sidebar_id );
-				$content = ob_get_clean();
-
-				// Parse the widget content
-				$widget_data = twentytwentyfive_parse_footer_widget_content( $content, $sidebar_id );
-
-				if ( $widget_data ) {
-					$footer_data[ 'column' . $i ] = $widget_data;
-				}
-			}
-		}
-
-		// Get copyright text
-		$copyright_left  = get_option( 'footer_copyright_left', '' );
-		$copyright_right = get_option( 'footer_copyright_right', '' );
-
-		// Replace {year} placeholder with current year
-		$current_year    = gmdate( 'Y' );
-		$copyright_left  = str_replace( '{year}', $current_year, $copyright_left );
-		$copyright_right = str_replace( '{year}', $current_year, $copyright_right );
-
-		$footer_data['copyrightLeft']  = $copyright_left;
-		$footer_data['copyrightRight'] = $copyright_right;
-
-		return rest_ensure_response( $footer_data );
-	}
-endif;
+// Footer widgets REST API route is registered in inc/rest-api-endpoints.php
+// Helper functions for footer widgets are kept here for use by the REST API
 
 // Parse footer widget content
 if ( ! function_exists( 'twentytwentyfive_parse_footer_widget_content' ) ) :
@@ -1424,41 +1132,11 @@ endif;
 add_filter( 'acf/settings/load_json', 'twentytwentyfive_acf_json_load_point' );
 
 
-// Register Icon Text Grid ACF Block
-
-// Set ACF JSON save point
-if ( ! function_exists( 'twentytwentyfive_acf_json_save_point' ) ) :
-	/**
-	 * Sets the ACF JSON save point.
-	 *
-	 * @since Twenty Twenty-Five 1.0
-	 *
-	 * @param string $path The path to save ACF JSON files.
-	 * @return string Modified path.
-	 */
-	function twentytwentyfive_acf_json_save_point( $path ) {
-		return get_stylesheet_directory() . '/acf-json';
-	}
-endif;
-add_filter( 'acf/settings/save_json', 'twentytwentyfive_acf_json_save_point' );
-
-// Set ACF JSON load point
-if ( ! function_exists( 'twentytwentyfive_acf_json_load_point' ) ) :
-	/**
-	 * Sets the ACF JSON load point.
-	 *
-	 * @since Twenty Twenty-Five 1.0
-	 *
-	 * @param array $paths Array of paths to load ACF JSON files from.
-	 * @return array Modified paths.
-	 */
-	function twentytwentyfive_acf_json_load_point( $paths ) {
-		$paths[] = get_stylesheet_directory() . '/acf-json';
-		return $paths;
-	}
-endif;
-add_filter( 'acf/settings/load_json', 'twentytwentyfive_acf_json_load_point' );
+// ACF JSON save/load points are already defined above
 
 
 // Load centralized ACF blocks registration
 require_once get_template_directory() . '/inc/acf-blocks.php';
+
+// Load REST API endpoints for headless WordPress
+require_once get_template_directory() . '/inc/rest-api-endpoints.php';

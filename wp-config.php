@@ -91,6 +91,10 @@ define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
+// JWT Authentication Configuration
+define('JWT_AUTH_SECRET_KEY', 'your-super-secret-jwt-key-change-this-in-production');
+define('ALLOWED_ORIGIN', 'http://localhost:3000'); // Change to your Next.js URL
+
 
 
 /* That's all, stop editing! Happy publishing. */
