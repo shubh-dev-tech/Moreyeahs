@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import './styles.scss';
 
 interface MoreyeahsHeadingTestBlockProps {
   data: {
@@ -24,31 +25,26 @@ export function MoreyeahsHeadingTestBlock({ data }: MoreyeahsHeadingTestBlockPro
     alignment = 'center',
   } = data;
 
-  const alignmentClasses = {
-    left: 'text-left',
-    center: 'text-center',
-    right: 'text-right',
-  };
+  const blockClass = `moreyeahs-heading-test-block moreyeahs-heading-test-block--${alignment}`;
+
+  const sectionStyles = {
+    '--text-color': text_color,
+    '--bg-color': background_color
+  } as React.CSSProperties;
 
   return (
     <section
-      className="moreyeahs-heading-test-block py-12 px-4"
-      style={{ backgroundColor: background_color }}
+      className={blockClass}
+      style={sectionStyles}
     >
-      <div className={`max-w-4xl mx-auto ${alignmentClasses[alignment]}`}>
+      <div className="moreyeahs-heading-test-block__container">
         {heading && (
-          <h2
-            className="text-4xl font-bold mb-4"
-            style={{ color: text_color }}
-          >
+          <h2 className="moreyeahs-heading-test-block__heading">
             {heading}
           </h2>
         )}
         {subheading && (
-          <p
-            className="text-xl"
-            style={{ color: text_color }}
-          >
+          <p className="moreyeahs-heading-test-block__subheading">
             {subheading}
           </p>
         )}

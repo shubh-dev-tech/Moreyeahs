@@ -5,6 +5,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import './styles.scss';
 
 interface HeroBlockProps {
   data: {
@@ -25,29 +26,29 @@ export function HeroBlock({ data }: HeroBlockProps) {
   const { title, subtitle, background_image, cta_text, cta_link } = data;
 
   return (
-    <section className="hero-block relative h-[600px] flex items-center justify-center text-white">
+    <section className="hero-block">
       {background_image && (
         <Image
           src={background_image.url}
           alt={background_image.alt || 'Hero background'}
           fill
-          className="object-cover"
+          className="hero-block__background"
           priority
         />
       )}
-      <div className="relative z-10 text-center max-w-4xl px-4">
-        {title && <h1 className="text-5xl font-bold mb-4">{title}</h1>}
-        {subtitle && <p className="text-xl mb-8">{subtitle}</p>}
+      <div className="hero-block__content">
+        {title && <h1 className="hero-block__title">{title}</h1>}
+        {subtitle && <p className="hero-block__subtitle">{subtitle}</p>}
         {cta_text && cta_link && (
           <a
             href={cta_link}
-            className="inline-block bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-semibold transition"
+            className="hero-block__cta"
           >
             {cta_text}
           </a>
         )}
       </div>
-      <div className="absolute inset-0 bg-black/40 z-0" />
+      <div className="hero-block__overlay" />
     </section>
   );
 }

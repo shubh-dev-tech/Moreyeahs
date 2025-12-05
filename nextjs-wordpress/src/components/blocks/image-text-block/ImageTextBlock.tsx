@@ -5,6 +5,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import './styles.scss';
 
 interface ImageTextBlockProps {
   data: {
@@ -23,29 +24,29 @@ interface ImageTextBlockProps {
 export function ImageTextBlock({ data }: ImageTextBlockProps) {
   const { image, heading, text, image_position = 'left' } = data;
 
-  const imageFirst = image_position === 'left';
+  const blockClass = `image-text-block${image_position === 'right' ? ' image-text-block--reversed' : ''}`;
 
   return (
-    <section className="image-text-block py-16 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className={`grid md:grid-cols-2 gap-8 items-center ${imageFirst ? '' : 'md:grid-flow-dense'}`}>
-          <div className={imageFirst ? '' : 'md:col-start-2'}>
+    <section className={blockClass}>
+      <div className="image-text-block__container">
+        <div className="image-text-block__grid">
+          <div className="image-text-block__image-wrapper">
             {image && (
-              <div className="relative aspect-video">
+              <div className="image-text-block__image">
                 <Image
                   src={image.url}
                   alt={image.alt || ''}
                   fill
-                  className="object-cover rounded-lg"
+                  className="image-text-block__img"
                 />
               </div>
             )}
           </div>
-          <div className={imageFirst ? '' : 'md:col-start-1 md:row-start-1'}>
-            {heading && <h2 className="text-3xl font-bold mb-4">{heading}</h2>}
+          <div className="image-text-block__content">
+            {heading && <h2 className="image-text-block__heading">{heading}</h2>}
             {text && (
               <div 
-                className="prose"
+                className="image-text-block__text"
                 dangerouslySetInnerHTML={{ __html: text }}
               />
             )}

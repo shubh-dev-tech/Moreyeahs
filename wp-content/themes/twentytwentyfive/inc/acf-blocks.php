@@ -210,23 +210,74 @@ function twentytwentyfive_register_acf_blocks() {
             ),
         ),
         
-        // Add more blocks here following the same structure
-        // Example:
-        // array(
-        //     'name'              => 'testimonial-block',
-        //     'title'             => __('Testimonial Block', 'twentytwentyfive'),
-        //     'description'       => __('Display customer testimonials', 'twentytwentyfive'),
-        //     'category'          => 'formatting',
-        //     'icon'              => 'format-quote',
-        //     'keywords'          => array('testimonial', 'review', 'quote'),
-        //     'render_template'   => 'blocks/testimonial-block.php',
-        //     'enqueue_style'     => get_template_directory_uri() . '/assets/css/testimonial-block.css',
-        //     'enqueue_script'    => get_template_directory_uri() . '/assets/js/testimonial-block.js',
-        //     'supports'          => array(
-        //         'align' => true,
-        //         'mode'  => true,
-        //     ),
-        // ),
+        // News Block
+        array(
+            'name'              => 'news-block',
+            'title'             => __('News Block', 'twentytwentyfive'),
+            'description'       => __('Display news items in a grid layout with images and links', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'megaphone',
+            'keywords'          => array('news', 'articles', 'press', 'blog', 'media'),
+            'render_template'   => 'blocks/news-block.php',
+            'enqueue_style'     => '', // Styles are inline in template
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'section_title' => 'In the news',
+                        'news_items'    => array(
+                            array(
+                                'title' => 'Winners of Qorus-Infosys Finacle Banking Innovation Awards 2025 Announced in Athens',
+                                'link'  => '#',
+                                'date'  => '',
+                            ),
+                            array(
+                                'title' => 'Infosys Q2 FY26 Results - Archived Webcast',
+                                'link'  => '#',
+                                'date'  => 'October 18, 2025',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        
+        // Investor Block
+        array(
+            'name'              => 'investor-block',
+            'title'             => __('Investor Block', 'twentytwentyfive'),
+            'description'       => __('Display investor information with featured image and categorized links', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'chart-line',
+            'keywords'          => array('investor', 'finance', 'shareholders', 'reports', 'annual'),
+            'render_template'   => 'blocks/investor-block.php',
+            'enqueue_style'     => '', // Styles are inline in template
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'main_title'     => 'Investors',
+                        'subtitle'       => 'Maximizing shareholder value with good corporate governance',
+                        'featured_title' => 'Integrated Annual Report 2025',
+                        'sidebar_title'  => 'Investor central',
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block

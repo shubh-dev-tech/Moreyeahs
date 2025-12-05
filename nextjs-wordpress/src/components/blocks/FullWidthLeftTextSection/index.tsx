@@ -70,16 +70,16 @@ export function FullWidthLeftTextSection({ data }: FullWidthLeftTextSectionProps
   const sectionClassName = `full-width-left-text-section${reverse_layout ? ' full-width-left-text-section--reversed' : ''}`;
 
   const sectionStyles: React.CSSProperties = {
-    backgroundColor: background_color,
-    minHeight: section_height,
-    width: section_width,
-    paddingTop: padding_top,
-    paddingBottom: padding_bottom,
-    paddingLeft: padding_left,
-    paddingRight: padding_right,
-    marginTop: margin_top,
-    marginBottom: margin_bottom,
-  };
+    '--bg-color': background_color,
+    '--section-height': section_height,
+    '--section-width': section_width,
+    '--padding-top': padding_top,
+    '--padding-bottom': padding_bottom,
+    '--padding-left': padding_left,
+    '--padding-right': padding_right,
+    '--margin-top': margin_top,
+    '--margin-bottom': margin_bottom,
+  } as React.CSSProperties;
 
   return (
     <section className={sectionClassName} style={sectionStyles}>
