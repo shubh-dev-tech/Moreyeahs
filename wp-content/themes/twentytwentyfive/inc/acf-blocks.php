@@ -133,23 +133,151 @@ function twentytwentyfive_register_acf_blocks() {
             ),
         ),
         
-        // Add more blocks here following the same structure
-        // Example:
-        // array(
-        //     'name'              => 'testimonial-block',
-        //     'title'             => __('Testimonial Block', 'twentytwentyfive'),
-        //     'description'       => __('Display customer testimonials', 'twentytwentyfive'),
-        //     'category'          => 'formatting',
-        //     'icon'              => 'format-quote',
-        //     'keywords'          => array('testimonial', 'review', 'quote'),
-        //     'render_template'   => 'blocks/testimonial-block.php',
-        //     'enqueue_style'     => get_template_directory_uri() . '/assets/css/testimonial-block.css',
-        //     'enqueue_script'    => get_template_directory_uri() . '/assets/js/testimonial-block.js',
-        //     'supports'          => array(
-        //         'align' => true,
-        //         'mode'  => true,
-        //     ),
-        // ),
+        // Purpose Block
+        array(
+            'name'              => 'purpose-block',
+            'title'             => __('Purpose Block', 'twentytwentyfive'),
+            'description'       => __('Display your organization\'s purpose with angled corner borders and customizable border color', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'star-filled',
+            'keywords'          => array('purpose', 'mission', 'vision', 'statement', 'border'),
+            'render_template'   => 'blocks/purpose-block.php',
+            'enqueue_style'     => '', // Styles are inline in template
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'      => 'Our Purpose:',
+                        'sub_heading'  => 'To amplify human potential and create the next opportunity for people, businesses and communities',
+                        'border_color' => '#00A3E0',
+                    ),
+                ),
+            ),
+        ),
+        
+        // Counter Block
+        array(
+            'name'              => 'counter-block',
+            'title'             => __('Counter Block', 'twentytwentyfive'),
+            'description'       => __('Display statistics and counters with heading and sub-heading', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'chart-bar',
+            'keywords'          => array('counter', 'stats', 'statistics', 'numbers', 'metrics'),
+            'render_template'   => 'blocks/counter-block.php',
+            'enqueue_style'     => '', // Styles are inline in template
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'     => 'About us',
+                        'sub_heading' => 'A global leader in next-generation digital services and consulting',
+                        'counters'    => array(
+                            array(
+                                'number' => '59',
+                                'prefix' => '',
+                                'suffix' => '',
+                                'label'  => 'countries where we have trusting clients',
+                            ),
+                            array(
+                                'number' => '19.7',
+                                'prefix' => 'US$',
+                                'suffix' => '',
+                                'label'  => 'billion total revenue (LTM)',
+                            ),
+                            array(
+                                'number' => '24',
+                                'prefix' => '',
+                                'suffix' => '+',
+                                'label'  => 'million training (hours) conducted for employees, globally',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        
+        // News Block
+        array(
+            'name'              => 'news-block',
+            'title'             => __('News Block', 'twentytwentyfive'),
+            'description'       => __('Display news items in a grid layout with images and links', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'megaphone',
+            'keywords'          => array('news', 'articles', 'press', 'blog', 'media'),
+            'render_template'   => 'blocks/news-block.php',
+            'enqueue_style'     => '', // Styles are inline in template
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'section_title' => 'In the news',
+                        'news_items'    => array(
+                            array(
+                                'title' => 'Winners of Qorus-Infosys Finacle Banking Innovation Awards 2025 Announced in Athens',
+                                'link'  => '#',
+                                'date'  => '',
+                            ),
+                            array(
+                                'title' => 'Infosys Q2 FY26 Results - Archived Webcast',
+                                'link'  => '#',
+                                'date'  => 'October 18, 2025',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        
+        // Investor Block
+        array(
+            'name'              => 'investor-block',
+            'title'             => __('Investor Block', 'twentytwentyfive'),
+            'description'       => __('Display investor information with featured image and categorized links', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'chart-line',
+            'keywords'          => array('investor', 'finance', 'shareholders', 'reports', 'annual'),
+            'render_template'   => 'blocks/investor-block.php',
+            'enqueue_style'     => '', // Styles are inline in template
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'main_title'     => 'Investors',
+                        'subtitle'       => 'Maximizing shareholder value with good corporate governance',
+                        'featured_title' => 'Integrated Annual Report 2025',
+                        'sidebar_title'  => 'Investor central',
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block

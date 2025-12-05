@@ -1,0 +1,291 @@
+{
+  "key": "group_news_block",
+  "title": "News Block",
+  "fields": [
+    {
+      "key": "field_news_section_title",
+      "label": "Section Title",
+      "name": "section_title",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Enter the main section title (e.g., 'In the news')",
+      "required": 1,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "In the news",
+      "placeholder": "In the news",
+      "show_in_graphql": 1,
+      "graphql_field_name": "sectionTitle",
+      "maxlength": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_news_sub_headings",
+      "label": "Sub Headings (First Column Links)",
+      "name": "sub_headings",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "Add sub-heading links that appear in the first column (recommended: 3 items)",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "show_in_graphql": 1,
+      "graphql_field_name": "subHeadings",
+      "layout": "table",
+      "pagination": 0,
+      "min": 0,
+      "max": 0,
+      "collapsed": "",
+      "button_label": "Add Sub Heading",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_sub_heading_text",
+          "label": "Text",
+          "name": "text",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 1,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "Winners of Qorus-Infosys Finacle Banking Innovation Awards 2025",
+          "show_in_graphql": 1,
+          "graphql_field_name": "text",
+          "maxlength": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_news_sub_headings"
+        },
+        {
+          "key": "field_sub_heading_link",
+          "label": "Link",
+          "name": "link",
+          "aria-label": "",
+          "type": "url",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "https://example.com",
+          "show_in_graphql": 1,
+          "graphql_field_name": "link",
+          "parent_repeater": "field_news_sub_headings"
+        }
+      ]
+    },
+    {
+      "key": "field_news_featured_paragraph",
+      "label": "Featured Paragraph (Bottom Box)",
+      "name": "featured_paragraph",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "Enter the featured text that appears in the bottom box of the first column",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "Launched today: Infosys Topaz - An AI-first offering to accelerate business value for global enterprises using generative AI",
+      "show_in_graphql": 1,
+      "graphql_field_name": "featuredParagraph",
+      "maxlength": "",
+      "rows": 4,
+      "new_lines": ""
+    },
+    {
+      "key": "field_news_featured_link",
+      "label": "Featured Paragraph Link",
+      "name": "featured_link",
+      "aria-label": "",
+      "type": "url",
+      "instructions": "Optional link for the featured paragraph",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "https://example.com",
+      "show_in_graphql": 1,
+      "graphql_field_name": "featuredLink"
+    },
+    {
+      "key": "field_news_background_image",
+      "label": "First Column Background Image",
+      "name": "background_image",
+      "aria-label": "",
+      "type": "image",
+      "instructions": "Optional background image for the first column",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "array",
+      "preview_size": "medium",
+      "library": "all",
+      "show_in_graphql": 1,
+      "graphql_field_name": "backgroundImage"
+    },
+    {
+      "key": "field_news_additional_items",
+      "label": "Additional News Items (Columns 2 & 3)",
+      "name": "additional_items",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "Add news items for the second and third columns (recommended: 2 items)",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "show_in_graphql": 1,
+      "graphql_field_name": "additionalItems",
+      "layout": "block",
+      "pagination": 0,
+      "min": 0,
+      "max": 0,
+      "collapsed": "field_additional_item_title",
+      "button_label": "Add News Item",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_additional_item_image",
+          "label": "Image",
+          "name": "image",
+          "aria-label": "",
+          "type": "image",
+          "instructions": "Upload a news item image",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "return_format": "array",
+          "preview_size": "medium",
+          "library": "all",
+          "show_in_graphql": 1,
+          "graphql_field_name": "image",
+          "parent_repeater": "field_news_additional_items"
+        },
+        {
+          "key": "field_additional_item_title",
+          "label": "Title",
+          "name": "title",
+          "aria-label": "",
+          "type": "textarea",
+          "instructions": "Enter the news item title",
+          "required": 1,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "Infosys Q2 FY26 Results - Archived Webcast",
+          "show_in_graphql": 1,
+          "graphql_field_name": "title",
+          "maxlength": "",
+          "rows": 3,
+          "new_lines": "",
+          "parent_repeater": "field_news_additional_items"
+        },
+        {
+          "key": "field_additional_item_link",
+          "label": "Link",
+          "name": "link",
+          "aria-label": "",
+          "type": "url",
+          "instructions": "Enter the news item URL",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "https://example.com/news-article",
+          "show_in_graphql": 1,
+          "graphql_field_name": "link",
+          "parent_repeater": "field_news_additional_items"
+        },
+        {
+          "key": "field_additional_item_date",
+          "label": "Date",
+          "name": "date",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "Enter the publication date (optional)",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "October 18, 2025",
+          "show_in_graphql": 1,
+          "graphql_field_name": "date",
+          "maxlength": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_news_additional_items"
+        }
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/news-block"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "A block to display news items in a grid layout with images and links",
+  "show_in_rest": 0,
+  "display_title": "",
+  "modified": 1733428800
+}

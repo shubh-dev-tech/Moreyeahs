@@ -7,16 +7,20 @@ import React from 'react';
 import { Block, isACFBlock, getBlockType } from '@/lib/blocks';
 
 // Import block components
-import { HeroBlock } from './HeroBlock';
-import { ContentBlock } from './ContentBlock';
-import { ImageTextBlock } from './ImageTextBlock';
-import { CTABlock } from './CTABlock';
-import { MoreyeahsHeadingTestBlock } from './MoreyeahsHeadingTestBlock';
-import MoreyeahsSliderBlock from './MoreyeahsSliderBlock';
+import { HeroBlock } from './hero-block';
+import { ContentBlock } from './content-block';
+import { ImageTextBlock } from './image-text-block';
+import { CTABlock } from './cta-block';
+import { MoreyeahsHeadingTestBlock } from './moreyeahs-heading-test-block';
+import { MoreyeahsSliderBlock } from './moreyeahs-slider-block';
 import { FullWidthLeftTextSection } from './FullWidthLeftTextSection';
 import ImageGridHover from './ImageGridHover';
 import IconTextGrid from './IconTextGrid';
 import PromoBlock from './promo-block';
+import PurposeBlock from './purpose-block/PurposeBlock';
+import CounterBlock from './counter-block/CounterBlock';
+import NewsBlock from './news-block/NewsBlock';
+import InvestorBlock from './investor-block/InvestorBlock';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
@@ -37,6 +41,10 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/image-grid-hover': ImageGridHover,
   'acf/icon-text-grid': IconTextGrid,
   'acf/promo-block': PromoBlock,
+  'acf/purpose-block': PurposeBlock,
+  'acf/counter-block': CounterBlock,
+  'acf/news-block': NewsBlock,
+  'acf/investor-block': InvestorBlock,
   
   // Custom Blocks (without ACF)
   'moreyeahs/slider': MoreyeahsSliderBlock,

@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import './styles.scss';
 
 interface ContentBlockProps {
   data: {
@@ -16,16 +17,20 @@ interface ContentBlockProps {
 export function ContentBlock({ data }: ContentBlockProps) {
   const { heading, content, background_color } = data;
 
+  const sectionStyles = background_color ? {
+    '--bg-color': background_color
+  } as React.CSSProperties : undefined;
+
   return (
     <section 
-      className="content-block py-16 px-4"
-      style={{ backgroundColor: background_color || 'transparent' }}
+      className="content-block"
+      style={sectionStyles}
     >
-      <div className="max-w-4xl mx-auto">
-        {heading && <h2 className="text-3xl font-bold mb-6">{heading}</h2>}
+      <div className="content-block__container">
+        {heading && <h2 className="content-block__heading">{heading}</h2>}
         {content && (
           <div 
-            className="prose prose-lg max-w-none"
+            className="content-block__content"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         )}

@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import './styles.scss';
 
 interface CTABlockProps {
   data: {
@@ -18,18 +19,22 @@ interface CTABlockProps {
 export function CTABlock({ data }: CTABlockProps) {
   const { heading, description, button_text, button_link, background_color } = data;
 
+  const sectionStyles = background_color ? {
+    '--bg-color': background_color
+  } as React.CSSProperties : undefined;
+
   return (
     <section 
-      className="cta-block py-20 px-4"
-      style={{ backgroundColor: background_color || '#1e40af' }}
+      className="cta-block"
+      style={sectionStyles}
     >
-      <div className="max-w-4xl mx-auto text-center text-white">
-        {heading && <h2 className="text-4xl font-bold mb-4">{heading}</h2>}
-        {description && <p className="text-xl mb-8">{description}</p>}
+      <div className="cta-block__container">
+        {heading && <h2 className="cta-block__heading">{heading}</h2>}
+        {description && <p className="cta-block__description">{description}</p>}
         {button_text && button_link && (
           <a
             href={button_link}
-            className="inline-block bg-white text-blue-700 hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition"
+            className="cta-block__button"
           >
             {button_text}
           </a>
