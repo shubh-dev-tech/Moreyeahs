@@ -63,7 +63,7 @@ export default async function Header() {
 
   return (
     <header className="header">
-      <div className="container">
+      <div className="">
         <nav className="header__nav">
           <Link href="/" className="header__logo">
             {logo ? (

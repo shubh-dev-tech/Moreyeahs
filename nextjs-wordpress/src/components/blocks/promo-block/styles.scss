@@ -110,9 +110,9 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 480px) {
-      padding: 12px 24px;
-      font-size: 0.9rem;
+    @media (max-width: 768px) {
+        padding: 6px 18px;
+        font-size: 10px;
     }
   }
 

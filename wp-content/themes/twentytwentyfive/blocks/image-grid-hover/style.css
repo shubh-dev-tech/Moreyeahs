@@ -150,13 +150,16 @@
     padding: 30px;
   }
   .image-grid-hover-block .image-grid-container .image-grid-item .image-wrapper .image-overlay .image-heading {
-    font-size: 24px;
+            font-size: 20px;
+        margin: 0;
   }
   .image-grid-hover-block .image-grid-container .image-grid-item .image-wrapper .image-overlay .image-subheading {
-    font-size: 18px;
+           font-size: 14px;
+        margin: 0;
   }
   .image-grid-hover-block .image-grid-container .image-grid-item .image-wrapper .image-overlay .image-text {
-    font-size: 14px;
+           font-size: 14px;
+        line-height: 1.4;
   }
   .image-grid-hover-block .image-grid-container .image-grid-item.large-item .image-wrapper {
     min-height: 515px;

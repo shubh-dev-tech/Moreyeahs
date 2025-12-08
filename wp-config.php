@@ -92,7 +92,7 @@ define( 'WP_DEBUG', false );
 /* Add any custom values between this line and the "stop editing" line. */
 
 // JWT Authentication Configuration
-define('JWT_AUTH_SECRET_KEY', 'your-super-secret-jwt-key-change-this-in-production');
+define('JWT_AUTH_SECRET_KEY', '555ada25dd42bb78694f9ebe9d0b2686046f07fc2d49886ed1f197a9c626b4121c792203e6c96051754c02f0f692293d22ef55f6e09552076647b1ac1e54d942');
 define('ALLOWED_ORIGIN', 'http://localhost:3000'); // Change to your Next.js URL
 
 
