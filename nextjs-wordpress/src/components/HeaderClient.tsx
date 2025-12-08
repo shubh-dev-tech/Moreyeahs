@@ -103,7 +103,7 @@ export default function HeaderClient() {
   if (loading) {
     return (
       <header className="header">
-        <div className="container">
+        <div className="contai-new">
           <nav className="header__nav">
             <Link href="/" className="header__logo">
               <span className="header__logo-text">Loading...</span>
@@ -116,7 +116,7 @@ export default function HeaderClient() {
 
   return (
     <header className="header">
-      <div className="container">
+      <div className="contai-new">
         <nav className="header__nav">
           <Link href="/" className="header__logo">
             {logo ? (

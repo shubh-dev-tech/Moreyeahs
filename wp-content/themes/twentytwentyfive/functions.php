@@ -535,18 +535,18 @@ if ( ! function_exists( 'twentytwentyfive_render_moreyeahs_slider' ) ) :
 			}
 
 			.slide-heading {
-				font-size: 28px;
+				font-size: 22px;
 				margin-bottom: 10px;
 			}
 
 			.slide-subheading {
-				font-size: 14px;
+				font-size: 10px;
 				margin-bottom: 20px;
 			}
 
 			.slide-cta {
-				padding: 12px 30px;
-				font-size: 14px;
+		padding: 6px 18px;
+        font-size: 10px;
 			}
 		}
 		</style>
@@ -1137,6 +1137,9 @@ add_filter( 'acf/settings/load_json', 'twentytwentyfive_acf_json_load_point' );
 
 // Load centralized ACF blocks registration
 require_once get_template_directory() . '/inc/acf-blocks.php';
+
+// Load ACF section ID field helper
+require_once get_template_directory() . '/inc/acf-section-id-field.php';
 
 // Load REST API endpoints for headless WordPress
 require_once get_template_directory() . '/inc/rest-api-endpoints.php';

@@ -278,6 +278,106 @@ function twentytwentyfive_register_acf_blocks() {
                 ),
             ),
         ),
+        
+        // Testimonial Block
+        array(
+            'name'              => 'testimonial-block',
+            'title'             => __('Testimonial Block', 'twentytwentyfive'),
+            'description'       => __('Display testimonials in a slider with heading, subheading, and CTA button', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'format-quote',
+            'keywords'          => array('testimonial', 'review', 'quote', 'slider', 'carousel'),
+            'render_template'   => 'blocks/testimonial-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/testimonial-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'        => 'Careers',
+                        'subheading'     => 'Every Infoscion is the navigator of our clients\' digital transformation',
+                        'bottom_heading' => 'Find opportunities right for you',
+                        'button_text'    => 'EXPLORE CAREERS',
+                        'button_link'    => '#',
+                    ),
+                ),
+            ),
+        ),
+        
+        // Navigation Next Block
+        array(
+            'name'              => 'navigation-next-block',
+            'title'             => __('Navigation Next Block', 'twentytwentyfive'),
+            'description'       => __('Regional navigation grid with hover effects and CTA section', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'location-alt',
+            'keywords'          => array('navigation', 'regions', 'locations', 'grid', 'hover'),
+            'render_template'   => 'blocks/navigation-next-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/navigation-next-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'     => 'Let\'s help you navigate your next',
+                        'button_text' => 'CONTACT US',
+                        'button_link' => '#',
+                        'regions'     => array(
+                            array('name' => 'Americas', 'link' => '#'),
+                            array('name' => 'Asia Pacific', 'link' => '#'),
+                            array('name' => 'Europe', 'link' => '#'),
+                            array('name' => 'Middle East and Africa', 'link' => '#'),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        
+        // Stepper Block
+        array(
+            'name'              => 'stepper-block',
+            'title'             => __('Stepper Block', 'twentytwentyfive'),
+            'description'       => __('Vertical stepper with automatic numbering and custom step labels', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'list-view',
+            'keywords'          => array('stepper', 'steps', 'navigation', 'progress', 'vertical'),
+            'render_template'   => 'blocks/stepper-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/stepper-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'background_color' => '',
+                        'steps'            => array(
+                            array('label' => '', 'is_active' => false),
+                            array('label' => '', 'is_active' => false),
+                            array('label' => 'Operating Models', 'is_active' => true),
+                            array('label' => '', 'is_active' => false),
+                            array('label' => '', 'is_active' => false),
+                        ),
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block

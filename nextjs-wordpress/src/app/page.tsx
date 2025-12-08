@@ -1,6 +1,7 @@
 import { fetchGraphQL } from '@/lib/wordpress';
 import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
+import VerticalStepper from '@/components/VerticalStepper';
 
 async function getHomePage() {
   const query = `
@@ -56,9 +57,23 @@ export default async function Home() {
     );
   }
 
+  // Define sections for the stepper - customize these based on your actual sections
+  const stepperSections = [
+    { id: 'hero', title: 'Home' },
+    { id: 'purpose', title: 'Purpose' },
+    { id: 'operating-models', title: 'Operating Models' },
+    { id: 'counter', title: 'Stats' },
+    { id: 'testimonials', title: 'Testimonials' },
+    { id: 'news', title: 'News' },
+    { id: 'investors', title: 'Investors' },
+  ];
+
   return (
-    <main className="min-h-screen">
-      <BlockRenderer blocks={blocks} />
-    </main>
+    <>
+      <VerticalStepper sections={stepperSections} />
+      <main className="min-h-screen">
+        <BlockRenderer blocks={blocks} />
+      </main>
+    </>
   );
 }

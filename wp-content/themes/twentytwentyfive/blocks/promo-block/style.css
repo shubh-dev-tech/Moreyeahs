@@ -112,6 +112,10 @@
   .promo-block__sub-heading {
     font-size: 1.125rem;
   }
+    .promo-block__button {
+      padding: 6px 18px;
+        font-size: 10px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -132,7 +136,7 @@
   }
   
   .promo-block__button {
-    padding: 12px 24px;
-    font-size: 0.9rem;
+      padding: 6px 18px;
+        font-size: 10px;
   }
 }

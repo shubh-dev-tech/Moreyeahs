@@ -21,6 +21,9 @@ import PurposeBlock from './purpose-block/PurposeBlock';
 import CounterBlock from './counter-block/CounterBlock';
 import NewsBlock from './news-block/NewsBlock';
 import InvestorBlock from './investor-block/InvestorBlock';
+import TestimonialBlock from './testimonial-block/TestimonialBlock';
+import NavigationNextBlock from './navigation-next-block/NavigationNextBlock';
+import StepperBlock from './stepper-block/StepperBlock';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
@@ -45,6 +48,9 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/counter-block': CounterBlock,
   'acf/news-block': NewsBlock,
   'acf/investor-block': InvestorBlock,
+  'acf/testimonial-block': TestimonialBlock,
+  'acf/navigation-next-block': NavigationNextBlock,
+  'acf/stepper-block': StepperBlock,
   
   // Custom Blocks (without ACF)
   'moreyeahs/slider': MoreyeahsSliderBlock,
@@ -53,6 +59,17 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'core/paragraph': CoreParagraph,
   'core/heading': CoreHeading,
   'core/image': CoreImage,
+};
+
+// Map block names to section IDs for stepper navigation
+const BLOCK_SECTION_IDS: Record<string, string> = {
+  'acf/hero': 'hero',
+  'acf/purpose-block': 'purpose',
+  'acf/promo-block': 'operating-models',
+  'acf/counter-block': 'counter',
+  'acf/testimonial-block': 'testimonials',
+  'acf/news-block': 'news',
+  'acf/investor-block': 'investors',
 };
 
 export function BlockRenderer({ blocks }: BlockRendererProps) {
@@ -79,14 +96,21 @@ export function BlockRenderer({ blocks }: BlockRendererProps) {
         }
 
         const blockData = isACFBlock(block) ? block.attrs.data : block.attrs;
+        
+        // Get section ID from block anchor attribute or fallback to default mapping
+        const sectionId = block.attrs?.anchor || BLOCK_SECTION_IDS[block.blockName];
 
         return (
-          <BlockComponent
+          <section
             key={`${block.blockName}-${index}`}
-            data={blockData}
-            innerHTML={block.innerHTML}
-            {...block.attrs}
-          />
+            id={sectionId}
+          >
+            <BlockComponent
+              data={blockData}
+              innerHTML={block.innerHTML}
+              {...block.attrs}
+            />
+          </section>
         );
       })}
     </div>
