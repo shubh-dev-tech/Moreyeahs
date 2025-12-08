@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/moreyeahs-new',
+  // basePath removed - Next.js runs on its own port (3000)
+  // WordPress is at http://localhost/moreyeahs-new
   images: {
     remotePatterns: [
       {

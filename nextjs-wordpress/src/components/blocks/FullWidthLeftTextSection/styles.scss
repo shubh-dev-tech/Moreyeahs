@@ -42,12 +42,21 @@ $transition-speed: 0.3s;
 // 2. Base Section Styles
 // ============================================
 .full-width-left-text-section {
-  // Background color, padding, height, width, and margins are applied via inline styles
-  // from the Section Settings in ACF
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
+  
+  // Dynamic styles from ACF using CSS custom properties
+  background-color: var(--bg-color, $primary-color);
+  min-height: var(--section-height, 100vh);
+  width: var(--section-width, 100%);
+  padding-top: var(--padding-top, 4rem);
+  padding-bottom: var(--padding-bottom, 4rem);
+  padding-left: var(--padding-left, 2rem);
+  padding-right: var(--padding-right, 2rem);
+  margin-top: var(--margin-top, 0);
+  margin-bottom: var(--margin-bottom, 0);
 }
 
 // ============================================
@@ -289,7 +298,8 @@ $transition-speed: 0.3s;
   }
 
   .full-width-left-text-section__button {
-    padding: 0.625rem 1.5rem;
+     padding: 6px 18px;
+        font-size: 10px;
     margin-bottom: 2rem;
   }
 

@@ -47,8 +47,8 @@ function twentytwentyfive_register_acf_blocks() {
             'category'          => 'formatting',
             'icon'              => 'megaphone',
             'keywords'          => array('promo', 'banner', 'cta', 'promotional'),
-            'render_template'   => 'blocks/promo-block.php',
-            'enqueue_style'     => '', // Styles are inline in template
+            'render_template'   => 'blocks/promo-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/promo-block/style.css',
             'enqueue_script'    => '',
             'supports'          => array(
                 'align'  => array('full', 'wide'),
@@ -77,8 +77,8 @@ function twentytwentyfive_register_acf_blocks() {
             'category'          => 'formatting',
             'icon'              => 'align-left',
             'keywords'          => array('full', 'width', 'text', 'section', 'case', 'studies'),
-            'render_template'   => 'blocks/full-width-left-text-section.php',
-            'enqueue_style'     => get_template_directory_uri() . '/blocks/full-width-left-text-section.css',
+            'render_template'   => 'blocks/full-width-left-text-section/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/full-width-left-text-section/style.css',
             'enqueue_script'    => '',
             'supports'          => array(
                 'align'  => array('wide', 'full'),
@@ -133,23 +133,251 @@ function twentytwentyfive_register_acf_blocks() {
             ),
         ),
         
-        // Add more blocks here following the same structure
-        // Example:
-        // array(
-        //     'name'              => 'testimonial-block',
-        //     'title'             => __('Testimonial Block', 'twentytwentyfive'),
-        //     'description'       => __('Display customer testimonials', 'twentytwentyfive'),
-        //     'category'          => 'formatting',
-        //     'icon'              => 'format-quote',
-        //     'keywords'          => array('testimonial', 'review', 'quote'),
-        //     'render_template'   => 'blocks/testimonial-block.php',
-        //     'enqueue_style'     => get_template_directory_uri() . '/assets/css/testimonial-block.css',
-        //     'enqueue_script'    => get_template_directory_uri() . '/assets/js/testimonial-block.js',
-        //     'supports'          => array(
-        //         'align' => true,
-        //         'mode'  => true,
-        //     ),
-        // ),
+        // Purpose Block
+        array(
+            'name'              => 'purpose-block',
+            'title'             => __('Purpose Block', 'twentytwentyfive'),
+            'description'       => __('Display your organization\'s purpose with angled corner borders and customizable border color', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'star-filled',
+            'keywords'          => array('purpose', 'mission', 'vision', 'statement', 'border'),
+            'render_template'   => 'blocks/purpose-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/purpose-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'      => 'Our Purpose:',
+                        'sub_heading'  => 'To amplify human potential and create the next opportunity for people, businesses and communities',
+                        'border_color' => '#00A3E0',
+                    ),
+                ),
+            ),
+        ),
+        
+        // Counter Block
+        array(
+            'name'              => 'counter-block',
+            'title'             => __('Counter Block', 'twentytwentyfive'),
+            'description'       => __('Display statistics and counters with heading and sub-heading', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'chart-bar',
+            'keywords'          => array('counter', 'stats', 'statistics', 'numbers', 'metrics'),
+            'render_template'   => 'blocks/counter-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/counter-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'     => 'About us',
+                        'sub_heading' => 'A global leader in next-generation digital services and consulting',
+                        'counters'    => array(
+                            array(
+                                'number' => '59',
+                                'prefix' => '',
+                                'suffix' => '',
+                                'label'  => 'countries where we have trusting clients',
+                            ),
+                            array(
+                                'number' => '19.7',
+                                'prefix' => 'US$',
+                                'suffix' => '',
+                                'label'  => 'billion total revenue (LTM)',
+                            ),
+                            array(
+                                'number' => '24',
+                                'prefix' => '',
+                                'suffix' => '+',
+                                'label'  => 'million training (hours) conducted for employees, globally',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        
+        // News Block
+        array(
+            'name'              => 'news-block',
+            'title'             => __('News Block', 'twentytwentyfive'),
+            'description'       => __('Display news items in a grid layout with images and links', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'megaphone',
+            'keywords'          => array('news', 'articles', 'press', 'blog', 'media'),
+            'render_template'   => 'blocks/news-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/news-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'section_title' => 'In the news',
+                        'news_items'    => array(
+                            array(
+                                'title' => 'Winners of Qorus-Infosys Finacle Banking Innovation Awards 2025 Announced in Athens',
+                                'link'  => '#',
+                                'date'  => '',
+                            ),
+                            array(
+                                'title' => 'Infosys Q2 FY26 Results - Archived Webcast',
+                                'link'  => '#',
+                                'date'  => 'October 18, 2025',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        
+        // Investor Block
+        array(
+            'name'              => 'investor-block',
+            'title'             => __('Investor Block', 'twentytwentyfive'),
+            'description'       => __('Display investor information with featured image and categorized links', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'chart-line',
+            'keywords'          => array('investor', 'finance', 'shareholders', 'reports', 'annual'),
+            'render_template'   => 'blocks/investor-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/investor-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'main_title'     => 'Investors',
+                        'subtitle'       => 'Maximizing shareholder value with good corporate governance',
+                        'featured_title' => 'Integrated Annual Report 2025',
+                        'sidebar_title'  => 'Investor central',
+                    ),
+                ),
+            ),
+        ),
+        
+        // Testimonial Block
+        array(
+            'name'              => 'testimonial-block',
+            'title'             => __('Testimonial Block', 'twentytwentyfive'),
+            'description'       => __('Display testimonials in a slider with heading, subheading, and CTA button', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'format-quote',
+            'keywords'          => array('testimonial', 'review', 'quote', 'slider', 'carousel'),
+            'render_template'   => 'blocks/testimonial-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/testimonial-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'        => 'Careers',
+                        'subheading'     => 'Every Infoscion is the navigator of our clients\' digital transformation',
+                        'bottom_heading' => 'Find opportunities right for you',
+                        'button_text'    => 'EXPLORE CAREERS',
+                        'button_link'    => '#',
+                    ),
+                ),
+            ),
+        ),
+        
+        // Navigation Next Block
+        array(
+            'name'              => 'navigation-next-block',
+            'title'             => __('Navigation Next Block', 'twentytwentyfive'),
+            'description'       => __('Regional navigation grid with hover effects and CTA section', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'location-alt',
+            'keywords'          => array('navigation', 'regions', 'locations', 'grid', 'hover'),
+            'render_template'   => 'blocks/navigation-next-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/navigation-next-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'     => 'Let\'s help you navigate your next',
+                        'button_text' => 'CONTACT US',
+                        'button_link' => '#',
+                        'regions'     => array(
+                            array('name' => 'Americas', 'link' => '#'),
+                            array('name' => 'Asia Pacific', 'link' => '#'),
+                            array('name' => 'Europe', 'link' => '#'),
+                            array('name' => 'Middle East and Africa', 'link' => '#'),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        
+        // Stepper Block
+        array(
+            'name'              => 'stepper-block',
+            'title'             => __('Stepper Block', 'twentytwentyfive'),
+            'description'       => __('Vertical stepper with automatic numbering and custom step labels', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'list-view',
+            'keywords'          => array('stepper', 'steps', 'navigation', 'progress', 'vertical'),
+            'render_template'   => 'blocks/stepper-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/stepper-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'background_color' => '',
+                        'steps'            => array(
+                            array('label' => '', 'is_active' => false),
+                            array('label' => '', 'is_active' => false),
+                            array('label' => 'Operating Models', 'is_active' => true),
+                            array('label' => '', 'is_active' => false),
+                            array('label' => '', 'is_active' => false),
+                        ),
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block

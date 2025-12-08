@@ -40,7 +40,15 @@ function FooterColumn({ widget }: FooterColumnProps) {
 }
 
 export default async function Footer() {
-  const footerData = await getFooterWidgets();
+  let footerData = null;
+  
+  try {
+    footerData = await getFooterWidgets();
+    console.log('Footer Data:', JSON.stringify(footerData, null, 2));
+  } catch (error) {
+    console.error('Error loading footer:', error);
+  }
+  
   const currentYear = new Date().getFullYear();
 
   return (

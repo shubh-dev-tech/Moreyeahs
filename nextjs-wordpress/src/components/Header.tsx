@@ -31,20 +31,39 @@ function MenuItems({ items }: { items: MenuItem[] }) {
 }
 
 export default async function Header() {
-  const siteSettings = await getSiteSettings();
+  let siteSettings = null;
+  let primaryMenu = null;
+  let secondMenu = null;
+  
+  try {
+    siteSettings = await getSiteSettings();
+    console.log('Site settings loaded:', siteSettings ? 'Success' : 'Failed');
+  } catch (error) {
+    console.error('Error loading site settings:', error);
+  }
+  
+  try {
+    primaryMenu = await getMenuByLocation('primary');
+    console.log('Primary menu loaded:', primaryMenu ? 'Success' : 'Failed');
+  } catch (error) {
+    console.error('Error loading primary menu:', error);
+  }
+  
+  try {
+    secondMenu = await getMenuByLocation('second-menu');
+    console.log('Second menu loaded:', secondMenu ? 'Success' : 'Failed');
+  } catch (error) {
+    console.error('Error loading second menu:', error);
+  }
+  
   const siteName = siteSettings?.title || process.env.NEXT_PUBLIC_SITE_NAME || 'My Site';
   const logo = siteSettings?.logo;
-  
-  const primaryMenu = await getMenuByLocation('primary');
   const primaryMenuItems = primaryMenu?.items || [];
-  
-  // Fetch Second Menu for burger/side menu
-  const secondMenu = await getMenuByLocation('second-menu');
   const secondMenuItems = secondMenu?.items || [];
 
   return (
     <header className="header">
-      <div className="container">
+      <div className="">
         <nav className="header__nav">
           <Link href="/" className="header__logo">
             {logo ? (

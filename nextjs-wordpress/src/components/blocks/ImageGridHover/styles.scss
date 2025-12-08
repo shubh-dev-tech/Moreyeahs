@@ -113,7 +113,7 @@
           .image-subheading {
             font-size: 20px;
             font-weight: 400;
-            margin: 0 0 15px 0;
+            margin: 0 0 0 0;
           }
 
           .image-text {
@@ -166,11 +166,13 @@
             padding: 30px;
 
             .image-heading {
-              font-size: 24px;
+              font-size: 20px;
+            margin: 0 0 0 0;
+
             }
 
             .image-subheading {
-              font-size: 18px;
+              font-size: 15px;
             }
 
             .image-text {
@@ -206,6 +208,10 @@
       gap: 15px;
 
       .image-grid-item {
+        // Reset all grid positioning for mobile
+        grid-column: 1 !important;
+        grid-row: auto !important;
+        
         &.large-item {
           grid-row: span 1;
         }

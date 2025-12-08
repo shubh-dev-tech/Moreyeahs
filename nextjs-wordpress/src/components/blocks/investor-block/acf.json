@@ -1,0 +1,492 @@
+{
+  "key": "group_investor_block",
+  "title": "Investor Block",
+  "fields": [
+    {
+      "key": "field_investor_decorative_line",
+      "label": "Decorative Line",
+      "name": "decorative_line",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Enter decorative text above the main title (e.g., '| | | | | | | | | |')",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "| | | | | | | | | |",
+      "placeholder": "| | | | | | | | | |",
+      "show_in_graphql": 1,
+      "graphql_field_name": "decorativeLine",
+      "maxlength": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_investor_main_title",
+      "label": "Main Title",
+      "name": "main_title",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Enter the main title (e.g., 'Investors')",
+      "required": 1,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "Investors",
+      "placeholder": "Investors",
+      "show_in_graphql": 1,
+      "graphql_field_name": "mainTitle",
+      "maxlength": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_investor_subtitle",
+      "label": "Subtitle",
+      "name": "subtitle",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Enter the subtitle text",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "Maximizing shareholder value with good corporate governance",
+      "placeholder": "Maximizing shareholder value with good corporate governance",
+      "show_in_graphql": 1,
+      "graphql_field_name": "subtitle",
+      "maxlength": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_investor_featured_image",
+      "label": "Featured Image",
+      "name": "featured_image",
+      "aria-label": "",
+      "type": "image",
+      "instructions": "Upload the featured image for the left column",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "array",
+      "preview_size": "medium",
+      "library": "all",
+      "show_in_graphql": 1,
+      "graphql_field_name": "featuredImage"
+    },
+    {
+      "key": "field_investor_featured_title",
+      "label": "Featured Title",
+      "name": "featured_title",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Enter the title that appears on the featured image",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "Integrated Annual Report 2025",
+      "placeholder": "Integrated Annual Report 2025",
+      "show_in_graphql": 1,
+      "graphql_field_name": "featuredTitle",
+      "maxlength": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_investor_featured_link",
+      "label": "Featured Link",
+      "name": "featured_link",
+      "aria-label": "",
+      "type": "url",
+      "instructions": "Optional link for the featured image",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "https://example.com/annual-report",
+      "show_in_graphql": 1,
+      "graphql_field_name": "featuredLink"
+    },
+    {
+      "key": "field_investor_sidebar_title",
+      "label": "Sidebar Title",
+      "name": "sidebar_title",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Enter the sidebar title (e.g., 'Investor central')",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "Investor central",
+      "placeholder": "Investor central",
+      "show_in_graphql": 1,
+      "graphql_field_name": "sidebarTitle",
+      "maxlength": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_investor_results_items",
+      "label": "Results Items",
+      "name": "results_items",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "Add results items (first item's label will be used as section label)",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "show_in_graphql": 1,
+      "graphql_field_name": "resultsItems",
+      "layout": "table",
+      "pagination": 0,
+      "min": 0,
+      "max": 0,
+      "collapsed": "",
+      "button_label": "Add Result Item",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_result_label",
+          "label": "Label",
+          "name": "label",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "Section label (only first item's label is used)",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "RESULTS",
+          "placeholder": "RESULTS",
+          "show_in_graphql": 1,
+          "graphql_field_name": "label",
+          "maxlength": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_investor_results_items"
+        },
+        {
+          "key": "field_result_title",
+          "label": "Title",
+          "name": "title",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "Enter the result title",
+          "required": 1,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "Second Quarter FY26",
+          "show_in_graphql": 1,
+          "graphql_field_name": "title",
+          "maxlength": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_investor_results_items"
+        },
+        {
+          "key": "field_result_link",
+          "label": "Link",
+          "name": "link",
+          "aria-label": "",
+          "type": "url",
+          "instructions": "Optional link for the result",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "https://example.com/results",
+          "show_in_graphql": 1,
+          "graphql_field_name": "link",
+          "parent_repeater": "field_investor_results_items"
+        }
+      ]
+    },
+    {
+      "key": "field_investor_archived_items",
+      "label": "Archived Webcast Items",
+      "name": "archived_items",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "Add archived webcast items (first item's label will be used as section label)",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "show_in_graphql": 1,
+      "graphql_field_name": "archivedItems",
+      "layout": "table",
+      "pagination": 0,
+      "min": 0,
+      "max": 0,
+      "collapsed": "",
+      "button_label": "Add Archived Item",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_archived_label",
+          "label": "Label",
+          "name": "label",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "Section label (only first item's label is used)",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "ARCHIVED WEBCAST",
+          "placeholder": "ARCHIVED WEBCAST",
+          "show_in_graphql": 1,
+          "graphql_field_name": "label",
+          "maxlength": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_investor_archived_items"
+        },
+        {
+          "key": "field_archived_title",
+          "label": "Title",
+          "name": "title",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "Enter the archived webcast title",
+          "required": 1,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "Q2 FY26 Press Conference",
+          "show_in_graphql": 1,
+          "graphql_field_name": "title",
+          "maxlength": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_investor_archived_items"
+        },
+        {
+          "key": "field_archived_link",
+          "label": "Link",
+          "name": "link",
+          "aria-label": "",
+          "type": "url",
+          "instructions": "Optional link for the archived webcast",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "https://example.com/webcast",
+          "show_in_graphql": 1,
+          "graphql_field_name": "link",
+          "parent_repeater": "field_investor_archived_items"
+        }
+      ]
+    },
+    {
+      "key": "field_investor_event_items",
+      "label": "Event Items",
+      "name": "event_items",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "Add event items (first item's label will be used as section label)",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "show_in_graphql": 1,
+      "graphql_field_name": "eventItems",
+      "layout": "table",
+      "pagination": 0,
+      "min": 0,
+      "max": 0,
+      "collapsed": "",
+      "button_label": "Add Event Item",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_event_label",
+          "label": "Label",
+          "name": "label",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "Section label (only first item's label is used)",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "EVENT",
+          "placeholder": "EVENT",
+          "show_in_graphql": 1,
+          "graphql_field_name": "label",
+          "maxlength": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_investor_event_items"
+        },
+        {
+          "key": "field_event_title",
+          "label": "Title",
+          "name": "title",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "Enter the event title",
+          "required": 1,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "The 44th Annual General Meeting",
+          "show_in_graphql": 1,
+          "graphql_field_name": "title",
+          "maxlength": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_investor_event_items"
+        },
+        {
+          "key": "field_event_link",
+          "label": "Link",
+          "name": "link",
+          "aria-label": "",
+          "type": "url",
+          "instructions": "Optional link for the event",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "placeholder": "https://example.com/event",
+          "show_in_graphql": 1,
+          "graphql_field_name": "link",
+          "parent_repeater": "field_investor_event_items"
+        }
+      ]
+    },
+    {
+      "key": "field_investor_view_all_text",
+      "label": "View All Text",
+      "name": "view_all_text",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Enter the 'View All' link text",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "VIEW ALL",
+      "placeholder": "VIEW ALL",
+      "show_in_graphql": 1,
+      "graphql_field_name": "viewAllText",
+      "maxlength": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_investor_view_all_link",
+      "label": "View All Link",
+      "name": "view_all_link",
+      "aria-label": "",
+      "type": "url",
+      "instructions": "Enter the 'View All' link URL",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "https://example.com/investors",
+      "show_in_graphql": 1,
+      "graphql_field_name": "viewAllLink"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/investor-block"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "A block to display investor information with featured image and categorized links",
+  "show_in_rest": 0,
+  "display_title": "",
+  "modified": 1733428800
+}

@@ -1,0 +1,145 @@
+{
+    "key": "group_navigation_next_block",
+    "title": "Navigation Next Block",
+    "fields": [
+        {
+            "key": "field_navigation_next_regions",
+            "label": "Regions",
+            "name": "regions",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add regional navigation items (typically 4 regions)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "min": 1,
+            "max": 6,
+            "layout": "table",
+            "button_label": "Add Region",
+            "rows_per_page": 20,
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_navigation_next_region_name",
+                    "label": "Region Name",
+                    "name": "name",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Name of the region (e.g., Americas, Asia Pacific)",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_navigation_next_regions"
+                },
+                {
+                    "key": "field_navigation_next_region_link",
+                    "label": "Region Link",
+                    "name": "link",
+                    "aria-label": "",
+                    "type": "url",
+                    "instructions": "URL for the region page",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#",
+                    "placeholder": "",
+                    "parent_repeater": "field_navigation_next_regions"
+                }
+            ]
+        },
+        {
+            "key": "field_navigation_next_heading",
+            "label": "Heading",
+            "name": "heading",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Call-to-action heading below the regions",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "rows": 2,
+            "default_value": "Let's help you navigate your next",
+            "new_lines": "",
+            "maxlength": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_navigation_next_button_text",
+            "label": "Button Text",
+            "name": "button_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Text for the call-to-action button",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "CONTACT US",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_navigation_next_button_link",
+            "label": "Button Link",
+            "name": "button_link",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "URL for the button",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#",
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/navigation-next-block"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [],
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "modified": 1764936275
+}

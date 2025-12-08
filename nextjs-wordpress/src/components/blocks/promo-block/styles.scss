@@ -20,7 +20,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: inherit;
+    background-image: var(--bg-image, none);
     transition: transform 0.6s ease;
     z-index: 0;
   }
@@ -35,7 +35,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(13, 27, 62, 0.85);
+    background: transparent;
     display: flex;
     align-items: center;
     z-index: 1;
@@ -47,7 +47,7 @@
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 60px 20px;
+    padding: 60px 70px;
   }
 
   &__content {
@@ -110,9 +110,9 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 480px) {
-      padding: 12px 24px;
-      font-size: 0.9rem;
+    @media (max-width: 768px) {
+        padding: 6px 18px;
+        font-size: 10px;
     }
   }
 
