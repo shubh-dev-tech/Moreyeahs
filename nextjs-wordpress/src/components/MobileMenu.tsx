@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MenuItem } from '@/types/menu';
+import { MegaMenuData } from './MegaMenu';
 import { wpUrlToPath } from '@/lib/url-utils';
 
 interface MobileMenuProps {
@@ -15,9 +16,22 @@ interface MobileMenuProps {
     height: number;
   };
   siteName?: string;
+  megaMenus?: MegaMenuData[];
 }
 
-function MobileMenuItems({ items, onLinkClick }: { items: MenuItem[]; onLinkClick: () => void }) {
+function MobileMenuItems({ 
+  items, 
+  onLinkClick, 
+  megaMenuMap,
+  onMegaMenuHover,
+  onMegaMenuLeave
+}: { 
+  items: MenuItem[]; 
+  onLinkClick: () => void;
+  megaMenuMap: Record<string, MegaMenuData>;
+  onMegaMenuHover: (menuKey: string, menuData: MegaMenuData) => void;
+  onMegaMenuLeave: () => void;
+}) {
   const [openItems, setOpenItems] = useState<number[]>([]);
 
   const toggleItem = (id: number) => {
@@ -30,10 +44,74 @@ function MobileMenuItems({ items, onLinkClick }: { items: MenuItem[]; onLinkClic
 
   return (
     <>
-      {items.map((item) => (
-        <li key={item.id} className="mobile-menu__item">
-          {item.children.length > 0 ? (
-            <>
+      {items.map((item) => {
+        const itemTitleLower = item.title.toLowerCase().trim();
+        const hasMegaMenu = megaMenuMap[itemTitleLower];
+
+        if (hasMegaMenu) {
+          return (
+            <li 
+              key={item.id} 
+              className="mobile-menu__item mobile-menu__item--mega"
+              onMouseEnter={() => onMegaMenuHover(itemTitleLower, hasMegaMenu)}
+            >
+              <div className="mobile-menu__item-wrapper">
+                <span className="mobile-menu__link mobile-menu__link--mega">
+                  {item.title}
+                </span>
+                <svg 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 16 16" 
+                  fill="none"
+                  className="mobile-menu__arrow"
+                >
+                  <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            </li>
+          );
+        }
+
+        return (
+          <li 
+            key={item.id} 
+            className="mobile-menu__item"
+            onMouseEnter={onMegaMenuLeave}
+          >
+            {item.children.length > 0 ? (
+              <>
+                <div className="mobile-menu__item-wrapper">
+                  <Link 
+                    href={wpUrlToPath(item.url)} 
+                    target={item.target}
+                    className={`mobile-menu__link ${item.classes}`}
+                    onClick={onLinkClick}
+                  >
+                    {item.title}
+                  </Link>
+                  <button
+                    className="mobile-menu__toggle"
+                    onClick={() => toggleItem(item.id)}
+                    aria-label={`Toggle ${item.title} submenu`}
+                  >
+                    <svg 
+                      width="16" 
+                      height="16" 
+                      viewBox="0 0 16 16" 
+                      fill="none"
+                      style={{ transform: openItems.includes(item.id) ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }}
+                    >
+                      <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+                
+                <ul className={`mobile-menu__submenu ${openItems.includes(item.id) ? 'open' : ''}`}>
+                  <MobileMenuItems items={item.children} onLinkClick={onLinkClick} megaMenuMap={megaMenuMap} onMegaMenuHover={onMegaMenuHover} onMegaMenuLeave={onMegaMenuLeave} />
+                </ul>
+              </>
+            ) : (
               <div className="mobile-menu__item-wrapper">
                 <Link 
                   href={wpUrlToPath(item.url)} 
@@ -43,47 +121,26 @@ function MobileMenuItems({ items, onLinkClick }: { items: MenuItem[]; onLinkClic
                 >
                   {item.title}
                 </Link>
-                <button
-                  className="mobile-menu__toggle"
-                  onClick={() => toggleItem(item.id)}
-                  aria-label={`Toggle ${item.title} submenu`}
-                >
-                  <svg 
-                    width="16" 
-                    height="16" 
-                    viewBox="0 0 16 16" 
-                    fill="none"
-                    style={{ transform: openItems.includes(item.id) ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }}
-                  >
-                    <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
               </div>
-              
-              <ul className={`mobile-menu__submenu ${openItems.includes(item.id) ? 'open' : ''}`}>
-                <MobileMenuItems items={item.children} onLinkClick={onLinkClick} />
-              </ul>
-            </>
-          ) : (
-            <div className="mobile-menu__item-wrapper">
-              <Link 
-                href={wpUrlToPath(item.url)} 
-                target={item.target}
-                className={`mobile-menu__link ${item.classes}`}
-                onClick={onLinkClick}
-              >
-                {item.title}
-              </Link>
-            </div>
-          )}
-        </li>
-      ))}
+            )}
+          </li>
+        );
+      })}
     </>
   );
 }
 
-export default function MobileMenu({ items, logo, siteName }: MobileMenuProps) {
+export default function MobileMenu({ items, logo, siteName, megaMenus = [] }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeMegaMenu, setActiveMegaMenu] = useState<MegaMenuData | null>(null);
+  const [activeMegaCategory, setActiveMegaCategory] = useState<number>(-1);
+  const megaMenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const megaMenuMap: Record<string, MegaMenuData> = megaMenus.reduce((acc, menu) => {
+    const key = menu.title.toLowerCase().trim();
+    acc[key] = menu;
+    return acc;
+  }, {} as Record<string, MegaMenuData>);
 
   useEffect(() => {
     if (isOpen) {
@@ -96,7 +153,28 @@ export default function MobileMenu({ items, logo, siteName }: MobileMenuProps) {
     };
   }, [isOpen]);
 
-  const closeMenu = () => setIsOpen(false);
+  const closeMenu = () => {
+    setIsOpen(false);
+    setActiveMegaMenu(null);
+    setActiveMegaCategory(-1);
+  };
+
+  const handleMegaMenuHover = (menuKey: string, menuData: MegaMenuData) => {
+    if (megaMenuTimeoutRef.current) {
+      clearTimeout(megaMenuTimeoutRef.current);
+    }
+    setActiveMegaMenu(menuData);
+    setActiveMegaCategory(0); // Auto-select first category
+  };
+
+  const handleMegaMenuLeave = () => {
+    setActiveMegaMenu(null);
+    setActiveMegaCategory(-1);
+  };
+
+  const handleCategoryHover = (categoryIndex: number) => {
+    setActiveMegaCategory(categoryIndex);
+  };
 
   return (
     <>
@@ -143,12 +221,18 @@ export default function MobileMenu({ items, logo, siteName }: MobileMenuProps) {
           {/* Menu Content */}
           <div className="mobile-menu__content">
             <ul className="mobile-menu__list">
-              <MobileMenuItems items={items} onLinkClick={closeMenu} />
+              <MobileMenuItems 
+                items={items} 
+                onLinkClick={closeMenu} 
+                megaMenuMap={megaMenuMap}
+                onMegaMenuHover={handleMegaMenuHover}
+                onMegaMenuLeave={handleMegaMenuLeave}
+              />
             </ul>
           </div>
 
           {/* Footer with Social Icons */}
-          <div className="mobile-menu__footer">
+          <div className="mobile-menu__footer" onMouseEnter={handleMegaMenuLeave}>
             <div className="mobile-menu__social">
               <a 
                 href="https://linkedin.com" 
@@ -200,6 +284,64 @@ export default function MobileMenu({ items, logo, siteName }: MobileMenuProps) {
             </div>
           </div>
         </nav>
+
+        {/* Mega Menu Panel - Rendered outside burger menu */}
+        {activeMegaMenu && (
+          <div 
+            className={`mobile-menu__mega-panel ${activeMegaMenu ? 'visible' : ''}`}
+          >
+            <button 
+              className="mobile-menu__mega-close"
+              onClick={handleMegaMenuLeave}
+              aria-label="Close mega menu"
+            >
+              ×
+            </button>
+            <div className="mobile-menu__mega-sidebar">
+              <div className="mobile-menu__mega-heading">{activeMegaMenu.main_heading}</div>
+              
+              <div className="mobile-menu__mega-categories">
+                {activeMegaMenu.categories.map((category, catIndex) => (
+                  <div
+                    key={catIndex}
+                    className={`mobile-menu__mega-category ${activeMegaCategory === catIndex ? 'active' : ''}`}
+                    onMouseEnter={() => handleCategoryHover(catIndex)}
+                  >
+                    {category.icon && <span className="category-icon">{category.icon}</span>}
+                    <span className="category-title">{category.title}</span>
+                    <svg 
+                      width="12" 
+                      height="12" 
+                      viewBox="0 0 12 12" 
+                      fill="none"
+                      className="category-arrow"
+                    >
+                      <path d="M4.5 3L7.5 6L4.5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={`mobile-menu__mega-content ${activeMegaCategory >= 0 ? 'visible' : ''}`}>
+              {activeMegaCategory >= 0 && activeMegaMenu.categories[activeMegaCategory] && (
+                <ul className="mobile-menu__mega-items">
+                  {activeMegaMenu.categories[activeMegaCategory].items.map((megaItem, itemIndex) => (
+                    <li key={itemIndex}>
+                      <Link
+                        href={megaItem.url}
+                        className="mobile-menu__mega-link"
+                        onClick={closeMenu}
+                      >
+                        {megaItem.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

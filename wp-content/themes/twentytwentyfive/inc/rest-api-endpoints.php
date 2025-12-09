@@ -40,6 +40,13 @@ add_action('rest_api_init', function () {
         'callback' => 'get_footer_widgets_rest',
         'permission_callback' => '__return_true'
     ]);
+
+    // Mega menu endpoint
+    register_rest_route('wp/v2', '/mega-menus', [
+        'methods' => 'GET',
+        'callback' => 'get_mega_menus_rest',
+        'permission_callback' => '__return_true'
+    ]);
 });
 
 /**
@@ -252,3 +259,36 @@ add_action('rest_api_init', function() {
         return $value;
     });
 }, 15);
+
+/**
+ * Get all mega menus
+ */
+function get_mega_menus_rest() {
+    $args = [
+        'post_type' => 'mega_menu',
+        'posts_per_page' => -1,
+        'post_status' => 'publish'
+    ];
+
+    $menus = get_posts($args);
+    $result = [];
+
+    foreach ($menus as $menu) {
+        $menu_type = get_field('menu_type', $menu->ID);
+        $main_heading = get_field('main_heading', $menu->ID);
+        $categories = get_field('menu_categories', $menu->ID);
+        $featured = get_field('featured_content', $menu->ID);
+
+        $result[] = [
+            'id' => $menu->ID,
+            'slug' => $menu->post_name,
+            'title' => $menu->post_title,
+            'menu_type' => $menu_type,
+            'main_heading' => $main_heading,
+            'categories' => $categories ?: [],
+            'featured_content' => $featured ?: null
+        ];
+    }
+
+    return rest_ensure_response($result);
+}
