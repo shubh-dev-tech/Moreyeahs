@@ -75,6 +75,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 // Optional: Generate static params for known pages
 export async function generateStaticParams() {
+  // Skip static generation if WordPress URL is not configured
+  if (!process.env.WORDPRESS_API_URL && !process.env.NEXT_PUBLIC_WORDPRESS_URL) {
+    console.warn('Skipping static page generation: WordPress URL not configured');
+    return [];
+  }
+
   const query = `
     query GetAllPages {
       pages(first: 100) {
