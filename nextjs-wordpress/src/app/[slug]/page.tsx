@@ -29,7 +29,6 @@ async function getPageData(slug: string): Promise<PageData['page']> {
     const data = await fetchGraphQL<PageData>(query, { slug });
     return data.page;
   } catch (error) {
-    console.error('Error fetching page:', error);
     return null;
   }
 }
@@ -97,7 +96,6 @@ export async function generateStaticParams() {
       slug: page.slug,
     }));
   } catch (error) {
-    console.error('Error generating static params:', error);
     return [];
   }
 }

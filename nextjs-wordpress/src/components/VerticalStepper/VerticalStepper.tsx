@@ -14,8 +14,11 @@ interface VerticalStepperProps {
 
 export default function VerticalStepper({ sections }: VerticalStepperProps) {
   const [activeSection, setActiveSection] = useState<string>('');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight / 2;
 
@@ -40,6 +43,10 @@ export default function VerticalStepper({ sections }: VerticalStepperProps) {
       section.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   };
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="vertical-stepper">

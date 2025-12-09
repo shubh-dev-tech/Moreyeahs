@@ -24,11 +24,6 @@ export default function MoreyeahsSliderBlock({ slides: slidesProp, data, ...attr
   // Handle different data structures - wrapped in useMemo to prevent recreation
   const slides = useMemo(() => slidesProp || data?.slides || attrs.slides || [], [slidesProp, data?.slides, attrs.slides]);
   
-  // Debug logging
-  if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-    console.log('MoreyeahsSliderBlock props:', { slidesProp, data, attrs, slides });
-  }
-  
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoplay, setIsAutoplay] = useState(true);
 

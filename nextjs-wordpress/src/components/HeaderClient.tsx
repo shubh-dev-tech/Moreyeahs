@@ -29,8 +29,6 @@ function MenuItems({ items, megaMenuMap }: { items: MenuItem[], megaMenuMap: Rec
         const itemTitleLower = item.title.toLowerCase().trim();
         const hasMegaMenu = megaMenuMap[itemTitleLower];
         
-        console.log('🔍 Menu item:', item.title, '| Lower:', itemTitleLower, '| Has mega menu:', !!hasMegaMenu);
-        
         return (
           <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (item.children && item.children.length > 0 ? 'has-children' : '')}>
             {hasMegaMenu ? (
@@ -76,9 +74,6 @@ export default function HeaderClient() {
         if (settingsRes.ok) {
           const settings = await settingsRes.json();
           setSiteSettings(settings);
-          console.log('✅ Site settings loaded:', settings.title);
-        } else {
-          console.error('❌ Failed to load site settings:', settingsRes.status);
         }
 
         // Fetch primary menu
@@ -86,9 +81,6 @@ export default function HeaderClient() {
         if (primaryRes.ok) {
           const menu = await primaryRes.json();
           setPrimaryMenu(menu);
-          console.log('✅ Primary menu loaded:', menu.items?.length, 'items');
-        } else {
-          console.error('❌ Failed to load primary menu:', primaryRes.status);
         }
 
         // Fetch second menu
@@ -96,9 +88,6 @@ export default function HeaderClient() {
         if (secondRes.ok) {
           const menu = await secondRes.json();
           setSecondMenu(menu);
-          console.log('✅ Second menu loaded:', menu.items?.length, 'items');
-        } else {
-          console.log('ℹ️ Second menu not found (optional)');
         }
 
         // Fetch mega menus
@@ -106,13 +95,9 @@ export default function HeaderClient() {
         if (megaMenuRes.ok) {
           const menus = await megaMenuRes.json();
           setMegaMenus(menus);
-          console.log('✅ Mega menus loaded:', menus.length, 'menus');
-          console.log('📋 Mega menu data:', JSON.stringify(menus, null, 2));
-        } else {
-          console.error('❌ Failed to load mega menus:', megaMenuRes.status);
         }
       } catch (error) {
-        console.error('❌ Error fetching header data:', error);
+        // Silently handle error
       } finally {
         setLoading(false);
       }
@@ -123,16 +108,9 @@ export default function HeaderClient() {
 
   const megaMenuMap: Record<string, MegaMenuData> = megaMenus.reduce((acc, menu) => {
     const key = menu.title.toLowerCase().trim();
-    console.log('🔑 Adding mega menu to map:', key, '→', menu.title);
     acc[key] = menu;
     return acc;
   }, {} as Record<string, MegaMenuData>);
-
-  useEffect(() => {
-    console.log('🗺️ Mega menu map keys:', Object.keys(megaMenuMap));
-    console.log('📝 Primary menu items:', primaryMenu?.items?.map(i => i.title));
-    console.log('🔢 Mega menus count:', megaMenus.length);
-  }, [megaMenus, megaMenuMap, primaryMenu]);
 
   const siteName = siteSettings?.title || process.env.NEXT_PUBLIC_SITE_NAME || 'My Site';
   const logo = siteSettings?.logo;

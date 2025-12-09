@@ -16,10 +16,8 @@ async function getHomePage() {
 
   try {
     const data = await fetchGraphQL<any>(query);
-    console.log('Homepage data:', data);
     return data.page;
   } catch (error) {
-    console.error('Error fetching home page:', error);
     return null;
   }
 }
@@ -50,6 +48,7 @@ export default async function Home() {
           {/* <h1 className="text-4xl font-bold mb-4">{page.title}</h1> */}
           <div 
             className="prose max-w-none"
+            suppressHydrationWarning
             dangerouslySetInnerHTML={{ __html: page.content }}
           />
         </div>

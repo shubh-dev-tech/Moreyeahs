@@ -31,6 +31,7 @@ export function ContentBlock({ data }: ContentBlockProps) {
         {content && (
           <div 
             className="content-block__content"
+            suppressHydrationWarning
             dangerouslySetInnerHTML={{ __html: content }}
           />
         )}

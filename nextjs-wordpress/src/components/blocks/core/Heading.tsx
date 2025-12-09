@@ -14,6 +14,7 @@ export function CoreHeading({ innerHTML, level = 2 }: CoreHeadingProps) {
   return (
     <div 
       className="prose max-w-none my-6"
+      suppressHydrationWarning
       dangerouslySetInnerHTML={{ __html: innerHTML }}
     />
   );

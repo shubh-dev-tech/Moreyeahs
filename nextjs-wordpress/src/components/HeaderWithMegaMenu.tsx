@@ -27,12 +27,10 @@ function MenuItems({ items, megaMenuMap }: { items: MenuItem[], megaMenuMap: Rec
       {items.map((item) => {
         const itemTitleLower = item.title.toLowerCase().trim();
         const hasMegaMenu = megaMenuMap[itemTitleLower];
-        
-        console.log('🔍 Menu item:', item.title, '| Lower:', itemTitleLower, '| Has mega menu:', !!hasMegaMenu);
-        console.log('🗺️ Available mega menu keys:', Object.keys(megaMenuMap));
+        const hasChildren = item.children && item.children.length > 0;
         
         return (
-          <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (item.children.length > 0 ? 'has-children' : '')}>
+          <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (hasChildren ? 'has-children' : '')}>
             {hasMegaMenu ? (
               <MegaMenu trigger={item.title} menuData={hasMegaMenu} />
             ) : (
@@ -45,7 +43,7 @@ function MenuItems({ items, megaMenuMap }: { items: MenuItem[], megaMenuMap: Rec
                   {item.title}
                 </Link>
                 
-                {item.children.length > 0 && (
+                {hasChildren && (
                   <ul className="header__submenu">
                     <MenuItems items={item.children} megaMenuMap={megaMenuMap} />
                   </ul>
@@ -62,16 +60,9 @@ function MenuItems({ items, megaMenuMap }: { items: MenuItem[], megaMenuMap: Rec
 export default function HeaderWithMegaMenu({ siteName, logo, primaryMenuItems, secondMenuItems, megaMenus }: HeaderWithMegaMenuProps) {
   const megaMenuMap: Record<string, MegaMenuData> = megaMenus.reduce((acc, menu) => {
     const key = menu.title.toLowerCase().trim();
-    console.log('🔑 Adding mega menu to map:', key, '→', menu.title);
     acc[key] = menu;
     return acc;
   }, {} as Record<string, MegaMenuData>);
-
-  useEffect(() => {
-    console.log('🗺️ Mega menu map keys:', Object.keys(megaMenuMap));
-    console.log('📝 Primary menu items:', primaryMenuItems.map(i => i.title));
-    console.log('🔢 Mega menus count:', megaMenus.length);
-  }, [megaMenus, megaMenuMap, primaryMenuItems]);
 
   return (
     <header className="header">

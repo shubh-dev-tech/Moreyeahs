@@ -47,6 +47,7 @@ export function ImageTextBlock({ data }: ImageTextBlockProps) {
             {text && (
               <div 
                 className="image-text-block__text"
+                suppressHydrationWarning
                 dangerouslySetInnerHTML={{ __html: text }}
               />
             )}

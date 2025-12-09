@@ -87,12 +87,7 @@ export function BlockRenderer({ blocks }: BlockRendererProps) {
         const BlockComponent = BLOCK_COMPONENTS[block.blockName];
 
         if (!BlockComponent) {
-          console.warn(`No component found for block: ${block.blockName}`);
-          return (
-            <div key={index} className="unsupported-block">
-              <p>Unsupported block: {block.blockName}</p>
-            </div>
-          );
+          return null;
         }
 
         const blockData = isACFBlock(block) ? block.attrs.data : block.attrs;

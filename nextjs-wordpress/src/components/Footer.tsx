@@ -20,7 +20,8 @@ function FooterColumn({ widget }: FooterColumnProps) {
       {/* Show content only if it exists and there are no links */}
       {hasContent && !hasLinks && (
         <div 
-          className="footer__content" 
+          className="footer__content"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: widget.content }}
         />
       )}
@@ -44,9 +45,8 @@ export default async function Footer() {
   
   try {
     footerData = await getFooterWidgets();
-    console.log('Footer Data:', JSON.stringify(footerData, null, 2));
   } catch (error) {
-    console.error('Error loading footer:', error);
+    // Silent error handling
   }
   
   const currentYear = new Date().getFullYear();
@@ -71,14 +71,14 @@ export default async function Footer() {
           <div className="footer__copyright-wrapper">
             <div className="footer__copyright-left">
               {footerData?.copyrightLeft ? (
-                <div dangerouslySetInnerHTML={{ __html: footerData.copyrightLeft }} />
+                <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: footerData.copyrightLeft }} />
               ) : (
                 <p>© {currentYear} All rights reserved.</p>
               )}
             </div>
             <div className="footer__copyright-right">
               {footerData?.copyrightRight ? (
-                <div dangerouslySetInnerHTML={{ __html: footerData.copyrightRight }} />
+                <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: footerData.copyrightRight }} />
               ) : (
                 <p>Powered by Next.js & WordPress</p>
               )}
