@@ -149,3 +149,47 @@ export async function getFooterWidgets(): Promise<FooterData | null> {
     return null;
   }
 }
+
+// Mega Menu API functions
+export interface MegaMenuItem {
+  title: string;
+  url: string;
+}
+
+export interface MegaMenuCategory {
+  icon?: string;
+  title: string;
+  items: MegaMenuItem[];
+}
+
+export interface MegaMenuFeaturedContent {
+  enable: boolean;
+  image?: {
+    url: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
+  title?: string;
+  description?: string;
+}
+
+export interface MegaMenuData {
+  id: number;
+  slug: string;
+  title: string;
+  menu_type: string;
+  main_heading: string;
+  categories: MegaMenuCategory[];
+  featured_content?: MegaMenuFeaturedContent;
+}
+
+export async function getMegaMenus(): Promise<MegaMenuData[]> {
+  try {
+    const menus = await fetchRestAPI('/wp/v2/mega-menus');
+    return menus;
+  } catch (error) {
+    console.error('Error fetching mega menus:', error);
+    return [];
+  }
+}

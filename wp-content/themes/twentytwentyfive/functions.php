@@ -1143,3 +1143,6 @@ require_once get_template_directory() . '/inc/acf-section-id-field.php';
 
 // Load REST API endpoints for headless WordPress
 require_once get_template_directory() . '/inc/rest-api-endpoints.php';
+
+// Load Mega Menu CPT
+require_once get_template_directory() . '/inc/mega-menu-cpt.php';
