@@ -17,14 +17,10 @@ function MenuItems({ items, megaMenuMap }: HeaderMenuProps) {
       {items.map((item) => {
         const itemTitleLower = item.title.toLowerCase();
         const hasMegaMenu = megaMenuMap[itemTitleLower];
-        
-        // Debug logging
-        if (typeof window !== 'undefined') {
-          console.log('Menu item:', item.title, 'Lower:', itemTitleLower, 'Has mega menu:', !!hasMegaMenu);
-        }
+        const hasChildren = item.children && item.children.length > 0;
         
         return (
-          <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (item.children.length > 0 ? 'has-children' : '')}>
+          <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (hasChildren ? 'has-children' : '')}>
             {hasMegaMenu ? (
               <MegaMenu trigger={item.title} menuData={hasMegaMenu} />
             ) : (
@@ -37,7 +33,7 @@ function MenuItems({ items, megaMenuMap }: HeaderMenuProps) {
                   {item.title}
                 </Link>
                 
-                {item.children.length > 0 && (
+                {hasChildren && (
                   <ul className="header__submenu">
                     <MenuItems items={item.children} megaMenuMap={megaMenuMap} />
                   </ul>
@@ -52,12 +48,6 @@ function MenuItems({ items, megaMenuMap }: HeaderMenuProps) {
 }
 
 export default function HeaderMenu({ items, megaMenuMap }: HeaderMenuProps) {
-  // Debug logging
-  if (typeof window !== 'undefined') {
-    console.log('HeaderMenu - Mega menu map keys:', Object.keys(megaMenuMap));
-    console.log('HeaderMenu - Menu items:', items.map(i => i.title));
-  }
-
   return (
     <ul className="header__menu">
       <MenuItems items={items} megaMenuMap={megaMenuMap} />

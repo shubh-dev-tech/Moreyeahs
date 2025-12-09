@@ -11,25 +11,25 @@ export default async function Header() {
   try {
     siteSettings = await getSiteSettings();
   } catch (error) {
-    console.error('Error loading site settings:', error);
+    // Silently handle error
   }
   
   try {
     primaryMenu = await getMenuByLocation('primary');
   } catch (error) {
-    console.error('Error loading primary menu:', error);
+    // Silently handle error
   }
   
   try {
     secondMenu = await getMenuByLocation('second-menu');
   } catch (error) {
-    console.error('Error loading second menu:', error);
+    // Silently handle error
   }
   
   try {
     megaMenus = await getMegaMenus();
   } catch (error) {
-    console.error('Error loading mega menus:', error);
+    // Silently handle error
   }
   
   const siteName = siteSettings?.title || process.env.NEXT_PUBLIC_SITE_NAME || 'My Site';

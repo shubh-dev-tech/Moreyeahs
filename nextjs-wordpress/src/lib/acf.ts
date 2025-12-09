@@ -29,7 +29,6 @@ export async function getPostACFFields(slug: string, postType: string = 'post'):
     const data = await fetchGraphQL<any>(query, { slug });
     return data[postType]?.acfFields || null;
   } catch (error) {
-    console.error('Error fetching ACF fields:', error);
     return null;
   }
 }
@@ -42,7 +41,6 @@ export async function getACFFieldsREST(postId: number): Promise<Record<string, a
     const data = await fetchRestAPI(`/wp/v2/posts/${postId}?_fields=acf`);
     return data.acf || null;
   } catch (error) {
-    console.error('Error fetching ACF fields via REST:', error);
     return null;
   }
 }
@@ -55,7 +53,6 @@ export async function getACFOptions(optionsPageName: string = 'options'): Promis
     const data = await fetchRestAPI(`/acf/v3/options/${optionsPageName}`);
     return data || null;
   } catch (error) {
-    console.error('Error fetching ACF options:', error);
     return null;
   }
 }

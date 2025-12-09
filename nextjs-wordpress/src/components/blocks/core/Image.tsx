@@ -40,6 +40,7 @@ export function CoreImage({ innerHTML, data }: CoreImageProps) {
   return (
     <div 
       className="my-8"
+      suppressHydrationWarning
       dangerouslySetInnerHTML={{ __html: innerHTML }}
     />
   );
