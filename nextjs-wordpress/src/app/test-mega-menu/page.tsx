@@ -1,8 +1,8 @@
 import { getMegaMenus } from '@/lib/mega-menu';
 
 export default async function TestMegaMenuPage() {
-  let megaMenus = [];
-  let error = null;
+  let megaMenus: any[] = [];
+  let error: string | null = null;
 
   try {
     megaMenus = await getMegaMenus();
@@ -49,8 +49,8 @@ export default async function TestMegaMenuPage() {
           <p>Steps to fix:</p>
           <ol>
             <li>Go to WordPress admin: <a href="http://localhost/moreyeahs-new/wp-admin" target="_blank">http://localhost/moreyeahs-new/wp-admin</a></li>
-            <li>Look for "Mega Menus" in the sidebar</li>
-            <li>Click "Add New Mega Menu"</li>
+            <li>Look for &quot;Mega Menus&quot; in the sidebar</li>
+            <li>Click &quot;Add New Mega Menu&quot;</li>
             <li>Fill in the fields and publish</li>
             <li>Refresh this page</li>
           </ol>
