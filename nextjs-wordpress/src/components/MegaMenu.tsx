@@ -80,7 +80,7 @@ export default function MegaMenu({ trigger, menuData }: MegaMenuProps) {
   return (
     <div 
       className="mega-menu-wrapper"
-      onMouseEnter={handleMouseEnterDebug}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <span className="mega-menu-trigger">{trigger}</span>
