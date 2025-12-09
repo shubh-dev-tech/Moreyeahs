@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import './styles.scss';
 
 interface IconTextGridItem {
@@ -38,10 +39,12 @@ export default function IconTextGrid({ data }: IconTextGridProps) {
               
               {item.icon && (
                 <div className="icon-text-grid__icon-wrapper">
-                  <img
+                  <Image
                     src={item.icon.url}
                     alt={item.icon.alt || item.text}
                     className="icon-text-grid__icon"
+                    width={64}
+                    height={64}
                   />
                 </div>
               )}

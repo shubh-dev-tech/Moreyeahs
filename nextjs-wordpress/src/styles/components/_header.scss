@@ -2,13 +2,15 @@
       padding-left: 40px;
     padding-right: 40px;
 }
-
+                                
 .header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  padding-left: 40px!important;
+  padding-right: 40px!important;
+  z-index: 10000;
   padding: 1.25rem 0;
   background-color: #ffffff40;
   backdrop-filter: blur(10px);
@@ -100,6 +102,23 @@
 
     > li {
       position: relative;
+
+      &.has-mega-menu {
+        position: static; // Allow mega menu to span full width
+        
+        .mega-menu-trigger::after {
+          content: ' ▾';
+          font-size: 0.75em;
+          margin-left: 0.35rem;
+          opacity: 0.6;
+          transition: transform 0.2s ease;
+          display: inline-block;
+        }
+
+        &:hover .mega-menu-trigger::after {
+          transform: rotate(180deg);
+        }
+      }
     }
 
     a {

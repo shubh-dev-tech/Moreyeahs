@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { MenuItem } from '@/types/menu';
 import MobileMenu from './MobileMenu';
+import MegaMenu, { MegaMenuData } from './MegaMenu';
 import { wpUrlToPath } from '@/lib/url-utils';
 
 interface SiteSettings {
@@ -21,26 +22,39 @@ interface Menu {
   items: MenuItem[];
 }
 
-function MenuItems({ items }: { items: MenuItem[] }) {
+function MenuItems({ items, megaMenuMap }: { items: MenuItem[], megaMenuMap: Record<string, MegaMenuData> }) {
   return (
     <>
-      {items.map((item) => (
-        <li key={item.id} className={item.children && item.children.length > 0 ? 'has-children' : ''}>
-          <Link 
-            href={wpUrlToPath(item.url)} 
-            target={item.target}
-            className={item.classes}
-          >
-            {item.title}
-          </Link>
-          
-          {item.children && item.children.length > 0 && (
-            <ul className="header__submenu">
-              <MenuItems items={item.children} />
-            </ul>
-          )}
-        </li>
-      ))}
+      {items.map((item) => {
+        const itemTitleLower = item.title.toLowerCase().trim();
+        const hasMegaMenu = megaMenuMap[itemTitleLower];
+        
+        console.log('🔍 Menu item:', item.title, '| Lower:', itemTitleLower, '| Has mega menu:', !!hasMegaMenu);
+        
+        return (
+          <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (item.children && item.children.length > 0 ? 'has-children' : '')}>
+            {hasMegaMenu ? (
+              <MegaMenu trigger={item.title} menuData={hasMegaMenu} />
+            ) : (
+              <>
+                <Link 
+                  href={wpUrlToPath(item.url)} 
+                  target={item.target}
+                  className={item.classes}
+                >
+                  {item.title}
+                </Link>
+                
+                {item.children && item.children.length > 0 && (
+                  <ul className="header__submenu">
+                    <MenuItems items={item.children} megaMenuMap={megaMenuMap} />
+                  </ul>
+                )}
+              </>
+            )}
+          </li>
+        );
+      })}
     </>
   );
 }
@@ -49,6 +63,7 @@ export default function HeaderClient() {
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
   const [primaryMenu, setPrimaryMenu] = useState<Menu | null>(null);
   const [secondMenu, setSecondMenu] = useState<Menu | null>(null);
+  const [megaMenus, setMegaMenus] = useState<MegaMenuData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -85,6 +100,17 @@ export default function HeaderClient() {
         } else {
           console.log('ℹ️ Second menu not found (optional)');
         }
+
+        // Fetch mega menus
+        const megaMenuRes = await fetch('/api/mega-menus', { cache: 'no-store' });
+        if (megaMenuRes.ok) {
+          const menus = await megaMenuRes.json();
+          setMegaMenus(menus);
+          console.log('✅ Mega menus loaded:', menus.length, 'menus');
+          console.log('📋 Mega menu data:', JSON.stringify(menus, null, 2));
+        } else {
+          console.error('❌ Failed to load mega menus:', megaMenuRes.status);
+        }
       } catch (error) {
         console.error('❌ Error fetching header data:', error);
       } finally {
@@ -94,6 +120,19 @@ export default function HeaderClient() {
 
     fetchData();
   }, []);
+
+  const megaMenuMap: Record<string, MegaMenuData> = megaMenus.reduce((acc, menu) => {
+    const key = menu.title.toLowerCase().trim();
+    console.log('🔑 Adding mega menu to map:', key, '→', menu.title);
+    acc[key] = menu;
+    return acc;
+  }, {} as Record<string, MegaMenuData>);
+
+  useEffect(() => {
+    console.log('🗺️ Mega menu map keys:', Object.keys(megaMenuMap));
+    console.log('📝 Primary menu items:', primaryMenu?.items?.map(i => i.title));
+    console.log('🔢 Mega menus count:', megaMenus.length);
+  }, [megaMenus, megaMenuMap, primaryMenu]);
 
   const siteName = siteSettings?.title || process.env.NEXT_PUBLIC_SITE_NAME || 'My Site';
   const logo = siteSettings?.logo;
@@ -136,7 +175,7 @@ export default function HeaderClient() {
           {/* Desktop Primary Menu */}
           {primaryMenuItems.length > 0 ? (
             <ul className="header__menu">
-              <MenuItems items={primaryMenuItems} />
+              <MenuItems items={primaryMenuItems} megaMenuMap={{}} />
             </ul>
           ) : (
             <ul className="header__menu">
@@ -161,6 +200,7 @@ export default function HeaderClient() {
               items={secondMenuItems}
               logo={logo || undefined}
               siteName={siteName}
+              megaMenus={megaMenus}
             />
           </div>
         </nav>
