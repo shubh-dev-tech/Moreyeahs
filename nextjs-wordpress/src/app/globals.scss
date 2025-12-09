@@ -1,1 +1,22 @@
 @import '../styles/main.scss';
+
+/* WordPress raw HTML content styling */
+.wordpress-content {
+  width: 100%;
+  
+  /* Ensure scripts and styles from WordPress are preserved */
+  script, style {
+    display: none;
+  }
+  
+  /* Basic content styling */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Preserve WordPress custom blocks and shortcodes */
+  > * {
+    width: 100%;
+  }
+}

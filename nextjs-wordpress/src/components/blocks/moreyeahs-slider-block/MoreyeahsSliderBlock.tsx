@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import './styles.scss';
 
@@ -21,8 +21,8 @@ interface MoreyeahsSliderBlockProps {
 }
 
 export default function MoreyeahsSliderBlock({ slides: slidesProp, data, ...attrs }: MoreyeahsSliderBlockProps) {
-  // Handle different data structures
-  const slides = slidesProp || data?.slides || attrs.slides || [];
+  // Handle different data structures - wrapped in useMemo to prevent recreation
+  const slides = useMemo(() => slidesProp || data?.slides || attrs.slides || [], [slidesProp, data?.slides, attrs.slides]);
   
   // Debug logging
   if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
