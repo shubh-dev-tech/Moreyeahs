@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import './styles.scss';
 
 interface InvestorItem {
@@ -69,9 +70,11 @@ export default function InvestorBlock({ data }: InvestorBlockProps) {
           <div className="investor-block__featured">
             {featured_image?.url && (
               <div className="investor-block__featured-image">
-                <img 
+                <Image 
                   src={featured_image.url} 
-                  alt={featured_image.alt || featured_title || 'Featured image'} 
+                  alt={featured_image.alt || featured_title || 'Featured image'}
+                  fill
+                  style={{ objectFit: 'cover' }}
                 />
                 <div className="investor-block__featured-overlay"></div>
                 {featured_title && (

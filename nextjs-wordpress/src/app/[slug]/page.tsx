@@ -1,6 +1,7 @@
 import { fetchGraphQL } from '@/lib/wordpress';
 import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
+import { WordPressContent } from '@/components/WordPressContent';
 import { notFound } from 'next/navigation';
 
 interface PageData {
@@ -55,6 +56,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   const blocks = parseBlocks(page.content);
+
+  // If no blocks found, render raw HTML content
+  if (blocks.length === 0 && page.content) {
+    return (
+      <main className="min-h-screen">
+        <WordPressContent content={page.content} />
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen">

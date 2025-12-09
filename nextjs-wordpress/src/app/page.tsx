@@ -33,7 +33,7 @@ export default async function Home() {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-4">Welcome to Next.js + WordPress</h1>
           <p className="text-lg text-gray-600">
-            Configure your WordPress backend and create a page with slug "home" to get started.
+            Configure your WordPress backend and create a page with slug &quot;home&quot; to get started.
           </p>
         </div>
       </main>
