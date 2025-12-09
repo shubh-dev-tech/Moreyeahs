@@ -48,12 +48,6 @@ export default function MegaMenu({ trigger, menuData }: MegaMenuProps) {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Debug logging
-  useEffect(() => {
-    console.log('MegaMenu rendered for:', trigger);
-    console.log('Menu data:', menuData);
-  }, [trigger, menuData]);
-
   const handleMouseEnter = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -82,13 +76,6 @@ export default function MegaMenu({ trigger, menuData }: MegaMenuProps) {
       }
     };
   }, []);
-
-  const handleMouseEnterDebug = () => {
-    console.log('🖱️ Mouse entered mega menu trigger:', trigger);
-    console.log('📊 Menu data:', menuData);
-    console.log('📂 Categories:', menuData.categories);
-    handleMouseEnter();
-  };
 
   return (
     <div 

@@ -36,6 +36,7 @@ export function WordPressContent({ content }: WordPressContentProps) {
     <div 
       ref={containerRef}
       className="wordpress-content"
+      suppressHydrationWarning
       dangerouslySetInnerHTML={{ __html: content }}
     />
   );

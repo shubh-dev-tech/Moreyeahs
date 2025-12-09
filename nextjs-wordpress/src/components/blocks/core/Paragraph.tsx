@@ -13,6 +13,7 @@ export function CoreParagraph({ innerHTML }: CoreParagraphProps) {
   return (
     <div 
       className="prose max-w-none my-4"
+      suppressHydrationWarning
       dangerouslySetInnerHTML={{ __html: innerHTML }}
     />
   );

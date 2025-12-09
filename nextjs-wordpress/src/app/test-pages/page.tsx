@@ -19,7 +19,6 @@ async function getAllPages() {
     const data = await fetchGraphQL<any>(query);
     return data.pages?.nodes || [];
   } catch (error) {
-    console.error('Error fetching pages:', error);
     return [];
   }
 }

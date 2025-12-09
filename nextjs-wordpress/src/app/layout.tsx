@@ -30,11 +30,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <JsonLd type="organization" />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <AuthProvider>
           <div className="site-wrapper">
             <Header />

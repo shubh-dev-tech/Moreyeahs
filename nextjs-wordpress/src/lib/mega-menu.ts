@@ -10,15 +10,12 @@ export async function getMegaMenus(): Promise<MegaMenuData[]> {
     });
 
     if (!response.ok) {
-      console.error(`Failed to fetch mega menus: ${response.status} ${response.statusText}`);
       throw new Error(`Failed to fetch mega menus: ${response.statusText}`);
     }
 
     const data = await response.json();
-    console.log('getMegaMenus - Fetched data:', data);
     return data;
   } catch (error) {
-    console.error('Error fetching mega menus:', error);
     return [];
   }
 }

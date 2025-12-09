@@ -45,7 +45,7 @@ export function parseBlocks(content: string): Block[] {
       try {
         attrs = JSON.parse(attrsString);
       } catch (e) {
-        console.warn('Failed to parse block attributes:', attrsString);
+        // Silently handle parse error
       }
     }
     

@@ -17,7 +17,7 @@ export default function JsonLd({ post, type = 'website' }: JsonLdProps) {
         try {
           return JSON.parse(post.seo.schema.raw);
         } catch (e) {
-          console.error('Failed to parse Yoast schema:', e);
+          // Silently handle parse error
         }
       }
 
