@@ -13,11 +13,21 @@ import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 export const revalidate = parseInt(process.env.REVALIDATE_TIME || '3600');
 
 export async function generateStaticParams() {
-  const data = await fetchGraphQL<PostsSlugsResponse>(GET_ALL_POSTS_SLUGS);
-  
-  return data.posts.nodes.map((post) => ({
-    slug: post.slug,
-  }));
+  // Skip static generation if WordPress URL is not configured
+  if (!process.env.WORDPRESS_API_URL && !process.env.NEXT_PUBLIC_WORDPRESS_URL) {
+    console.warn('Skipping static post generation: WordPress URL not configured');
+    return [];
+  }
+
+  try {
+    const data = await fetchGraphQL<PostsSlugsResponse>(GET_ALL_POSTS_SLUGS);
+    return data.posts.nodes.map((post) => ({
+      slug: post.slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params for posts:', error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
