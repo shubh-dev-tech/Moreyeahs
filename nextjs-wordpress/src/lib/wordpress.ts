@@ -1,20 +1,22 @@
 import { GraphQLClient } from 'graphql-request';
 
-const endpoint = process.env.WORDPRESS_API_URL || '';
+const endpoint = process.env.WORDPRESS_API_URL || process.env.NEXT_PUBLIC_WORDPRESS_URL 
+  ? `${process.env.NEXT_PUBLIC_WORDPRESS_URL}/graphql` 
+  : '';
 
-export const graphqlClient = new GraphQLClient(endpoint, {
+if (!endpoint) {
+  console.warn('Warning: WORDPRESS_API_URL is not configured. GraphQL requests will fail.');
+}
+
+export const graphqlClient = endpoint ? new GraphQLClient(endpoint, {
   headers: {
     'Content-Type': 'application/json',
   },
-});
+}) : null;
 
 export async function fetchGraphQL<T>(query: string, variables?: Record<string, any>): Promise<T> {
-  // Check if endpoint is configured
-  if (!endpoint) {
-    if (process.env.NODE_ENV === 'development') {
-      console.warn('GraphQL endpoint not configured');
-    }
-    throw new Error('GraphQL endpoint not configured');
+  if (!graphqlClient) {
+    throw new Error('GraphQL client is not configured. Please set WORDPRESS_API_URL or NEXT_PUBLIC_WORDPRESS_URL environment variable.');
   }
   
   try {
