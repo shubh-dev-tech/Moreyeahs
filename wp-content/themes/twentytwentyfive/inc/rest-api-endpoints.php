@@ -47,6 +47,34 @@ add_action('rest_api_init', function () {
         'callback' => 'get_mega_menus_rest',
         'permission_callback' => '__return_true'
     ]);
+
+    // Pages with ACF blocks endpoint
+    register_rest_route('wp/v2', '/pages-with-blocks/(?P<slug>[a-zA-Z0-9-_]+)', [
+        'methods' => 'GET',
+        'callback' => 'get_page_with_acf_blocks_rest',
+        'permission_callback' => '__return_true'
+    ]);
+
+    // Debug endpoint for ACF blocks
+    register_rest_route('wp/v2', '/debug-acf/(?P<slug>[a-zA-Z0-9-_]+)', [
+        'methods' => 'GET',
+        'callback' => 'debug_acf_blocks_rest',
+        'permission_callback' => '__return_true'
+    ]);
+
+    // Simple ACF test endpoint
+    register_rest_route('wp/v2', '/test-acf/(?P<page_id>\d+)', [
+        'methods' => 'GET',
+        'callback' => 'test_acf_data_rest',
+        'permission_callback' => '__return_true'
+    ]);
+
+    // Test image expansion endpoint
+    register_rest_route('wp/v2', '/test-image/(?P<image_id>\d+)', [
+        'methods' => 'GET',
+        'callback' => 'test_image_expansion_rest',
+        'permission_callback' => '__return_true'
+    ]);
 });
 
 /**
@@ -291,4 +319,250 @@ function get_mega_menus_rest() {
     }
 
     return rest_ensure_response($result);
+}
+
+/**
+ * Helper function to expand image field data
+ */
+function expand_image_field($image_id) {
+    if (!$image_id || !is_numeric($image_id)) {
+        return null;
+    }
+    
+    $attachment = get_post($image_id);
+    if (!$attachment || $attachment->post_type !== 'attachment') {
+        return null;
+    }
+    
+    $image_data = wp_get_attachment_image_src($image_id, 'full');
+    if (!$image_data) {
+        return null;
+    }
+    
+    return [
+        'id' => $image_id,
+        'url' => $image_data[0],
+        'width' => $image_data[1],
+        'height' => $image_data[2],
+        'alt' => get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: '',
+        'title' => $attachment->post_title,
+        'caption' => $attachment->post_excerpt,
+        'description' => $attachment->post_content,
+        'mime_type' => $attachment->post_mime_type,
+        'sizes' => [
+            'thumbnail' => wp_get_attachment_image_src($image_id, 'thumbnail'),
+            'medium' => wp_get_attachment_image_src($image_id, 'medium'),
+            'large' => wp_get_attachment_image_src($image_id, 'large'),
+            'full' => $image_data
+        ]
+    ];
+}
+
+/**
+ * Helper function to get ACF block data
+ */
+function get_acf_block_data($block, $page_id) {
+    // Method 1: Check if data is already in block attributes (most common for ACF blocks)
+    if (isset($block['attrs']['data']) && is_array($block['attrs']['data']) && !empty($block['attrs']['data'])) {
+        $data = $block['attrs']['data'];
+        
+        // Expand image fields if they are just IDs
+        foreach ($data as $key => $value) {
+            if (is_numeric($value) && strpos($key, 'image') !== false) {
+                $expanded_image = expand_image_field($value);
+                if ($expanded_image) {
+                    $data[$key] = $expanded_image;
+                }
+            }
+        }
+        
+        return $data;
+    }
+    
+    // Method 2: Try to get ACF fields using various approaches
+    $acf_data = [];
+    
+    // Get field groups for this block type
+    $field_groups = acf_get_field_groups(['block' => $block['blockName']]);
+    
+    if (!empty($field_groups)) {
+        $field_group = $field_groups[0];
+        $fields = acf_get_fields($field_group['key']);
+        
+        if ($fields) {
+            foreach ($fields as $field) {
+                $field_name = $field['name'];
+                $field_key = $field['key'];
+                $field_type = $field['type'];
+                $value = null;
+                
+                // Try to get from post meta using field key
+                $meta_value = get_post_meta($page_id, $field_key, true);
+                if ($meta_value !== '' && $meta_value !== false) {
+                    $value = $meta_value;
+                } else {
+                    // Try with field name
+                    $meta_value = get_post_meta($page_id, $field_name, true);
+                    if ($meta_value !== '' && $meta_value !== false) {
+                        $value = $meta_value;
+                    }
+                }
+                
+                // Use ACF get_field function as fallback
+                if ($value === null) {
+                    $value = get_field($field_name, $page_id);
+                }
+                
+                // Special handling for image fields
+                if ($field_type === 'image' && is_numeric($value)) {
+                    $expanded_image = expand_image_field($value);
+                    if ($expanded_image) {
+                        $value = $expanded_image;
+                    }
+                }
+                
+                // Store the value if we found something valid
+                if ($value !== null && $value !== '' && $value !== false) {
+                    $acf_data[$field_name] = $value;
+                }
+            }
+        }
+    }
+    
+    return $acf_data;
+}
+
+/**
+ * Get page with ACF blocks data
+ */
+function get_page_with_acf_blocks_rest($request) {
+    $slug = $request['slug'];
+    
+    // Get page by slug
+    $page = get_page_by_path($slug);
+    
+    if (!$page) {
+        return new WP_Error('page_not_found', 'Page not found', ['status' => 404]);
+    }
+    
+    // Parse blocks from content
+    $blocks = parse_blocks($page->post_content);
+    $processed_blocks = [];
+    
+    foreach ($blocks as $block) {
+        if (empty($block['blockName'])) {
+            continue;
+        }
+        
+        $processed_block = [
+            'blockName' => $block['blockName'],
+            'attrs' => $block['attrs'],
+            'innerHTML' => $block['innerHTML'],
+            'innerContent' => $block['innerContent'],
+            'innerBlocks' => $block['innerBlocks']
+        ];
+        
+        // If it's an ACF block, preserve or get the ACF data
+        if (strpos($block['blockName'], 'acf/') === 0) {
+            // Check if data is already present in the block (from WordPress block parsing)
+            if (isset($block['attrs']['data']) && !empty($block['attrs']['data'])) {
+                // Data is already there, keep it as-is
+                $processed_block['attrs']['data'] = $block['attrs']['data'];
+                
+
+            } else {
+                // No data in block, try to get it using helper function
+                $acf_data = get_acf_block_data($block, $page->ID);
+                $processed_block['attrs']['data'] = $acf_data;
+                
+
+            }
+        }
+        
+        $processed_blocks[] = $processed_block;
+    }
+    
+    $result = [
+        'id' => $page->ID,
+        'title' => $page->post_title,
+        'slug' => $page->post_name,
+        'content' => $page->post_content,
+        'blocks' => $processed_blocks
+    ];
+    
+    return rest_ensure_response($result);
+}
+
+/**
+ * Debug ACF blocks data
+ */
+function debug_acf_blocks_rest($request) {
+    $slug = $request['slug'];
+    
+    // Get page by slug
+    $page = get_page_by_path($slug);
+    
+    if (!$page) {
+        return new WP_Error('page_not_found', 'Page not found', ['status' => 404]);
+    }
+    
+    $debug_info = [
+        'page_id' => $page->ID,
+        'page_title' => $page->post_title,
+        'page_slug' => $page->post_name,
+        'acf_version' => defined('ACF_VERSION') ? ACF_VERSION : 'Not installed',
+        'all_page_fields' => get_fields($page->ID),
+        'page_meta' => get_post_meta($page->ID),
+        'blocks_raw' => parse_blocks($page->post_content),
+        'field_groups' => acf_get_field_groups(['post_id' => $page->ID]),
+        'moreyeahs_service_field_groups' => acf_get_field_groups(['block' => 'acf/moreyeahs-service-block'])
+    ];
+    
+    return rest_ensure_response($debug_info);
+}
+/**
+ * Test ACF data directly
+ */
+function test_acf_data_rest($request) {
+    $page_id = intval($request['page_id']);
+    
+    $page = get_post($page_id);
+    if (!$page) {
+        return new WP_Error('page_not_found', 'Page not found', ['status' => 404]);
+    }
+    
+    $test_data = [
+        'page_id' => $page_id,
+        'page_title' => $page->post_title,
+        'acf_version' => defined('ACF_VERSION') ? ACF_VERSION : 'Not installed',
+        'get_fields_result' => get_fields($page_id),
+        'post_meta_all' => get_post_meta($page_id),
+        'specific_field_tests' => [
+            'heading' => get_field('heading', $page_id),
+            'subheading' => get_field('subheading', $page_id),
+            'service_sections' => get_field('service_sections', $page_id),
+        ],
+        'field_groups_for_page' => acf_get_field_groups(['post_id' => $page_id]),
+        'field_groups_for_block' => acf_get_field_groups(['block' => 'acf/moreyeahs-service-block']),
+    ];
+    
+    return rest_ensure_response($test_data);
+}
+
+/**
+ * Test image expansion function
+ */
+function test_image_expansion_rest($request) {
+    $image_id = intval($request['image_id']);
+    
+    $test_data = [
+        'image_id' => $image_id,
+        'expanded_image' => expand_image_field($image_id),
+        'wp_get_attachment_image_src' => wp_get_attachment_image_src($image_id, 'full'),
+        'get_post' => get_post($image_id),
+        'attachment_url' => wp_get_attachment_url($image_id),
+        'attachment_metadata' => wp_get_attachment_metadata($image_id),
+    ];
+    
+    return rest_ensure_response($test_data);
 }

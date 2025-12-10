@@ -10,10 +10,31 @@ interface PageData {
     title: string;
     content: string;
     slug: string;
+    blocks?: any[];
   } | null;
 }
 
 async function getPageData(slug: string): Promise<PageData['page']> {
+  // Try the new REST API endpoint for pages with ACF blocks first
+  try {
+    const apiUrl = `${process.env.WORDPRESS_REST_API_URL}/wp/v2/pages-with-blocks/${slug}`;
+    const response = await fetch(apiUrl);
+    
+    if (response.ok) {
+      const data = await response.json();
+      return {
+        id: data.id.toString(),
+        title: data.title,
+        content: data.content,
+        slug: data.slug,
+        blocks: data.blocks
+      };
+    }
+  } catch (error) {
+    console.log('REST API failed, falling back to GraphQL');
+  }
+
+  // Fallback to GraphQL
   const query = `
     query GetPage($slug: ID!) {
       page(id: $slug, idType: URI) {
@@ -54,7 +75,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
     notFound();
   }
 
-  const blocks = parseBlocks(page.content);
+  // Use blocks from API if available, otherwise parse from content
+  const blocks = page.blocks && page.blocks.length > 0 
+    ? page.blocks 
+    : parseBlocks(page.content);
 
   // If no blocks found, render raw HTML content
   if (blocks.length === 0 && page.content) {

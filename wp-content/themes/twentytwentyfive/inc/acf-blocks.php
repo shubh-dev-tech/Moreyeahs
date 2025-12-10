@@ -378,6 +378,80 @@ function twentytwentyfive_register_acf_blocks() {
                 ),
             ),
         ),
+        
+        // More Years Service Block
+        array(
+            'name'              => 'moreyeahs-service-block',
+            'title'             => __('More Years Service', 'twentytwentyfive'),
+            'description'       => __('A service block with heading, subheading, and repeatable service sections with borders', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'grid-view',
+            'keywords'          => array('moreyeahs', 'service', 'offerings', 'sections', 'links'),
+            'render_template'   => 'blocks/moreyeahs-service-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/moreyeahs-service-block/style.css',
+            'enqueue_script'    => get_template_directory_uri() . '/blocks/moreyeahs-service-block/script.js',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'         => 'Our Offerings',
+                        'subheading'      => 'Enterprise Agile DevOps capabilities and solutions to help clients succeed',
+                        'service_sections' => array(
+                            array(
+                                'service_heading'     => 'Explore Solutions',
+                                'service_heading_url' => '#',
+                                'services'            => array(
+                                    array(
+                                        'service_name' => 'Infosys DevSecOps Platform',
+                                        'service_url'  => '#',
+                                    ),
+                                    array(
+                                        'service_name' => 'Infosys Live Enterprise Application Management Platform',
+                                        'service_url'  => '#',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        
+        // More Years Content Block
+        array(
+            'name'              => 'moreyeahs-content-block',
+            'title'             => __('More Years Content', 'twentytwentyfive'),
+            'description'       => __('A content block with heading, description, image, and CTA button', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'align-left',
+            'keywords'          => array('moreyeahs', 'content', 'image', 'text', 'cta', 'button'),
+            'render_template'   => 'blocks/moreyeahs-content-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/moreyeahs-content-block/style.css',
+            'enqueue_script'    => get_template_directory_uri() . '/blocks/moreyeahs-content-block/script.js',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'     => 'Infosys Blockchain Technology Services for Enterprises',
+                        'description' => 'Infosys is helping clients create reliable, trusted and sustainable ecosystems for their businesses. We are driving enterprise wide adoption of blockchain-powered business networks across industries by building meaningful commercial/incentive models for all stakeholders in the ecosystem.',
+                        'button_text' => 'READ MORE',
+                        'button_url'  => '#',
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block

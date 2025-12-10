@@ -1,0 +1,197 @@
+/**
+ * More Years Service Block Styles
+ * 
+ * Styles for the service block with heading, subheading, and repeatable service sections
+ * Matches the design from the provided image
+ */
+
+.moreyeahs-service {
+    padding: 60px 0;
+    background: #fff;
+}
+
+.moreyeahs-service__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.moreyeahs-service__heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 16px;
+    color: #1a1a1a;
+    line-height: 1.2;
+}
+
+.moreyeahs-service__subheading {
+    font-size: 1.125rem;
+    text-align: center;
+    margin-bottom: 60px;
+    color: #666;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.moreyeahs-service__sections {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.moreyeahs-service__section {
+    padding: 40px 0;
+}
+
+.moreyeahs-service__section--bordered {
+    border-top: 1px solid #ddd;
+    margin-top: 0;
+    padding-top: 40px;
+}
+
+.moreyeahs-service__section-header {
+    margin-bottom: 30px;
+}
+
+.moreyeahs-service__section-heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: #1a1a1a;
+    line-height: 1.3;
+}
+
+.moreyeahs-service__section-link {
+    color: #1a1a1a;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    display: inline-block;
+}
+
+.moreyeahs-service__section-link:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.moreyeahs-service__services {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 40px;
+    margin-top: 0;
+}
+
+.moreyeahs-service__service-item {
+    padding: 0;
+    border-bottom: none;
+}
+
+.moreyeahs-service__service-link {
+    color: #1a1a1a;
+    text-decoration: underline;
+    font-size: 0.95rem;
+    font-weight: normal;
+    transition: color 0.3s ease;
+    display: inline-block;
+    line-height: 1.4;
+}
+
+.moreyeahs-service__service-link:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.moreyeahs-service__service-link::before {
+    display: none;
+}
+
+.moreyeahs-service__service-text {
+    color: #1a1a1a;
+    font-size: 0.95rem;
+    font-weight: normal;
+    text-decoration: underline;
+    line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .moreyeahs-service {
+        padding: 40px 0;
+    }
+    
+    .moreyeahs-service__heading {
+        font-size: 2rem;
+        margin-bottom: 12px;
+    }
+    
+    .moreyeahs-service__subheading {
+        font-size: 1rem;
+        margin-bottom: 40px;
+    }
+    
+    .moreyeahs-service__section-heading {
+        font-size: 1.25rem;
+    }
+    
+    .moreyeahs-service__services {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px 20px;
+    }
+    
+    .moreyeahs-service__container {
+        padding: 0 16px;
+    }
+    
+    .moreyeahs-service__section {
+        padding: 30px 0;
+    }
+    
+    .moreyeahs-service__section--bordered {
+        padding-top: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .moreyeahs-service__heading {
+        font-size: 1.75rem;
+    }
+    
+    .moreyeahs-service__section-heading {
+        font-size: 1.125rem;
+    }
+    
+    .moreyeahs-service__services {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .moreyeahs-service__service-link,
+    .moreyeahs-service__service-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .moreyeahs-service {
+        padding: 20px 0;
+    }
+    
+    .moreyeahs-service__service-link {
+        color: #000 !important;
+        text-decoration: underline !important;
+    }
+    
+    .moreyeahs-service__service-link::after {
+        content: ' (' attr(href) ')';
+        font-size: 0.8em;
+        color: #666;
+    }
+    
+    .moreyeahs-service__service-link::before {
+        display: none;
+    }
+}
