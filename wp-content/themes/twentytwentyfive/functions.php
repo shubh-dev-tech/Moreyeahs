@@ -616,6 +616,7 @@ if ( ! function_exists( 'twentytwentyfive_expose_slider_to_graphql' ) ) :
 	 */
 	function twentytwentyfive_expose_slider_to_graphql( $allowed_blocks ) {
 		$allowed_blocks[] = 'moreyeahs/slider';
+		$allowed_blocks[] = 'acf/moreyeahs-service-block';
 		return $allowed_blocks;
 	}
 endif;

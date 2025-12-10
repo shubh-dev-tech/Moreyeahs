@@ -24,6 +24,8 @@ import InvestorBlock from './investor-block/InvestorBlock';
 import TestimonialBlock from './testimonial-block/TestimonialBlock';
 import NavigationNextBlock from './navigation-next-block/NavigationNextBlock';
 import StepperBlock from './stepper-block/StepperBlock';
+import MoreyeahsServiceBlock from './moreyeahs-service-block';
+import MoreyeahsContentBlock from './moreyeahs-content-block/MoreyeahsContentBlock';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
@@ -51,6 +53,8 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/testimonial-block': TestimonialBlock,
   'acf/navigation-next-block': NavigationNextBlock,
   'acf/stepper-block': StepperBlock,
+  'acf/moreyeahs-service-block': MoreyeahsServiceBlock,
+  'acf/moreyeahs-content-block': MoreyeahsContentBlock,
   
   // Custom Blocks (without ACF)
   'moreyeahs/slider': MoreyeahsSliderBlock,
@@ -91,6 +95,8 @@ export function BlockRenderer({ blocks }: BlockRendererProps) {
         }
 
         const blockData = isACFBlock(block) ? block.attrs.data : block.attrs;
+        
+
         
         // Get section ID from block anchor attribute or fallback to default mapping
         const sectionId = block.attrs?.anchor || BLOCK_SECTION_IDS[block.blockName];
