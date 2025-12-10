@@ -114,7 +114,7 @@ export default function TestContentBlockPage() {
         </p>
         <ol style={{ color: '#856404' }}>
           <li>Import the ACF field group in WordPress admin</li>
-          <li>Add the "More Years Content" block to a WordPress page</li>
+          <li>Add the &quot;More Years Content&quot; block to a WordPress page</li>
           <li>Fill in the block fields and publish the page</li>
           <li>The NextJS frontend will then render the block automatically</li>
         </ol>

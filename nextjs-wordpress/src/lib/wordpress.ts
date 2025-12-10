@@ -23,6 +23,10 @@ export async function fetchGraphQL<T>(query: string, variables?: Record<string, 
     const data = await graphqlClient.request<T>(query, variables);
     return data;
   } catch (error) {
+    // Only log in development to avoid console spam
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('GraphQL Error:', error instanceof Error ? error.message : 'Unknown error');
+    }
     throw error;
   }
 }
@@ -30,6 +34,14 @@ export async function fetchGraphQL<T>(query: string, variables?: Record<string, 
 export async function fetchRestAPI(endpoint: string) {
   // Get base URL from environment
   let baseUrl = process.env.WORDPRESS_REST_API_URL || process.env.NEXT_PUBLIC_WORDPRESS_URL || '';
+  
+  // If no base URL is configured, return null instead of throwing
+  if (!baseUrl) {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('WordPress API URL not configured');
+    }
+    return null;
+  }
   
   // If baseUrl doesn't end with /wp-json, add it
   if (!baseUrl.includes('/wp-json')) {
@@ -44,21 +56,36 @@ export async function fetchRestAPI(endpoint: string) {
   const url = `${baseUrl}${endpoint}`;
   
   try {
+    // Add timeout to prevent hanging requests
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    
     const response = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
       cache: 'no-store',
-      next: { revalidate: 0 }
+      signal: controller.signal,
     });
     
+    clearTimeout(timeoutId);
+    
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
     }
     
     const data = await response.json();
     return data;
   } catch (error) {
+    // Only log in development to avoid console spam
+    if (process.env.NODE_ENV === 'development') {
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.warn(`WordPress API timeout for ${url}`);
+      } else {
+        console.warn(`WordPress API Error for ${url}:`, error instanceof Error ? error.message : 'Unknown error');
+      }
+    }
     throw error;
   }
 }
@@ -122,7 +149,7 @@ export interface FooterWidget {
   id: string;
   title: string;
   content: string;
-  links?: Array<{
+  links: Array<{
     label: string;
     url: string;
   }>;
