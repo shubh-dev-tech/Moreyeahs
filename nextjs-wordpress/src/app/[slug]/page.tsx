@@ -1,55 +1,24 @@
-import { fetchGraphQL } from '@/lib/wordpress';
+import { fetchWordPressAPI } from '@/lib/wordpress';
 import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WordPressContent } from '@/components/WordPressContent';
 import { notFound } from 'next/navigation';
 
 interface PageData {
-  page: {
-    id: string;
-    title: string;
-    content: string;
-    slug: string;
-    blocks?: any[];
-  } | null;
+  id: number;
+  title: string;
+  content: string;
+  slug: string;
+  blocks?: any[];
 }
 
-async function getPageData(slug: string): Promise<PageData['page']> {
-  // Try the new REST API endpoint for pages with ACF blocks first
+async function getPageData(slug: string): Promise<PageData | null> {
   try {
-    const apiUrl = `${process.env.WORDPRESS_REST_API_URL}/wp/v2/pages-with-blocks/${slug}`;
-    const response = await fetch(apiUrl);
-    
-    if (response.ok) {
-      const data = await response.json();
-      return {
-        id: data.id.toString(),
-        title: data.title,
-        content: data.content,
-        slug: data.slug,
-        blocks: data.blocks
-      };
-    }
+    // Use the custom REST API endpoint for pages with ACF blocks
+    const data = await fetchWordPressAPI<PageData>(`/wp/v2/pages-with-blocks/${slug}`);
+    return data;
   } catch (error) {
-    console.log('REST API failed, falling back to GraphQL');
-  }
-
-  // Fallback to GraphQL
-  const query = `
-    query GetPage($slug: ID!) {
-      page(id: $slug, idType: URI) {
-        id
-        title
-        content
-        slug
-      }
-    }
-  `;
-
-  try {
-    const data = await fetchGraphQL<PageData>(query, { slug });
-    return data.page;
-  } catch (error) {
+    console.error('Error fetching page data:', error);
     return null;
   }
 }
@@ -98,25 +67,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 // Optional: Generate static params for known pages
 export async function generateStaticParams() {
-  // Skip static generation if WordPress URL is not configured
-  if (!process.env.WORDPRESS_API_URL && !process.env.NEXT_PUBLIC_WORDPRESS_URL) {
-    console.warn('Skipping static page generation: WordPress URL not configured');
-    return [];
-  }
-
-  const query = `
-    query GetAllPages {
-      pages(first: 100) {
-        nodes {
-          slug
-        }
-      }
-    }
-  `;
-
   try {
-    const data = await fetchGraphQL<{ pages: { nodes: { slug: string }[] } }>(query);
-    return data.pages.nodes.map((page) => ({
+    const pages = await fetchWordPressAPI<Array<{ slug: string }>>('/wp/v2/pages?per_page=100');
+    return pages.map((page) => ({
       slug: page.slug,
     }));
   } catch (error) {

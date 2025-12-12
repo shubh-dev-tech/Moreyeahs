@@ -83,6 +83,10 @@
     }
   }
 
+  &__bg-img {
+    object-fit: cover !important;
+  }
+
   &__main-content:hover &__background img {
     transform: scale(1.1);
   }
@@ -156,6 +160,11 @@
       border-radius: 50%;
       object-fit: cover;
     }
+  }
+
+  &__author-img {
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   &__content {

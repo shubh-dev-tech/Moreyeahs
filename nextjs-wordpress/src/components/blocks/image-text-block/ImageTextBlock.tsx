@@ -12,8 +12,8 @@ interface ImageTextBlockProps {
     image?: {
       url: string;
       alt: string;
-      width: number;
-      height: number;
+      width?: number;
+      height?: number;
     };
     heading?: string;
     text?: string;
@@ -31,13 +31,15 @@ export function ImageTextBlock({ data }: ImageTextBlockProps) {
       <div className="image-text-block__container">
         <div className="image-text-block__grid">
           <div className="image-text-block__image-wrapper">
-            {image && (
+            {image?.url && (
               <div className="image-text-block__image">
                 <Image
                   src={image.url}
                   alt={image.alt || ''}
                   fill
                   className="image-text-block__img"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  quality={85}
                 />
               </div>
             )}
@@ -57,3 +59,4 @@ export function ImageTextBlock({ data }: ImageTextBlockProps) {
     </section>
   );
 }
+

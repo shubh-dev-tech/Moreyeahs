@@ -75,6 +75,20 @@ add_action('rest_api_init', function () {
         'callback' => 'test_image_expansion_rest',
         'permission_callback' => '__return_true'
     ]);
+
+    // Debug endpoint for navigation-next-block transformation
+    register_rest_route('wp/v2', '/test-navigation-transform', [
+        'methods' => 'GET',
+        'callback' => 'test_navigation_transform_rest',
+        'permission_callback' => '__return_true'
+    ]);
+
+    // Debug endpoint for full-width-left-text-section block
+    register_rest_route('wp/v2', '/test-full-width-block/(?P<page_id>\d+)', [
+        'methods' => 'GET',
+        'callback' => 'test_full_width_block_rest',
+        'permission_callback' => '__return_true'
+    ]);
 });
 
 /**
@@ -339,23 +353,97 @@ function expand_image_field($image_id) {
         return null;
     }
     
+    // Get different sizes
+    $thumbnail = wp_get_attachment_image_src($image_id, 'thumbnail');
+    $medium = wp_get_attachment_image_src($image_id, 'medium');
+    $large = wp_get_attachment_image_src($image_id, 'large');
+    
     return [
-        'id' => $image_id,
+        'id' => intval($image_id),
         'url' => $image_data[0],
-        'width' => $image_data[1],
-        'height' => $image_data[2],
+        'width' => intval($image_data[1]),
+        'height' => intval($image_data[2]),
         'alt' => get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: '',
-        'title' => $attachment->post_title,
-        'caption' => $attachment->post_excerpt,
-        'description' => $attachment->post_content,
-        'mime_type' => $attachment->post_mime_type,
+        'title' => $attachment->post_title ?: '',
+        'caption' => $attachment->post_excerpt ?: '',
+        'description' => $attachment->post_content ?: '',
+        'mime_type' => $attachment->post_mime_type ?: '',
         'sizes' => [
-            'thumbnail' => wp_get_attachment_image_src($image_id, 'thumbnail'),
-            'medium' => wp_get_attachment_image_src($image_id, 'medium'),
-            'large' => wp_get_attachment_image_src($image_id, 'large'),
-            'full' => $image_data
+            'thumbnail' => $thumbnail ? [
+                'url' => $thumbnail[0],
+                'width' => intval($thumbnail[1]),
+                'height' => intval($thumbnail[2])
+            ] : null,
+            'medium' => $medium ? [
+                'url' => $medium[0],
+                'width' => intval($medium[1]),
+                'height' => intval($medium[2])
+            ] : null,
+            'large' => $large ? [
+                'url' => $large[0],
+                'width' => intval($large[1]),
+                'height' => intval($large[2])
+            ] : null,
+            'full' => [
+                'url' => $image_data[0],
+                'width' => intval($image_data[1]),
+                'height' => intval($image_data[2])
+            ]
         ]
     ];
+}
+
+/**
+ * Transform navigation-next-block flattened data to structured array
+ */
+function transform_navigation_next_block_data($data) {
+    // Transform regions
+    if (isset($data['regions']) && is_numeric($data['regions'])) {
+        $regions_count = intval($data['regions']);
+        $regions = [];
+        
+        for ($i = 0; $i < $regions_count; $i++) {
+            $name_key = "regions_{$i}_name";
+            $link_key = "regions_{$i}_link";
+            
+            if (isset($data[$name_key])) {
+                $region = [
+                    'name' => $data[$name_key]
+                ];
+                
+                if (isset($data[$link_key]) && !empty($data[$link_key])) {
+                    $region['link'] = $data[$link_key];
+                }
+                
+                $regions[] = $region;
+            }
+        }
+        
+        $data['regions'] = $regions;
+        
+        // Clean up flattened keys
+        for ($i = 0; $i < $regions_count; $i++) {
+            unset($data["regions_{$i}_name"]);
+            unset($data["regions_{$i}_link"]);
+            unset($data["_regions_{$i}_name"]);
+            unset($data["_regions_{$i}_link"]);
+        }
+    }
+    // Handle regions array that's already structured (ensure it's properly formatted)
+    elseif (isset($data['regions']) && is_array($data['regions'])) {
+        // Regions are already structured, no transformation needed
+        // Just ensure each region has the required fields
+        foreach ($data['regions'] as $index => $region) {
+            if (!isset($region['name'])) {
+                // Remove invalid regions
+                unset($data['regions'][$index]);
+            }
+        }
+        // Re-index array to remove gaps
+        $data['regions'] = array_values($data['regions']);
+    }
+    
+    return $data;
 }
 
 /**
@@ -374,6 +462,22 @@ function get_acf_block_data($block, $page_id) {
                     $data[$key] = $expanded_image;
                 }
             }
+        }
+        
+        // Special handling for full-width-left-text-section block
+        if (isset($block['blockName']) && $block['blockName'] === 'acf/full-width-left-text-section') {
+            // Ensure right_image field is properly expanded
+            if (isset($data['right_image']) && is_numeric($data['right_image'])) {
+                $expanded_image = expand_image_field($data['right_image']);
+                if ($expanded_image) {
+                    $data['right_image'] = $expanded_image;
+                }
+            }
+        }
+        
+        // Special handling for navigation-next-block to transform flattened data structure
+        if (isset($block['blockName']) && $block['blockName'] === 'acf/navigation-next-block') {
+            $data = transform_navigation_next_block_data($data);
         }
         
         return $data;
@@ -414,10 +518,32 @@ function get_acf_block_data($block, $page_id) {
                 }
                 
                 // Special handling for image fields
-                if ($field_type === 'image' && is_numeric($value)) {
-                    $expanded_image = expand_image_field($value);
-                    if ($expanded_image) {
-                        $value = $expanded_image;
+                if ($field_type === 'image') {
+                    if (is_numeric($value)) {
+                        // Image stored as ID
+                        $expanded_image = expand_image_field($value);
+                        if ($expanded_image) {
+                            $value = $expanded_image;
+                        }
+                    } elseif (is_array($value) && isset($value['ID'])) {
+                        // Image already expanded by ACF but ensure consistent format
+                        $expanded_image = expand_image_field($value['ID']);
+                        if ($expanded_image) {
+                            $value = $expanded_image;
+                        }
+                    } elseif (is_array($value) && isset($value['url'])) {
+                        // Image already in array format, keep as is but ensure consistent structure
+                        $value = [
+                            'id' => intval($value['id'] ?? 0),
+                            'url' => $value['url'],
+                            'width' => intval($value['width'] ?? 0),
+                            'height' => intval($value['height'] ?? 0),
+                            'alt' => $value['alt'] ?? '',
+                            'title' => $value['title'] ?? '',
+                            'caption' => $value['caption'] ?? '',
+                            'description' => $value['description'] ?? '',
+                            'mime_type' => $value['mime_type'] ?? '',
+                        ];
                     }
                 }
                 
@@ -449,38 +575,54 @@ function get_page_with_acf_blocks_rest($request) {
     $blocks = parse_blocks($page->post_content);
     $processed_blocks = [];
     
-    foreach ($blocks as $block) {
-        if (empty($block['blockName'])) {
-            continue;
-        }
+    // Helper function to process blocks recursively
+    function process_blocks_recursive($blocks, $page_id) {
+        $processed_blocks = [];
         
-        $processed_block = [
-            'blockName' => $block['blockName'],
-            'attrs' => $block['attrs'],
-            'innerHTML' => $block['innerHTML'],
-            'innerContent' => $block['innerContent'],
-            'innerBlocks' => $block['innerBlocks']
-        ];
-        
-        // If it's an ACF block, preserve or get the ACF data
-        if (strpos($block['blockName'], 'acf/') === 0) {
-            // Check if data is already present in the block (from WordPress block parsing)
-            if (isset($block['attrs']['data']) && !empty($block['attrs']['data'])) {
-                // Data is already there, keep it as-is
-                $processed_block['attrs']['data'] = $block['attrs']['data'];
-                
-
-            } else {
-                // No data in block, try to get it using helper function
-                $acf_data = get_acf_block_data($block, $page->ID);
-                $processed_block['attrs']['data'] = $acf_data;
-                
-
+        foreach ($blocks as $block) {
+            if (empty($block['blockName'])) {
+                continue;
             }
+            
+            $processed_block = [
+                'blockName' => $block['blockName'],
+                'attrs' => $block['attrs'],
+                'innerHTML' => $block['innerHTML'],
+                'innerContent' => $block['innerContent'],
+                'innerBlocks' => []
+            ];
+            
+            // Process inner blocks recursively
+            if (!empty($block['innerBlocks'])) {
+                $processed_block['innerBlocks'] = process_blocks_recursive($block['innerBlocks'], $page_id);
+            }
+            
+            // If it's an ACF block, preserve or get the ACF data
+            if (strpos($block['blockName'], 'acf/') === 0) {
+                // Check if data is already present in the block (from WordPress block parsing)
+                if (isset($block['attrs']['data']) && !empty($block['attrs']['data'])) {
+                    // Data is already there, process it with our helper function
+                    $processed_block['attrs']['data'] = get_acf_block_data($block, $page_id);
+                    
+                    // Apply transformations for specific block types
+                    if ($block['blockName'] === 'acf/navigation-next-block') {
+                        $processed_block['attrs']['data'] = transform_navigation_next_block_data($processed_block['attrs']['data']);
+                    }
+
+                } else {
+                    // No data in block, try to get it using helper function
+                    $acf_data = get_acf_block_data($block, $page_id);
+                    $processed_block['attrs']['data'] = $acf_data;
+                }
+            }
+            
+            $processed_blocks[] = $processed_block;
         }
         
-        $processed_blocks[] = $processed_block;
+        return $processed_blocks;
     }
+    
+    $processed_blocks = process_blocks_recursive($blocks, $page->ID);
     
     $result = [
         'id' => $page->ID,
@@ -565,4 +707,100 @@ function test_image_expansion_rest($request) {
     ];
     
     return rest_ensure_response($test_data);
+}
+/**
+ * Test navigation-next-block transformation
+ */
+function test_navigation_transform_rest() {
+    // Test data
+    $test_data = [
+        "regions_0_name" => "Europe",
+        "_regions_0_name" => "field_navigation_next_region_name",
+        "regions_0_link" => "#",
+        "_regions_0_link" => "field_navigation_next_region_link",
+        "regions_1_name" => "Asia Pacific",
+        "_regions_1_name" => "field_navigation_next_region_name",
+        "regions_1_link" => "#",
+        "_regions_1_link" => "field_navigation_next_region_link",
+        "regions_2_name" => "Americas",
+        "_regions_2_name" => "field_navigation_next_region_name",
+        "regions_2_link" => "#",
+        "_regions_2_link" => "field_navigation_next_region_link",
+        "regions_3_name" => "Middle East and Africa",
+        "_regions_3_name" => "field_navigation_next_region_name",
+        "regions_3_link" => "#",
+        "_regions_3_link" => "field_navigation_next_region_link",
+        "regions" => 4,
+        "_regions" => "field_navigation_next_regions",
+        "heading" => "Let's help you navigate your next 1",
+        "_heading" => "field_navigation_next_heading",
+        "button_text" => "CONTACT US",
+        "_button_text" => "field_navigation_next_button_text",
+        "button_link" => "#",
+        "_button_link" => "field_navigation_next_button_link"
+    ];
+
+    $result = [
+        'function_exists' => function_exists('transform_navigation_next_block_data'),
+        'original_data' => $test_data,
+        'transformed_data' => null,
+        'error' => null
+    ];
+
+    if (function_exists('transform_navigation_next_block_data')) {
+        try {
+            $result['transformed_data'] = transform_navigation_next_block_data($test_data);
+        } catch (Exception $e) {
+            $result['error'] = $e->getMessage();
+        }
+    }
+
+    return rest_ensure_response($result);
+}
+
+/**
+ * Test full-width-left-text-section block data
+ */
+function test_full_width_block_rest($request) {
+    $page_id = intval($request['page_id']);
+    
+    $page = get_post($page_id);
+    if (!$page) {
+        return new WP_Error('page_not_found', 'Page not found', ['status' => 404]);
+    }
+    
+    // Parse blocks and find full-width-left-text-section blocks
+    $blocks = parse_blocks($page->post_content);
+    $full_width_blocks = [];
+    
+    function find_full_width_blocks($blocks, &$full_width_blocks, $page_id) {
+        foreach ($blocks as $block) {
+            if ($block['blockName'] === 'acf/full-width-left-text-section') {
+                $block_data = get_acf_block_data($block, $page_id);
+                $full_width_blocks[] = [
+                    'block' => $block,
+                    'processed_data' => $block_data,
+                    'right_image_raw' => get_field('right_image', $page_id),
+                    'right_image_meta' => get_post_meta($page_id, 'right_image', true),
+                ];
+            }
+            
+            if (!empty($block['innerBlocks'])) {
+                find_full_width_blocks($block['innerBlocks'], $full_width_blocks, $page_id);
+            }
+        }
+    }
+    
+    find_full_width_blocks($blocks, $full_width_blocks, $page_id);
+    
+    $result = [
+        'page_id' => $page_id,
+        'page_title' => $page->post_title,
+        'full_width_blocks_found' => count($full_width_blocks),
+        'blocks_data' => $full_width_blocks,
+        'all_acf_fields' => get_fields($page_id),
+        'field_groups' => acf_get_field_groups(['block' => 'acf/full-width-left-text-section'])
+    ];
+    
+    return rest_ensure_response($result);
 }
