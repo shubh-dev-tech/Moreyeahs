@@ -84,7 +84,7 @@ export default async function DebugFullWidthReverse() {
       ) : (
         <div>
           <h2 className="text-2xl font-semibold mb-4">No Full Width Left Text Section Blocks Found</h2>
-          <p>The home page doesn't contain any full-width-left-text-section blocks.</p>
+          <p>The home page doesn&apos;t contain any full-width-left-text-section blocks.</p>
           
           <div className="mt-8">
             <h3 className="text-xl font-semibold mb-4">All Blocks on Page:</h3>

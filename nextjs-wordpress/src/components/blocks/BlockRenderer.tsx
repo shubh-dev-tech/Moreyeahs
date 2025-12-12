@@ -18,14 +18,14 @@ import ImageGridHover from './ImageGridHover';
 import IconTextGrid from './IconTextGrid';
 import PromoBlock from './promo-block';
 import PurposeBlock from './purpose-block/PurposeBlock';
-import CounterBlock from './counter-block/CounterBlock';
+import CounterBlock from './counter-block';
 import NewsBlock from './news-block/NewsBlock';
-import InvestorBlock from './investor-block/InvestorBlock';
-import TestimonialBlock from './testimonial-block/TestimonialBlock';
-import NavigationNextBlock from './navigation-next-block/NavigationNextBlock';
+import { InvestorBlock } from './investor-block';
+import TestimonialBlock from './testimonial-block';
+import NavigationNextBlock from './navigation-next-block';
 import StepperBlock from './stepper-block/StepperBlock';
 import MoreyeahsServiceBlock from './moreyeahs-service-block';
-import MoreyeahsContentBlock from './moreyeahs-content-block/MoreyeahsContentBlock';
+import MoreyeahsContentBlock from './moreyeahs-content-block';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
@@ -78,7 +78,7 @@ const BLOCK_SECTION_IDS: Record<string, string> = {
 };
 
 export function BlockRenderer({ blocks }: BlockRendererProps) {
-  if (!blocks || blocks.length === 0) {
+  if (!blocks || !Array.isArray(blocks) || blocks.length === 0) {
     return null;
   }
   // Recursive renderer for a single block

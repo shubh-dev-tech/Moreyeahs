@@ -27,7 +27,7 @@ export interface ACFBlock extends Block {
  * Handles both Gutenberg blocks and ACF blocks
  */
 export function parseBlocks(content: string): Block[] {
-  if (!content) return [];
+  if (!content || typeof content !== 'string') return [];
 
   const blocks: Block[] = [];
 

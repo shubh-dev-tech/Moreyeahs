@@ -562,9 +562,16 @@ function transform_news_block_data($data) {
                 }
                 
                 if (isset($data[$image_key]) && !empty($data[$image_key])) {
-                    $expanded_image = expand_image_field($data[$image_key]);
-                    if ($expanded_image) {
-                        $item['image'] = $expanded_image;
+                    // Check if image is already expanded (array) or just an ID (numeric)
+                    if (is_array($data[$image_key])) {
+                        // Image is already expanded
+                        $item['image'] = $data[$image_key];
+                    } elseif (is_numeric($data[$image_key])) {
+                        // Image is just an ID, expand it
+                        $expanded_image = expand_image_field($data[$image_key]);
+                        if ($expanded_image) {
+                            $item['image'] = $expanded_image;
+                        }
                     }
                 }
                 
@@ -588,11 +595,91 @@ function transform_news_block_data($data) {
     }
     
     // Expand background_image if it's just an ID
-    if (isset($data['background_image']) && is_numeric($data['background_image'])) {
-        $expanded_image = expand_image_field($data['background_image']);
-        if ($expanded_image) {
-            $data['background_image'] = $expanded_image;
+    if (isset($data['background_image']) && !empty($data['background_image'])) {
+        if (is_numeric($data['background_image'])) {
+            $expanded_image = expand_image_field($data['background_image']);
+            if ($expanded_image) {
+                $data['background_image'] = $expanded_image;
+            }
         }
+        // If it's already an array, leave it as is
+    }
+    
+    return $data;
+}
+
+/**
+ * Transform testimonial-block flattened data to structured array
+ */
+function transform_testimonial_block_data($data) {
+    // Transform testimonials
+    if (isset($data['testimonials']) && is_numeric($data['testimonials'])) {
+        $testimonials_count = intval($data['testimonials']);
+        $testimonials = [];
+        
+        for ($i = 0; $i < $testimonials_count; $i++) {
+            $quote_key = "testimonials_{$i}_quote";
+            $author_name_key = "testimonials_{$i}_author_name";
+            $author_title_key = "testimonials_{$i}_author_title";
+            $author_image_key = "testimonials_{$i}_author_image";
+            
+            if (isset($data[$quote_key]) || isset($data[$author_name_key])) {
+                $testimonial = [];
+                
+                if (isset($data[$quote_key]) && !empty($data[$quote_key])) {
+                    $testimonial['quote'] = $data[$quote_key];
+                }
+                
+                if (isset($data[$author_name_key]) && !empty($data[$author_name_key])) {
+                    $testimonial['author_name'] = $data[$author_name_key];
+                }
+                
+                if (isset($data[$author_title_key]) && !empty($data[$author_title_key])) {
+                    $testimonial['author_title'] = $data[$author_title_key];
+                }
+                
+                if (isset($data[$author_image_key]) && !empty($data[$author_image_key])) {
+                    // Check if image is already expanded (array) or just an ID (numeric)
+                    if (is_array($data[$author_image_key])) {
+                        // Image is already expanded
+                        $testimonial['author_image'] = $data[$author_image_key];
+                    } elseif (is_numeric($data[$author_image_key])) {
+                        // Image is just an ID, expand it
+                        $expanded_image = expand_image_field($data[$author_image_key]);
+                        if ($expanded_image) {
+                            $testimonial['author_image'] = $expanded_image;
+                        }
+                    }
+                }
+                
+                $testimonials[] = $testimonial;
+            }
+        }
+        
+        $data['testimonials'] = $testimonials;
+        
+        // Clean up flattened keys
+        for ($i = 0; $i < $testimonials_count; $i++) {
+            unset($data["testimonials_{$i}_quote"]);
+            unset($data["testimonials_{$i}_author_name"]);
+            unset($data["testimonials_{$i}_author_title"]);
+            unset($data["testimonials_{$i}_author_image"]);
+            unset($data["_testimonials_{$i}_quote"]);
+            unset($data["_testimonials_{$i}_author_name"]);
+            unset($data["_testimonials_{$i}_author_title"]);
+            unset($data["_testimonials_{$i}_author_image"]);
+        }
+    }
+    
+    // Expand background_image if it's just an ID
+    if (isset($data['background_image']) && !empty($data['background_image'])) {
+        if (is_numeric($data['background_image'])) {
+            $expanded_image = expand_image_field($data['background_image']);
+            if ($expanded_image) {
+                $data['background_image'] = $expanded_image;
+            }
+        }
+        // If it's already an array, leave it as is
     }
     
     return $data;
@@ -762,23 +849,8 @@ function get_acf_block_data($block, $page_id) {
             }
         }
         
-        // Special handling for blocks with flattened data structures
-        if (isset($block['blockName'])) {
-            switch ($block['blockName']) {
-                case 'acf/navigation-next-block':
-                    $data = transform_navigation_next_block_data($data);
-                    break;
-                case 'acf/counter-block':
-                    $data = transform_counter_block_data($data);
-                    break;
-                case 'acf/news-block':
-                    $data = transform_news_block_data($data);
-                    break;
-                case 'acf/investor-block':
-                    $data = transform_investor_block_data($data);
-                    break;
-            }
-        }
+        // Note: Block transformations are now handled in process_blocks_recursive()
+        // to avoid double transformation
         
         return $data;
     }
@@ -917,6 +989,9 @@ function get_page_with_acf_blocks_rest($request) {
                             break;
                         case 'acf/investor-block':
                             $processed_block['attrs']['data'] = transform_investor_block_data($processed_block['attrs']['data']);
+                            break;
+                        case 'acf/testimonial-block':
+                            $processed_block['attrs']['data'] = transform_testimonial_block_data($processed_block['attrs']['data']);
                             break;
                     }
 
