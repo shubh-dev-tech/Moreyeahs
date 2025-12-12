@@ -29,7 +29,7 @@ function FooterColumn({ widget }: FooterColumnProps) {
       {/* Show links for menu widgets */}
       {hasLinks && widget.links && (
         <ul className="footer__links">
-          {widget.links.map((link, index) => (
+           {widget && widget.links.map((link, index) => (
             <li key={index}>
               <Link href={link.url}>{link.label}</Link>
             </li>

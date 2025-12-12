@@ -14,8 +14,8 @@ interface HeroBlockProps {
     background_image?: {
       url: string;
       alt: string;
-      width: number;
-      height: number;
+      width?: number;
+      height?: number;
     };
     cta_text?: string;
     cta_link?: string;
@@ -27,13 +27,15 @@ export function HeroBlock({ data }: HeroBlockProps) {
 
   return (
     <section className="hero-block">
-      {background_image && (
+      {background_image?.url && (
         <Image
           src={background_image.url}
           alt={background_image.alt || 'Hero background'}
           fill
           className="hero-block__background"
           priority
+          sizes="100vw"
+          quality={85}
         />
       )}
       <div className="hero-block__content">
@@ -52,3 +54,4 @@ export function HeroBlock({ data }: HeroBlockProps) {
     </section>
   );
 }
+

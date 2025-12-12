@@ -18,8 +18,24 @@ interface IconTextGridProps {
 }
 
 export default function IconTextGrid({ data }: IconTextGridProps) {
-  const items = data?.items || [];
-  
+  const rawItems = (data as any)?.items;
+
+  let items: IconTextGridItem[] = [];
+
+  if (Array.isArray(rawItems)) {
+    items = rawItems;
+  } else if (rawItems && typeof rawItems === 'object') {
+    // Some REST responses may return an object keyed by index
+    items = Object.values(rawItems) as IconTextGridItem[];
+  } else if (typeof rawItems === 'string') {
+    try {
+      const parsed = JSON.parse(rawItems);
+      if (Array.isArray(parsed)) items = parsed;
+    } catch (e) {
+      items = [];
+    }
+  }
+
   if (!items || items.length === 0) {
     return null;
   }

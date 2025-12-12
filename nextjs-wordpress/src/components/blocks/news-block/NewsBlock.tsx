@@ -40,6 +40,27 @@ export default function NewsBlock({ data }: NewsBlockProps) {
     additional_items
   } = data || {};
 
+  // Helper to coerce possible non-array REST values into arrays
+  const coerceToArray = <T,>(value: any): T[] => {
+    if (!value) return [];
+    if (Array.isArray(value)) return value as T[];
+    if (typeof value === 'string') {
+      try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) return parsed as T[];
+      } catch (e) {
+        return [];
+      }
+    }
+    if (typeof value === 'object') {
+      return Object.values(value) as T[];
+    }
+    return [];
+  };
+
+  const subHeadingsArr = coerceToArray<SubHeading>(sub_headings);
+  const additionalItemsArr = coerceToArray<AdditionalItem>(additional_items);
+
   if (!section_title) {
     return null;
   }
@@ -65,9 +86,9 @@ export default function NewsBlock({ data }: NewsBlockProps) {
                 <h2 className="news-block__title">{section_title}</h2>
                 
                 {/* Sub-headings list */}
-                {sub_headings && sub_headings.length > 0 && (
+                {subHeadingsArr && subHeadingsArr.length > 0 && (
                   <ul className="news-block__news-list">
-                    {sub_headings.map((item, index) => (
+                    {subHeadingsArr.map((item, index) => (
                       <li key={index} className="news-block__news-item">
                         {item.link ? (
                           <a href={item.link}>
@@ -99,7 +120,7 @@ export default function NewsBlock({ data }: NewsBlockProps) {
           </article>
 
           {/* Additional items - 30% each */}
-          {additional_items && additional_items.map((item, index) => (
+          {additionalItemsArr && additionalItemsArr.map((item, index) => (
             <article 
               key={index}
               className="news-block__item news-block__item--additional"

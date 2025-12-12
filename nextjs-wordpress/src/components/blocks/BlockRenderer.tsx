@@ -74,46 +74,56 @@ const BLOCK_SECTION_IDS: Record<string, string> = {
   'acf/testimonial-block': 'testimonials',
   'acf/news-block': 'news',
   'acf/investor-block': 'investors',
+  'acf/navigation-next-block': 'navigation-next',
 };
 
 export function BlockRenderer({ blocks }: BlockRendererProps) {
   if (!blocks || blocks.length === 0) {
     return null;
   }
+  // Recursive renderer for a single block
+  const renderBlock = (block: Block, index: number) => {
+    if (!block.blockName) return null;
 
-  return (
-    <div className="blocks-container">
-      {blocks.map((block, index) => {
-        if (!block.blockName) {
-          return null;
-        }
+    const BlockComponent = BLOCK_COMPONENTS[block.blockName];
+    const sectionId = block.attrs?.anchor || BLOCK_SECTION_IDS[block.blockName];
+    const blockData = isACFBlock(block) ? (block.attrs as any).data : block.attrs;
 
-        const BlockComponent = BLOCK_COMPONENTS[block.blockName];
+    // If we have a mapped component, render it
+    if (BlockComponent) {
+      return (
+        <section key={`${block.blockName}-${index}`} id={sectionId}>
+          <BlockComponent data={blockData} innerHTML={block.innerHTML} {...block.attrs} />
+        </section>
+      );
+    }
 
-        if (!BlockComponent) {
-          return null;
-        }
+    // If no component mapped, but there are innerBlocks from REST, render them recursively
+    if (block.innerBlocks && block.innerBlocks.length > 0) {
+      return (
+        <section key={`${block.blockName}-${index}`} id={sectionId}>
+          <div className="block-fallback-container">
+            {block.innerBlocks.map((inner, i) => renderBlock(inner, i))}
+          </div>
+        </section>
+      );
+    }
 
-        const blockData = isACFBlock(block) ? block.attrs.data : block.attrs;
-        
+    // Final fallback: render innerHTML if present
+    if (block.innerHTML) {
+      return (
+        <section key={`${block.blockName}-${index}`} id={sectionId}>
+          <div
+            className="prose max-w-none"
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{ __html: block.innerHTML }}
+          />
+        </section>
+      );
+    }
 
-        
-        // Get section ID from block anchor attribute or fallback to default mapping
-        const sectionId = block.attrs?.anchor || BLOCK_SECTION_IDS[block.blockName];
+    return null;
+  };
 
-        return (
-          <section
-            key={`${block.blockName}-${index}`}
-            id={sectionId}
-          >
-            <BlockComponent
-              data={blockData}
-              innerHTML={block.innerHTML}
-              {...block.attrs}
-            />
-          </section>
-        );
-      })}
-    </div>
-  );
+  return <div className="blocks-container">{blocks.map((b, i) => renderBlock(b, i))}</div>;
 }

@@ -1,9 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { fetchGraphQL } from '@/lib/wordpress';
-import { GET_RECENT_POSTS } from '@/lib/queries';
-import { PostsResponse } from '@/lib/types';
-import PostCard from '@/components/PostCard';
+import { fetchWordPressAPI } from '@/lib/wordpress';
 
 export const metadata: Metadata = {
   title: 'All Posts',
@@ -12,9 +9,24 @@ export const metadata: Metadata = {
 
 export const revalidate = parseInt(process.env.REVALIDATE_TIME || '3600');
 
+interface Post {
+  id: number;
+  title: { rendered: string };
+  excerpt: { rendered: string };
+  slug: string;
+  date: string;
+  featured_media: number;
+  _links: any;
+}
+
 export default async function PostsPage() {
-  const data = await fetchGraphQL<PostsResponse>(GET_RECENT_POSTS, { first: 50 });
-  const posts = data.posts.nodes;
+  let posts: Post[] = [];
+  
+  try {
+    posts = await fetchWordPressAPI<Post[]>('/wp/v2/posts?per_page=50&_embed');
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+  }
 
   return (
     <div className="container">
@@ -25,9 +37,21 @@ export default async function PostsPage() {
 
       <section className="posts-grid">
         <div className="posts-grid__items">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <div key={post.id} className="post-card">
+                <h3>
+                  <a href={`/posts/${post.slug}`}>
+                    <span dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+                  </a>
+                </h3>
+                <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+                <p className="post-date">{new Date(post.date).toLocaleDateString()}</p>
+              </div>
+            ))
+          ) : (
+            <p>No posts found. Please create some posts in WordPress.</p>
+          )}
         </div>
       </section>
     </div>

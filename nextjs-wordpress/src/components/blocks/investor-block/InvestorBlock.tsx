@@ -74,7 +74,9 @@ export default function InvestorBlock({ data }: InvestorBlockProps) {
                   src={featured_image.url} 
                   alt={featured_image.alt || featured_title || 'Featured image'}
                   fill
-                  style={{ objectFit: 'cover' }}
+                  className="investor-block__featured-img"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  quality={85}
                 />
                 <div className="investor-block__featured-overlay"></div>
                 {featured_title && (
