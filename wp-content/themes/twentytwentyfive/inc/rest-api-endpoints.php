@@ -847,6 +847,11 @@ function get_acf_block_data($block, $page_id) {
                     $data['right_image'] = $expanded_image;
                 }
             }
+            
+            // Ensure reverse_layout field is properly converted to boolean
+            if (isset($data['reverse_layout'])) {
+                $data['reverse_layout'] = (bool) $data['reverse_layout'];
+            }
         }
         
         // Note: Block transformations are now handled in process_blocks_recursive()
