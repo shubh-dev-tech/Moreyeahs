@@ -1,0 +1,7 @@
+{
+  "buildCommand": "cd nextjs-wordpress && npm run build",
+  "devCommand": "cd nextjs-wordpress && npm run dev",
+  "installCommand": "cd nextjs-wordpress && npm install",
+  "framework": "nextjs",
+  "outputDirectory": "nextjs-wordpress/.next"
+}
