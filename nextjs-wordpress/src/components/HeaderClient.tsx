@@ -91,7 +91,7 @@ export default function HeaderClient() {
         }
 
         // Fetch mega menus
-        const megaMenuRes = await fetch('/api/mega-menus', { cache: 'no-store' });
+        const megaMenuRes = await fetch('/api/mega-menus');
         if (megaMenuRes.ok) {
           const menus = await megaMenuRes.json();
           setMegaMenus(menus);

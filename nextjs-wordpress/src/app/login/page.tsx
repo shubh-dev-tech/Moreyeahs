@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import styles from './login.module.scss';
 
-function LoginForm() {
+function LoginContent() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -91,14 +91,8 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={
-      <div className={styles.loginContainer}>
-        <div className={styles.loginBox}>
-          <h1>Loading...</h1>
-        </div>
-      </div>
-    }>
-      <LoginForm />
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginContent />
     </Suspense>
   );
 }

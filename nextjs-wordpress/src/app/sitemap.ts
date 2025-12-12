@@ -1,15 +1,8 @@
 import { MetadataRoute } from 'next';
-import { fetchGraphQL } from '@/lib/wordpress';
-import { GET_ALL_POSTS_SLUGS } from '@/lib/queries';
-import { PostsSlugsResponse } from '@/lib/types';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   
-  // Fetch all post slugs
-  const data = await fetchGraphQL<PostsSlugsResponse>(GET_ALL_POSTS_SLUGS);
-  const posts = data.posts.nodes;
-
   // Static pages
   const staticPages = [
     {
@@ -32,13 +25,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Dynamic post pages
-  const postPages = posts.map((post) => ({
-    url: `${siteUrl}/posts/${post.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
-  }));
-
-  return [...staticPages, ...postPages];
+  // TODO: Add dynamic post pages from GraphQL when available on Vercel
+  // For now, only return static pages to allow build to succeed
+  
+  return staticPages;
 }
