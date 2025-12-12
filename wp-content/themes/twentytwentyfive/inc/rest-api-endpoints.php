@@ -447,6 +447,293 @@ function transform_navigation_next_block_data($data) {
 }
 
 /**
+ * Transform counter-block flattened data to structured array
+ */
+function transform_counter_block_data($data) {
+    // Transform counters
+    if (isset($data['counters']) && is_numeric($data['counters'])) {
+        $counters_count = intval($data['counters']);
+        $counters = [];
+        
+        for ($i = 0; $i < $counters_count; $i++) {
+            $number_key = "counters_{$i}_number";
+            $prefix_key = "counters_{$i}_prefix";
+            $suffix_key = "counters_{$i}_suffix";
+            $label_key = "counters_{$i}_label";
+            
+            if (isset($data[$number_key])) {
+                $counter = [
+                    'number' => $data[$number_key]
+                ];
+                
+                if (isset($data[$prefix_key]) && !empty($data[$prefix_key])) {
+                    $counter['prefix'] = $data[$prefix_key];
+                }
+                
+                if (isset($data[$suffix_key]) && !empty($data[$suffix_key])) {
+                    $counter['suffix'] = $data[$suffix_key];
+                }
+                
+                if (isset($data[$label_key]) && !empty($data[$label_key])) {
+                    $counter['label'] = $data[$label_key];
+                }
+                
+                $counters[] = $counter;
+            }
+        }
+        
+        $data['counters'] = $counters;
+        
+        // Clean up flattened keys
+        for ($i = 0; $i < $counters_count; $i++) {
+            unset($data["counters_{$i}_number"]);
+            unset($data["counters_{$i}_prefix"]);
+            unset($data["counters_{$i}_suffix"]);
+            unset($data["counters_{$i}_label"]);
+            unset($data["_counters_{$i}_number"]);
+            unset($data["_counters_{$i}_prefix"]);
+            unset($data["_counters_{$i}_suffix"]);
+            unset($data["_counters_{$i}_label"]);
+        }
+    }
+    
+    return $data;
+}
+
+/**
+ * Transform news-block flattened data to structured array
+ */
+function transform_news_block_data($data) {
+    // Transform sub_headings
+    if (isset($data['sub_headings']) && is_numeric($data['sub_headings'])) {
+        $sub_headings_count = intval($data['sub_headings']);
+        $sub_headings = [];
+        
+        for ($i = 0; $i < $sub_headings_count; $i++) {
+            $text_key = "sub_headings_{$i}_text";
+            $link_key = "sub_headings_{$i}_link";
+            
+            if (isset($data[$text_key])) {
+                $sub_heading = [
+                    'text' => $data[$text_key]
+                ];
+                
+                if (isset($data[$link_key]) && !empty($data[$link_key])) {
+                    $sub_heading['link'] = $data[$link_key];
+                }
+                
+                $sub_headings[] = $sub_heading;
+            }
+        }
+        
+        $data['sub_headings'] = $sub_headings;
+        
+        // Clean up flattened keys
+        for ($i = 0; $i < $sub_headings_count; $i++) {
+            unset($data["sub_headings_{$i}_text"]);
+            unset($data["sub_headings_{$i}_link"]);
+            unset($data["_sub_headings_{$i}_text"]);
+            unset($data["_sub_headings_{$i}_link"]);
+        }
+    }
+    
+    // Transform additional_items
+    if (isset($data['additional_items']) && is_numeric($data['additional_items'])) {
+        $additional_items_count = intval($data['additional_items']);
+        $additional_items = [];
+        
+        for ($i = 0; $i < $additional_items_count; $i++) {
+            $title_key = "additional_items_{$i}_title";
+            $link_key = "additional_items_{$i}_link";
+            $date_key = "additional_items_{$i}_date";
+            $image_key = "additional_items_{$i}_image";
+            
+            if (isset($data[$title_key])) {
+                $item = [
+                    'title' => $data[$title_key]
+                ];
+                
+                if (isset($data[$link_key]) && !empty($data[$link_key])) {
+                    $item['link'] = $data[$link_key];
+                }
+                
+                if (isset($data[$date_key]) && !empty($data[$date_key])) {
+                    $item['date'] = $data[$date_key];
+                }
+                
+                if (isset($data[$image_key]) && !empty($data[$image_key])) {
+                    $expanded_image = expand_image_field($data[$image_key]);
+                    if ($expanded_image) {
+                        $item['image'] = $expanded_image;
+                    }
+                }
+                
+                $additional_items[] = $item;
+            }
+        }
+        
+        $data['additional_items'] = $additional_items;
+        
+        // Clean up flattened keys
+        for ($i = 0; $i < $additional_items_count; $i++) {
+            unset($data["additional_items_{$i}_title"]);
+            unset($data["additional_items_{$i}_link"]);
+            unset($data["additional_items_{$i}_date"]);
+            unset($data["additional_items_{$i}_image"]);
+            unset($data["_additional_items_{$i}_title"]);
+            unset($data["_additional_items_{$i}_link"]);
+            unset($data["_additional_items_{$i}_date"]);
+            unset($data["_additional_items_{$i}_image"]);
+        }
+    }
+    
+    // Expand background_image if it's just an ID
+    if (isset($data['background_image']) && is_numeric($data['background_image'])) {
+        $expanded_image = expand_image_field($data['background_image']);
+        if ($expanded_image) {
+            $data['background_image'] = $expanded_image;
+        }
+    }
+    
+    return $data;
+}
+
+/**
+ * Transform investor-block flattened data to structured array
+ */
+function transform_investor_block_data($data) {
+    // Transform results_items
+    if (isset($data['results_items']) && is_numeric($data['results_items'])) {
+        $results_items_count = intval($data['results_items']);
+        $results_items = [];
+        
+        for ($i = 0; $i < $results_items_count; $i++) {
+            $label_key = "results_items_{$i}_label";
+            $title_key = "results_items_{$i}_title";
+            $link_key = "results_items_{$i}_link";
+            
+            if (isset($data[$title_key])) {
+                $item = [
+                    'title' => $data[$title_key]
+                ];
+                
+                if (isset($data[$label_key]) && !empty($data[$label_key])) {
+                    $item['label'] = $data[$label_key];
+                }
+                
+                if (isset($data[$link_key]) && !empty($data[$link_key])) {
+                    $item['link'] = $data[$link_key];
+                }
+                
+                $results_items[] = $item;
+            }
+        }
+        
+        $data['results_items'] = $results_items;
+        
+        // Clean up flattened keys
+        for ($i = 0; $i < $results_items_count; $i++) {
+            unset($data["results_items_{$i}_label"]);
+            unset($data["results_items_{$i}_title"]);
+            unset($data["results_items_{$i}_link"]);
+            unset($data["_results_items_{$i}_label"]);
+            unset($data["_results_items_{$i}_title"]);
+            unset($data["_results_items_{$i}_link"]);
+        }
+    }
+    
+    // Transform archived_items
+    if (isset($data['archived_items']) && is_numeric($data['archived_items'])) {
+        $archived_items_count = intval($data['archived_items']);
+        $archived_items = [];
+        
+        for ($i = 0; $i < $archived_items_count; $i++) {
+            $label_key = "archived_items_{$i}_label";
+            $title_key = "archived_items_{$i}_title";
+            $link_key = "archived_items_{$i}_link";
+            
+            if (isset($data[$title_key])) {
+                $item = [
+                    'title' => $data[$title_key]
+                ];
+                
+                if (isset($data[$label_key]) && !empty($data[$label_key])) {
+                    $item['label'] = $data[$label_key];
+                }
+                
+                if (isset($data[$link_key]) && !empty($data[$link_key])) {
+                    $item['link'] = $data[$link_key];
+                }
+                
+                $archived_items[] = $item;
+            }
+        }
+        
+        $data['archived_items'] = $archived_items;
+        
+        // Clean up flattened keys
+        for ($i = 0; $i < $archived_items_count; $i++) {
+            unset($data["archived_items_{$i}_label"]);
+            unset($data["archived_items_{$i}_title"]);
+            unset($data["archived_items_{$i}_link"]);
+            unset($data["_archived_items_{$i}_label"]);
+            unset($data["_archived_items_{$i}_title"]);
+            unset($data["_archived_items_{$i}_link"]);
+        }
+    }
+    
+    // Transform event_items
+    if (isset($data['event_items']) && is_numeric($data['event_items'])) {
+        $event_items_count = intval($data['event_items']);
+        $event_items = [];
+        
+        for ($i = 0; $i < $event_items_count; $i++) {
+            $label_key = "event_items_{$i}_label";
+            $title_key = "event_items_{$i}_title";
+            $link_key = "event_items_{$i}_link";
+            
+            if (isset($data[$title_key])) {
+                $item = [
+                    'title' => $data[$title_key]
+                ];
+                
+                if (isset($data[$label_key]) && !empty($data[$label_key])) {
+                    $item['label'] = $data[$label_key];
+                }
+                
+                if (isset($data[$link_key]) && !empty($data[$link_key])) {
+                    $item['link'] = $data[$link_key];
+                }
+                
+                $event_items[] = $item;
+            }
+        }
+        
+        $data['event_items'] = $event_items;
+        
+        // Clean up flattened keys
+        for ($i = 0; $i < $event_items_count; $i++) {
+            unset($data["event_items_{$i}_label"]);
+            unset($data["event_items_{$i}_title"]);
+            unset($data["event_items_{$i}_link"]);
+            unset($data["_event_items_{$i}_label"]);
+            unset($data["_event_items_{$i}_title"]);
+            unset($data["_event_items_{$i}_link"]);
+        }
+    }
+    
+    // Expand featured_image if it's just an ID
+    if (isset($data['featured_image']) && is_numeric($data['featured_image'])) {
+        $expanded_image = expand_image_field($data['featured_image']);
+        if ($expanded_image) {
+            $data['featured_image'] = $expanded_image;
+        }
+    }
+    
+    return $data;
+}
+
+/**
  * Helper function to get ACF block data
  */
 function get_acf_block_data($block, $page_id) {
@@ -456,7 +743,7 @@ function get_acf_block_data($block, $page_id) {
         
         // Expand image fields if they are just IDs
         foreach ($data as $key => $value) {
-            if (is_numeric($value) && strpos($key, 'image') !== false) {
+            if (is_numeric($value) && (strpos($key, 'image') !== false || strpos($key, 'icon') !== false)) {
                 $expanded_image = expand_image_field($value);
                 if ($expanded_image) {
                     $data[$key] = $expanded_image;
@@ -475,9 +762,22 @@ function get_acf_block_data($block, $page_id) {
             }
         }
         
-        // Special handling for navigation-next-block to transform flattened data structure
-        if (isset($block['blockName']) && $block['blockName'] === 'acf/navigation-next-block') {
-            $data = transform_navigation_next_block_data($data);
+        // Special handling for blocks with flattened data structures
+        if (isset($block['blockName'])) {
+            switch ($block['blockName']) {
+                case 'acf/navigation-next-block':
+                    $data = transform_navigation_next_block_data($data);
+                    break;
+                case 'acf/counter-block':
+                    $data = transform_counter_block_data($data);
+                    break;
+                case 'acf/news-block':
+                    $data = transform_news_block_data($data);
+                    break;
+                case 'acf/investor-block':
+                    $data = transform_investor_block_data($data);
+                    break;
+            }
         }
         
         return $data;
@@ -605,8 +905,19 @@ function get_page_with_acf_blocks_rest($request) {
                     $processed_block['attrs']['data'] = get_acf_block_data($block, $page_id);
                     
                     // Apply transformations for specific block types
-                    if ($block['blockName'] === 'acf/navigation-next-block') {
-                        $processed_block['attrs']['data'] = transform_navigation_next_block_data($processed_block['attrs']['data']);
+                    switch ($block['blockName']) {
+                        case 'acf/navigation-next-block':
+                            $processed_block['attrs']['data'] = transform_navigation_next_block_data($processed_block['attrs']['data']);
+                            break;
+                        case 'acf/counter-block':
+                            $processed_block['attrs']['data'] = transform_counter_block_data($processed_block['attrs']['data']);
+                            break;
+                        case 'acf/news-block':
+                            $processed_block['attrs']['data'] = transform_news_block_data($processed_block['attrs']['data']);
+                            break;
+                        case 'acf/investor-block':
+                            $processed_block['attrs']['data'] = transform_investor_block_data($processed_block['attrs']['data']);
+                            break;
                     }
 
                 } else {

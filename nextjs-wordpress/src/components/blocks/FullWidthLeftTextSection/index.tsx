@@ -117,52 +117,54 @@ export function FullWidthLeftTextSection({ data }: FullWidthLeftTextSectionProps
               CASE STUDIES
             </p>
             
-            {/* First Case Study */}
-            <div className="full-width-left-text-section__case-study">
-              {heading_bottom_1st && (
-                <h3 className="full-width-left-text-section__case-study-heading">
-                  {heading_bottom_1st}
-                </h3>
-              )}
+            <div className="full-width-left-text-section__case-studies-wrapper">
+              {/* First Case Study */}
+              <div className="full-width-left-text-section__case-study">
+                {heading_bottom_1st && (
+                  <h3 className="full-width-left-text-section__case-study-heading">
+                    {heading_bottom_1st}
+                  </h3>
+                )}
+                
+                {title_bottom_1st && (
+                  <p className="full-width-left-text-section__case-study-text">
+                    {title_bottom_1st}
+                  </p>
+                )}
+                
+                {url_text && url_link && (
+                  <a
+                    href={url_link}
+                    className="full-width-left-text-section__case-study-link"
+                  >
+                    {url_text} →
+                  </a>
+                )}
+              </div>
               
-              {title_bottom_1st && (
-                <p className="full-width-left-text-section__case-study-text">
-                  {title_bottom_1st}
-                </p>
-              )}
-              
-              {url_text && url_link && (
-                <a
-                  href={url_link}
-                  className="full-width-left-text-section__case-study-link"
-                >
-                  {url_text} →
-                </a>
-              )}
-            </div>
-            
-            {/* Second Case Study */}
-            <div className="full-width-left-text-section__case-study">
-              {heading_bottom_2nd && (
-                <h3 className="full-width-left-text-section__case-study-heading">
-                  {heading_bottom_2nd}
-                </h3>
-              )}
-              
-              {title_bottom_2nd && (
-                <p className="full-width-left-text-section__case-study-text">
-                  {title_bottom_2nd}
-                </p>
-              )}
-              
-              {url_title_2nd && url_link_2nd && (
-                <a
-                  href={url_link_2nd}
-                  className="full-width-left-text-section__case-study-link"
-                >
-                  {url_title_2nd} →
-                </a>
-              )}
+              {/* Second Case Study */}
+              <div className="full-width-left-text-section__case-study">
+                {heading_bottom_2nd && (
+                  <h3 className="full-width-left-text-section__case-study-heading">
+                    {heading_bottom_2nd}
+                  </h3>
+                )}
+                
+                {title_bottom_2nd && (
+                  <p className="full-width-left-text-section__case-study-text">
+                    {title_bottom_2nd}
+                  </p>
+                )}
+                
+                {url_title_2nd && url_link_2nd && (
+                  <a
+                    href={url_link_2nd}
+                    className="full-width-left-text-section__case-study-link"
+                  >
+                    {url_title_2nd} →
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>

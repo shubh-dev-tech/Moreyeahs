@@ -11,6 +11,7 @@ $description = get_field('description');
 $image = get_field('image');
 $button_text = get_field('button_text');
 $button_url = get_field('button_url');
+$reverse_layout = get_field('reverse_layout');
 $block_id = 'moreyeahs-content-' . $block['id'];
 
 if (!$heading && !$description && !$image) {
@@ -18,7 +19,7 @@ if (!$heading && !$description && !$image) {
 }
 ?>
 
-<section id="<?php echo esc_attr($block_id); ?>" class="moreyeahs-content">
+<section id="<?php echo esc_attr($block_id); ?>" class="moreyeahs-content<?php echo $reverse_layout ? ' moreyeahs-content--reversed' : ''; ?>">
     <div class="moreyeahs-content__container">
         
         <div class="moreyeahs-content__wrapper">

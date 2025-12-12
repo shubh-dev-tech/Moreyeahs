@@ -113,6 +113,28 @@
             "placeholder": "https:\/\/example.com",
             "show_in_graphql": 1,
             "graphql_field_name": "buttonUrl"
+        },
+        {
+            "key": "field_moreyeahs_content_reverse_layout",
+            "label": "Reverse Layout",
+            "name": "reverse_layout",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Enable to display image on the left and content on the right",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 0,
+            "show_in_graphql": 1,
+            "graphql_field_name": "reverseLayout",
+            "message": "",
+            "ui": 1,
+            "ui_on_text": "Image Left",
+            "ui_off_text": "Image Right"
         }
     ],
     "location": [
