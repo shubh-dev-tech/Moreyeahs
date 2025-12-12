@@ -11,20 +11,28 @@ interface CoreImageProps {
     url?: string;
     alt?: string;
     caption?: string;
+    width?: number;
+    height?: number;
   };
 }
 
 export function CoreImage({ innerHTML, data }: CoreImageProps) {
-  // If we have structured data, use Next.js Image
+  // If we have structured data with URL, use Next.js Image
   if (data?.url) {
+    const width = data.width || 600;
+    const height = data.height || 400;
+    const aspectRatio = width / height;
+    
     return (
       <figure className="my-8">
-        <div className="relative w-full h-96">
+        <div className="relative w-full" style={{ aspectRatio: `${aspectRatio}` }}>
           <Image
             src={data.url}
             alt={data.alt || ''}
             fill
             className="object-contain"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+            loading="lazy"
           />
         </div>
         {data.caption && (
@@ -45,3 +53,4 @@ export function CoreImage({ innerHTML, data }: CoreImageProps) {
     />
   );
 }
+

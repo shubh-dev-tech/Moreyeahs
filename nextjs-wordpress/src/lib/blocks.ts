@@ -28,47 +28,75 @@ export interface ACFBlock extends Block {
  */
 export function parseBlocks(content: string): Block[] {
   if (!content) return [];
-  
+
   const blocks: Block[] = [];
-  const blockRegex = /<!--\s+wp:([a-z0-9-]+\/[a-z0-9-]+|[a-z0-9-]+)(\s+(\{[^}]*\}))?\s+(\/)?-->/g;
-  
-  let lastIndex = 0;
-  let match;
-  
-  while ((match = blockRegex.exec(content)) !== null) {
+
+  // Find opening block comments like <!-- wp:block/name { ... } -->
+  const openRegex = /<!--\s*wp:([\w-\/]+)([\s\S]*?)-->/g;
+
+  let match: RegExpExecArray | null;
+
+  while ((match = openRegex.exec(content)) !== null) {
+    const fullMatch = match[0];
     const blockName = match[1];
-    const attrsString = match[3];
-    const isSelfClosing = match[4] === '/';
-    
-    let attrs = {};
-    if (attrsString) {
-      try {
-        attrs = JSON.parse(attrsString);
-      } catch (e) {
-        // Silently handle parse error
+    const afterName = match[2] || '';
+
+    // Determine if this is self-closing (ends with /-->)
+    const isSelfClosing = /\/\s*-->$/.test(fullMatch);
+
+    // Try to extract a JSON attrs object from the opening comment if present
+    let attrs: Record<string, any> = {};
+    const jsonStart = afterName.indexOf('{');
+    if (jsonStart !== -1) {
+      // Find matching closing brace to support nested objects
+      const substr = afterName.slice(jsonStart);
+      let braceDepth = 0;
+      let endIndex = -1;
+      for (let i = 0; i < substr.length; i++) {
+        const ch = substr[i];
+        if (ch === '{') braceDepth++;
+        else if (ch === '}') {
+          braceDepth--;
+          if (braceDepth === 0) {
+            endIndex = i;
+            break;
+          }
+        }
+      }
+
+      if (endIndex !== -1) {
+        const jsonText = substr.slice(0, endIndex + 1);
+        try {
+          attrs = JSON.parse(jsonText);
+        } catch (e) {
+          // fall back to empty attrs
+          attrs = {};
+        }
       }
     }
-    
-    // Extract content between block markers
-    const startIndex = match.index + match[0].length;
-    const endMarker = `<!-- /wp:${blockName} -->`;
-    const endIndex = content.indexOf(endMarker, startIndex);
-    
-    const innerHTML = endIndex > startIndex 
-      ? content.substring(startIndex, endIndex).trim()
-      : '';
-    
+
+    // Compute innerHTML: for non-self-closing blocks, find the closing comment
+    let innerHTML = '';
+    if (!isSelfClosing) {
+      const endMarker = `<!-- /wp:${blockName} -->`;
+      const startIndex = match.index + fullMatch.length;
+      const endIndex = content.indexOf(endMarker, startIndex);
+      if (endIndex !== -1) {
+        innerHTML = content.substring(startIndex, endIndex).trim();
+      } else {
+        innerHTML = '';
+      }
+    }
+
     blocks.push({
       blockName,
       attrs,
       innerHTML,
-      innerContent: [innerHTML],
+      innerContent: innerHTML ? [innerHTML] : [],
       innerBlocks: [],
     });
-    
-    lastIndex = endIndex > 0 ? endIndex + endMarker.length : startIndex;
   }
-  
+
   return blocks;
 }
 

@@ -5,6 +5,14 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'http',
+        hostname: '*.localhost',
+      },
+      {
         protocol: 'https',
         hostname: '**.wordpress.com',
       },
@@ -13,8 +21,12 @@ const nextConfig = {
         hostname: 'your-wordpress-site.com',
       },
       {
-        protocol: 'http',
-        hostname: 'localhost',
+        protocol: 'https',
+        hostname: '**.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.org',
       },
     ],
     formats: ['image/avif', 'image/webp'],

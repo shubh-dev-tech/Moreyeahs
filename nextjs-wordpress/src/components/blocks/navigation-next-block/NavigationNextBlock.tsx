@@ -9,18 +9,18 @@ interface Region {
 }
 
 interface NavigationNextBlockProps {
-  heading?: string;
-  button_text?: string;
-  button_link?: string;
-  regions?: Region[];
+  data: {
+    heading?: string;
+    button_text?: string;
+    button_link?: string;
+    regions?: Region[];
+  };
 }
 
 const NavigationNextBlock: React.FC<NavigationNextBlockProps> = ({
-  heading,
-  button_text,
-  button_link,
-  regions = [],
+  data,
 }) => {
+  const { heading, button_text, button_link, regions = [] } = data || {};
   if (!regions || regions.length === 0) {
     return null;
   }

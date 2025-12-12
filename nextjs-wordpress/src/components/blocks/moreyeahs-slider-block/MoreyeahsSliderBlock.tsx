@@ -86,6 +86,8 @@ export default function MoreyeahsSliderBlock({ slides: slidesProp, data, ...attr
                   alt={slide.heading || 'Slide'}
                   fill
                   className="moreyeahs-slider-block__img"
+                  sizes="100vw"
+                  quality={85}
                   priority={index === 0}
                 />
               </div>
