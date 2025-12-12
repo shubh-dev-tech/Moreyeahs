@@ -72,15 +72,26 @@ $transition-speed: 0.3s;
 }
 
 .full-width-left-text-section__content {
-  flex: 1;
+  flex: 0 0 50%;
   color: $text-color;
   z-index: 2;
+  padding-right: 2rem;
 }
 
 // Reversed Layout
 .full-width-left-text-section--reversed {
   .full-width-left-text-section__container {
     flex-direction: row-reverse;
+  }
+
+  .full-width-left-text-section__content {
+    padding-right: 0;
+    padding-left: 2rem;
+  }
+
+  .full-width-left-text-section__image {
+    padding-left: 0;
+    padding-right: 2rem;
   }
 
   .full-width-left-text-section__image-element {
@@ -232,9 +243,10 @@ $transition-speed: 0.3s;
 // 7. Image Section
 // ============================================
 .full-width-left-text-section__image {
-  flex: 1;
+  flex: 0 0 50%;
   position: relative;
   z-index: 1;
+  padding-left: 2rem;
 }
 
 .full-width-left-text-section__image-element {
@@ -293,6 +305,16 @@ $transition-speed: 0.3s;
     gap: 2rem;
   }
 
+  .full-width-left-text-section__content {
+    flex: 1;
+    padding-right: 0;
+  }
+
+  .full-width-left-text-section__image {
+    flex: 1;
+    padding-left: 0;
+  }
+
   .full-width-left-text-section__heading {
     font-size: $heading-size-mobile;
   }
@@ -329,6 +351,14 @@ $transition-speed: 0.3s;
   .full-width-left-text-section--reversed {
     .full-width-left-text-section__container {
       flex-direction: column;
+    }
+
+    .full-width-left-text-section__content {
+      padding-left: 0;
+    }
+
+    .full-width-left-text-section__image {
+      padding-right: 0;
     }
   }
 }

@@ -21,6 +21,21 @@
     align-items: center;
   }
 
+  // Reversed layout - image on left, content on right
+  &--reversed {
+    .moreyeahs-content__wrapper {
+      .moreyeahs-content__text-content {
+        order: 2;
+        padding-right: 0;
+        padding-left: 20px;
+      }
+
+      .moreyeahs-content__image-wrapper {
+        order: 1;
+      }
+    }
+  }
+
   &__text-content {
     padding-right: 20px;
   }
@@ -112,6 +127,16 @@
     &__text-content {
       padding-right: 10px;
     }
+
+    // Reversed layout adjustments for tablet
+    &--reversed {
+      .moreyeahs-content__wrapper {
+        .moreyeahs-content__text-content {
+          padding-right: 0;
+          padding-left: 10px;
+        }
+      }
+    }
   }
 
   // Mobile Styles
@@ -130,6 +155,7 @@
 
     &__text-content {
       padding-right: 0;
+      padding-left: 0;
       order: 2;
     }
 
@@ -150,6 +176,21 @@
     &__button {
       padding: 10px 24px;
       font-size: 0.8125rem;
+    }
+
+    // On mobile, always show image first regardless of reverse layout
+    // This maintains consistent mobile UX
+    &--reversed {
+      .moreyeahs-content__wrapper {
+        .moreyeahs-content__text-content {
+          padding-left: 0;
+          order: 2;
+        }
+
+        .moreyeahs-content__image-wrapper {
+          order: 1;
+        }
+      }
     }
   }
 

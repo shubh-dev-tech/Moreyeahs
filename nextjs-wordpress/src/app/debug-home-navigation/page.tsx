@@ -25,8 +25,8 @@ export default async function DebugHomeNavigation() {
   }
 
   // Find navigation-next-block
-  let navigationBlock = null;
-  let blockIndex = -1;
+  let navigationBlock: any = null;
+  let blockIndex: string | number = -1;
   
   function findNavigationBlock(blocks: any[], parentIndex = '') {
     blocks.forEach((block, index) => {

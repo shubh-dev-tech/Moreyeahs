@@ -42,7 +42,7 @@ export async function fetchWordPressAPI<T>(endpoint: string): Promise<T> {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      cache: 'no-store',
+      next: { revalidate: 3600 },
       signal: controller.signal,
     });
     
@@ -90,7 +90,7 @@ export async function fetchGraphQL<T = any>(query: string, variables?: Record<st
         query,
         variables: variables || {},
       }),
-      cache: 'no-store',
+      next: { revalidate: 3600 },
       signal: controller.signal,
     });
 
@@ -151,7 +151,7 @@ export async function fetchRestAPI(endpoint: string) {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      cache: 'no-store',
+      next: { revalidate: 3600 },
       signal: controller.signal,
     });
     

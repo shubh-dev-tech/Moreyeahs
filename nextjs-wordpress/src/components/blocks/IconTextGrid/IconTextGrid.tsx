@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import './styles.scss';
 
 interface IconTextGridItem {
@@ -34,6 +33,38 @@ export default function IconTextGrid({ data }: IconTextGridProps) {
     } catch (e) {
       items = [];
     }
+  } else if (typeof rawItems === 'number' && rawItems > 0) {
+    // Handle flattened ACF repeater data from WordPress REST API
+    items = [];
+    for (let i = 0; i < rawItems; i++) {
+      const text = (data as any)[`items_${i}_text`];
+      const iconData = (data as any)[`items_${i}_icon`];
+      const link = (data as any)[`items_${i}_link`];
+      
+      if (text) {
+        let iconUrl = '/placeholder-icon.png';
+        let iconAlt = text;
+        
+        // Handle expanded image data from WordPress API
+        if (iconData && typeof iconData === 'object' && iconData.url) {
+          iconUrl = iconData.url;
+          iconAlt = iconData.alt || iconData.title || text;
+        } else if (typeof iconData === 'number') {
+          // Fallback for numeric ID (shouldn't happen with updated API)
+          iconUrl = `/wp-content/uploads/icon-${iconData}.png`;
+        }
+        
+        const item: IconTextGridItem = {
+          text,
+          link: link || '#',
+          icon: {
+            url: iconUrl,
+            alt: iconAlt
+          }
+        };
+        items.push(item);
+      }
+    }
   }
 
   if (!items || items.length === 0) {
@@ -55,12 +86,12 @@ export default function IconTextGrid({ data }: IconTextGridProps) {
               
               {item.icon && (
                 <div className="icon-text-grid__icon-wrapper">
-                  <Image
+                  <img
+                    decoding="async"
                     src={item.icon.url}
                     alt={item.icon.alt || item.text}
                     className="icon-text-grid__icon"
-                    width={64}
-                    height={64}
+                    style={{}}
                   />
                 </div>
               )}

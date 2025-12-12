@@ -23,6 +23,8 @@ interface MoreyeahsContentBlockProps {
     buttonUrl?: string;
     button_text?: string;  // WordPress field name
     button_url?: string;   // WordPress field name
+    reverseLayout?: boolean;
+    reverse_layout?: boolean;  // WordPress field name
   };
 }
 
@@ -32,6 +34,7 @@ export default function MoreyeahsContentBlock({ data }: MoreyeahsContentBlockPro
   const description = data?.description;
   const buttonText = data?.buttonText || data?.button_text;
   const buttonUrl = data?.buttonUrl || data?.button_url;
+  const reverseLayout = data?.reverseLayout || data?.reverse_layout;
 
   // State for dynamically fetched image
   const [fetchedImage, setFetchedImage] = useState<{ url: string; alt: string; width: number; height: number } | null>(null);
@@ -126,7 +129,7 @@ export default function MoreyeahsContentBlock({ data }: MoreyeahsContentBlockPro
   }
 
   return (
-    <section className="moreyeahs-content">
+    <section className={`moreyeahs-content${reverseLayout ? ' moreyeahs-content--reversed' : ''}`}>
       <div className="moreyeahs-content__container">
         
         <div className="moreyeahs-content__wrapper">

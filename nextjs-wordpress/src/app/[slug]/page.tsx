@@ -45,12 +45,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   // Use blocks from API if available, otherwise parse from content
-  const blocks = page.blocks && page.blocks.length > 0 
+  const blocks = page.blocks && Array.isArray(page.blocks) && page.blocks.length > 0 
     ? page.blocks 
-    : parseBlocks(page.content);
+    : parseBlocks(page.content) || [];
 
   // If no blocks found, render raw HTML content
-  if (blocks.length === 0 && page.content) {
+  if ((!blocks || blocks.length === 0) && page.content) {
     return (
       <main className="min-h-screen">
         <WordPressContent content={page.content} />
