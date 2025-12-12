@@ -7,7 +7,7 @@ export default async function DebugACF() {
     console.log('Debug ACF URL:', apiUrl);
     
     const response = await fetch(apiUrl, { 
-      cache: 'no-store',
+      next: { revalidate: 3600 },
       headers: {
         'Accept': 'application/json',
       }

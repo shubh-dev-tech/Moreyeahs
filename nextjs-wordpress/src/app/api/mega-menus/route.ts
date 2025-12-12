@@ -5,7 +5,7 @@ const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL || 'http://localhost/wp-js
 export async function GET() {
   try {
     const response = await fetch(`${WP_API_URL}/wp/v2/mega-menus`, {
-      cache: 'no-store'
+      next: { revalidate: 3600 }
     });
 
     if (!response.ok) {
