@@ -3,7 +3,7 @@
  * Handles automatic environment detection and URL configuration for both Next.js and WordPress
  */
 
-export type Environment = 'local' | 'development' | 'staging' | 'production' | 'vercel';
+export type Environment = 'local' | 'development' | 'staging' | 'production';
 
 export interface EnvironmentConfig {
   environment: Environment;
@@ -22,7 +22,7 @@ export interface EnvironmentConfig {
 export function detectEnvironment(): Environment {
   // Check explicit environment variable first
   const explicitEnv = process.env.NEXT_PUBLIC_ENVIRONMENT;
-  if (explicitEnv && ['local', 'development', 'staging', 'production', 'vercel'].includes(explicitEnv)) {
+  if (explicitEnv && ['local', 'development', 'staging', 'production'].includes(explicitEnv)) {
     return explicitEnv as Environment;
   }
 
@@ -31,11 +31,6 @@ export function detectEnvironment(): Environment {
     // Check NODE_ENV and other indicators
     if (process.env.NODE_ENV === 'development') {
       return 'local';
-    }
-    
-    // Check if we're specifically in Vercel environment
-    if (process.env.VERCEL && process.env.NEXT_PUBLIC_ENVIRONMENT === 'vercel') {
-      return 'vercel';
     }
     
     // Check Vercel environment
@@ -120,12 +115,6 @@ export function getEnvironmentConfig(): EnvironmentConfig {
       case 'staging':
         wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_STAGING_URL || 'https://staging.moreyeahs.com';
         break;
-      case 'vercel':
-        // Vercel environment uses dev.moreyeahs.com as data source
-        wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_DEV_URL || 
-                      process.env.NEXT_PUBLIC_WORDPRESS_URL || 
-                      'https://dev.moreyeahs.com';
-        break;
       case 'production':
         wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_PROD_URL || 
                       process.env.NEXT_PUBLIC_WORDPRESS_URL || 
@@ -148,12 +137,6 @@ export function getEnvironmentConfig(): EnvironmentConfig {
         break;
       case 'staging':
         wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_STAGING_URL || 'https://staging.moreyeahs.com';
-        break;
-      case 'vercel':
-        // Vercel environment uses dev.moreyeahs.com as data source
-        wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_DEV_URL || 
-                      process.env.NEXT_PUBLIC_WORDPRESS_URL || 
-                      'https://dev.moreyeahs.com';
         break;
       case 'production':
         wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_PROD_URL || 
@@ -186,38 +169,15 @@ export function transformMediaUrl(url: string): string {
   
   const config = getEnvironmentConfig();
   
-  // Debug logging on server-side
-  if (typeof window === 'undefined' && process.env.NODE_ENV === 'development') {
-    console.log('transformMediaUrl:', { url, wordpressUrl: config.wordpressUrl });
-  }
-  
-  // If URL is already pointing to the correct domain, return as-is
-  if (url.startsWith(config.wordpressUrl)) {
+  // Extract the media path (everything after wp-content)
+  const mediaPathMatch = url.match(/\/wp-content\/uploads\/(.+)$/);
+  if (!mediaPathMatch) {
+    // If it's not a standard WordPress media URL, return as-is
     return url;
   }
   
-  // Extract the media path (everything after wp-content)
-  const mediaPathMatch = url.match(/\/wp-content\/uploads\/(.+)$/);
-  if (mediaPathMatch) {
-    const mediaPath = mediaPathMatch[1];
-    const result = `${config.wordpressUrl}/wp-content/uploads/${mediaPath}`;
-    return result;
-  }
-  
-  // If it's a relative URL (starts with /wp-content), prepend the WordPress URL
-  if (url.startsWith('/wp-content/')) {
-    return `${config.wordpressUrl}${url}`;
-  }
-  
-  // If it's a relative URL but doesn't have wp-content, it might be relative to uploads
-  if (!url.startsWith('http') && !url.startsWith('/')) {
-    // Assume it's relative to uploads folder
-    return `${config.wordpressUrl}/wp-content/uploads/${url}`;
-  }
-  
-  // If it's not a standard WordPress media URL, return as-is
-  // Make sure we never return empty string
-  return url && url.length > 0 ? url : '';
+  const mediaPath = mediaPathMatch[1];
+  return `${config.wordpressUrl}/wp-content/uploads/${mediaPath}`;
 }
 
 /**
