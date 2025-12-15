@@ -18,16 +18,12 @@ export async function fetchWordPressAPI<T>(endpoint: string): Promise<T> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
     
-    // Use shorter revalidation for pages-with-blocks endpoint to ensure dynamic content
-    const isBlocksEndpoint = endpoint.includes('pages-with-blocks');
-    const revalidateTime = isBlocksEndpoint ? 60 : 3600;
-    
     const response = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      next: { revalidate: revalidateTime },
+      next: { revalidate: 3600 },
       signal: controller.signal,
     });
     
