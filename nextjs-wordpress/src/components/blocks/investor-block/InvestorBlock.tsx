@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { transformMediaUrl } from '@/lib/wordpress';
 import './styles.scss';
 
 interface InvestorItem {
@@ -71,7 +72,7 @@ export default function InvestorBlock({ data }: InvestorBlockProps) {
             {featured_image?.url && (
               <div className="investor-block__featured-image">
                 <Image 
-                  src={featured_image.url} 
+                  src={transformMediaUrl(featured_image.url)} 
                   alt={featured_image.alt || featured_title || 'Featured image'}
                   fill
                   className="investor-block__featured-img"

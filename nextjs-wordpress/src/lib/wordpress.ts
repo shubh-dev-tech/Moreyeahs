@@ -1,31 +1,12 @@
+import { getWordPressUrl, getWordPressApiUrl, transformMediaUrl } from './environment';
+
 // WordPress REST API configuration
 function getBaseUrl() {
-  // Prefer explicit environment variables
-  let url = process.env.NEXT_PUBLIC_WORDPRESS_URL || process.env.WORDPRESS_REST_API_URL || '';
-
-  // Development convenience: fallback to local WP path if running locally and nothing is set
-  if (!url && process.env.NODE_ENV === 'development') {
-    url = 'http://localhost/moreyeahs-new';
-    console.warn('Using development fallback WordPress URL:', url);
-  }
-
-  return url;
+  return getWordPressUrl();
 }
 
 export async function fetchWordPressAPI<T>(endpoint: string): Promise<T> {
-  const baseUrl = getBaseUrl();
-
-  // Check if base URL is configured
-  if (!baseUrl) {
-    console.error('WordPress API URL not configured. Set NEXT_PUBLIC_WORDPRESS_URL or WORDPRESS_REST_API_URL.');
-    throw new Error('WordPress API URL not configured');
-  }
-
-  // Build the full URL
-  let apiUrl = baseUrl;
-  if (!apiUrl.includes('/wp-json')) {
-    apiUrl = `${apiUrl}/wp-json`;
-  }
+  const apiUrl = getWordPressApiUrl();
 
   if (!endpoint.startsWith('/')) {
     endpoint = `/${endpoint}`;
@@ -67,13 +48,7 @@ export async function fetchWordPressAPI<T>(endpoint: string): Promise<T> {
 }
 
 export async function fetchGraphQL<T = any>(query: string, variables?: Record<string, any>): Promise<T> {
-  const baseUrl = getBaseUrl();
-
-  if (!baseUrl) {
-    console.error('WordPress API URL not configured for GraphQL.');
-    throw new Error('WordPress API URL not configured');
-  }
-
+  const baseUrl = getWordPressUrl();
   const graphqlUrl = `${baseUrl}/graphql`;
 
   try {
@@ -117,29 +92,14 @@ export async function fetchGraphQL<T = any>(query: string, variables?: Record<st
 }
 
 export async function fetchRestAPI(endpoint: string) {
-  // Get base URL from environment (with same fallback used above)
-  const envBase = getBaseUrl();
-
-  // If no base URL is configured, return null instead of throwing
-  if (!envBase) {
-    if (process.env.NODE_ENV === 'development') {
-      console.warn('WordPress API URL not configured');
-    }
-    return null;
-  }
-
-  let baseUrl = envBase;
-  // If baseUrl doesn't contain /wp-json, add it
-  if (!baseUrl.includes('/wp-json')) {
-    baseUrl = `${baseUrl}/wp-json`;
-  }
+  const apiUrl = getWordPressApiUrl();
 
   // Ensure endpoint starts with /
   if (!endpoint.startsWith('/')) {
     endpoint = `/${endpoint}`;
   }
 
-  const url = `${baseUrl}${endpoint}`;
+  const url = `${apiUrl}${endpoint}`;
   
   try {
     // Add timeout to prevent hanging requests
@@ -302,3 +262,6 @@ export async function getMegaMenus(): Promise<MegaMenuData[]> {
     return [];
   }
 }
+
+// Export environment utilities for use in components
+export { transformMediaUrl, transformWordPressUrl, getWordPressUrl, getWordPressApiUrl } from './environment';

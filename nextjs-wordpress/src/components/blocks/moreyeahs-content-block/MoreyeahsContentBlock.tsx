@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { transformMediaUrl } from '@/lib/wordpress';
 import './styles.scss';
 
 interface MoreyeahsContentBlockProps {
@@ -166,7 +167,7 @@ export default function MoreyeahsContentBlock({ data }: MoreyeahsContentBlockPro
             <div className="moreyeahs-content__image-wrapper">
               <div className="moreyeahs-content__image">
                 <Image 
-                  src={image.url} 
+                  src={transformMediaUrl(image.url)} 
                   alt={image.alt || heading || 'Content image'}
                   width={image.width || 600}
                   height={image.height || 400}

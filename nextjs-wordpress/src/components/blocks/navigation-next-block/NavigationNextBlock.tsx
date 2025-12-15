@@ -20,8 +20,12 @@ interface NavigationNextBlockProps {
 const NavigationNextBlock: React.FC<NavigationNextBlockProps> = ({
   data,
 }) => {
-  const { heading, button_text, button_link, regions = [] } = data || {};
-  if (!regions || regions.length === 0) {
+  const { heading, button_text, button_link, regions } = data || {};
+  
+  // Ensure regions is an array
+  const regionsArray = Array.isArray(regions) ? regions : [];
+  
+  if (regionsArray.length === 0) {
     return null;
   }
 
@@ -29,7 +33,7 @@ const NavigationNextBlock: React.FC<NavigationNextBlockProps> = ({
     <section className="navigation-next-block">
       <div className="navigation-next-block__container">
         <div className="navigation-next-block__grid">
-          {regions.map((region, index) => (
+          {regionsArray.map((region, index) => (
             <a
               key={index}
               href={region.link || '#'}

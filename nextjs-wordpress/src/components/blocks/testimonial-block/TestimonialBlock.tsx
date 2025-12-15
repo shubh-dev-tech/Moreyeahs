@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { transformMediaUrl } from '@/lib/wordpress';
 import './styles.scss';
 
 interface Testimonial {
@@ -77,7 +78,7 @@ const TestimonialBlock: React.FC<TestimonialBlockProps> = ({ data }) => {
           {background_image?.url && (
             <div className="testimonial-block__background">
               <Image
-                src={background_image.url}
+                src={transformMediaUrl(background_image.url)}
                 alt={background_image.alt || 'Background'}
                 fill
                 className="testimonial-block__bg-img"
@@ -103,7 +104,7 @@ const TestimonialBlock: React.FC<TestimonialBlockProps> = ({ data }) => {
                   {testimonial.author_image?.url && (
                     <div className="testimonial-block__image">
                       <Image
-                        src={testimonial.author_image.url}
+                        src={transformMediaUrl(testimonial.author_image.url)}
                         alt={testimonial.author_image.alt || `${testimonial.author_name} avatar`}
                         width={60}
                         height={60}

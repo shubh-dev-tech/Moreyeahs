@@ -1,6 +1,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
-import { fetchWordPressAPI } from '@/lib/wordpress';
+import { fetchWordPressAPI, transformMediaUrl } from '@/lib/wordpress';
 import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 
@@ -103,7 +103,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         {featuredImage && (
           <div className="post-single__featured-image">
             <img
-              src={featuredImage.source_url}
+              src={transformMediaUrl(featuredImage.source_url)}
               alt={featuredImage.alt_text || post.title.rendered}
               width={featuredImage.media_details.width}
               height={featuredImage.media_details.height}

@@ -7,6 +7,7 @@ import { MenuItem } from '@/types/menu';
 import { wpUrlToPath } from '@/lib/url-utils';
 import MegaMenu, { MegaMenuData } from './MegaMenu';
 import MobileMenu from './MobileMenu';
+import { transformMediaUrl } from '@/lib/wordpress';
 
 interface HeaderWithMegaMenuProps {
   siteName: string;
@@ -71,7 +72,7 @@ export default function HeaderWithMegaMenu({ siteName, logo, primaryMenuItems, s
           <Link href="/" className="header__logo">
             {logo ? (
               <Image
-                src={logo.url}
+                src={transformMediaUrl(logo.url)}
                 alt={logo.alt || siteName}
                 width={logo.width}
                 height={logo.height}

@@ -2,7 +2,7 @@
  * Debug page for Full Width Left Text Section blocks
  */
 
-import { fetchWordPressAPI } from '@/lib/wordpress';
+import { fetchWordPressAPI, transformMediaUrl } from '@/lib/wordpress';
 
 async function getPageData() {
   try {
@@ -111,7 +111,7 @@ export default async function DebugFullWidth() {
                   <div className="p-4 bg-green-50 rounded">
                     <p className="text-green-700 mb-2">✅ Image data looks good!</p>
                     <img 
-                      src={block.attrs.data.right_image.url}
+                      src={transformMediaUrl(block.attrs.data.right_image.url)}
                       alt={block.attrs.data.right_image.alt || 'Test image'}
                       className="max-w-xs border rounded"
                       onError={(e) => {
