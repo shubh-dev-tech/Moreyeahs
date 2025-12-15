@@ -4,8 +4,7 @@
  */
 
 import React from 'react';
-import Image from 'next/image';
-import { transformMediaUrl } from '@/lib/wordpress';
+import { ImageSection } from './ImageSection';
 import './styles.scss';
 
 interface FullWidthLeftTextSectionProps {
@@ -42,6 +41,8 @@ interface FullWidthLeftTextSectionProps {
 }
 
 export function FullWidthLeftTextSection({ data }: FullWidthLeftTextSectionProps) {
+
+  
   const {
     heading,
     sub_heading,
@@ -171,17 +172,7 @@ export function FullWidthLeftTextSection({ data }: FullWidthLeftTextSectionProps
         </div>
         
         {/* Right Image Section */}
-        {right_image && (
-          <div className="full-width-left-text-section__image">
-            <Image
-              src={transformMediaUrl(right_image.url)}
-              alt={right_image.alt || 'Decorative image'}
-              width={right_image.width || 600}
-              height={right_image.height || 600}
-              className="full-width-left-text-section__image-element"
-            />
-          </div>
-        )}
+        <ImageSection imageData={right_image} />
       </div>
       
       {/* Decorative Background Elements */}

@@ -1,7 +1,35 @@
 import { fetchWordPressAPI } from '@/lib/wordpress';
-import { parseBlocks } from '@/lib/blocks';
+import { parseBlocks, Block } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import VerticalStepper from '@/components/VerticalStepper';
+
+// Enable ISR for dynamic content - revalidate every 60 seconds
+export const revalidate = 60;
+
+/**
+ * Flatten blocks by extracting innerBlocks from core/group wrappers
+ * This ensures ACF blocks inside groups are rendered directly
+ */
+function flattenGroupBlocks(blocks: Block[]): Block[] {
+  const flattened: Block[] = [];
+  
+  blocks.forEach(block => {
+    // If it's a core/group block, extract and add its inner blocks instead
+    if (block.blockName === 'core/group' && block.innerBlocks && block.innerBlocks.length > 0) {
+      // Recursively flatten inner blocks in case they also contain groups
+      flattened.push(...flattenGroupBlocks(block.innerBlocks));
+    } else {
+      // For non-group blocks, add as-is and recursively flatten any inner blocks
+      const processedBlock = { ...block };
+      if (block.innerBlocks && block.innerBlocks.length > 0) {
+        processedBlock.innerBlocks = flattenGroupBlocks(block.innerBlocks);
+      }
+      flattened.push(processedBlock);
+    }
+  });
+  
+  return flattened;
+}
 
 async function getHomePage() {
   try {
@@ -22,6 +50,11 @@ async function getHomePage() {
           pageData = await fetchWordPressAPI<any>(`/wp/v2/pages-with-blocks/${firstPage.slug}`);
         }
       }
+    }
+    
+    if (pageData && pageData.blocks) {
+      // Flatten core/group blocks to expose ACF blocks
+      pageData.blocks = flattenGroupBlocks(pageData.blocks);
     }
     
     return pageData;

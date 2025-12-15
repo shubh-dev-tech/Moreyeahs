@@ -28,16 +28,27 @@ export function HeroBlock({ data }: HeroBlockProps) {
 
   return (
     <section className="hero-block">
-      {background_image?.url && (
-        <Image
-          src={transformMediaUrl(background_image.url)}
-          alt={background_image.alt || 'Hero background'}
-          fill
-          className="hero-block__background"
-          priority
-          sizes="100vw"
-          quality={85}
-        />
+      {background_image?.url && typeof background_image.url === 'string' && background_image.url.trim() !== '' && (
+        (() => {
+          const transformedUrl = transformMediaUrl(background_image.url);
+          
+          if (!transformedUrl || transformedUrl.trim() === '') {
+            console.warn('HeroBlock: Failed to transform background image URL', background_image.url);
+            return null;
+          }
+          
+          return (
+            <Image
+              src={transformedUrl}
+              alt={background_image.alt || 'Hero background'}
+              fill
+              className="hero-block__background"
+              priority
+              sizes="100vw"
+              quality={85}
+            />
+          );
+        })()
       )}
       <div className="hero-block__content">
         {title && <h1 className="hero-block__title">{title}</h1>}
