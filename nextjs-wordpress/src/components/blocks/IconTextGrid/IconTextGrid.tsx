@@ -1,4 +1,5 @@
 import React from 'react';
+import { transformMediaUrl } from '@/lib/wordpress';
 import './styles.scss';
 
 interface IconTextGridItem {
@@ -88,7 +89,7 @@ export default function IconTextGrid({ data }: IconTextGridProps) {
                 <div className="icon-text-grid__icon-wrapper">
                   <img
                     decoding="async"
-                    src={item.icon.url}
+                    src={transformMediaUrl(item.icon.url)}
                     alt={item.icon.alt || item.text}
                     className="icon-text-grid__icon"
                     style={{}}

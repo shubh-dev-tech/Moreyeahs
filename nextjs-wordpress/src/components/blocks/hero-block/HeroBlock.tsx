@@ -5,6 +5,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { transformMediaUrl } from '@/lib/wordpress';
 import './styles.scss';
 
 interface HeroBlockProps {
@@ -29,7 +30,7 @@ export function HeroBlock({ data }: HeroBlockProps) {
     <section className="hero-block">
       {background_image?.url && (
         <Image
-          src={background_image.url}
+          src={transformMediaUrl(background_image.url)}
           alt={background_image.alt || 'Hero background'}
           fill
           className="hero-block__background"

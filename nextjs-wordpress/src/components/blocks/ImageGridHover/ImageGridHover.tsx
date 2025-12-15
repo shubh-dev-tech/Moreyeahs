@@ -6,6 +6,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { transformMediaUrl } from '@/lib/wordpress';
 import './styles.scss';
 
 interface ImageData {
@@ -131,7 +132,7 @@ const ImageGridHover: React.FC<ImageGridHoverProps> = ({ data }) => {
     const content = (
       <div className="image-wrapper">
         <Image
-          src={item.image.url}
+          src={transformMediaUrl(item.image.url)}
           alt={item.image.alt || item.heading}
           width={item.image.width || 800}
           height={item.image.height || 600}

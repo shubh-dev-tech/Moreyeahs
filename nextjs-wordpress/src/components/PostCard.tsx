@@ -2,7 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Post } from '@/lib/types';
-import { stripHtml, truncateText } from '@/lib/seo';
+import { truncateText } from '@/lib/seo';
+import { transformMediaUrl } from '@/lib/wordpress';
 
 interface PostCardProps {
   post: Post;
@@ -22,7 +23,7 @@ export default function PostCard({ post }: PostCardProps) {
         <Link href={`/posts/${post.slug}`} className="post-card__image-link">
           <div className="post-card__image">
             <Image
-              src={post.featuredImage.node.sourceUrl}
+              src={transformMediaUrl(post.featuredImage.node.sourceUrl)}
               alt={post.featuredImage.node.altText || post.title}
               width={post.featuredImage.node.mediaDetails.width}
               height={post.featuredImage.node.mediaDetails.height}

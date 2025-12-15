@@ -20,24 +20,20 @@ define( 'WP_CACHE', true );
  * @package WordPress
  */
 
-// ** Database settings - You can get this info from your web host ** //
-/** The name of the database for WordPress */
-define( 'DB_NAME', 'moreyeahs-new' );
+// Include dynamic environment configuration
+require_once __DIR__ . '/wp-config-dynamic.php';
 
-/** Database username */
-define( 'DB_USER', 'root' );
+// ** Database settings - These are now handled by wp-config-dynamic.php ** //
+// The dynamic config will set these based on environment detection
+// You can override them here if needed for specific environments
 
-/** Database password */
-define( 'DB_PASSWORD', '' );
-
-/** Database hostname */
-define( 'DB_HOST', 'localhost' );
-
-/** Database charset to use in creating database tables. */
-define( 'DB_CHARSET', 'utf8mb4' );
-
-/** The database collate type. Don't change this if in doubt. */
-define( 'DB_COLLATE', '' );
+// Fallback database settings (only used if not set by dynamic config)
+if (!defined('DB_NAME')) define( 'DB_NAME', 'moreyeahs-new' );
+if (!defined('DB_USER')) define( 'DB_USER', 'root' );
+if (!defined('DB_PASSWORD')) define( 'DB_PASSWORD', '' );
+if (!defined('DB_HOST')) define( 'DB_HOST', 'localhost' );
+if (!defined('DB_CHARSET')) define( 'DB_CHARSET', 'utf8mb4' );
+if (!defined('DB_COLLATE')) define( 'DB_COLLATE', '' );
 
 /**#@+
  * Authentication unique keys and salts.
@@ -87,13 +83,13 @@ $table_prefix = 'wp_';
  *
  * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
  */
-define( 'WP_DEBUG', false );
+// define( 'WP_DEBUG', false ); // Now handled by wp-config-dynamic.php
 
 /* Add any custom values between this line and the "stop editing" line. */
 
-// JWT Authentication Configuration
-define('JWT_AUTH_SECRET_KEY', '555ada25dd42bb78694f9ebe9d0b2686046f07fc2d49886ed1f197a9c626b4121c792203e6c96051754c02f0f692293d22ef55f6e09552076647b1ac1e54d942');
-define('ALLOWED_ORIGIN', 'http://localhost:3000'); // Change to your Next.js URL
+// JWT Authentication Configuration - Now handled by dynamic config
+// The dynamic config will set these based on environment
+// You can override them here if needed
 
 
 

@@ -5,6 +5,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { transformMediaUrl } from '@/lib/wordpress';
 import './styles.scss';
 
 interface ImageTextBlockProps {
@@ -34,7 +35,7 @@ export function ImageTextBlock({ data }: ImageTextBlockProps) {
             {image?.url && (
               <div className="image-text-block__image">
                 <Image
-                  src={image.url}
+                  src={transformMediaUrl(image.url)}
                   alt={image.alt || ''}
                   fill
                   className="image-text-block__img"

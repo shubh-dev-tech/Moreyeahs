@@ -4,6 +4,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { transformMediaUrl } from '@/lib/wordpress';
 
 interface CoreImageProps {
   innerHTML: string;
@@ -27,7 +28,7 @@ export function CoreImage({ innerHTML, data }: CoreImageProps) {
       <figure className="my-8">
         <div className="relative w-full" style={{ aspectRatio: `${aspectRatio}` }}>
           <Image
-            src={data.url}
+            src={transformMediaUrl(data.url)}
             alt={data.alt || ''}
             fill
             className="object-contain"

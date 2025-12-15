@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { transformMediaUrl } from '@/lib/wordpress';
 
 export interface MegaMenuItem {
   title: string;
@@ -123,7 +124,7 @@ export default function MegaMenu({ trigger, menuData }: MegaMenuProps) {
               {menuData.featured_content?.enable && menuData.featured_content.image && (
                 <div className="mega-menu-featured">
                   <Image
-                    src={menuData.featured_content.image.url}
+                    src={transformMediaUrl(menuData.featured_content.image.url)}
                     alt={menuData.featured_content.image.alt || 'Featured'}
                     width={menuData.featured_content.image.width}
                     height={menuData.featured_content.image.height}
