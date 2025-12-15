@@ -1,0 +1,114 @@
+{
+    "key": "group_icon_text_grid",
+    "title": "Icon Text Grid",
+    "fields": [
+        {
+            "key": "field_icon_text_grid_items",
+            "label": "Grid Items",
+            "name": "items",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add or remove grid items. Each item has text, icon, and link.",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "min": 1,
+            "max": 12,
+            "layout": "block",
+            "button_label": "Add Item",
+            "rows_per_page": 20,
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_icon_text_grid_text",
+                    "label": "Text",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter the text for this grid item",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "Service offerings",
+                    "default_value": "",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_icon_text_grid_items"
+                },
+                {
+                    "key": "field_icon_text_grid_icon",
+                    "label": "Icon",
+                    "name": "icon",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Upload a small icon (recommended size: 60x60px)",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "thumbnail",
+                    "library": "all",
+                    "min_width": 0,
+                    "min_height": 0,
+                    "min_size": 0,
+                    "max_width": 0,
+                    "max_height": 0,
+                    "max_size": 0,
+                    "mime_types": "",
+                    "parent_repeater": "field_icon_text_grid_items"
+                },
+                {
+                    "key": "field_icon_text_grid_link",
+                    "label": "Link URL",
+                    "name": "link",
+                    "aria-label": "",
+                    "type": "url",
+                    "instructions": "Enter the URL this item should link to",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "https:\/\/example.com\/services",
+                    "default_value": "",
+                    "parent_repeater": "field_icon_text_grid_items"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/icon-text-grid"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Flexible grid with text and icons that rotate on hover",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1764853202
+}
