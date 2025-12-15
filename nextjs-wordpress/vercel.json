@@ -4,6 +4,17 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "regions": ["iad1"],
+  "env": {
+    "NEXT_PUBLIC_ENVIRONMENT": "vercel",
+    "NEXT_PUBLIC_WORDPRESS_URL": "https://dev.moreyeahs.com",
+    "WORDPRESS_API_URL": "https://dev.moreyeahs.com/graphql",
+    "WORDPRESS_REST_API_URL": "https://dev.moreyeahs.com/wp-json",
+    "NEXT_PUBLIC_WORDPRESS_DEV_URL": "https://dev.moreyeahs.com",
+    "WORDPRESS_DEV_API_URL": "https://dev.moreyeahs.com/wp-json",
+    "ALLOW_BUILD_WITHOUT_WORDPRESS": "true",
+    "ENABLE_AUTH_MIDDLEWARE": "false",
+    "REVALIDATE_TIME": "1800"
+  },
   "headers": [
     {
       "source": "/(.*)",
