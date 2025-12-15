@@ -1,0 +1,12 @@
+/*
+Theme Name: Twenty Twenty-Five Child
+Description: Child theme of Twenty Twenty-Five with all custom blocks and functionality preserved
+Author: Your Name
+Template: twentytwentyfive
+Version: 1.0.0
+*/
+
+/* Import parent theme styles */
+@import url("../twentytwentyfive/style.css");
+
+/* Add your custom styles below this line */

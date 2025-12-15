@@ -1,0 +1,207 @@
+{
+    "key": "group_moreyeahs_service_block",
+    "title": "More Years Service Block",
+    "fields": [
+        {
+            "key": "field_moreyeahs_service_heading",
+            "label": "Main Heading",
+            "name": "heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the main heading for the service block",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Our Offerings",
+            "placeholder": "Our Offerings",
+            "show_in_graphql": 1,
+            "graphql_field_name": "heading",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_moreyeahs_service_subheading",
+            "label": "Subheading",
+            "name": "subheading",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Enter a description or subheading",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Enterprise Agile DevOps capabilities and solutions to help clients succeed",
+            "placeholder": "Enterprise Agile DevOps capabilities and solutions to help clients succeed",
+            "show_in_graphql": 1,
+            "graphql_field_name": "subheading",
+            "maxlength": "",
+            "rows": 3,
+            "new_lines": ""
+        },
+        {
+            "key": "field_moreyeahs_service_sections",
+            "label": "Service Sections",
+            "name": "service_sections",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add service sections. Each section can have a heading with URL and multiple services.",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "show_in_graphql": 1,
+            "graphql_field_name": "serviceSections",
+            "min": 1,
+            "max": 10,
+            "layout": "block",
+            "button_label": "Add New Service Section",
+            "collapsed": "",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_moreyeahs_service_section_heading",
+                    "label": "Service Heading",
+                    "name": "service_heading",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter the heading for this service section (will be displayed in bold)",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "Explore Solutions",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "serviceHeading",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_moreyeahs_service_sections"
+                },
+                {
+                    "key": "field_moreyeahs_service_section_heading_url",
+                    "label": "Service Heading URL",
+                    "name": "service_heading_url",
+                    "aria-label": "",
+                    "type": "url",
+                    "instructions": "Optional: Add a URL to make the service heading clickable",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "https:\/\/example.com\/solutions",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "serviceHeadingUrl",
+                    "parent_repeater": "field_moreyeahs_service_sections"
+                },
+                {
+                    "key": "field_moreyeahs_services",
+                    "label": "Services",
+                    "name": "services",
+                    "aria-label": "",
+                    "type": "repeater",
+                    "instructions": "Add individual services under this section",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "services",
+                    "min": 1,
+                    "max": 20,
+                    "layout": "table",
+                    "button_label": "Add Service",
+                    "collapsed": "",
+                    "rows_per_page": 20,
+                    "sub_fields": [
+                        {
+                            "key": "field_moreyeahs_service_name",
+                            "label": "Service Name",
+                            "name": "service_name",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "Enter the name of the service",
+                            "required": 1,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "Infosys DevSecOps Platform",
+                            "show_in_graphql": 1,
+                            "graphql_field_name": "serviceName",
+                            "maxlength": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_moreyeahs_services"
+                        },
+                        {
+                            "key": "field_moreyeahs_service_url",
+                            "label": "Service URL",
+                            "name": "service_url",
+                            "aria-label": "",
+                            "type": "url",
+                            "instructions": "Enter the URL for this service",
+                            "required": 1,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "https:\/\/example.com\/service",
+                            "show_in_graphql": 1,
+                            "graphql_field_name": "serviceUrl",
+                            "parent_repeater": "field_moreyeahs_services"
+                        }
+                    ],
+                    "parent_repeater": "field_moreyeahs_service_sections"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/moreyeahs-service-block"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "A service block with main heading, subheading, and repeatable service sections with borders",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1765348282
+}
