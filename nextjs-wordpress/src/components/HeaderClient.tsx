@@ -7,6 +7,7 @@ import { MenuItem } from '@/types/menu';
 import MobileMenu from './MobileMenu';
 import MegaMenu, { MegaMenuData } from './MegaMenu';
 import { wpUrlToPath } from '@/lib/url-utils';
+import { transformMediaUrl } from '@/lib/wordpress';
 
 interface SiteSettings {
   title: string;
@@ -138,7 +139,7 @@ export default function HeaderClient() {
           <Link href="/" className="header__logo">
             {logo ? (
               <Image
-                src={logo.url}
+                src={transformMediaUrl(logo.url)}
                 alt={logo.alt || siteName}
                 width={logo.width}
                 height={logo.height}

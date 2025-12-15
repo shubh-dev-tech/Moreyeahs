@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { MenuItem } from '@/types/menu';
 import { MegaMenuData } from './MegaMenu';
 import { wpUrlToPath } from '@/lib/url-utils';
+import { transformMediaUrl } from '@/lib/wordpress';
 
 interface MobileMenuProps {
   items: MenuItem[];
@@ -196,7 +197,7 @@ export default function MobileMenu({ items, logo, siteName, megaMenus = [] }: Mo
             <Link href="/" className="mobile-menu__logo" onClick={closeMenu}>
               {logo ? (
                 <Image
-                  src={logo.url}
+                  src={transformMediaUrl(logo.url)}
                   alt={logo.alt || siteName || 'Logo'}
                   width={logo.width}
                   height={logo.height}

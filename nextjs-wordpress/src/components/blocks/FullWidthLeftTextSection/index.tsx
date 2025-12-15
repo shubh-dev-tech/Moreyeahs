@@ -5,6 +5,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { transformMediaUrl } from '@/lib/wordpress';
 import './styles.scss';
 
 interface FullWidthLeftTextSectionProps {
@@ -173,7 +174,7 @@ export function FullWidthLeftTextSection({ data }: FullWidthLeftTextSectionProps
         {right_image && (
           <div className="full-width-left-text-section__image">
             <Image
-              src={right_image.url}
+              src={transformMediaUrl(right_image.url)}
               alt={right_image.alt || 'Decorative image'}
               width={right_image.width || 600}
               height={right_image.height || 600}

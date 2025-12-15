@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
+import { transformMediaUrl } from '@/lib/wordpress';
 import './styles.scss';
 
 interface Slide {
@@ -82,7 +83,7 @@ export default function MoreyeahsSliderBlock({ slides: slidesProp, data, ...attr
             {slide.image && (
               <div className="moreyeahs-slider-block__image">
                 <Image
-                  src={slide.image}
+                  src={transformMediaUrl(slide.image)}
                   alt={slide.heading || 'Slide'}
                   fill
                   className="moreyeahs-slider-block__img"

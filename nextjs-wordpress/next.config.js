@@ -1,9 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // basePath removed - Next.js runs on its own port (3000)
-  // WordPress is at http://localhost/moreyeahs-new
   images: {
+    unoptimized: process.env.NODE_ENV === 'development', // Disable optimization in development
     remotePatterns: [
+      // Local development - specific paths
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        pathname: '/moreyeahs-new/**',
+      },
       {
         protocol: 'http',
         hostname: 'localhost',
@@ -13,13 +18,34 @@ const nextConfig = {
         hostname: '*.localhost',
       },
       {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+      },
+      // Development environment
+      {
         protocol: 'https',
-        hostname: '**.wordpress.com',
+        hostname: 'dev.moreyeahs.com',
+      },
+      // Staging environment
+      {
+        protocol: 'https',
+        hostname: 'staging.moreyeahs.com',
+      },
+      // Production environment
+      {
+        protocol: 'https',
+        hostname: 'moreyeahs.com',
       },
       {
         protocol: 'https',
-        hostname: 'your-wordpress-site.com',
+        hostname: 'www.moreyeahs.com',
       },
+      // WordPress.com hosted sites
+      {
+        protocol: 'https',
+        hostname: '**.wordpress.com',
+      },
+      // Generic patterns for flexibility
       {
         protocol: 'https',
         hostname: '**.com',
@@ -27,6 +53,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '**.org',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.net',
       },
     ],
     formats: ['image/avif', 'image/webp'],
