@@ -1,6 +1,9 @@
 import React from 'react';
 import MoreyeahsContentBlock from '@/components/blocks/moreyeahs-content-block';
 
+// Build-safe: all test pages are force-dynamic
+export const dynamic = 'force-dynamic';
+
 export default function TestReverseLayoutPage() {
   // Test data for normal layout
   const normalLayoutData = {

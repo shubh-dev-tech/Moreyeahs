@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { transformMediaUrl } from '@/lib/wordpress';
+import { transformMediaUrl } from '@/lib/wpFetch';
 import './styles.scss';
 
 interface MoreyeahsContentBlockProps {

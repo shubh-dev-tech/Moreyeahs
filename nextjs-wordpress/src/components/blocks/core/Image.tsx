@@ -4,7 +4,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { transformMediaUrl } from '@/lib/wordpress';
+import { transformMediaUrl } from '@/lib/wpFetch';
 
 interface CoreImageProps {
   innerHTML: string;

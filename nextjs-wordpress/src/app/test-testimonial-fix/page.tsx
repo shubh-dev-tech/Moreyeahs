@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react';
 import TestimonialBlock from '@/components/blocks/testimonial-block';
 
+// Build-safe: all test pages are force-dynamic
+export const dynamic = 'force-dynamic';
+
 export default function TestTestimonialFix() {
   const [testimonialData, setTestimonialData] = useState<any>(null);
   const [loading, setLoading] = useState(true);

@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { transformMediaUrl } from '@/lib/wordpress';
+import { transformMediaUrl } from '@/lib/wpFetch';
 import './styles.scss';
 
 interface InvestorItem {

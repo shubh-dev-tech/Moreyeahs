@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Post } from '@/lib/types';
 import { truncateText } from '@/lib/seo';
-import { transformMediaUrl } from '@/lib/wordpress';
+import { transformMediaUrl } from '@/lib/wpFetch';
 
 interface PostCardProps {
   post: Post;

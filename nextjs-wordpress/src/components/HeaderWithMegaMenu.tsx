@@ -7,7 +7,7 @@ import { MenuItem } from '@/types/menu';
 import { wpUrlToPath } from '@/lib/url-utils';
 import MegaMenu, { MegaMenuData } from './MegaMenu';
 import MobileMenu from './MobileMenu';
-import { transformMediaUrl } from '@/lib/wordpress';
+import { transformMediaUrl } from '@/lib/wpFetch';
 
 interface HeaderWithMegaMenuProps {
   siteName: string;

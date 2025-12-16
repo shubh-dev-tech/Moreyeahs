@@ -1,53 +1,42 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { fetchGraphQL } from '@/lib/wordpress';
-import { GET_POSTS_BY_CATEGORY } from '@/lib/queries';
+import { getPosts } from '@/lib/wpFetch';
 import PostCard from '@/components/PostCard';
 
 interface CategoryPageProps {
   params: { slug: string };
 }
 
-export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  try {
-    const data: any = await fetchGraphQL(GET_POSTS_BY_CATEGORY, { slug: params.slug, first: 1 });
-    const category = data.category;
+// Build-safe: force dynamic for category pages
+export const dynamic = 'force-dynamic';
 
-    return {
-      title: `${category.name} - Category`,
-      description: category.description || `Posts in ${category.name} category`,
-    };
-  } catch (error) {
-    return {
-      title: 'Category',
-    };
-  }
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+  return {
+    title: `${params.slug} - Category`,
+    description: `Posts in ${params.slug} category`,
+  };
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
-  const data: any = await fetchGraphQL(GET_POSTS_BY_CATEGORY, { slug: params.slug, first: 50 });
-  const category = data.category;
-
-  if (!category) {
-    return (
-      <div className="container">
-        <h1>Category not found</h1>
-      </div>
-    );
-  }
+  // Build-safe: get posts by category using REST API
+  const posts = await getPosts({ categories: params.slug, per_page: 50, _embed: 1 });
 
   return (
     <div className="container">
       <section className="page-header">
-        <h1>{category.name}</h1>
-        {category.description && <p>{category.description}</p>}
+        <h1>{params.slug.charAt(0).toUpperCase() + params.slug.slice(1)}</h1>
+        <p>Posts in {params.slug} category</p>
       </section>
 
       <section className="posts-grid">
         <div className="posts-grid__items">
-          {category.posts.nodes.map((post: any) => (
-            <PostCard key={post.id} post={post} />
-          ))}
+          {posts.length > 0 ? (
+            posts.map((post: any) => (
+              <PostCard key={post.id} post={post} />
+            ))
+          ) : (
+            <p>No posts found in this category.</p>
+          )}
         </div>
       </section>
     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { transformMediaUrl } from '@/lib/wordpress';
+import { transformMediaUrl } from '@/lib/wpFetch';
 import './styles.scss';
 
 interface IconTextGridItem {

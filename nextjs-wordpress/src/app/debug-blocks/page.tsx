@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react';
 
+// Build-safe: all debug pages are force-dynamic
+export const dynamic = 'force-dynamic';
+
 interface DebugData {
   restApiData: any;
   slug: string;

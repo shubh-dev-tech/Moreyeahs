@@ -1,4 +1,4 @@
-import { fetchWordPressAPI } from '@/lib/wordpress';
+import { getPageWithBlocks, getPages } from '@/lib/wpFetch';
 import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WordPressContent } from '@/components/WordPressContent';
@@ -13,14 +13,8 @@ interface PageData {
 }
 
 async function getPageData(slug: string): Promise<PageData | null> {
-  try {
-    // Use the custom REST API endpoint for pages with ACF blocks
-    const data = await fetchWordPressAPI<PageData>(`/wp/v2/pages-with-blocks/${slug}`);
-    return data;
-  } catch (error) {
-    console.error('Error fetching page data:', error);
-    return null;
-  }
+  // Build-safe: use wpFetch instead of fetchWordPressAPI
+  return await getPageWithBlocks(slug);
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
@@ -40,6 +34,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function Page({ params }: { params: { slug: string } }) {
   const page = await getPageData(params.slug);
 
+  // Build-safe: render 404 instead of throwing
   if (!page) {
     notFound();
   }
@@ -65,17 +60,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
   );
 }
 
-// Optional: Generate static params for known pages
+// Build-safe: Generate static params for known pages
 export async function generateStaticParams() {
-  try {
-    const pages = await fetchWordPressAPI<Array<{ slug: string }>>('/wp/v2/pages?per_page=100');
-    return pages.map((page) => ({
-      slug: page.slug,
-    }));
-  } catch (error) {
-    return [];
-  }
+  // Build-safe: use wpFetch, return empty array on failure
+  const pages = await getPages({ per_page: 100 });
+  return pages.map((page) => ({
+    slug: page.slug,
+  }));
 }
 
-// Revalidate every hour
-export const revalidate = 3600;
+// Build-safe: ISR with 60s revalidation
+export const revalidate = 60;

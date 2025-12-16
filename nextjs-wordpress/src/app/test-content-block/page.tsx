@@ -2,6 +2,9 @@
 
 import MoreyeahsContentBlock from '@/components/blocks/moreyeahs-content-block';
 
+// Build-safe: all test pages are force-dynamic
+export const dynamic = 'force-dynamic';
+
 export default function TestContentBlockPage() {
   const testData = {
     heading: "Infosys Blockchain Technology Services for Enterprises",

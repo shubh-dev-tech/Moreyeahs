@@ -1,6 +1,9 @@
 import React from 'react';
 import { FullWidthLeftTextSection } from '@/components/blocks/FullWidthLeftTextSection';
 
+// Build-safe: all test pages are force-dynamic
+export const dynamic = 'force-dynamic';
+
 export default function TestFullWidthManualPage() {
   // Test data for normal layout
   const normalLayoutData = {
