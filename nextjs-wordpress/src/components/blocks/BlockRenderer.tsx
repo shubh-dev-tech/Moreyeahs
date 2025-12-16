@@ -26,6 +26,7 @@ import NavigationNextBlock from './navigation-next-block';
 import StepperBlock from './stepper-block/StepperBlock';
 import MoreyeahsServiceBlock from './moreyeahs-service-block';
 import MoreyeahsContentBlock from './moreyeahs-content-block';
+import StoriesBlogBlockWrapper from './stories-blog-block/StoriesBlogBlockWrapper';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
@@ -55,6 +56,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/stepper-block': StepperBlock,
   'acf/moreyeahs-service-block': MoreyeahsServiceBlock,
   'acf/moreyeahs-content-block': MoreyeahsContentBlock,
+  'acf/stories-blog-block': StoriesBlogBlockWrapper,
   
   // Custom Blocks (without ACF)
   'moreyeahs/slider': MoreyeahsSliderBlock,

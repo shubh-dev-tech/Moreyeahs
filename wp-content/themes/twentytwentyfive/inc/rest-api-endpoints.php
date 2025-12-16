@@ -48,6 +48,13 @@ add_action('rest_api_init', function () {
         'permission_callback' => '__return_true'
     ]);
 
+    // Post types endpoint for dynamic dropdown
+    register_rest_route('wp/v2', '/post-types', [
+        'methods' => 'GET',
+        'callback' => 'get_public_post_types_rest',
+        'permission_callback' => '__return_true'
+    ]);
+
     // Pages with ACF blocks endpoint
     register_rest_route('wp/v2', '/pages-with-blocks/(?P<slug>[a-zA-Z0-9-_]+)', [
         'methods' => 'GET',
@@ -329,6 +336,33 @@ function get_mega_menus_rest() {
             'main_heading' => $main_heading,
             'categories' => $categories ?: [],
             'featured_content' => $featured ?: null
+        ];
+    }
+
+    return rest_ensure_response($result);
+}
+
+/**
+ * Get public post types for dynamic dropdown
+ */
+function get_public_post_types_rest() {
+    $post_types = get_post_types([
+        'public' => true,
+        'show_in_rest' => true
+    ], 'objects');
+
+    $result = [];
+    
+    foreach ($post_types as $post_type) {
+        // Skip attachment post type
+        if ($post_type->name === 'attachment') {
+            continue;
+        }
+        
+        $result[] = [
+            'slug' => $post_type->name,
+            'name' => $post_type->labels->name,
+            'rest_base' => $post_type->rest_base ?: $post_type->name
         ];
     }
 
