@@ -1,3 +1,6 @@
+// Build-safe: all debug pages are force-dynamic
+export const dynamic = 'force-dynamic';
+
 export default async function DebugACF() {
   let debugData = null;
   let error = null;

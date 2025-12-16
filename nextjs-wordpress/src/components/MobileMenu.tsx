@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { MenuItem } from '@/types/menu';
 import { MegaMenuData } from './MegaMenu';
 import { wpUrlToPath } from '@/lib/url-utils';
-import { transformMediaUrl } from '@/lib/wordpress';
+import { transformMediaUrl } from '@/lib/wpFetch';
 
 interface MobileMenuProps {
   items: MenuItem[];

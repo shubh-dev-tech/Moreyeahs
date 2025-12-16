@@ -7,7 +7,7 @@ import { MenuItem } from '@/types/menu';
 import MobileMenu from './MobileMenu';
 import MegaMenu, { MegaMenuData } from './MegaMenu';
 import { wpUrlToPath } from '@/lib/url-utils';
-import { transformMediaUrl } from '@/lib/wordpress';
+import { transformMediaUrl } from '@/lib/wpFetch';
 
 interface SiteSettings {
   title: string;

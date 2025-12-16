@@ -2,32 +2,14 @@
  * Debug page for Full Width Left Text Section blocks
  */
 
-import { fetchWordPressAPI, transformMediaUrl } from '@/lib/wordpress';
+import { getPageWithBlocks, transformMediaUrl } from '@/lib/wpFetch';
+
+// Build-safe: all debug pages are force-dynamic
+export const dynamic = 'force-dynamic';
 
 async function getPageData() {
-  try {
-    // Try to get the home page data
-    let pageData = null;
-    
-    try {
-      pageData = await fetchWordPressAPI<any>('/wp/v2/pages-with-blocks/home');
-    } catch (error) {
-      try {
-        pageData = await fetchWordPressAPI<any>('/wp/v2/pages-with-blocks/homepage');
-      } catch (error) {
-        const pages = await fetchWordPressAPI<any[]>('/wp/v2/pages?per_page=1&status=publish');
-        if (pages && pages.length > 0) {
-          const firstPage = pages[0];
-          pageData = await fetchWordPressAPI<any>(`/wp/v2/pages-with-blocks/${firstPage.slug}`);
-        }
-      }
-    }
-    
-    return pageData;
-  } catch (error) {
-    console.error('Error fetching page data:', error);
-    return null;
-  }
+  // Build-safe: use wpFetch instead of fetchWordPressAPI
+  return await getPageWithBlocks('home');
 }
 
 export default async function DebugFullWidth() {
