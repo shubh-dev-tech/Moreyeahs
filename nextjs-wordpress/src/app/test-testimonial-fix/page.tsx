@@ -11,7 +11,7 @@ export default function TestTestimonialFix() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost/moreyeahs-new';
+        const apiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://dev.moreyeahs.com';
         const response = await fetch(`${apiUrl}/wp-json/wp/v2/pages-with-blocks/home`);
         
         if (!response.ok) {

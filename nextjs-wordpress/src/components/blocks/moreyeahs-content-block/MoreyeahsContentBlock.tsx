@@ -51,7 +51,7 @@ export default function MoreyeahsContentBlock({ data }: MoreyeahsContentBlockPro
       setIsLoadingImage(true);
       setImageError(false);
       
-      const wpBaseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost/moreyeahs-new';
+      const wpBaseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://dev.moreyeahs.com';
       const imageId = data.image;
       
       // Add timeout to prevent hanging requests

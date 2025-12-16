@@ -2,7 +2,7 @@
  * Test media ID 155
  */
 
-const WORDPRESS_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost/moreyeahs-new';
+const WORDPRESS_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://dev.moreyeahs.com';
 
 async function testMedia155() {
     console.log('🔍 Testing media ID 155...\n');

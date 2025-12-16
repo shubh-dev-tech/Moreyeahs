@@ -107,7 +107,7 @@ export function getEnvironmentConfig(): EnvironmentConfig {
       case 'local':
         wordpressUrl = process.env.WORDPRESS_FALLBACK_API_URL
           ? process.env.WORDPRESS_FALLBACK_API_URL.replace(/\/wp-json\/?$/i, '')
-          : (process.env.NEXT_PUBLIC_WORDPRESS_FALLBACK_URL || 'http://localhost/moreyeahs-new');
+          : (process.env.NEXT_PUBLIC_WORDPRESS_FALLBACK_URL || 'https://dev.moreyeahs.com');
         break;
       case 'development':
         wordpressUrl = process.env.WORDPRESS_DEV_API_URL
@@ -132,7 +132,7 @@ export function getEnvironmentConfig(): EnvironmentConfig {
     // WordPress URL based on detected environment and available env vars
     switch (environment) {
       case 'local':
-        wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_FALLBACK_URL || 'http://localhost/moreyeahs-new';
+        wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_FALLBACK_URL || 'https://dev.moreyeahs.com';
         break;
       case 'development':
         wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_DEV_URL || 
@@ -258,7 +258,7 @@ export function getDatabaseConfig() {
     case 'local':
       return {
         host: 'localhost',
-        name: 'moreyeahs-new',
+        name: 'moreyeahs_dev',
         user: 'root',
         password: '',
       };
@@ -286,7 +286,7 @@ export function getDatabaseConfig() {
     default:
       return {
         host: 'localhost',
-        name: 'moreyeahs-new',
+        name: 'moreyeahs_dev',
         user: 'root',
         password: '',
       };
