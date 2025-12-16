@@ -3,7 +3,7 @@
  */
 
 import { fetchWordPressAPI } from '@/lib/wordpress';
-import TestimonialBlock from '@/components/blocks/testimonial-block/TestimonialBlock';
+import TestimonialBlock from '@/components/blocks/testimonial-block';
 
 async function getTestimonialData() {
   try {

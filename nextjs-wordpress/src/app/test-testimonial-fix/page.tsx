@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import TestimonialBlock from '@/components/blocks/testimonial-block/TestimonialBlock';
+import TestimonialBlock from '@/components/blocks/testimonial-block';
 
 export default function TestTestimonialFix() {
   const [testimonialData, setTestimonialData] = useState<any>(null);
