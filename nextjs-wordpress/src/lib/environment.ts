@@ -105,20 +105,24 @@ export function getEnvironmentConfig(): EnvironmentConfig {
     // WordPress URL based on environment
     switch (environment) {
       case 'local':
-        wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_FALLBACK_URL || 'http://localhost/moreyeahs-new';
+        wordpressUrl = process.env.WORDPRESS_FALLBACK_API_URL
+          ? process.env.WORDPRESS_FALLBACK_API_URL.replace(/\/wp-json\/?$/i, '')
+          : (process.env.NEXT_PUBLIC_WORDPRESS_FALLBACK_URL || 'http://localhost/moreyeahs-new');
         break;
       case 'development':
-        wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_DEV_URL || 
-                      process.env.NEXT_PUBLIC_WORDPRESS_URL || 
-                      'https://dev.moreyeahs.com';
+        wordpressUrl = process.env.WORDPRESS_DEV_API_URL
+          ? process.env.WORDPRESS_DEV_API_URL.replace(/\/wp-json\/?$/i, '')
+          : (process.env.NEXT_PUBLIC_WORDPRESS_DEV_URL || process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://dev.moreyeahs.com');
         break;
       case 'staging':
-        wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_STAGING_URL || 'https://staging.moreyeahs.com';
+        wordpressUrl = process.env.WORDPRESS_STAGING_API_URL
+          ? process.env.WORDPRESS_STAGING_API_URL.replace(/\/wp-json\/?$/i, '')
+          : (process.env.NEXT_PUBLIC_WORDPRESS_STAGING_URL || 'https://staging.moreyeahs.com');
         break;
       case 'production':
-        wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_PROD_URL || 
-                      process.env.NEXT_PUBLIC_WORDPRESS_URL || 
-                      'https://moreyeahs.com';
+        wordpressUrl = process.env.WORDPRESS_PROD_API_URL
+          ? process.env.WORDPRESS_PROD_API_URL.replace(/\/wp-json\/?$/i, '')
+          : (process.env.NEXT_PUBLIC_WORDPRESS_PROD_URL || process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://moreyeahs.com');
         break;
     }
   } else {
@@ -147,7 +151,23 @@ export function getEnvironmentConfig(): EnvironmentConfig {
   }
   
   // WordPress API URL
+  // Sanitize production builds: avoid localhost WordPress URLs on Vercel
+  if ((process.env.VERCEL_ENV === 'production' || environment === 'production') && wordpressUrl.includes('localhost')) {
+    const prodCandidate = process.env.NEXT_PUBLIC_WORDPRESS_PROD_URL || process.env.NEXT_PUBLIC_WORDPRESS_URL || '';
+    if (prodCandidate && !prodCandidate.includes('localhost')) {
+      wordpressUrl = prodCandidate;
+    } else {
+      wordpressUrl = 'https://moreyeahs.com';
+    }
+  }
+
   wordpressApiUrl = `${wordpressUrl}/wp-json`;
+
+  // Optional build-time debug log (only server-side)
+  if (typeof window === 'undefined' && (process.env.DEBUG_ENV === 'true' || process.env.NEXT_PUBLIC_DEBUG_ENV === 'true')) {
+    // eslint-disable-next-line no-console
+    console.info(`[env] environment=${environment} nextjsUrl=${nextjsUrl} wordpressUrl=${wordpressUrl} wordpressApiUrl=${wordpressApiUrl}`);
+  }
   
   return {
     environment,
