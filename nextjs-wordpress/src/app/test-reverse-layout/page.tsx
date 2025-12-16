@@ -1,5 +1,5 @@
 import React from 'react';
-import MoreyeahsContentBlock from '@/components/blocks/moreyeahs-content-block/MoreyeahsContentBlock';
+import MoreyeahsContentBlock from '@/components/blocks/moreyeahs-content-block';
 
 export default function TestReverseLayoutPage() {
   // Test data for normal layout

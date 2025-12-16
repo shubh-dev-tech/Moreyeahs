@@ -1,6 +1,6 @@
 import { fetchWordPressAPI } from '@/lib/wordpress';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
-import NavigationNextBlock from '@/components/blocks/navigation-next-block/NavigationNextBlock';
+import NavigationNextBlock from '@/components/blocks/navigation-next-block';
 
 async function getHomePage() {
   try {

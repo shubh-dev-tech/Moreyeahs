@@ -1,0 +1,13 @@
+{
+  "builds": [
+    {
+      "src": "nextjs-wordpress/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "nextjs-wordpress/.next" }
+    }
+  ],
+  "buildCommand": "npm --prefix nextjs-wordpress run build",
+  "installCommand": "npm --prefix nextjs-wordpress install",
+  "devCommand": "npm --prefix nextjs-wordpress run dev",
+  "framework": "nextjs"
+}

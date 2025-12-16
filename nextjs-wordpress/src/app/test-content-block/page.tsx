@@ -1,6 +1,6 @@
 'use client';
 
-import MoreyeahsContentBlock from '@/components/blocks/moreyeahs-content-block/MoreyeahsContentBlock';
+import MoreyeahsContentBlock from '@/components/blocks/moreyeahs-content-block';
 
 export default function TestContentBlockPage() {
   const testData = {
