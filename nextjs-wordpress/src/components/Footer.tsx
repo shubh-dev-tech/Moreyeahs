@@ -37,7 +37,7 @@ function FooterColumn({ widget }: FooterColumnProps) {
       )}
       
       {/* Show links for menu widgets */}
-      {hasLinks && (
+      {hasLinks && widget.links && (
         <ul className="footer__links">
            {widget && widget.links.map((link, index) => (
             <li key={index}>
