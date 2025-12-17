@@ -5,7 +5,7 @@ async function testNavigationNextBlock() {
         console.log('Testing Navigation Next Block API...\n');
         
         // Test the home page API endpoint
-        const response = await fetch('http://localhost/moreyeahs-new/wp-json/wp/v2/pages-with-blocks/home');
+        const response = await fetch('https://dev.moreyeahs.com/wp-json/wp/v2/pages-with-blocks/home');
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

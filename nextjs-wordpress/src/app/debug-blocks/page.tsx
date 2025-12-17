@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react';
 
+// Build-safe: all debug pages are force-dynamic
+export const dynamic = 'force-dynamic';
+
 interface DebugData {
   restApiData: any;
   slug: string;
@@ -25,7 +28,7 @@ export default function DebugBlocksPage() {
 
       // Test REST API endpoint
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost/moreyeahs-new';
+        const apiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost/moreyeahs-new' : 'https://dev.moreyeahs.com');
         const response = await fetch(`${apiUrl}/wp-json/wp/v2/pages-with-blocks/home`, {
           headers: {
             'Accept': 'application/json',

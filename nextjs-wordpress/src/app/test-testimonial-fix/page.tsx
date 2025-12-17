@@ -1,7 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import TestimonialBlock from '@/components/blocks/testimonial-block/TestimonialBlock';
+import TestimonialBlock from '@/components/blocks/testimonial-block';
+
+// Build-safe: all test pages are force-dynamic
+export const dynamic = 'force-dynamic';
 
 export default function TestTestimonialFix() {
   const [testimonialData, setTestimonialData] = useState<any>(null);
@@ -11,7 +14,7 @@ export default function TestTestimonialFix() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost/moreyeahs-new';
+        const apiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost/moreyeahs-new' : 'https://dev.moreyeahs.com');
         const response = await fetch(`${apiUrl}/wp-json/wp/v2/pages-with-blocks/home`);
         
         if (!response.ok) {

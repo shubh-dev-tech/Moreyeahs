@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import JsonLd from '@/components/JsonLd';
+import ClientBlockInitializer from '@/components/ClientBlockInitializer';
 import { AuthProvider } from '@/contexts/AuthContext';
 import './globals.scss';
 
@@ -43,6 +44,7 @@ export default function RootLayout({
             </main>
             <Footer />
           </div>
+          <ClientBlockInitializer />
         </AuthProvider>
       </body>
     </html>

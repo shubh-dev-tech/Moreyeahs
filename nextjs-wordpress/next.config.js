@@ -45,6 +45,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.wordpress.com',
       },
+      // Placeholder service
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
       // Generic patterns for flexibility
       {
         protocol: 'https',

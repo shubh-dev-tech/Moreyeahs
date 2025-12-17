@@ -1,39 +1,17 @@
-import { fetchWordPressAPI } from '@/lib/wordpress';
+import { getHomepageData } from '@/lib/wpFetch';
 import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import VerticalStepper from '@/components/VerticalStepper';
 
-async function getHomePage() {
-  try {
-    // Try to get page with slug 'home' first, then fallback to 'homepage'
-    let pageData = null;
-    
-    try {
-      pageData = await fetchWordPressAPI<any>('/wp/v2/pages-with-blocks/home');
-    } catch (error) {
-      // If 'home' doesn't exist, try other common homepage slugs
-      try {
-        pageData = await fetchWordPressAPI<any>('/wp/v2/pages-with-blocks/homepage');
-      } catch (error) {
-        // If no specific homepage, get the first published page
-        const pages = await fetchWordPressAPI<any[]>('/wp/v2/pages?per_page=1&status=publish');
-        if (pages && pages.length > 0) {
-          const firstPage = pages[0];
-          pageData = await fetchWordPressAPI<any>(`/wp/v2/pages-with-blocks/${firstPage.slug}`);
-        }
-      }
-    }
-    
-    return pageData;
-  } catch (error) {
-    console.error('Error fetching homepage:', error);
-    return null;
-  }
-}
+// Build-safe: this page uses ISR with 60s revalidation
+// If WordPress is offline during build, it will show fallback content
+export const revalidate = 60;
 
 export default async function Home() {
-  const page = await getHomePage();
+  // Build-safe: getHomepageData never throws, returns safe fallbacks
+  const { page, blocks } = await getHomepageData();
 
+  // Build-safe fallback: always renders, even if WordPress is offline
   if (!page) {
     return (
       <main className="min-h-screen p-8">
@@ -47,23 +25,26 @@ export default async function Home() {
     );
   }
 
-  // Use the blocks from the API response if available, otherwise parse content
-  let blocks = page.blocks || [];
+  // Build-safe: use blocks from API or parse content, with empty array fallback
+  let renderBlocks = blocks;
   
-  if (!blocks || blocks.length === 0) {
+  if (!renderBlocks || renderBlocks.length === 0) {
     // Fallback to parsing content if no blocks are provided
-    blocks = parseBlocks(page.content || '');
+    renderBlocks = parseBlocks(page.content || '');
   }
   
-  if (!blocks || blocks.length === 0) {
+  // Build-safe: always render something, even with no blocks
+  if (!renderBlocks || renderBlocks.length === 0) {
     return (
       <main className="min-h-screen p-8">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-4">{page.title}</h1>
+          <h1 className="text-4xl font-bold mb-4">{page.title?.rendered || page.title || 'Home'}</h1>
           <div 
             className="prose max-w-none"
             suppressHydrationWarning
-            dangerouslySetInnerHTML={{ __html: page.content || '<p>No content available. Please create a page with slug "home" in WordPress.</p>' }}
+            dangerouslySetInnerHTML={{ 
+              __html: page.content?.rendered || page.content || '<p>Welcome! Content will appear here when WordPress is connected.</p>' 
+            }}
           />
         </div>
       </main>
@@ -86,7 +67,7 @@ export default async function Home() {
     <>
       <VerticalStepper sections={stepperSections} />
       <main className="min-h-screen">
-        <BlockRenderer blocks={blocks} />
+        <BlockRenderer blocks={renderBlocks} />
       </main>
     </>
   );

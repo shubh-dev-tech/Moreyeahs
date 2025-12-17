@@ -2,7 +2,7 @@
  * Test script to verify testimonial data is properly loaded and transformed
  */
 
-const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost/moreyeahs-new';
+const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://dev.moreyeahs.com';
 
 async function testTestimonialData() {
     console.log('🧪 Testing Testimonial Data Transformation...\n');

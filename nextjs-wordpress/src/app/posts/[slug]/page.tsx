@@ -1,6 +1,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
-import { fetchWordPressAPI, transformMediaUrl } from '@/lib/wordpress';
+import { getPostBySlug, getPosts, transformMediaUrl } from '@/lib/wpFetch';
 import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 
@@ -31,48 +31,36 @@ interface Post {
 }
 
 export async function generateStaticParams() {
-  try {
-    const posts = await fetchWordPressAPI<Post[]>('/wp/v2/posts?per_page=100');
-    return posts.map((post) => ({
-      slug: post.slug,
-    }));
-  } catch (error) {
-    return [];
-  }
+  // Build-safe: use wpFetch instead of fetchWordPressAPI
+  const posts = await getPosts({ per_page: 100 });
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  try {
-    const posts = await fetchWordPressAPI<Post[]>(`/wp/v2/posts?slug=${params.slug}&_embed`);
-    
-    if (!posts || posts.length === 0) {
-      return {};
-    }
-
-    const post = posts[0];
+  // Build-safe: use wpFetch instead of fetchWordPressAPI
+  const post = await getPostBySlug(params.slug);
+  
+  if (!post) {
     return {
-      title: post.title.rendered,
-      description: post.excerpt.rendered.replace(/<[^>]*>/g, '').substring(0, 160),
+      title: 'Post Not Found',
     };
-  } catch (error) {
-    return {};
   }
+
+  return {
+    title: post.title?.rendered || post.title || 'Post',
+    description: (post.excerpt?.rendered || post.excerpt || '').replace(/<[^>]*>/g, '').substring(0, 160),
+  };
 }
 
 export default async function PostPage({ params }: { params: { slug: string } }) {
-  let posts: Post[];
-  
-  try {
-    posts = await fetchWordPressAPI<Post[]>(`/wp/v2/posts?slug=${params.slug}&_embed`);
-  } catch (error) {
+  // Build-safe: use wpFetch instead of fetchWordPressAPI
+  const post = await getPostBySlug(params.slug);
+
+  if (!post) {
     notFound();
   }
-
-  if (!posts || posts.length === 0) {
-    notFound();
-  }
-
-  const post = posts[0];
   const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -87,7 +75,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
       <div className="container container--narrow">
         <header className="post-single__header">
           <h1 className="post-single__title">
-            <span dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+            <span dangerouslySetInnerHTML={{ __html: post.title?.rendered || post.title || 'Untitled' }} />
           </h1>
 
           <div className="post-single__meta">
@@ -115,12 +103,13 @@ export default async function PostPage({ params }: { params: { slug: string } })
         <div className="post-single__content">
           {(() => {
             // Check if content has blocks
-            const blocks = parseBlocks(post.content.rendered);
+            const content = post.content?.rendered || post.content || '';
+            const blocks = parseBlocks(content);
             if (blocks.length > 0) {
               return <BlockRenderer blocks={blocks} />;
             }
             // Fallback to HTML rendering for non-block content
-            return <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />;
+            return <div dangerouslySetInnerHTML={{ __html: content }} />;
           })()}
         </div>
       </div>

@@ -1,6 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
-import { getFooterWidgets, FooterWidget } from '@/lib/wordpress';
+import { getFooterWidgets } from '@/lib/wpFetch';
+
+interface FooterWidget {
+  id: string;
+  title: string;
+  content: string;
+  links: Array<{
+    label: string;
+    url: string;
+  }>;
+}
 
 interface FooterColumnProps {
   widget?: FooterWidget;

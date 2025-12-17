@@ -6,7 +6,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { transformMediaUrl } from '@/lib/wordpress';
+import { transformMediaUrl } from '@/lib/wpFetch';
 import './styles.scss';
 
 interface ImageData {

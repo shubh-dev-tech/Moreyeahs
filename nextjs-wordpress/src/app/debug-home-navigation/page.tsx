@@ -1,15 +1,13 @@
-import { fetchWordPressAPI } from '@/lib/wordpress';
+import { getPageWithBlocks } from '@/lib/wpFetch';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
-import NavigationNextBlock from '@/components/blocks/navigation-next-block/NavigationNextBlock';
+import NavigationNextBlock from '@/components/blocks/navigation-next-block';
+
+// Build-safe: all debug pages are force-dynamic
+export const dynamic = 'force-dynamic';
 
 async function getHomePage() {
-  try {
-    const pageData = await fetchWordPressAPI<any>('/wp/v2/pages-with-blocks/home');
-    return pageData;
-  } catch (error) {
-    console.error('Error fetching homepage:', error);
-    return null;
-  }
+  // Build-safe: use wpFetch instead of fetchWordPressAPI
+  return await getPageWithBlocks('home');
 }
 
 export default async function DebugHomeNavigation() {

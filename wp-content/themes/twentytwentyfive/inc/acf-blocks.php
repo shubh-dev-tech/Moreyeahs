@@ -452,6 +452,38 @@ function twentytwentyfive_register_acf_blocks() {
                 ),
             ),
         ),
+        
+        // Stories Blog Block
+        array(
+            'name'              => 'stories-blog-block',
+            'title'             => __('Stories & Blog Block', 'twentytwentyfive'),
+            'description'       => __('Dynamic content block with auto-detecting post types, custom backgrounds, and latest 4 posts display', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'admin-post',
+            'keywords'          => array('stories', 'blog', 'posts', 'dynamic', 'cpt', 'auto-detect', 'background', 'custom'),
+            'render_template'   => 'blocks/stories-blog-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/stories-blog-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'     => 'Success Stories',
+                        'subheading'  => 'Your partner through complexities of Agile and DevOps transformation',
+                        'post_type'   => 'posts',
+                        'category'    => '',
+                        'button_text' => 'Show More',
+                        'button_url'  => '#',
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block
@@ -525,3 +557,225 @@ function twentytwentyfive_custom_block_category($categories) {
     );
 }
 add_filter('block_categories_all', 'twentytwentyfive_custom_block_category', 10, 1);
+
+/**
+ * Populate post type choices for Stories Blog Block
+ * This function dynamically fetches all public post types
+ */
+function populate_post_type_choices($field) {
+    // Reset choices
+    $field['choices'] = array();
+    
+    // Get all public post types
+    $post_types = get_post_types(array(
+        'public' => true,
+        'show_in_rest' => true, // Only post types available in REST API
+    ), 'objects');
+    
+    // Add each post type as a choice
+    foreach ($post_types as $post_type) {
+        // Skip attachment post type
+        if ($post_type->name === 'attachment') {
+            continue;
+        }
+        
+        $field['choices'][$post_type->name] = $post_type->label;
+    }
+    
+    return $field;
+}
+
+// Apply the function to the specific field
+add_filter('acf/load_field/name=post_type', 'populate_post_type_choices');
+
+/**
+ * Populate category choices for Stories Blog Block based on selected post type
+ * This function dynamically fetches categories for the selected post type
+ */
+function populate_category_choices($field) {
+    // Reset choices
+    $field['choices'] = array('' => 'All Categories');
+    
+    // Get the current post type value
+    $post_type = '';
+    
+    // Try to get post type from various sources
+    if (isset($_POST['acf']['field_stories_post_type'])) {
+        $post_type = $_POST['acf']['field_stories_post_type'];
+    } elseif (isset($_GET['post_type'])) {
+        $post_type = $_GET['post_type'];
+    } elseif (isset($_POST['post_type'])) {
+        $post_type = $_POST['post_type'];
+    }
+    
+    // If no post type is selected, try to get it from the current post
+    if (empty($post_type) && function_exists('get_field')) {
+        $post_type = get_field('post_type');
+    }
+    
+    // Default to 'post' if still empty
+    if (empty($post_type)) {
+        $post_type = 'post';
+    }
+    
+    // Get taxonomies for this post type
+    $taxonomies = get_object_taxonomies($post_type, 'objects');
+    
+    // Look for category-like taxonomies
+    $category_taxonomy = null;
+    foreach ($taxonomies as $taxonomy) {
+        // Check for common category taxonomy names
+        if (in_array($taxonomy->name, ['category', 'categories', $post_type . '_category', $post_type . '-category'])) {
+            $category_taxonomy = $taxonomy->name;
+            break;
+        }
+        // If no specific category taxonomy, use the first hierarchical taxonomy
+        if ($taxonomy->hierarchical && !$category_taxonomy) {
+            $category_taxonomy = $taxonomy->name;
+        }
+    }
+    
+    // If still no taxonomy found, try common patterns
+    if (!$category_taxonomy) {
+        $possible_taxonomies = [
+            'category', // Default WordPress category
+            $post_type . '_category',
+            $post_type . '-category',
+            $post_type . '_cat',
+            $post_type . '-cat'
+        ];
+        
+        foreach ($possible_taxonomies as $tax_name) {
+            if (taxonomy_exists($tax_name)) {
+                $category_taxonomy = $tax_name;
+                break;
+            }
+        }
+    }
+    
+    // Get terms if we found a taxonomy
+    if ($category_taxonomy) {
+        $terms = get_terms(array(
+            'taxonomy' => $category_taxonomy,
+            'hide_empty' => false,
+            'orderby' => 'name',
+            'order' => 'ASC'
+        ));
+        
+        if (!is_wp_error($terms) && !empty($terms)) {
+            foreach ($terms as $term) {
+                $field['choices'][$term->term_id] = $term->name;
+            }
+        }
+    }
+    
+    return $field;
+}
+
+// Apply the function to the category field
+add_filter('acf/load_field/name=category', 'populate_category_choices');
+
+/**
+ * AJAX handler for updating categories based on post type selection
+ * This allows real-time category updates when post type changes
+ */
+function ajax_update_categories() {
+    // Check if request is valid
+    if (!isset($_POST['post_type']) || !isset($_POST['nonce'])) {
+        wp_send_json_error('Missing required parameters');
+        return;
+    }
+    
+    // Verify nonce for security
+    if (!wp_verify_nonce($_POST['nonce'], 'stories_blog_nonce')) {
+        wp_send_json_error('Security check failed');
+        return;
+    }
+    
+    $post_type = sanitize_text_field($_POST['post_type']);
+    $categories = array('' => 'All Categories');
+    
+    // Debug logging (remove in production)
+    error_log("Stories Blog AJAX: Processing post type: " . $post_type);
+    
+    if (!empty($post_type)) {
+        // Get taxonomies for this post type
+        $taxonomies = get_object_taxonomies($post_type, 'objects');
+        
+        // Look for category-like taxonomies
+        $category_taxonomy = null;
+        foreach ($taxonomies as $taxonomy) {
+            if (in_array($taxonomy->name, ['category', 'categories', $post_type . '_category', $post_type . '-category'])) {
+                $category_taxonomy = $taxonomy->name;
+                break;
+            }
+            if ($taxonomy->hierarchical && !$category_taxonomy) {
+                $category_taxonomy = $taxonomy->name;
+            }
+        }
+        
+        // If no taxonomy found, try common patterns
+        if (!$category_taxonomy) {
+            $possible_taxonomies = [
+                'category',
+                $post_type . '_category',
+                $post_type . '-category',
+                $post_type . '_cat',
+                $post_type . '-cat'
+            ];
+            
+            foreach ($possible_taxonomies as $tax_name) {
+                if (taxonomy_exists($tax_name)) {
+                    $category_taxonomy = $tax_name;
+                    break;
+                }
+            }
+        }
+        
+        // Get terms
+        if ($category_taxonomy) {
+            $terms = get_terms(array(
+                'taxonomy' => $category_taxonomy,
+                'hide_empty' => false,
+                'orderby' => 'name',
+                'order' => 'ASC'
+            ));
+            
+            if (!is_wp_error($terms) && !empty($terms)) {
+                foreach ($terms as $term) {
+                    $categories[$term->term_id] = $term->name;
+                }
+            }
+        }
+    }
+    
+    wp_send_json_success($categories);
+}
+
+// Add AJAX handlers for both logged-in and non-logged-in users
+add_action('wp_ajax_update_categories', 'ajax_update_categories');
+add_action('wp_ajax_nopriv_update_categories', 'ajax_update_categories');
+
+/**
+ * Enqueue JavaScript for dynamic category updates in admin
+ */
+function enqueue_stories_blog_admin_scripts($hook) {
+    // Only load on post edit screens and block editor
+    if (!in_array($hook, ['post.php', 'post-new.php'])) {
+        return;
+    }
+    
+    wp_enqueue_script(
+        'stories-blog-admin',
+        get_template_directory_uri() . '/blocks/stories-blog-block/admin.js',
+        array('jquery'),
+        wp_get_theme()->get('Version'),
+        true
+    );
+    
+    wp_localize_script('stories-blog-admin', 'storiesBlogAjax', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('stories_blog_nonce')
+    ));
+}
+add_action('admin_enqueue_scripts', 'enqueue_stories_blog_admin_scripts');

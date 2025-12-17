@@ -7,7 +7,7 @@ import { MenuItem } from '@/types/menu';
 import MobileMenu from './MobileMenu';
 import MegaMenu, { MegaMenuData } from './MegaMenu';
 import { wpUrlToPath } from '@/lib/url-utils';
-import { transformMediaUrl } from '@/lib/wordpress';
+import { transformMediaUrl } from '@/lib/wpFetch';
 
 interface SiteSettings {
   title: string;
@@ -68,7 +68,7 @@ export default function HeaderClient() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost/moreyeahs-new';
+        const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost/moreyeahs-new' : 'https://dev.moreyeahs.com');
         
         // Fetch site settings
         const settingsRes = await fetch(`${baseUrl}/wp-json/wp/v2/site-settings`);

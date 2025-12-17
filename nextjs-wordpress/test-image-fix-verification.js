@@ -2,7 +2,7 @@
  * Verification script to confirm the image fix is working
  */
 
-const WORDPRESS_URL = 'http://localhost/moreyeahs-new';
+const WORDPRESS_URL = 'https://dev.moreyeahs.com';
 
 async function verifyImageFix() {
     console.log('🔍 Verifying Full Width Left Text Section image fix...\n');

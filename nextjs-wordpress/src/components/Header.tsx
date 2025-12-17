@@ -1,5 +1,6 @@
 import React from 'react';
-import { getMenuByLocation, getSiteSettings, getMegaMenus, type MegaMenuData } from '@/lib/wordpress';
+import { getMenuByLocation, getSiteSettings, getMegaMenus } from '@/lib/wpFetch';
+import type { MegaMenuData } from '@/lib/wpFetch';
 import HeaderWithMegaMenu from './HeaderWithMegaMenu';
 
 export default async function Header() {

@@ -2,33 +2,34 @@
  * Test page to verify testimonial block rendering
  */
 
-import { fetchWordPressAPI } from '@/lib/wordpress';
-import TestimonialBlock from '@/components/blocks/testimonial-block/TestimonialBlock';
+import { getPageWithBlocks } from '@/lib/wpFetch';
+import TestimonialBlock from '@/components/blocks/testimonial-block';
+
+// Build-safe: all test pages are force-dynamic
+export const dynamic = 'force-dynamic';
 
 async function getTestimonialData() {
-  try {
-    const pageData = await fetchWordPressAPI<any>('/wp/v2/pages-with-blocks/home');
-    
-    // Find testimonial block recursively
-    function findTestimonialBlock(blocks: any[]): any {
-      for (const block of blocks) {
-        if (block.blockName === 'acf/testimonial-block') {
-          return block;
-        }
-        if (block.innerBlocks && block.innerBlocks.length > 0) {
-          const found = findTestimonialBlock(block.innerBlocks);
-          if (found) return found;
-        }
+  // Build-safe: use wpFetch instead of fetchWordPressAPI
+  const pageData = await getPageWithBlocks('home');
+  
+  if (!pageData?.blocks) return null;
+  
+  // Find testimonial block recursively
+  function findTestimonialBlock(blocks: any[]): any {
+    for (const block of blocks) {
+      if (block.blockName === 'acf/testimonial-block') {
+        return block;
       }
-      return null;
+      if (block.innerBlocks && block.innerBlocks.length > 0) {
+        const found = findTestimonialBlock(block.innerBlocks);
+        if (found) return found;
+      }
     }
-    
-    const testimonialBlock = findTestimonialBlock(pageData.blocks || []);
-    return testimonialBlock?.attrs?.data || null;
-  } catch (error) {
-    console.error('Error fetching testimonial data:', error);
     return null;
   }
+  
+  const testimonialBlock = findTestimonialBlock(pageData.blocks);
+  return testimonialBlock?.attrs?.data || null;
 }
 
 export default async function TestTestimonialRender() {
