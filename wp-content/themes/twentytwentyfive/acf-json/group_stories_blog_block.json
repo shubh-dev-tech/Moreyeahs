@@ -47,6 +47,28 @@
             "new_lines": ""
         },
         {
+            "key": "field_stories_card_label",
+            "label": "Card Label",
+            "name": "card_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the label text that appears on each card (e.g., 'BLOG POST', 'CASE STUDY'). Leave empty to auto-generate from post type.",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "BLOG POST",
+            "show_in_graphql": 1,
+            "graphql_field_name": "cardLabel",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_stories_post_type",
             "label": "Post Type",
             "name": "post_type",
@@ -207,5 +229,5 @@
     "description": "Dynamic content block that displays latest 4 posts from a configured post type and category with customizable background",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1734364800
+    "modified": 1734451200
 }

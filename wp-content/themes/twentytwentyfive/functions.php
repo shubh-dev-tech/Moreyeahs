@@ -711,24 +711,50 @@ if ( ! function_exists( 'twentytwentyfive_render_appearance_page' ) ) :
 
 		// Handle form submission
 		if ( isset( $_POST['appearance_settings_nonce'] ) && wp_verify_nonce( $_POST['appearance_settings_nonce'], 'save_appearance_settings' ) ) {
-			// Save site title
+			// Handle site title
 			if ( isset( $_POST['blogname'] ) ) {
 				update_option( 'blogname', sanitize_text_field( $_POST['blogname'] ) );
 			}
 
-			// Save site description
+			// Handle site description
 			if ( isset( $_POST['blogdescription'] ) ) {
 				update_option( 'blogdescription', sanitize_text_field( $_POST['blogdescription'] ) );
 			}
 
 			// Handle logo upload
 			if ( isset( $_POST['custom_logo'] ) ) {
-				set_theme_mod( 'custom_logo', absint( $_POST['custom_logo'] ) );
+				if ( ! empty( $_POST['custom_logo'] ) ) {
+					$logo_id = absint( $_POST['custom_logo'] );
+					
+					// Verify the attachment exists
+					$attachment = get_post( $logo_id );
+					
+					if ( $attachment && $attachment->post_type === 'attachment' ) {
+						// Save directly to options table
+						update_option( 'custom_logo_id', $logo_id );
+						
+						// Also set the WordPress-style theme mod for compatibility
+						if ( function_exists( 'set_theme_mod' ) ) {
+							set_theme_mod( 'custom_logo', $logo_id );
+						}
+					}
+				} else {
+					// Remove logo if empty
+					delete_option( 'custom_logo_id' );
+				}
 			}
 
 			// Handle site icon upload
 			if ( isset( $_POST['site_icon'] ) ) {
-				update_option( 'site_icon', absint( $_POST['site_icon'] ) );
+				$icon_id = absint( $_POST['site_icon'] );
+				if ( $icon_id > 0 ) {
+					$attachment = get_post( $icon_id );
+					if ( $attachment && $attachment->post_type === 'attachment' ) {
+						update_option( 'site_icon', $icon_id );
+					}
+				} else {
+					delete_option( 'site_icon' );
+				}
 			}
 
 			echo '<div class="notice notice-success is-dismissible"><p>Settings saved successfully!</p></div>';
@@ -737,7 +763,24 @@ if ( ! function_exists( 'twentytwentyfive_render_appearance_page' ) ) :
 		// Get current values
 		$site_title       = get_option( 'blogname' );
 		$site_description = get_option( 'blogdescription' );
-		$custom_logo_id   = get_theme_mod( 'custom_logo' );
+		
+		// Try to get logo from our custom option first, then fallback to theme mod
+		$custom_logo_id = get_option( 'custom_logo_id' );
+		if ( ! $custom_logo_id ) {
+			$custom_logo_raw = get_theme_mod( 'custom_logo' );
+			if ( $custom_logo_raw ) {
+				if ( is_numeric( $custom_logo_raw ) ) {
+					$custom_logo_id = absint( $custom_logo_raw );
+				} else {
+					// It's a URL, extract the ID from the attachment by URL
+					$attachment = attachment_url_to_postid( $custom_logo_raw );
+					$custom_logo_id = $attachment ? $attachment : 0;
+				}
+			}
+		} else {
+			$custom_logo_id = absint( $custom_logo_id );
+		}
+		
 		$site_icon_id     = get_option( 'site_icon' );
 
 		?>
@@ -781,9 +824,11 @@ if ( ! function_exists( 'twentytwentyfive_render_appearance_page' ) ) :
 								<div class="logo-upload-wrapper">
 									<?php if ( $custom_logo_id ) : ?>
 										<?php $logo_image = wp_get_attachment_image_src( $custom_logo_id, 'full' ); ?>
-										<div class="logo-preview" style="margin-bottom: 10px;">
-											<img src="<?php echo esc_url( $logo_image[0] ); ?>" alt="Logo" style="max-width: 400px; max-height: 100px; border: 1px solid #ddd; padding: 10px; background: #f9f9f9;" />
-										</div>
+										<?php if ( $logo_image && is_array( $logo_image ) && ! empty( $logo_image[0] ) ) : ?>
+											<div class="logo-preview" style="margin-bottom: 10px;">
+												<img src="<?php echo esc_url( $logo_image[0] ); ?>" alt="Logo" style="max-width: 400px; max-height: 100px; border: 1px solid #ddd; padding: 10px; background: #f9f9f9;" />
+											</div>
+										<?php endif; ?>
 									<?php endif; ?>
 									<input type="hidden" id="custom_logo" name="custom_logo" value="<?php echo esc_attr( $custom_logo_id ); ?>" />
 									<button type="button" class="button button-secondary upload-logo-button">
@@ -859,15 +904,12 @@ if ( ! function_exists( 'twentytwentyfive_render_appearance_page' ) ) :
 				var logoUploader;
 				$('.upload-logo-button').on('click', function(e) {
 					e.preventDefault();
-					console.log('Logo upload button clicked');
 					
 					if (logoUploader) {
-						console.log('Opening existing logo uploader');
 						logoUploader.open();
 						return;
 					}
 					
-					console.log('Creating new logo uploader');
 					logoUploader = wp.media({
 						title: 'Choose Logo',
 						button: { text: 'Use as Logo' },
@@ -876,11 +918,16 @@ if ( ! function_exists( 'twentytwentyfive_render_appearance_page' ) ) :
 					});
 					
 					logoUploader.on('select', function() {
-						console.log('Logo selected');
 						var attachment = logoUploader.state().get('selection').first().toJSON();
-						console.log('Logo attachment:', attachment);
+						
+						console.log('Attachment selected:', attachment);
+						console.log('Setting hidden input to:', attachment.id);
 						
 						$('#custom_logo').val(attachment.id);
+						
+						console.log('Hidden input value after set:', $('#custom_logo').val());
+						console.log('Hidden input element:', $('#custom_logo'));
+						
 						$('.logo-preview').remove();
 						$('.logo-upload-wrapper').prepend('<div class="logo-preview" style="margin-bottom: 10px;"><img src="' + attachment.url + '" alt="Logo" style="max-width: 400px; max-height: 100px; border: 1px solid #ddd; padding: 10px; background: #f9f9f9;" /></div>');
 						$('.upload-logo-button').text('Change Logo');
@@ -888,8 +935,6 @@ if ( ! function_exists( 'twentytwentyfive_render_appearance_page' ) ) :
 						if (!$('.remove-logo-button').length) {
 							$('.upload-logo-button').after(' <button type="button" class="button button-secondary remove-logo-button" style="margin-left: 5px;">Remove Logo</button>');
 						}
-						
-						console.log('Logo preview updated');
 					});
 					
 					logoUploader.open();
@@ -898,7 +943,6 @@ if ( ! function_exists( 'twentytwentyfive_render_appearance_page' ) ) :
 				// Remove logo
 				$(document).on('click', '.remove-logo-button', function(e) {
 					e.preventDefault();
-					console.log('Remove logo clicked');
 					$('#custom_logo').val('');
 					$('.logo-preview').remove();
 					$('.upload-logo-button').text('Upload Logo');
@@ -954,6 +998,8 @@ if ( ! function_exists( 'twentytwentyfive_render_appearance_page' ) ) :
 					$('.upload-icon-button').text('Upload Site Icon');
 					$(this).remove();
 				});
+				
+
 				
 				console.log('All event handlers attached');
 			});
@@ -1147,3 +1193,151 @@ require_once get_template_directory() . '/inc/rest-api-endpoints.php';
 
 // Load Mega Menu CPT
 require_once get_template_directory() . '/inc/mega-menu-cpt.php';
+
+
+
+/**
+ * Safety check for theme mod values
+ */
+add_filter('theme_mod_custom_logo', function($value) {
+    // Ensure the logo ID is valid
+    if ($value && !get_post($value)) {
+        // Logo ID exists but attachment doesn't - clear it
+        remove_theme_mod('custom_logo');
+        return false;
+    }
+    return $value;
+});
+/**
+ * Logo Persistence Across Theme Changes
+ * Fixes the issue where logo becomes null when switching between parent and child themes
+ */
+
+/**
+ * Preserve logo when switching themes
+ */
+add_action('switch_theme', function($new_name, $new_theme, $old_theme) {
+    // Get logo from the old theme
+    $old_logo = get_theme_mod('custom_logo');
+    
+    if ($old_logo && get_post($old_logo)) {
+        // Store in option for the new theme to pick up
+        update_option('custom_logo_id', $old_logo);
+        
+        // Also set it immediately in the new theme
+        set_theme_mod('custom_logo', $old_logo);
+    }
+}, 10, 3);
+
+/**
+ * Restore logo after theme activation
+ */
+add_action('after_switch_theme', function() {
+    $option_logo = get_option('custom_logo_id');
+    $theme_logo = get_theme_mod('custom_logo');
+    
+    // If theme doesn't have logo but option does, restore it
+    if (!$theme_logo && $option_logo && get_post($option_logo)) {
+        set_theme_mod('custom_logo', $option_logo);
+    }
+    
+    // If theme has logo but option doesn't, sync it
+    if ($theme_logo && !$option_logo && get_post($theme_logo)) {
+        update_option('custom_logo_id', $theme_logo);
+    }
+});
+
+/**
+ * Sync logo between theme mod and option when logo is updated
+ */
+add_action('customize_save_after', function() {
+    $logo_id = get_theme_mod('custom_logo');
+    if ($logo_id) {
+        update_option('custom_logo_id', $logo_id);
+    }
+});
+
+/**
+ * Enhanced logo handling for appearance settings page
+ */
+add_action('admin_init', function() {
+    // Sync logo when appearance settings are saved
+    if (isset($_POST['appearance_settings_nonce']) && wp_verify_nonce($_POST['appearance_settings_nonce'], 'save_appearance_settings')) {
+        if (isset($_POST['custom_logo'])) {
+            $logo_id = absint($_POST['custom_logo']);
+            if ($logo_id && get_post($logo_id)) {
+                // Save to both locations
+                set_theme_mod('custom_logo', $logo_id);
+                update_option('custom_logo_id', $logo_id);
+            } elseif (empty($_POST['custom_logo'])) {
+                // Remove from both locations
+                remove_theme_mod('custom_logo');
+                delete_option('custom_logo_id');
+            }
+        }
+    }
+});
+/**
+ * Menu Persistence Across Theme Changes
+ * Fixes the issue where menu assignments become lost when switching between parent and child themes
+ */
+
+/**
+ * Preserve menu assignments when switching themes
+ */
+add_action('switch_theme', function($new_name, $new_theme, $old_theme) {
+    // Get menu assignments from the old theme
+    $old_locations = get_theme_mod('nav_menu_locations', []);
+    
+    if (!empty($old_locations)) {
+        // Store in options for the new theme to pick up
+        foreach ($old_locations as $location => $menu_id) {
+            if ($menu_id && wp_get_nav_menu_object($menu_id)) {
+                update_option("nav_menu_location_{$location}", $menu_id);
+            }
+        }
+        
+        // Also set them immediately in the new theme
+        set_theme_mod('nav_menu_locations', $old_locations);
+    }
+}, 10, 3);
+
+/**
+ * Restore menu assignments after theme activation
+ */
+add_action('after_switch_theme', function() {
+    $registered_locations = get_registered_nav_menus();
+    $theme_locations = get_theme_mod('nav_menu_locations', []);
+    $updated = false;
+    
+    foreach ($registered_locations as $location => $description) {
+        $option_menu_id = get_option("nav_menu_location_{$location}");
+        $theme_menu_id = isset($theme_locations[$location]) ? $theme_locations[$location] : null;
+        
+        // If theme doesn't have assignment but option does, restore it
+        if (!$theme_menu_id && $option_menu_id && wp_get_nav_menu_object($option_menu_id)) {
+            $theme_locations[$location] = $option_menu_id;
+            $updated = true;
+        }
+        
+        // If theme has assignment but option doesn't, sync it
+        if ($theme_menu_id && !$option_menu_id && wp_get_nav_menu_object($theme_menu_id)) {
+            update_option("nav_menu_location_{$location}", $theme_menu_id);
+        }
+    }
+    
+    if ($updated) {
+        set_theme_mod('nav_menu_locations', $theme_locations);
+    }
+});
+
+/**
+ * Sync menu assignments when they are updated
+ */
+add_action('wp_update_nav_menu', function($menu_id, $menu_data) {
+    // Sync current assignments to options
+    $locations = get_theme_mod('nav_menu_locations', []);
+    foreach ($locations as $location => $assigned_menu_id) {
+        update_option("nav_menu_location_{$location}", $assigned_menu_id);
+    }
+}, 10, 2);

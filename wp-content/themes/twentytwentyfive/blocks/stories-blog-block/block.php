@@ -10,6 +10,7 @@
 
 $heading = get_field('heading') ?: 'Success Stories';
 $subheading = get_field('subheading') ?: 'Your partner through complexities of Agile and DevOps transformation';
+$card_label = get_field('card_label') ?: '';
 $post_type = get_field('post_type') ?: 'post';
 $category = get_field('category') ?: '';
 $button_text = get_field('button_text') ?: 'Show More';
@@ -92,6 +93,7 @@ $block_id = 'stories-blog-block-' . uniqid();
       class="stories-blog-block-data" 
       data-heading="<?php echo esc_attr($heading); ?>"
       data-subheading="<?php echo esc_attr($subheading); ?>"
+      data-card-label="<?php echo esc_attr($card_label); ?>"
       data-post-type="<?php echo esc_attr($post_type); ?>"
       data-category="<?php echo esc_attr($category); ?>"
       data-button-text="<?php echo esc_attr($button_text); ?>"

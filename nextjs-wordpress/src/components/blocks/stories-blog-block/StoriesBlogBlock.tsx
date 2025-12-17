@@ -31,6 +31,7 @@ interface StoriesBlogBlockProps {
   data: {
     heading?: string;
     subheading?: string;
+    card_label?: string;
     post_type?: string;
     category?: string;
     button_text?: string;
@@ -49,6 +50,7 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
         return {
           heading: element.getAttribute('data-heading') || 'Success Stories',
           subheading: element.getAttribute('data-subheading') || 'Your partner through complexities of Agile and DevOps transformation',
+          card_label: element.getAttribute('data-card-label') || '',
           post_type: element.getAttribute('data-post-type') || 'post',
           category: element.getAttribute('data-category') || '',
           button_text: element.getAttribute('data-button-text') || 'Show More',
@@ -66,6 +68,7 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
   const {
     heading = 'Success Stories',
     subheading = 'Your partner through complexities of Agile and DevOps transformation',
+    card_label = '',
     post_type = 'post',
     category = '',
     button_text = 'Show More',
@@ -130,11 +133,31 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
 
         // Add category filter if specified
         if (category) {
-          params.append('categories', category);
+          // Check if category is numeric (ID) or string (slug)
+          if (isNaN(Number(category))) {
+            // It's a slug, we need to get the category ID first
+            try {
+              const categories = await fetchWordPressAPI<any[]>(`/wp/v2/categories?slug=${category}`);
+              if (categories && categories.length > 0) {
+                params.append('categories', categories[0].id.toString());
+              }
+            } catch (catError) {
+              console.warn('Could not fetch category by slug, trying as ID:', catError);
+              params.append('categories', category);
+            }
+          } else {
+            // It's already an ID
+            params.append('categories', category);
+          }
         }
 
-        console.log(`Fetching posts from: ${endpoint}?${params.toString()}`);
-        const postsData = await fetchWordPressAPI<Post[]>(`${endpoint}?${params.toString()}`);
+        const fullUrl = `${endpoint}?${params.toString()}`;
+        console.log(`Fetching posts from: ${fullUrl}`);
+        console.log('Category filter:', category);
+        console.log('Post type:', post_type);
+        
+        const postsData = await fetchWordPressAPI<Post[]>(fullUrl);
+        console.log('Fetched posts:', postsData?.length || 0, 'posts');
         setPosts(postsData || []);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -148,10 +171,15 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
   }, [post_type, category]);
 
   const getPostTypeLabel = () => {
-    // Convert post type to readable label
+    // If custom card label is provided, use it
+    if (card_label && card_label.trim()) {
+      return card_label.trim();
+    }
+    
+    // Otherwise, convert post type to readable label
     const labelMap: { [key: string]: string } = {
-      'post': 'BLOG POST',
-      'posts': 'BLOG POST',
+      'post': 'ARTICLE',
+      'posts': 'ARTICLE',
       'page': 'PAGE',
       'pages': 'PAGE',
       'case-studies': 'CASE STUDY',
