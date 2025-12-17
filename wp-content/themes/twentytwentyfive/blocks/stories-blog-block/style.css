@@ -1,0 +1,11 @@
+/* Stories Blog Block Styles */
+.stories-blog-block-placeholder {
+  margin: 20px 0;
+}
+
+.stories-blog-block-data {
+  /* This will be styled by the React component */
+  min-height: 200px;
+}
+
+/* Admin preview styles are inline in block.php */

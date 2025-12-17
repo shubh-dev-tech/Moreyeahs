@@ -101,7 +101,27 @@
                 }
             ]
         },
-
+        {
+            "key": "field_stepper_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#0077B6",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        }
     ],
     "location": [
         [
@@ -122,5 +142,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1765174878
+    "modified": 1765885444
 }

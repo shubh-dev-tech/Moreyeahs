@@ -68,7 +68,7 @@ export default function HeaderClient() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://dev.moreyeahs.com';
+        const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost/moreyeahs-new' : 'https://dev.moreyeahs.com');
         
         // Fetch site settings
         const settingsRes = await fetch(`${baseUrl}/wp-json/wp/v2/site-settings`);

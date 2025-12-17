@@ -28,20 +28,28 @@ export function detectEnvironment(): Environment {
 
   // Server-side detection
   if (typeof window === 'undefined') {
-    // Check NODE_ENV and other indicators
+    // Check if running on Vercel
+    const isVercel = process.env.VERCEL === '1';
+    
+    // If on Vercel, use development environment (points to dev.moreyeahs.com)
+    if (isVercel) {
+      return 'development';
+    }
+    
+    // Check NODE_ENV and other indicators for local development
     if (process.env.NODE_ENV === 'development') {
       return 'local';
     }
     
-    // Check Vercel environment
+    // Check Vercel environment for more specific detection
     if (process.env.VERCEL_ENV) {
       switch (process.env.VERCEL_ENV) {
         case 'development':
-          return 'local';
+          return 'development';
         case 'preview':
-          return 'staging';
+          return 'development'; // Use dev server for preview deployments too
         case 'production':
-          return 'production';
+          return 'development'; // Use dev server for production deployments too
       }
     }
     
@@ -52,15 +60,9 @@ export function detectEnvironment(): Environment {
     if (siteUrl.includes('localhost') || wordpressUrl.includes('localhost')) {
       return 'local';
     }
-    if (siteUrl.includes('staging') || wordpressUrl.includes('staging')) {
-      return 'staging';
-    }
-    if (siteUrl.includes('dev.') || wordpressUrl.includes('dev.')) {
-      return 'development';
-    }
     
-    // Default to production for server-side
-    return 'production';
+    // Default to development for server-side (Vercel)
+    return 'development';
   }
   
   // Client-side detection
@@ -70,20 +72,13 @@ export function detectEnvironment(): Environment {
     return 'local';
   }
   
-  if (hostname.includes('staging')) {
-    return 'staging';
-  }
-  
-  if (hostname.includes('dev.') || hostname.includes('-dev.')) {
+  // If running on Vercel (any .vercel.app domain), use development
+  if (hostname.endsWith('.vercel.app')) {
     return 'development';
   }
   
-  // Check if it's a Vercel preview deployment
-  if (hostname.endsWith('.vercel.app') && !hostname.includes('moreyeahsnew.vercel.app')) {
-    return 'staging';
-  }
-  
-  return 'production';
+  // Default to development for any other domain (points to dev.moreyeahs.com)
+  return 'development';
 }
 
 /**
@@ -105,14 +100,12 @@ export function getEnvironmentConfig(): EnvironmentConfig {
     // WordPress URL based on environment
     switch (environment) {
       case 'local':
-        wordpressUrl = process.env.WORDPRESS_FALLBACK_API_URL
-          ? process.env.WORDPRESS_FALLBACK_API_URL.replace(/\/wp-json\/?$/i, '')
-          : (process.env.NEXT_PUBLIC_WORDPRESS_FALLBACK_URL || 'https://dev.moreyeahs.com');
+        // Local development - use localhost
+        wordpressUrl = 'http://localhost/moreyeahs-new';
         break;
       case 'development':
-        wordpressUrl = process.env.WORDPRESS_DEV_API_URL
-          ? process.env.WORDPRESS_DEV_API_URL.replace(/\/wp-json\/?$/i, '')
-          : (process.env.NEXT_PUBLIC_WORDPRESS_DEV_URL || process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://dev.moreyeahs.com');
+        // Vercel or other remote environments - use dev server
+        wordpressUrl = 'https://dev.moreyeahs.com';
         break;
       case 'staging':
         wordpressUrl = process.env.WORDPRESS_STAGING_API_URL
@@ -132,12 +125,12 @@ export function getEnvironmentConfig(): EnvironmentConfig {
     // WordPress URL based on detected environment and available env vars
     switch (environment) {
       case 'local':
-        wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_FALLBACK_URL || 'https://dev.moreyeahs.com';
+        // Local development - use localhost
+        wordpressUrl = 'http://localhost/moreyeahs-new';
         break;
       case 'development':
-        wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_DEV_URL || 
-                      process.env.NEXT_PUBLIC_WORDPRESS_URL || 
-                      'https://dev.moreyeahs.com';
+        // Vercel or other remote environments - use dev server
+        wordpressUrl = 'https://dev.moreyeahs.com';
         break;
       case 'staging':
         wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_STAGING_URL || 'https://staging.moreyeahs.com';

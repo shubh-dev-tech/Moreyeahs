@@ -28,7 +28,7 @@ export default function DebugBlocksPage() {
 
       // Test REST API endpoint
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://dev.moreyeahs.com';
+        const apiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost/moreyeahs-new' : 'https://dev.moreyeahs.com');
         const response = await fetch(`${apiUrl}/wp-json/wp/v2/pages-with-blocks/home`, {
           headers: {
             'Accept': 'application/json',

@@ -48,6 +48,13 @@ add_action('rest_api_init', function () {
         'permission_callback' => '__return_true'
     ]);
 
+    // Post types endpoint for dynamic dropdown
+    register_rest_route('wp/v2', '/post-types', [
+        'methods' => 'GET',
+        'callback' => 'get_public_post_types_rest',
+        'permission_callback' => '__return_true'
+    ]);
+
     // Pages with ACF blocks endpoint
     register_rest_route('wp/v2', '/pages-with-blocks/(?P<slug>[a-zA-Z0-9-_]+)', [
         'methods' => 'GET',
@@ -186,41 +193,86 @@ function get_menu_items_formatted($menu_id) {
 
 /**
  * Get site settings including logo and favicon
+ * IMPROVED VERSION - Checks multiple sources for logo persistence across theme changes
  */
 function get_site_settings_rest() {
-    $logo_id = get_theme_mod('custom_logo');
+    // Try multiple sources for logo ID to ensure persistence across theme changes
+    $logo_id = null;
+    
+    // Method 1: Check theme mod (theme-specific)
+    $theme_mod_logo = get_theme_mod('custom_logo');
+    if ($theme_mod_logo && get_post($theme_mod_logo)) {
+        $logo_id = $theme_mod_logo;
+    }
+    
+    // Method 2: Check option (global, persists across themes)
+    if (!$logo_id) {
+        $option_logo = get_option('custom_logo_id');
+        if ($option_logo && get_post($option_logo)) {
+            $logo_id = $option_logo;
+            // Sync back to theme mod for consistency
+            set_theme_mod('custom_logo', $logo_id);
+        }
+    }
+    
+    // Method 3: Check for any attachment with "logo" in alt text or title (fallback)
+    if (!$logo_id) {
+        $logo_attachments = get_posts([
+            'post_type' => 'attachment',
+            'post_mime_type' => 'image',
+            'posts_per_page' => 1,
+            'meta_query' => [
+                'relation' => 'OR',
+                [
+                    'key' => '_wp_attachment_image_alt',
+                    'value' => 'logo',
+                    'compare' => 'LIKE'
+                ]
+            ]
+        ]);
+        
+        if (!empty($logo_attachments)) {
+            $logo_id = $logo_attachments[0]->ID;
+            // Store for future use
+            set_theme_mod('custom_logo', $logo_id);
+            update_option('custom_logo_id', $logo_id);
+        }
+    }
+    
     $logo = null;
-
     if ($logo_id) {
         $logo_data = wp_get_attachment_image_src($logo_id, 'full');
-        $logo_meta = wp_get_attachment_metadata($logo_id);
-        
         if ($logo_data) {
             $logo = [
+                'id' => intval($logo_id),
                 'url' => $logo_data[0],
-                'width' => $logo_data[1],
-                'height' => $logo_data[2],
+                'width' => intval($logo_data[1]),
+                'height' => intval($logo_data[2]),
                 'alt' => get_post_meta($logo_id, '_wp_attachment_image_alt', true) ?: get_bloginfo('name')
             ];
         }
     }
 
-    // Get favicon
+    // Get favicon with similar fallback logic
     $favicon_id = get_option('site_icon');
     $favicon = null;
 
-    if ($favicon_id) {
-        $favicon = [
-            'url' => wp_get_attachment_url($favicon_id),
-            'width' => 512,
-            'height' => 512,
-            'sizes' => [
-                '32' => wp_get_attachment_image_url($favicon_id, [32, 32]),
-                '180' => wp_get_attachment_image_url($favicon_id, [180, 180]),
-                '192' => wp_get_attachment_image_url($favicon_id, [192, 192]),
-                '512' => wp_get_attachment_image_url($favicon_id, [512, 512]),
-            ]
-        ];
+    if ($favicon_id && get_post($favicon_id)) {
+        $favicon_url = wp_get_attachment_url($favicon_id);
+        if ($favicon_url) {
+            $favicon = [
+                'id' => intval($favicon_id),
+                'url' => $favicon_url,
+                'width' => 512,
+                'height' => 512,
+                'sizes' => [
+                    '32' => wp_get_attachment_image_url($favicon_id, [32, 32]),
+                    '180' => wp_get_attachment_image_url($favicon_id, [180, 180]),
+                    '192' => wp_get_attachment_image_url($favicon_id, [192, 192]),
+                    '512' => wp_get_attachment_image_url($favicon_id, [512, 512]),
+                ]
+            ];
+        }
     }
 
     $settings = [
@@ -228,7 +280,13 @@ function get_site_settings_rest() {
         'description' => get_bloginfo('description'),
         'url' => get_bloginfo('url'),
         'logo' => $logo,
-        'favicon' => $favicon
+        'favicon' => $favicon,
+        'debug' => [
+            'theme_mod_logo' => $theme_mod_logo,
+            'option_logo' => get_option('custom_logo_id'),
+            'active_theme' => get_stylesheet(),
+            'parent_theme' => get_template()
+        ]
     ];
 
     return rest_ensure_response($settings);
@@ -329,6 +387,33 @@ function get_mega_menus_rest() {
             'main_heading' => $main_heading,
             'categories' => $categories ?: [],
             'featured_content' => $featured ?: null
+        ];
+    }
+
+    return rest_ensure_response($result);
+}
+
+/**
+ * Get public post types for dynamic dropdown
+ */
+function get_public_post_types_rest() {
+    $post_types = get_post_types([
+        'public' => true,
+        'show_in_rest' => true
+    ], 'objects');
+
+    $result = [];
+    
+    foreach ($post_types as $post_type) {
+        // Skip attachment post type
+        if ($post_type->name === 'attachment') {
+            continue;
+        }
+        
+        $result[] = [
+            'slug' => $post_type->name,
+            'name' => $post_type->labels->name,
+            'rest_base' => $post_type->rest_base ?: $post_type->name
         ];
     }
 
