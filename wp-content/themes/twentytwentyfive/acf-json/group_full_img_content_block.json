@@ -1,0 +1,106 @@
+{
+    "key": "group_full_img_content_block",
+    "title": "Full Image Content Block",
+    "fields": [
+        {
+            "key": "field_full_img_content_image",
+            "label": "Background Image",
+            "name": "background_image",
+            "type": "image",
+            "instructions": "Upload the full-width background image",
+            "required": 1,
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all"
+        },
+        {
+            "key": "field_full_img_content_main_heading",
+            "label": "Main Heading",
+            "name": "main_heading",
+            "type": "text",
+            "instructions": "Enter the main heading for the content section",
+            "required": 1
+        },
+        {
+            "key": "field_full_img_content_box",
+            "label": "Content Box",
+            "name": "content_box",
+            "type": "group",
+            "instructions": "Content box with heading and subheading",
+            "sub_fields": [
+                {
+                    "key": "field_content_box_heading",
+                    "label": "Box Heading",
+                    "name": "heading",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_content_box_subheading",
+                    "label": "Box Subheading",
+                    "name": "subheading",
+                    "type": "textarea",
+                    "rows": 3,
+                    "required": 1
+                }
+            ]
+        },
+        {
+            "key": "field_full_img_content_icon_sections",
+            "label": "Icon Sections",
+            "name": "icon_sections",
+            "type": "repeater",
+            "instructions": "Add icon sections (maximum 3 per row)",
+            "required": 0,
+            "min": 0,
+            "max": 6,
+            "layout": "table",
+            "button_label": "Add Icon Section",
+            "sub_fields": [
+                {
+                    "key": "field_icon_section_icon",
+                    "label": "Icon",
+                    "name": "icon",
+                    "type": "image",
+                    "instructions": "Upload an icon image",
+                    "required": 1,
+                    "return_format": "array",
+                    "preview_size": "thumbnail",
+                    "library": "all"
+                },
+                {
+                    "key": "field_icon_section_heading",
+                    "label": "Heading",
+                    "name": "heading",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_icon_section_subheading",
+                    "label": "Subheading",
+                    "name": "subheading",
+                    "type": "textarea",
+                    "rows": 3,
+                    "required": 1
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf/full-img-content-block"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "A block with full-width image (25%) and content area (75%) with icon sections"
+}
