@@ -529,6 +529,45 @@ function twentytwentyfive_register_acf_blocks() {
                 ),
             ),
         ),
+        
+        // Roadmap Block
+        array(
+            'name'              => 'roadmap-block',
+            'title'             => __('Roadmap Block', 'twentytwentyfive'),
+            'description'       => __('Roadmap section with sticky left content and scrollable right steps with counters', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'list-view',
+            'keywords'          => array('roadmap', 'timeline', 'steps', 'sticky', 'scroll', 'counter'),
+            'render_template'   => 'blocks/roadmap-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/roadmap-block/style.css',
+            'enqueue_script'    => get_template_directory_uri() . '/blocks/roadmap-block/script.js',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'          => 'ROADMAP',
+                        'subheading'       => 'Together, Nino and Noa awaken the ancient secrets of a forgotten underwater civilization, exploring its mysteries and restoring its lost magic.',
+                        'background_color' => '#1a0b2e',
+                        'roadmap_steps'    => array(
+                            array(
+                                'heading'    => 'REGISTRATION',
+                                'subheading' => 'Together, Nino and Noa awaken the ancient secrets of a forgotten underwater civilization, exploring its mysteries and restoring its lost magic.',
+                            ),
+                            array(
+                                'heading'    => 'START A NEW PROJECT',
+                                'subheading' => 'Together, Nino and Noa awaken the ancient secrets of a forgotten underwater civilization, exploring its mysteries and restoring its lost magic.',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block
