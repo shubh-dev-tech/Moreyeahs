@@ -1334,7 +1334,7 @@ add_action('after_switch_theme', function() {
 /**
  * Sync menu assignments when they are updated
  */
-add_action('wp_update_nav_menu', function($menu_id, $menu_data) {
+add_action('wp_update_nav_menu', function($menu_id, $menu_data = null) {
     // Sync current assignments to options
     $locations = get_theme_mod('nav_menu_locations', []);
     foreach ($locations as $location => $assigned_menu_id) {

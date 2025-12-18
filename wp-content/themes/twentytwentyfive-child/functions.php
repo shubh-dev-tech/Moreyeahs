@@ -106,6 +106,130 @@ add_filter('acf/settings/save_json', 'twentytwentyfive_child_acf_json_save_point
 // Add your custom functions below this line
 
 /**
+ * Register Child Theme Specific ACF Blocks
+ */
+function twentytwentyfive_child_register_acf_blocks() {
+    // Check if ACF function exists
+    if (!function_exists('acf_register_block_type')) {
+        return;
+    }
+
+    // Roadmap Block
+    acf_register_block_type(array(
+        'name'              => 'roadmap-block',
+        'title'             => __('Roadmap Block', 'twentytwentyfive'),
+        'description'       => __('Roadmap section with sticky left content and scrollable right steps with counters', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'list-view',
+        'keywords'          => array('roadmap', 'timeline', 'steps', 'sticky', 'scroll', 'counter'),
+        'render_template'   => 'blocks/roadmap-block/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/roadmap-block/style.css',
+        'enqueue_script'    => get_stylesheet_directory_uri() . '/blocks/roadmap-block/script.js',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading'          => 'ROADMAP',
+                    'subheading'       => 'Together, Nino and Noa awaken the ancient secrets of a forgotten underwater civilization, exploring its mysteries and restoring its lost magic.',
+                    'background_color' => '#1a0b2e',
+                    'roadmap_steps'    => array(
+                        array(
+                            'heading'    => 'REGISTRATION',
+                            'subheading' => 'Together, Nino and Noa awaken the ancient secrets of a forgotten underwater civilization, exploring its mysteries and restoring its lost magic.',
+                        ),
+                        array(
+                            'heading'    => 'START A NEW PROJECT',
+                            'subheading' => 'Together, Nino and Noa awaken the ancient secrets of a forgotten underwater civilization, exploring its mysteries and restoring its lost magic.',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ));
+
+    // Infinity Testimonial Both Side Block
+    acf_register_block_type(array(
+        'name'              => 'infinity-testimonial-both-side',
+        'title'             => __('Infinity Testimonial Both Side', 'twentytwentyfive'),
+        'description'       => __('Advanced testimonial block with infinite scroll, video support, rating section, and directional control', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'format-quote',
+        'keywords'          => array('testimonial', 'infinity', 'scroll', 'video', 'rating', 'reviews', 'slider'),
+        'render_template'   => 'blocks/infinity-testimonial-both-side/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/infinity-testimonial-both-side/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'show_rating'      => true,
+                    'rating_text'      => 'Rated 4/5 by over 1 Lakh users',
+                    'rating_stars'     => 4,
+                    'heading'          => 'Words of praise from others about our presence.',
+                    'scroll_direction' => 'left_to_right',
+                    'testimonials'     => array(
+                        array(
+                            'content_type'   => 'text',
+                            'quote'          => 'Their ability to capture our brand essence in every project is unparalleled - an invaluable creative collaborator.',
+                            'author_name'    => 'Isabella Rodriguez',
+                            'author_title'   => 'CEO and Co-founder',
+                            'author_company' => 'ABC Company',
+                        ),
+                        array(
+                            'content_type'   => 'text',
+                            'quote'          => 'Creative geniuses who listen, understand, and craft captivating visuals - an agency that truly understands our needs.',
+                            'author_name'    => 'Gabrielle Williams',
+                            'author_title'   => 'CEO and Co-founder',
+                            'author_company' => 'ABC Company',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ));
+
+    // Video Section Block
+    acf_register_block_type(array(
+        'name'              => 'video-section',
+        'title'             => __('Video Section', 'twentytwentyfive'),
+        'description'       => __('Video section with heading, sub heading, custom button, and background options', 'twentytwentyfive'),
+        'category'          => 'media',
+        'icon'              => 'video-alt3',
+        'keywords'          => array('video', 'section', 'media', 'button', 'heading', 'background'),
+        'render_template'   => 'blocks/video-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/video-section/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading'     => 'Follow Your Heart Rescue.',
+                    'sub_heading' => 'Pet Supplies & Toy Drive',
+                    'button_text' => 'Watch Our Story',
+                ),
+            ),
+        ),
+    ));
+}
+add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
+
+/**
  * Logo Persistence Across Theme Changes
  * Fixes the issue where logo becomes null when switching between parent and child themes
  */
@@ -231,7 +355,7 @@ add_action('after_switch_theme', function() {
 /**
  * Sync menu assignments when they are updated
  */
-add_action('wp_update_nav_menu', function($menu_id, $menu_data) {
+add_action('wp_update_nav_menu', function($menu_id, $menu_data = null) {
     // Sync current assignments to options
     $locations = get_theme_mod('nav_menu_locations', []);
     foreach ($locations as $location => $assigned_menu_id) {

@@ -484,6 +484,90 @@ function twentytwentyfive_register_acf_blocks() {
                 ),
             ),
         ),
+        
+        // Full Image Content Block
+        array(
+            'name'              => 'full-img-content-block',
+            'title'             => __('Full Image Content Block', 'twentytwentyfive'),
+            'description'       => __('Full width image (25%) with content box and icon sections (75%)', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'align-pull-left',
+            'keywords'          => array('full', 'image', 'content', 'icon', 'sections', 'layout'),
+            'render_template'   => 'blocks/full-img-content-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/full-img-content-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'main_heading' => 'What is DevOps?',
+                        'content_box'  => array(
+                            'heading'    => 'Development Operations Integration',
+                            'subheading' => 'DevOps bridges the gap between software development and IT operations through automation, collaboration, and continuous processes.',
+                        ),
+                        'icon_sections' => array(
+                            array(
+                                'heading'    => 'Development',
+                                'subheading' => 'Continuous coding, testing, and integration of new features and improvements.',
+                            ),
+                            array(
+                                'heading'    => 'Operations',
+                                'subheading' => 'Infrastructure management, deployment, monitoring, and system maintenance.',
+                            ),
+                            array(
+                                'heading'    => 'Collaboration',
+                                'subheading' => 'Shared responsibility, communication, and unified goals across teams.',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        
+        // Roadmap Block
+        array(
+            'name'              => 'roadmap-block',
+            'title'             => __('Roadmap Block', 'twentytwentyfive'),
+            'description'       => __('Roadmap section with sticky left content and scrollable right steps with counters', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'list-view',
+            'keywords'          => array('roadmap', 'timeline', 'steps', 'sticky', 'scroll', 'counter'),
+            'render_template'   => 'blocks/roadmap-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/roadmap-block/style.css',
+            'enqueue_script'    => get_template_directory_uri() . '/blocks/roadmap-block/script.js',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'          => 'ROADMAP',
+                        'subheading'       => 'Together, Nino and Noa awaken the ancient secrets of a forgotten underwater civilization, exploring its mysteries and restoring its lost magic.',
+                        'background_color' => '#1a0b2e',
+                        'roadmap_steps'    => array(
+                            array(
+                                'heading'    => 'REGISTRATION',
+                                'subheading' => 'Together, Nino and Noa awaken the ancient secrets of a forgotten underwater civilization, exploring its mysteries and restoring its lost magic.',
+                            ),
+                            array(
+                                'heading'    => 'START A NEW PROJECT',
+                                'subheading' => 'Together, Nino and Noa awaken the ancient secrets of a forgotten underwater civilization, exploring its mysteries and restoring its lost magic.',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block

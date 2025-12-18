@@ -10,7 +10,7 @@
   right: 0;
   padding-left: 40px!important;
   padding-right: 40px!important;
-  z-index: 10000;
+  z-index: $z-index-header;
   padding: 1.25rem 0;
   background-color: #ffffff40;
   backdrop-filter: blur(10px);
@@ -188,7 +188,7 @@
     visibility: hidden;
     transform: translateY(-10px);
     @include transition(opacity 0.25s ease, transform 0.25s ease, visibility 0.25s);
-    z-index: 1000;
+    z-index: $z-index-dropdown;
 
     li {
       padding: 0;
