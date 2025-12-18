@@ -152,6 +152,52 @@ function twentytwentyfive_child_register_acf_blocks() {
             ),
         ),
     ));
+
+    // Infinity Testimonial Both Side Block
+    acf_register_block_type(array(
+        'name'              => 'infinity-testimonial-both-side',
+        'title'             => __('Infinity Testimonial Both Side', 'twentytwentyfive'),
+        'description'       => __('Advanced testimonial block with infinite scroll, video support, rating section, and directional control', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'format-quote',
+        'keywords'          => array('testimonial', 'infinity', 'scroll', 'video', 'rating', 'reviews', 'slider'),
+        'render_template'   => 'blocks/infinity-testimonial-both-side/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/infinity-testimonial-both-side/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'show_rating'      => true,
+                    'rating_text'      => 'Rated 4/5 by over 1 Lakh users',
+                    'rating_stars'     => 4,
+                    'heading'          => 'Words of praise from others about our presence.',
+                    'scroll_direction' => 'left_to_right',
+                    'testimonials'     => array(
+                        array(
+                            'content_type'   => 'text',
+                            'quote'          => 'Their ability to capture our brand essence in every project is unparalleled - an invaluable creative collaborator.',
+                            'author_name'    => 'Isabella Rodriguez',
+                            'author_title'   => 'CEO and Co-founder',
+                            'author_company' => 'ABC Company',
+                        ),
+                        array(
+                            'content_type'   => 'text',
+                            'quote'          => 'Creative geniuses who listen, understand, and craft captivating visuals - an agency that truly understands our needs.',
+                            'author_name'    => 'Gabrielle Williams',
+                            'author_title'   => 'CEO and Co-founder',
+                            'author_company' => 'ABC Company',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ));
 }
 add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
 
