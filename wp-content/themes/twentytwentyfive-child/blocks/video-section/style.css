@@ -1,0 +1,517 @@
+/* Video Section Block Styles - Centered Layout */
+.video-section {
+    position: relative;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    overflow: hidden;
+}
+
+.video-section__bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.video-section__container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.video-section__content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    min-height: auto;
+}
+
+/* Text Content Styles */
+.video-section__text-content {
+    padding: 20px 0;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.video-section__heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0 0 16px 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.video-section__sub-heading {
+    font-size: 1.125rem;
+    color: #6c757d;
+    margin: 0 0 32px 0;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.video-section__button-wrapper {
+    margin-top: 32px;
+}
+
+.video-section__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.video-section__button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.video-section__button:active {
+    transform: translateY(0);
+}
+
+.video-section__button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.video-section__button:hover::before {
+    left: 100%;
+}
+
+/* Centered Single Video Display */
+.video-section__carousel-wrapper {
+    position: relative;
+    width: 100%;
+    padding: 0;
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+}
+
+.video-section__carousel {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    overflow: visible;
+}
+
+.video-section__carousel-track {
+    position: relative;
+    width: 100%;
+    min-height: 450px;
+}
+
+.video-section__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+    display: flex;
+    justify-content: center;
+}
+
+.video-section__slide.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
+.video-section__video-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    aspect-ratio: 16/9;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    background: #000;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.video-section__video-container:hover .video-section__play-pause-overlay {
+    opacity: 1;
+}
+
+.video-section__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.video-section__play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 1;
+    pointer-events: all;
+}
+
+.video-section__play-overlay.playing {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.video-section__play-overlay:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Hover Play/Pause Controls */
+.video-section__play-pause-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: all;
+    z-index: 5;
+}
+
+.video-section__play-pause-button {
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.video-section__play-pause-button:hover {
+    transform: scale(1.1);
+    background: white;
+}
+
+.video-section__play-pause-button svg {
+    width: 24px;
+    height: 24px;
+    fill: #333;
+}
+
+.video-section__play-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    padding: 0;
+}
+
+.video-section__play-button:hover {
+    transform: scale(1.1);
+}
+
+.video-section__play-button svg {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Video Title and Subtitle at Bottom-Left */
+.video-section__video-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 50%, transparent 100%);
+    padding: 80px 24px 24px;
+    border-radius: 0 0 20px 20px;
+    text-align: left;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.video-section__video-title h3 {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    line-height: 1.3;
+}
+
+.video-section__video-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    line-height: 1.4;
+}
+
+/* Video Button at Bottom-Right */
+.video-section__video-button-wrapper {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    z-index: 3;
+}
+
+.video-section__video-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 2px solid white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+}
+
+.video-section__video-button:hover {
+    background: white;
+    color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+}
+
+/* Navigation Arrows */
+.video-section__nav {
+    position: absolute;
+    top: 50%;
+    margin-top: -25px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.video-section__nav:hover {
+    background: white;
+    transform: scale(1.15);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+.video-section__nav--prev {
+    left: 20px;
+}
+
+.video-section__nav--next {
+    right: 20px;
+}
+
+.video-section__nav svg {
+    color: #333;
+}
+
+.video-section__nav:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.video-section__nav:disabled:hover {
+    transform: scale(1);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+/* Dots Indicator - Hidden */
+.video-section__dots {
+    display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .video-section__carousel {
+        max-width: 600px;
+    }
+    
+    .video-section__slide {
+        flex: 0 0 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .video-section {
+        padding: 40px 15px;
+    }
+    
+    .video-section__content {
+        gap: 30px;
+    }
+    
+    .video-section__heading {
+        font-size: 2rem;
+    }
+    
+    .video-section__sub-heading {
+        font-size: 1rem;
+    }
+    
+    .video-section__carousel {
+        max-width: 100%;
+    }
+    
+    .video-section__carousel-track {
+        padding: 0;
+    }
+    
+    .video-section__slide {
+        flex: 0 0 100%;
+    }
+    
+    .video-section__nav {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .video-section__nav--prev {
+        left: 10px;
+    }
+    
+    .video-section__nav--next {
+        right: 10px;
+    }
+    
+    .video-section__nav svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .video-section__video-title h3 {
+        font-size: 1.25rem;
+    }
+    
+    .video-section__video-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .video-section__video-button-wrapper {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .video-section__video-title {
+        padding: 60px 20px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-section__heading {
+        font-size: 1.75rem;
+    }
+    
+    .video-section__button {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+    
+    .video-section__play-button svg {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .video-section__carousel-wrapper {
+        padding: 0 20px;
+    }
+    
+    .video-section__video-title h3 {
+        font-size: 1rem;
+    }
+    
+    .video-section__video-button {
+        padding: 8px 20px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Focus states for accessibility */
+.video-section__button:focus,
+.video-section__play-button:focus,
+.video-section__nav:focus,
+.video-section__dot:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .video-section__button {
+        border: 2px solid #ffffff;
+    }
+    
+    .video-section__play-overlay {
+        background: rgba(0, 0, 0, 0.8);
+    }
+}
+
+/* Smooth animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.video-section__text-content,
+.video-section__carousel-wrapper {
+    animation: fadeIn 0.6s ease-out;
+}
