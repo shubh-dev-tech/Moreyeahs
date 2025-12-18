@@ -1,0 +1,279 @@
+{
+    "key": "group_video_section_block",
+    "title": "Video Section Block",
+    "fields": [
+        {
+            "key": "field_video_section_heading",
+            "label": "Heading",
+            "name": "heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Main heading for the video section",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Follow Your Heart Rescue.",
+            "maxlength": "",
+            "placeholder": "Enter heading...",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_video_section_sub_heading",
+            "label": "Sub Heading",
+            "name": "sub_heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Sub heading or description text",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Pet Supplies & Toy Drive",
+            "maxlength": "",
+            "placeholder": "Enter sub heading...",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_video_section_videos",
+            "label": "Videos",
+            "name": "videos",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add multiple videos to display in carousel",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "min": 1,
+            "max": 0,
+            "layout": "block",
+            "button_label": "Add Video",
+            "rows_per_page": 20,
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_video_section_video_url",
+                    "label": "Video URL",
+                    "name": "video_url",
+                    "aria-label": "",
+                    "type": "file",
+                    "instructions": "Upload video file (MP4, WebM, MOV supported)",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "min_size": 0,
+                    "max_size": 0,
+                    "mime_types": "mp4,webm,mov",
+                    "parent_repeater": "field_video_section_videos"
+                },
+                {
+                    "key": "field_video_section_video_thumbnail",
+                    "label": "Video Thumbnail",
+                    "name": "video_thumbnail",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Thumbnail image for video (optional)",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "min_width": 0,
+                    "min_height": 0,
+                    "min_size": 0,
+                    "max_width": 0,
+                    "max_height": 0,
+                    "max_size": 0,
+                    "mime_types": "",
+                    "parent_repeater": "field_video_section_videos"
+                },
+                {
+                    "key": "field_video_section_video_title",
+                    "label": "Video Title",
+                    "name": "video_title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Optional title for this video",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Enter video title...",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_video_section_videos"
+                },
+                {
+                    "key": "field_video_section_video_button_text",
+                    "label": "Video Button Text",
+                    "name": "video_button_text",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Button text for this specific video (optional)",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Enter button text...",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_video_section_videos"
+                },
+                {
+                    "key": "field_video_section_video_button_url",
+                    "label": "Video Button URL",
+                    "name": "video_button_url",
+                    "aria-label": "",
+                    "type": "url",
+                    "instructions": "Button URL for this specific video (optional)",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "https:\/\/example.com",
+                    "parent_repeater": "field_video_section_videos"
+                }
+            ]
+        },
+        {
+            "key": "field_video_section_button_text",
+            "label": "Button Text",
+            "name": "button_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Text to display on the button",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Watch Our Story",
+            "maxlength": "",
+            "placeholder": "Enter button text...",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_video_section_button_url",
+            "label": "Button URL",
+            "name": "button_url",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "URL for the button link (optional)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "https:\/\/example.com"
+        },
+        {
+            "key": "field_video_section_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose a background color (leave empty for transparent)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_video_section_background_image",
+            "label": "Background Image",
+            "name": "background_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Upload a background image (will overlay behind content)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0,
+            "mime_types": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/video-section"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [],
+    "active": true,
+    "description": "Video section block with heading, sub heading, video, and custom button",
+    "show_in_rest": false,
+    "display_title": "",
+    "modified": 1766049042
+}

@@ -198,6 +198,34 @@ function twentytwentyfive_child_register_acf_blocks() {
             ),
         ),
     ));
+
+    // Video Section Block
+    acf_register_block_type(array(
+        'name'              => 'video-section',
+        'title'             => __('Video Section', 'twentytwentyfive'),
+        'description'       => __('Video section with heading, sub heading, custom button, and background options', 'twentytwentyfive'),
+        'category'          => 'media',
+        'icon'              => 'video-alt3',
+        'keywords'          => array('video', 'section', 'media', 'button', 'heading', 'background'),
+        'render_template'   => 'blocks/video-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/video-section/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading'     => 'Follow Your Heart Rescue.',
+                    'sub_heading' => 'Pet Supplies & Toy Drive',
+                    'button_text' => 'Watch Our Story',
+                ),
+            ),
+        ),
+    ));
 }
 add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
 
