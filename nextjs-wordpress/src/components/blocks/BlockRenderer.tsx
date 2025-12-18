@@ -29,6 +29,7 @@ import MoreyeahsContentBlock from './moreyeahs-content-block';
 import StoriesBlogBlockWrapper from './stories-blog-block/StoriesBlogBlockWrapper';
 import FullImgContentBlock from './full-img-content-block/FullImgContentBlock';
 import RoadmapBlock from './roadmap-block/RoadmapBlock';
+import InfinityTestimonialBothSideBlock from './infinity-testimonial-both-side/InfinityTestimonialBothSideBlock';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
@@ -61,6 +62,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/stories-blog-block': StoriesBlogBlockWrapper,
   'acf/full-img-content-block': FullImgContentBlock,
   'acf/roadmap-block': RoadmapBlock,
+  'acf/infinity-testimonial-both-side': InfinityTestimonialBothSideBlock,
   
   // Custom Blocks (without ACF)
   'moreyeahs/slider': MoreyeahsSliderBlock,
@@ -81,6 +83,7 @@ const BLOCK_SECTION_IDS: Record<string, string> = {
   'acf/news-block': 'news',
   'acf/investor-block': 'investors',
   'acf/navigation-next-block': 'navigation-next',
+  'acf/infinity-testimonial-both-side': 'infinity-testimonials',
 };
 
 export function BlockRenderer({ blocks }: BlockRendererProps) {
