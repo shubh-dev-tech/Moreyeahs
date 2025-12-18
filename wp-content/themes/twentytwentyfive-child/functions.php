@@ -106,6 +106,56 @@ add_filter('acf/settings/save_json', 'twentytwentyfive_child_acf_json_save_point
 // Add your custom functions below this line
 
 /**
+ * Register Child Theme Specific ACF Blocks
+ */
+function twentytwentyfive_child_register_acf_blocks() {
+    // Check if ACF function exists
+    if (!function_exists('acf_register_block_type')) {
+        return;
+    }
+
+    // Roadmap Block
+    acf_register_block_type(array(
+        'name'              => 'roadmap-block',
+        'title'             => __('Roadmap Block', 'twentytwentyfive'),
+        'description'       => __('Roadmap section with sticky left content and scrollable right steps with counters', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'list-view',
+        'keywords'          => array('roadmap', 'timeline', 'steps', 'sticky', 'scroll', 'counter'),
+        'render_template'   => 'blocks/roadmap-block/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/roadmap-block/style.css',
+        'enqueue_script'    => get_stylesheet_directory_uri() . '/blocks/roadmap-block/script.js',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading'          => 'ROADMAP',
+                    'subheading'       => 'Together, Nino and Noa awaken the ancient secrets of a forgotten underwater civilization, exploring its mysteries and restoring its lost magic.',
+                    'background_color' => '#1a0b2e',
+                    'roadmap_steps'    => array(
+                        array(
+                            'heading'    => 'REGISTRATION',
+                            'subheading' => 'Together, Nino and Noa awaken the ancient secrets of a forgotten underwater civilization, exploring its mysteries and restoring its lost magic.',
+                        ),
+                        array(
+                            'heading'    => 'START A NEW PROJECT',
+                            'subheading' => 'Together, Nino and Noa awaken the ancient secrets of a forgotten underwater civilization, exploring its mysteries and restoring its lost magic.',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ));
+}
+add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
+
+/**
  * Logo Persistence Across Theme Changes
  * Fixes the issue where logo becomes null when switching between parent and child themes
  */
