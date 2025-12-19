@@ -174,9 +174,9 @@ export default function HeaderClient() {
               </svg>
             </button>
             
-            {/* Burger Menu - uses ONLY second-menu location */}
+            {/* Burger Menu - uses second-menu if available, falls back to primary */}
             <MobileMenu 
-              items={secondMenuItems}
+              items={secondMenuItems.length > 0 ? secondMenuItems : primaryMenuItems}
               logo={logo || undefined}
               siteName={siteName}
               megaMenus={megaMenus}

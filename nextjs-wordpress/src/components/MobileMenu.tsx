@@ -140,6 +140,16 @@ export default function MobileMenu({ items, logo, siteName, megaMenus = [] }: Mo
   const megaMenuMap: Record<string, MegaMenuData> = megaMenus.reduce((acc, menu) => {
     const key = menu.title.toLowerCase().trim();
     acc[key] = menu;
+    
+    // Add flexible matching for common variations
+    if (key.endsWith('s')) {
+      // If mega menu ends with 's', also match without 's'
+      acc[key.slice(0, -1)] = menu;
+    } else {
+      // If mega menu doesn't end with 's', also match with 's'
+      acc[key + 's'] = menu;
+    }
+    
     return acc;
   }, {} as Record<string, MegaMenuData>);
 
