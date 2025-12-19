@@ -5,7 +5,7 @@
  * Provides endpoints for:
  * - Menus by location
  * - Site settings (logo, favicon, etc.)
- * - Footer widgets
+ * - Footer widgets s
  */
 
 if (!defined('ABSPATH')) exit;
