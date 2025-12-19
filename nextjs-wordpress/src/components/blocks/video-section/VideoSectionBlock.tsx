@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import './styles.scss';
 
 interface Video {
@@ -45,19 +45,10 @@ export default function VideoSectionBlock({ data }: VideoSectionBlockProps) {
   const [playingVideos, setPlayingVideos] = useState<Set<number>>(new Set());
   const autoplayIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  if (!data?.videos || data.videos.length === 0) {
-    return null;
-  }
-
-  const videos = data.videos;
-
-  // Initialize video refs array
-  useEffect(() => {
-    videoRefs.current = videoRefs.current.slice(0, videos.length);
-  }, [videos.length]);
+  const videos = data?.videos || [];
 
   // Navigate to specific slide
-  const goToSlide = (index: number) => {
+  const goToSlide = useCallback((index: number) => {
     if (index < 0 || index >= videos.length) return;
     
     // Pause current video
@@ -69,19 +60,59 @@ export default function VideoSectionBlock({ data }: VideoSectionBlockProps) {
     
     setCurrentSlide(index);
     setPlayingVideos(new Set());
-  };
+  }, [videos.length, currentSlide]);
 
   // Navigate to next slide
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     const next = (currentSlide + 1) % videos.length;
     goToSlide(next);
-  };
+  }, [currentSlide, videos.length, goToSlide]);
 
   // Navigate to previous slide
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     const prev = (currentSlide - 1 + videos.length) % videos.length;
     goToSlide(prev);
-  };
+  }, [currentSlide, videos.length, goToSlide]);
+
+  // Initialize video refs array
+  useEffect(() => {
+    videoRefs.current = videoRefs.current.slice(0, videos.length);
+  }, [videos.length]);
+
+  // Auto-advance slides every 5 seconds
+  useEffect(() => {
+    if (videos.length > 1) {
+      autoplayIntervalRef.current = setInterval(() => {
+        nextSlide();
+      }, 5000);
+
+      return () => {
+        if (autoplayIntervalRef.current) {
+          clearInterval(autoplayIntervalRef.current);
+        }
+      };
+    }
+  }, [currentSlide, videos.length, nextSlide]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextSlide();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [nextSlide, prevSlide]);
+
+  if (!data?.videos || data.videos.length === 0) {
+    return null;
+  }
 
   // Handle play button click
   const handlePlayVideo = (index: number) => {
@@ -110,36 +141,7 @@ export default function VideoSectionBlock({ data }: VideoSectionBlockProps) {
     }
   };
 
-  // Auto-advance slides every 5 seconds
-  useEffect(() => {
-    if (videos.length > 1) {
-      autoplayIntervalRef.current = setInterval(() => {
-        nextSlide();
-      }, 5000);
 
-      return () => {
-        if (autoplayIntervalRef.current) {
-          clearInterval(autoplayIntervalRef.current);
-        }
-      };
-    }
-  }, [currentSlide, videos.length]);
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        prevSlide();
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        nextSlide();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [currentSlide]);
 
   // Build proper inline styles for background
   const sectionStyle: React.CSSProperties = {};
