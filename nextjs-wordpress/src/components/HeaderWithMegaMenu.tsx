@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MenuItem } from '@/types/menu';
@@ -22,12 +22,12 @@ interface HeaderWithMegaMenuProps {
   megaMenus: MegaMenuData[];
 }
 
-function MenuItems({ items, megaMenuMap }: { items: MenuItem[], megaMenuMap: Record<string, MegaMenuData> }) {
+function MenuItems({ items, megaMenuMap, disableMegaMenu = false }: { items: MenuItem[], megaMenuMap: Record<string, MegaMenuData>, disableMegaMenu?: boolean }) {
   return (
     <>
       {items.map((item) => {
         const itemTitleLower = item.title.toLowerCase().trim();
-        const hasMegaMenu = megaMenuMap[itemTitleLower];
+        const hasMegaMenu = !disableMegaMenu && megaMenuMap[itemTitleLower];
         const hasChildren = item.children && item.children.length > 0;
         
         return (
@@ -46,7 +46,7 @@ function MenuItems({ items, megaMenuMap }: { items: MenuItem[], megaMenuMap: Rec
                 
                 {hasChildren && (
                   <ul className="header__submenu">
-                    <MenuItems items={item.children} megaMenuMap={megaMenuMap} />
+                    <MenuItems items={item.children} megaMenuMap={megaMenuMap} disableMegaMenu={disableMegaMenu} />
                   </ul>
                 )}
               </>
@@ -98,7 +98,7 @@ export default function HeaderWithMegaMenu({ siteName, logo, primaryMenuItems, s
           {/* Desktop Primary Menu */}
           {primaryMenuItems.length > 0 ? (
             <ul className="header__menu">
-              <MenuItems items={primaryMenuItems} megaMenuMap={megaMenuMap} />
+              <MenuItems items={primaryMenuItems} megaMenuMap={megaMenuMap} disableMegaMenu={true} />
             </ul>
           ) : (
             <ul className="header__menu">
