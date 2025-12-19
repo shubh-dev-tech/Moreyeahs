@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './styles.scss';
 
 interface StepperSection {
@@ -14,39 +14,14 @@ interface VerticalStepperProps {
 
 export default function VerticalStepper({ sections }: VerticalStepperProps) {
   const [activeSection, setActiveSection] = useState<string>('');
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i].id);
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i].id);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [sections]);
 
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setActiveSection(sectionId); // Manual activation only
     }
   };
-
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <div className="vertical-stepper">

@@ -5,7 +5,7 @@ function getBaseUrl() {
   return getWordPressUrl();
 }
 
-export async function fetchWordPressAPI<T>(endpoint: string): Promise<T> {
+export async function fetchWordPressAPI<T>(endpoint: string, data?: any): Promise<T> {
   const apiUrl = getWordPressApiUrl();
 
   if (!endpoint.startsWith('/')) {
@@ -19,10 +19,12 @@ export async function fetchWordPressAPI<T>(endpoint: string): Promise<T> {
     const timeoutId = setTimeout(() => controller.abort(), 10000);
     
     const response = await fetch(url, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
+      body: data ? JSON.stringify(data) : JSON.stringify({}),
       next: { revalidate: 3600 },
       signal: controller.signal,
     });
@@ -33,8 +35,8 @@ export async function fetchWordPressAPI<T>(endpoint: string): Promise<T> {
       throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
     }
     
-    const data = await response.json();
-    return data;
+    const responseData = await response.json();
+    return responseData;
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       if (error instanceof Error && error.name === 'AbortError') {
@@ -91,7 +93,7 @@ export async function fetchGraphQL<T = any>(query: string, variables?: Record<st
   }
 }
 
-export async function fetchRestAPI(endpoint: string) {
+export async function fetchRestAPI(endpoint: string, data?: any) {
   const apiUrl = getWordPressApiUrl();
 
   // Ensure endpoint starts with /
@@ -107,10 +109,12 @@ export async function fetchRestAPI(endpoint: string) {
     const timeoutId = setTimeout(() => controller.abort(), 5000);
     
     const response = await fetch(url, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
+      body: data ? JSON.stringify(data) : JSON.stringify({}),
       next: { revalidate: 3600 },
       signal: controller.signal,
     });
@@ -121,8 +125,8 @@ export async function fetchRestAPI(endpoint: string) {
       throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
     }
     
-    const data = await response.json();
-    return data;
+    const responseData = await response.json();
+    return responseData;
   } catch (error) {
     // Only log in development to avoid console spam
     if (process.env.NODE_ENV === 'development') {
