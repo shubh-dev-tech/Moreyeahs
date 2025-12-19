@@ -52,7 +52,7 @@ export default async function ServicesPage() {
         
         <div className="prose max-w-none">
           <p className="text-lg mb-12">
-            We offer a comprehensive range of professional services to help your business thrive in today's digital landscape.
+            We offer a comprehensive range of professional services to help your business thrive in today&apos;s digital landscape.
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -124,7 +124,7 @@ export default async function ServicesPage() {
           <div className="bg-gray-50 p-8 rounded-lg mt-12">
             <h2 className="text-3xl font-semibold mb-4">Need a Custom Solution?</h2>
             <p className="text-lg mb-6">
-              Don't see exactly what you're looking for? We specialize in creating custom solutions tailored to your specific needs.
+              Don&apos;t see exactly what you&apos;re looking for? We specialize in creating custom solutions tailored to your specific needs.
             </p>
             <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
               Get in Touch
