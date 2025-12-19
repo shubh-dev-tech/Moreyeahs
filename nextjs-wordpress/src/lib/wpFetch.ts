@@ -9,6 +9,7 @@ import { WORDPRESS_API_URL, IS_DEVELOPMENT } from './env';
 
 // Safe fetch options with timeout and error handling
 const FETCH_OPTIONS = {
+  method: 'POST',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -51,7 +52,7 @@ function safeJsonParse<T>(text: string): T | null {
  * Main WordPress fetch function - NEVER throws errors
  * Returns null on any failure (network, 404, 500, timeout, etc.)
  */
-export async function wpFetch<T = any>(endpoint: string): Promise<T | null> {
+export async function wpFetch<T = any>(endpoint: string, data?: any): Promise<T | null> {
   // Ensure endpoint starts with /
   if (!endpoint.startsWith('/')) {
     endpoint = `/${endpoint}`;
@@ -59,7 +60,12 @@ export async function wpFetch<T = any>(endpoint: string): Promise<T | null> {
   
   const url = `${WORDPRESS_API_URL}${endpoint}`;
   
-  const response = await fetchWithTimeout(url, FETCH_OPTIONS);
+  const options = {
+    ...FETCH_OPTIONS,
+    body: JSON.stringify(data || {}),
+  };
+  
+  const response = await fetchWithTimeout(url, options);
   
   if (!response) {
     return null;
@@ -85,8 +91,8 @@ export async function wpFetch<T = any>(endpoint: string): Promise<T | null> {
  * Fetch multiple WordPress endpoints safely
  * Returns array with null for failed requests
  */
-export async function wpFetchMultiple<T = any>(endpoints: string[]): Promise<(T | null)[]> {
-  const promises = endpoints.map(endpoint => wpFetch<T>(endpoint));
+export async function wpFetchMultiple<T = any>(endpoints: string[], data?: any): Promise<(T | null)[]> {
+  const promises = endpoints.map(endpoint => wpFetch<T>(endpoint, data));
   return Promise.all(promises);
 }
 
@@ -96,70 +102,62 @@ export async function wpFetchMultiple<T = any>(endpoints: string[]): Promise<(T 
 
 // Get posts with safe fallback
 export async function getPosts(params: Record<string, string | number> = {}): Promise<any[]> {
-  const queryString = new URLSearchParams(
-    Object.entries(params).map(([key, value]) => [key, String(value)])
-  ).toString();
-  
-  const endpoint = `/wp/v2/posts${queryString ? `?${queryString}` : ''}`;
-  const posts = await wpFetch<any[]>(endpoint);
-  
+  const posts = await wpFetch<any[]>('/wp/v2/posts-data', params);
   return posts || [];
 }
 
 // Get single post by slug with safe fallback
 export async function getPostBySlug(slug: string): Promise<any | null> {
-  const posts = await wpFetch<any[]>(`/wp/v2/posts?slug=${slug}&_embed`);
-  return posts && posts.length > 0 ? posts[0] : null;
+  return await wpFetch<any>('/wp/v2/post-by-slug', { slug });
 }
 
 // Get pages with safe fallback
 export async function getPages(params: Record<string, string | number> = {}): Promise<any[]> {
-  const queryString = new URLSearchParams(
-    Object.entries(params).map(([key, value]) => [key, String(value)])
-  ).toString();
-  
-  const endpoint = `/wp/v2/pages${queryString ? `?${queryString}` : ''}`;
-  const pages = await wpFetch<any[]>(endpoint);
-  
+  const pages = await wpFetch<any[]>('/wp/v2/pages-data', params);
   return pages || [];
 }
 
 // Get single page by slug with safe fallback
 export async function getPageBySlug(slug: string): Promise<any | null> {
-  const pages = await wpFetch<any[]>(`/wp/v2/pages?slug=${slug}&_embed`);
-  return pages && pages.length > 0 ? pages[0] : null;
+  return await wpFetch<any>('/wp/v2/page-by-slug', { slug });
 }
 
 // Get page with blocks (custom endpoint) with safe fallback
 export async function getPageWithBlocks(slug: string): Promise<any | null> {
-  return await wpFetch<any>(`/wp/v2/pages-with-blocks/${slug}`);
+  return await wpFetch<any>(`/wp/v2/pages-with-blocks/${slug}`, {});
 }
 
 // Get menus with safe fallback
 export async function getMenus(): Promise<any[]> {
-  const menus = await wpFetch<any[]>('/wp/v2/menus');
+  const menus = await wpFetch<any[]>('/wp/v2/menus', {});
   return menus || [];
 }
 
 // Get menu by location with safe fallback
 export async function getMenuByLocation(location: string): Promise<any | null> {
-  return await wpFetch<any>(`/wp/v2/menus/${location}`);
+  return await wpFetch<any>(`/wp/v2/menus/${location}`, {});
 }
 
 // Get site settings with safe fallback
 export async function getSiteSettings(): Promise<any | null> {
-  return await wpFetch<any>('/wp/v2/site-settings');
+  return await wpFetch<any>('/wp/v2/site-settings', {});
 }
 
 // Get footer widgets with safe fallback
 export async function getFooterWidgets(): Promise<any | null> {
-  return await wpFetch<any>('/wp/v2/footer-widgets');
+  return await wpFetch<any>('/wp/v2/footer-widgets', {});
 }
 
 // Get mega menus with safe fallback
 export async function getMegaMenus(): Promise<any[]> {
-  const menus = await wpFetch<any[]>('/wp/v2/mega-menus');
+  const menus = await wpFetch<any[]>('/wp/v2/mega-menus', {});
   return menus || [];
+}
+
+// Get categories with safe fallback
+export async function getCategories(params: Record<string, string | number> = {}): Promise<any[]> {
+  const categories = await wpFetch<any[]>('/wp/v2/categories-data', params);
+  return categories || [];
 }
 
 /**
