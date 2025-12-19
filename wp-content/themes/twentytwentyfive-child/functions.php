@@ -73,10 +73,21 @@ function twentytwentyfive_child_include_parent_functions() {
         require_once $parent_inc_path . '/acf-blocks.php';
     }
     
-    // Include REST API endpoints
-    if (file_exists($parent_inc_path . '/rest-api-endpoints.php')) {
-        require_once $parent_inc_path . '/rest-api-endpoints.php';
+    // Temporarily disable custom REST API endpoints to fix 500 errors
+    // TODO: Re-enable after fixing function conflicts
+    /*
+    // Include test endpoint first
+    $test_endpoint = get_stylesheet_directory() . '/test-endpoint.php';
+    if (file_exists($test_endpoint)) {
+        require_once $test_endpoint;
     }
+    
+    // Include REST API endpoints from child theme only (to avoid function conflicts)
+    $child_rest_api = get_stylesheet_directory() . '/inc/rest-api-endpoints.php';
+    if (file_exists($child_rest_api)) {
+        require_once $child_rest_api;
+    }
+    */
 }
 add_action('after_setup_theme', 'twentytwentyfive_child_include_parent_functions');
 

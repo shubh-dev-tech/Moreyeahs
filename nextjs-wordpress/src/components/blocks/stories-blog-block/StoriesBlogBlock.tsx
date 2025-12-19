@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { fetchWordPressAPI } from '@/lib/wordpress';
+import { CLIENT_WORDPRESS_API_URL } from '@/lib/client-env';
 import './styles.scss';
 
 
@@ -123,13 +124,13 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
           endpoint = `/wp/v2/${endpointMap[post_type] || post_type}`;
         }
 
-        // Add query parameters
-        const params = new URLSearchParams({
-          per_page: '4',
-          _embed: 'true',
+        // Build POST data object for the request
+        const postData: any = {
+          per_page: 4,
+          _embed: true,
           orderby: 'date',
           order: 'desc'
-        });
+        };
 
         // Add category filter if specified
         if (category) {
@@ -137,26 +138,58 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
           if (isNaN(Number(category))) {
             // It's a slug, we need to get the category ID first
             try {
-              const categories = await fetchWordPressAPI<any[]>(`/wp/v2/categories?slug=${category}`);
+              // Try custom POST endpoint first, fallback to standard GET
+              let categories;
+              try {
+                categories = await fetchWordPressAPI<any[]>('/wp/v2/categories-data', { slug: category });
+              } catch {
+                // Fallback to standard WordPress endpoint
+                const response = await fetch(`${CLIENT_WORDPRESS_API_URL}/wp/v2/categories?slug=${category}`);
+                if (response.ok) {
+                  categories = await response.json();
+                }
+              }
+              
               if (categories && categories.length > 0) {
-                params.append('categories', categories[0].id.toString());
+                postData.categories = categories[0].id.toString();
               }
             } catch (catError) {
               console.warn('Could not fetch category by slug, trying as ID:', catError);
-              params.append('categories', category);
+              postData.categories = category;
             }
           } else {
             // It's already an ID
-            params.append('categories', category);
+            postData.categories = category;
           }
         }
 
-        const fullUrl = `${endpoint}?${params.toString()}`;
-        console.log(`Fetching posts from: ${fullUrl}`);
+        console.log(`Fetching posts from: ${endpoint}`);
+        console.log('POST data:', postData);
         console.log('Category filter:', category);
         console.log('Post type:', post_type);
         
-        const postsData = await fetchWordPressAPI<Post[]>(fullUrl);
+        // Try custom POST endpoint first, fallback to standard GET
+        let postsData;
+        try {
+          postsData = await fetchWordPressAPI<Post[]>('/wp/v2/posts-data', postData);
+        } catch {
+          // Fallback to standard WordPress endpoint
+          const params = new URLSearchParams({
+            per_page: '4',
+            _embed: 'true',
+            orderby: 'date',
+            order: 'desc'
+          });
+          
+          if (postData.categories) {
+            params.append('categories', postData.categories);
+          }
+          
+          const response = await fetch(`${CLIENT_WORDPRESS_API_URL}/wp/v2/posts?${params.toString()}`);
+          if (response.ok) {
+            postsData = await response.json();
+          }
+        }
         console.log('Fetched posts:', postsData?.length || 0, 'posts');
         setPosts(postsData || []);
       } catch (error) {

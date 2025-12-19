@@ -1,7 +1,6 @@
 import { getHomepageData } from '@/lib/wpFetch';
 import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
-import VerticalStepper from '@/components/VerticalStepper';
 
 // Build-safe: this page uses ISR with 60s revalidation
 // If WordPress is offline during build, it will show fallback content
@@ -51,24 +50,9 @@ export default async function Home() {
     );
   }
 
-  // Define sections for the stepper - customize these based on your actual sections
-  const stepperSections = [
-    { id: 'hero', title: 'Home' },
-    { id: 'purpose', title: 'Purpose' },
-    { id: 'operating-models', title: 'Operating Models' },
-    { id: 'counter', title: 'Stats' },
-    { id: 'testimonials', title: 'Testimonials' },
-    { id: 'news', title: 'News' },
-    { id: 'investors', title: 'Investors' },
-    { id: 'navigation-next', title: 'Navigate Your Next' },
-  ];
-
   return (
-    <>
-      <VerticalStepper sections={stepperSections} />
-      <main className="min-h-screen">
-        <BlockRenderer blocks={renderBlocks} />
-      </main>
-    </>
+    <main className="min-h-screen">
+      <BlockRenderer blocks={renderBlocks} />
+    </main>
   );
 }

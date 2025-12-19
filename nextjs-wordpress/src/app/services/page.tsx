@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { wpFetch } from '@/lib/wpFetch';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
+import { WORDPRESS_API_URL } from '@/lib/env';
 
 export const metadata: Metadata = {
   title: 'Our Services | MoreYeahs',
@@ -10,11 +10,14 @@ export const metadata: Metadata = {
 
 async function getServicesPageData() {
   try {
-    // Try to fetch a services page from WordPress
-    const response = await wpFetch('/wp/v2/pages?slug=services');
+    // Try to fetch a services page from WordPress using standard endpoint
+    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/pages?slug=services`);
     
-    if (response && response.length > 0) {
-      return response[0];
+    if (response.ok) {
+      const pages = await response.json();
+      if (pages && pages.length > 0) {
+        return pages[0];
+      }
     }
     
     return null;
