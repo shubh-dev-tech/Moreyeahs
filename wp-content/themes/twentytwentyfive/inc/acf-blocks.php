@@ -529,6 +529,53 @@ function twentytwentyfive_register_acf_blocks() {
                 ),
             ),
         ),
+        
+        // Service Roadmaps Block
+        array(
+            'name'              => 'service-roadmaps-block',
+            'title'             => __('Service Roadmaps Block', 'twentytwentyfive'),
+            'description'       => __('Display service roadmaps with customizable steps, icons, and right-side image', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'list-view',
+            'keywords'          => array('roadmap', 'service', 'steps', 'timeline', 'process', 'strategy'),
+            'render_template'   => 'blocks/service-roadmaps-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/service-roadmaps-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'     => 'Our DevOps Strategy Roadmap',
+                        'subheading'  => 'Strategic approach to digital transformation',
+                        'background_color' => '#e8f5e8',
+                        'roadmap_steps' => array(
+                            array(
+                                'step_title' => 'Assess & Analyze',
+                                'step_description' => 'Evaluate current DevOps maturity using industry frameworks, identify capability gaps, and establish baseline metrics for improvement tracking',
+                            ),
+                            array(
+                                'step_title' => 'Implement Automation',
+                                'step_description' => 'Deploy CI/CD pipelines with clear milestones, automate testing and deployment processes, and establish measurable success criteria',
+                            ),
+                            array(
+                                'step_title' => 'Build Culture',
+                                'step_description' => 'Foster transparency through open communication channels, establish shared responsibility models, and create psychological safety for innovation',
+                            ),
+                            array(
+                                'step_title' => 'Refine & Optimize',
+                                'step_description' => 'Continuously enhance processes based on real-time feedback, performance metrics, and lessons learned from each iteration',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block

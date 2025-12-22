@@ -29,6 +29,7 @@ import MoreyeahsContentBlock from './moreyeahs-content-block';
 import StoriesBlogBlockWrapper from './stories-blog-block/StoriesBlogBlockWrapper';
 import FullImgContentBlock from './full-img-content-block/FullImgContentBlock';
 import RoadmapBlock from './roadmap-block/RoadmapBlock';
+import ServiceRoadmapsBlock from './service-roadmaps-block/ServiceRoadmapsBlock';
 import InfinityTestimonialBothSideBlock from './infinity-testimonial-both-side/InfinityTestimonialBothSideBlock';
 import VideoSectionBlock from './video-section/VideoSectionBlock';
 import { CoreParagraph } from './core/Paragraph';
@@ -63,6 +64,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/stories-blog-block': StoriesBlogBlockWrapper,
   'acf/full-img-content-block': FullImgContentBlock,
   'acf/roadmap-block': RoadmapBlock,
+  'acf/service-roadmaps-block': ServiceRoadmapsBlock,
   'acf/infinity-testimonial-both-side': InfinityTestimonialBothSideBlock,
   'acf/video-section': VideoSectionBlock,
   
