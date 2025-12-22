@@ -1,0 +1,90 @@
+{
+    "key": "group_infinity_testimonial_both_side",
+    "title": "Infinity Testimonial Both Side",
+    "fields": [
+        {
+            "key": "field_infinity_left_testimonial",
+            "label": "Left Testimonial",
+            "name": "left_testimonial",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_left_quote",
+                    "label": "Quote",
+                    "name": "quote",
+                    "type": "textarea"
+                },
+                {
+                    "key": "field_left_author_name",
+                    "label": "Author Name",
+                    "name": "author_name",
+                    "type": "text"
+                },
+                {
+                    "key": "field_left_author_title",
+                    "label": "Author Title",
+                    "name": "author_title",
+                    "type": "text"
+                },
+                {
+                    "key": "field_left_author_image",
+                    "label": "Author Image",
+                    "name": "author_image",
+                    "type": "image",
+                    "return_format": "array"
+                }
+            ]
+        },
+        {
+            "key": "field_infinity_right_testimonial",
+            "label": "Right Testimonial",
+            "name": "right_testimonial",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_right_quote",
+                    "label": "Quote",
+                    "name": "quote",
+                    "type": "textarea"
+                },
+                {
+                    "key": "field_right_author_name",
+                    "label": "Author Name",
+                    "name": "author_name",
+                    "type": "text"
+                },
+                {
+                    "key": "field_right_author_title",
+                    "label": "Author Title",
+                    "name": "author_title",
+                    "type": "text"
+                },
+                {
+                    "key": "field_right_author_image",
+                    "label": "Author Image",
+                    "name": "author_image",
+                    "type": "image",
+                    "return_format": "array"
+                }
+            ]
+        },
+        {
+            "key": "field_infinity_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "type": "color_picker",
+            "default_value": "#f8f9fa"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/infinity-testimonial-both-side"
+            }
+        ]
+    ],
+    "active": true,
+    "modified": 1734622800
+}

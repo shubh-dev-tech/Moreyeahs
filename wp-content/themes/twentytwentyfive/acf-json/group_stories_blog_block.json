@@ -1,0 +1,63 @@
+{
+    "key": "group_stories_blog_block",
+    "title": "Stories Blog Block",
+    "fields": [
+        {
+            "key": "field_stories_heading",
+            "label": "Heading",
+            "name": "heading",
+            "type": "text"
+        },
+        {
+            "key": "field_stories_subheading",
+            "label": "Subheading",
+            "name": "subheading",
+            "type": "textarea"
+        },
+        {
+            "key": "field_stories_items",
+            "label": "Stories",
+            "name": "stories",
+            "type": "repeater",
+            "button_label": "Add Story",
+            "sub_fields": [
+                {
+                    "key": "field_story_image",
+                    "label": "Image",
+                    "name": "image",
+                    "type": "image",
+                    "return_format": "array"
+                },
+                {
+                    "key": "field_story_title",
+                    "label": "Title",
+                    "name": "title",
+                    "type": "text"
+                },
+                {
+                    "key": "field_story_excerpt",
+                    "label": "Excerpt",
+                    "name": "excerpt",
+                    "type": "textarea"
+                },
+                {
+                    "key": "field_story_link",
+                    "label": "Link",
+                    "name": "link",
+                    "type": "url"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/stories-blog-block"
+            }
+        ]
+    ],
+    "active": true,
+    "modified": 1734622800
+}

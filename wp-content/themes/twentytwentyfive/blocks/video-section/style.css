@@ -1,0 +1,155 @@
+.video-section-block {
+    padding: 60px 0;
+    background: #f8f9fa;
+}
+
+.video-section-block .video-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+.video-section-block .video-wrapper {
+    position: relative;
+    width: 100%;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.video-section-block .video-embed {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+}
+
+.video-section-block .video-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.video-section-block .uploaded-video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-section-block .video-placeholder {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #333;
+    color: #fff;
+}
+
+.video-section-block .video-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-section-block .placeholder-content {
+    text-align: center;
+}
+
+.video-section-block .play-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.video-section-block .video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 12px;
+}
+
+.video-section-block .overlay-content {
+    text-align: center;
+    color: #fff;
+    padding: 40px;
+    max-width: 600px;
+}
+
+.video-section-block .video-content {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.video-section-block .video-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.video-section-block .video-overlay .video-heading {
+    color: #fff;
+}
+
+.video-section-block .video-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #666;
+    margin: 0;
+}
+
+.video-section-block .video-overlay .video-description {
+    color: #fff;
+    opacity: 0.9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .video-section-block {
+        padding: 40px 0;
+    }
+    
+    .video-section-block .video-placeholder {
+        height: 250px;
+    }
+    
+    .video-section-block .play-icon {
+        font-size: 3rem;
+    }
+    
+    .video-section-block .video-heading {
+        font-size: 2rem;
+    }
+    
+    .video-section-block .video-description {
+        font-size: 1rem;
+    }
+    
+    .video-section-block .overlay-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-section-block .video-heading {
+        font-size: 1.5rem;
+    }
+    
+    .video-section-block .video-description {
+        font-size: 0.9rem;
+    }
+}

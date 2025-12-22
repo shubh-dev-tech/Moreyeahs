@@ -1,0 +1,104 @@
+.stories-blog-block {
+    padding: 60px 0;
+}
+
+.stories-blog-block .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.stories-blog-block .block-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.stories-blog-block .block-subheading {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 40px;
+    color: #666;
+}
+
+.stories-blog-block .stories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.stories-blog-block .story-item {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stories-blog-block .story-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.stories-blog-block .story-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.stories-blog-block .story-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.stories-blog-block .story-item:hover .story-image img {
+    transform: scale(1.05);
+}
+
+.stories-blog-block .story-content {
+    padding: 20px;
+}
+
+.stories-blog-block .story-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.stories-blog-block .story-excerpt {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.stories-blog-block .story-link {
+    display: inline-block;
+    color: #007cba;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.stories-blog-block .story-link:hover {
+    color: #005a87;
+}
+
+@media (max-width: 768px) {
+    .stories-blog-block .block-heading {
+        font-size: 2rem;
+    }
+    
+    .stories-blog-block .stories-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}

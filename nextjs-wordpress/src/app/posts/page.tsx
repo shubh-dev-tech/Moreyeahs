@@ -1,13 +1,14 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { fetchWordPressAPI } from '@/lib/wordpress';
+import { getPosts } from '@/lib/wpFetch';
 
 export const metadata: Metadata = {
   title: 'All Posts',
   description: 'Browse all blog posts',
 };
 
-export const revalidate = parseInt(process.env.REVALIDATE_TIME || '3600');
+// Build-safe: ISR with 60s revalidation, never fails during build
+export const revalidate = 60;
 
 interface Post {
   id: number;
@@ -20,13 +21,8 @@ interface Post {
 }
 
 export default async function PostsPage() {
-  let posts: Post[] = [];
-  
-  try {
-    posts = await fetchWordPressAPI<Post[]>('/wp/v2/posts?per_page=50&_embed');
-  } catch (error) {
-    console.error('Error fetching posts:', error);
-  }
+  // Build-safe: getPosts never throws, returns empty array on failure
+  const posts = await getPosts({ per_page: 50 });
 
   return (
     <div className="container">

@@ -617,6 +617,11 @@ if ( ! function_exists( 'twentytwentyfive_expose_slider_to_graphql' ) ) :
 	function twentytwentyfive_expose_slider_to_graphql( $allowed_blocks ) {
 		$allowed_blocks[] = 'moreyeahs/slider';
 		$allowed_blocks[] = 'acf/moreyeahs-service-block';
+		$allowed_blocks[] = 'acf/full-img-content-block';
+		$allowed_blocks[] = 'acf/roadmap-block';
+		$allowed_blocks[] = 'acf/stories-blog-block';
+		$allowed_blocks[] = 'acf/infinity-testimonial-both-side';
+		$allowed_blocks[] = 'acf/video-section';
 		return $allowed_blocks;
 	}
 endif;

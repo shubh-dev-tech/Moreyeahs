@@ -49,7 +49,7 @@ add_action('rest_api_init', function () {
     ]);
 
     // Pages with ACF blocks endpoint
-    register_rest_route('wp/v2', '/pages-with-blocks/(?P<slug>[a-zA-Z0-9-_]+)', [
+    register_rest_route('wp/v2', '/pages-with-blocks/(?P<slug>[a-zA-Z0-9-_/]+)', [
         'methods' => 'GET',
         'callback' => 'get_page_with_acf_blocks_rest',
         'permission_callback' => '__return_true'
@@ -188,19 +188,44 @@ function get_menu_items_formatted($menu_id) {
  * Get site settings including logo and favicon
  */
 function get_site_settings_rest() {
-    $logo_id = get_theme_mod('custom_logo');
+    $logo_id = null;
+    $theme_mod_logo = get_theme_mod('custom_logo');
+    
+    // Handle both URL and ID formats
+    if ($theme_mod_logo) {
+        if (is_numeric($theme_mod_logo) && get_post($theme_mod_logo)) {
+            $logo_id = $theme_mod_logo;
+        } elseif (is_string($theme_mod_logo) && filter_var($theme_mod_logo, FILTER_VALIDATE_URL)) {
+            // It's a URL, try to find the attachment ID
+            $found_id = attachment_url_to_postid($theme_mod_logo);
+            if ($found_id) {
+                $logo_id = $found_id;
+            }
+        }
+    }
+    
     $logo = null;
-
     if ($logo_id) {
         $logo_data = wp_get_attachment_image_src($logo_id, 'full');
-        $logo_meta = wp_get_attachment_metadata($logo_id);
-        
         if ($logo_data) {
             $logo = [
+                'id' => intval($logo_id),
                 'url' => $logo_data[0],
-                'width' => $logo_data[1],
-                'height' => $logo_data[2],
+                'width' => intval($logo_data[1]),
+                'height' => intval($logo_data[2]),
                 'alt' => get_post_meta($logo_id, '_wp_attachment_image_alt', true) ?: get_bloginfo('name')
+            ];
+        }
+    } else {
+        // Fallback: if we still have a URL in theme mod, use it directly
+        if ($theme_mod_logo && is_string($theme_mod_logo) && filter_var($theme_mod_logo, FILTER_VALIDATE_URL)) {
+            $image_size = @getimagesize($theme_mod_logo);
+            $logo = [
+                'id' => 0,
+                'url' => $theme_mod_logo,
+                'width' => $image_size ? intval($image_size[0]) : 254,
+                'height' => $image_size ? intval($image_size[1]) : 53,
+                'alt' => get_bloginfo('name')
             ];
         }
     }

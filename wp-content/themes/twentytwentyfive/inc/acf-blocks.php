@@ -452,6 +452,101 @@ function twentytwentyfive_register_acf_blocks() {
                 ),
             ),
         ),
+
+        // Full Image Content Block
+        array(
+            'name'              => 'full-img-content-block',
+            'title'             => __('Full Image Content Block', 'twentytwentyfive'),
+            'description'       => __('A full-width block with background image and content overlay', 'twentytwentyfive'),
+            'category'          => 'media',
+            'icon'              => 'format-image',
+            'keywords'          => array('full', 'image', 'content', 'background', 'overlay'),
+            'render_template'   => 'blocks/full-img-content-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/full-img-content-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+        ),
+
+        // Roadmap Block
+        array(
+            'name'              => 'roadmap-block',
+            'title'             => __('Roadmap Block', 'twentytwentyfive'),
+            'description'       => __('Display a roadmap or timeline with steps and milestones', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'location',
+            'keywords'          => array('roadmap', 'timeline', 'steps', 'milestones', 'process'),
+            'render_template'   => 'blocks/roadmap-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/roadmap-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+        ),
+
+        // Stories Blog Block
+        array(
+            'name'              => 'stories-blog-block',
+            'title'             => __('Stories Blog Block', 'twentytwentyfive'),
+            'description'       => __('Display blog stories and articles in a grid layout', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'admin-post',
+            'keywords'          => array('stories', 'blog', 'articles', 'posts', 'grid'),
+            'render_template'   => 'blocks/stories-blog-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/stories-blog-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+        ),
+
+        // Infinity Testimonial Both Side Block
+        array(
+            'name'              => 'infinity-testimonial-both-side',
+            'title'             => __('Infinity Testimonial Both Side', 'twentytwentyfive'),
+            'description'       => __('Testimonial block with content on both sides in an infinity layout', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'format-quote',
+            'keywords'          => array('infinity', 'testimonial', 'both', 'side', 'quote', 'review'),
+            'render_template'   => 'blocks/infinity-testimonial-both-side/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/infinity-testimonial-both-side/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+        ),
+
+        // Video Section Block
+        array(
+            'name'              => 'video-section',
+            'title'             => __('Video Section', 'twentytwentyfive'),
+            'description'       => __('A section for displaying videos with optional overlay content', 'twentytwentyfive'),
+            'category'          => 'media',
+            'icon'              => 'video-alt3',
+            'keywords'          => array('video', 'section', 'media', 'player', 'embed'),
+            'render_template'   => 'blocks/video-section/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/video-section/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+        ),
     );
 
     // Register each block

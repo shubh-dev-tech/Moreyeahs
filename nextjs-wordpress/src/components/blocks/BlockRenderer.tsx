@@ -23,6 +23,7 @@ import NewsBlock from './news-block/NewsBlock';
 import { InvestorBlock } from './investor-block';
 import TestimonialBlock from './testimonial-block';
 import NavigationNextBlock from './navigation-next-block';
+import { RoadmapBlock } from './roadmap-block';
 import StepperBlock from './stepper-block/StepperBlock';
 import MoreyeahsServiceBlock from './moreyeahs-service-block';
 import MoreyeahsContentBlock from './moreyeahs-content-block';
@@ -52,6 +53,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/investor-block': InvestorBlock,
   'acf/testimonial-block': TestimonialBlock,
   'acf/navigation-next-block': NavigationNextBlock,
+  'acf/roadmap-block': RoadmapBlock,
   'acf/stepper-block': StepperBlock,
   'acf/moreyeahs-service-block': MoreyeahsServiceBlock,
   'acf/moreyeahs-content-block': MoreyeahsContentBlock,
@@ -73,6 +75,7 @@ const BLOCK_SECTION_IDS: Record<string, string> = {
   'acf/counter-block': 'counter',
   'acf/testimonial-block': 'testimonials',
   'acf/news-block': 'news',
+  'acf/roadmap-block': 'roadmap',
   'acf/investor-block': 'investors',
   'acf/navigation-next-block': 'navigation-next',
 };

@@ -1,11 +1,11 @@
-<?php
+  <?php
 /**
  * Custom REST API Endpoints for Headless WordPress
  * 
  * Provides endpoints for:
  * - Menus by location
  * - Site settings (logo, favicon, etc.)
- * - Footer widgets s
+ * - Footer widgets
  */
 
 if (!defined('ABSPATH')) exit;
@@ -16,77 +16,109 @@ if (!defined('ABSPATH')) exit;
 add_action('rest_api_init', function () {
     // Menu endpoints
     register_rest_route('wp/v2', '/menus', [
-        'methods' => 'GET',
+        'methods' => 'POST',
         'callback' => 'get_all_menus_rest',
         'permission_callback' => '__return_true'
     ]);
 
     register_rest_route('wp/v2', '/menus/(?P<location>[a-zA-Z0-9-_]+)', [
-        'methods' => 'GET',
+        'methods' => 'POST',
         'callback' => 'get_menu_by_location_rest',
         'permission_callback' => '__return_true'
     ]);
 
     // Site settings endpoint
     register_rest_route('wp/v2', '/site-settings', [
-        'methods' => 'GET',
+        'methods' => 'POST',
         'callback' => 'get_site_settings_rest',
         'permission_callback' => '__return_true'
     ]);
 
     // Footer widgets endpoint
     register_rest_route('wp/v2', '/footer-widgets', [
-        'methods' => 'GET',
+        'methods' => 'POST',
         'callback' => 'get_footer_widgets_rest',
         'permission_callback' => '__return_true'
     ]);
 
     // Mega menu endpoint
     register_rest_route('wp/v2', '/mega-menus', [
-        'methods' => 'GET',
+        'methods' => 'POST',
         'callback' => 'get_mega_menus_rest',
         'permission_callback' => '__return_true'
     ]);
 
     // Pages with ACF blocks endpoint
-    register_rest_route('wp/v2', '/pages-with-blocks/(?P<slug>[a-zA-Z0-9-_]+)', [
-        'methods' => 'GET',
+    register_rest_route('wp/v2', '/pages-with-blocks/(?P<slug>[a-zA-Z0-9-_/]+)', [
+        'methods' => 'POST',
         'callback' => 'get_page_with_acf_blocks_rest',
         'permission_callback' => '__return_true'
     ]);
 
     // Debug endpoint for ACF blocks
     register_rest_route('wp/v2', '/debug-acf/(?P<slug>[a-zA-Z0-9-_]+)', [
-        'methods' => 'GET',
+        'methods' => 'POST',
         'callback' => 'debug_acf_blocks_rest',
         'permission_callback' => '__return_true'
     ]);
 
     // Simple ACF test endpoint
     register_rest_route('wp/v2', '/test-acf/(?P<page_id>\d+)', [
-        'methods' => 'GET',
+        'methods' => 'POST',
         'callback' => 'test_acf_data_rest',
         'permission_callback' => '__return_true'
     ]);
 
     // Test image expansion endpoint
     register_rest_route('wp/v2', '/test-image/(?P<image_id>\d+)', [
-        'methods' => 'GET',
+        'methods' => 'POST',
         'callback' => 'test_image_expansion_rest',
         'permission_callback' => '__return_true'
     ]);
 
     // Debug endpoint for navigation-next-block transformation
     register_rest_route('wp/v2', '/test-navigation-transform', [
-        'methods' => 'GET',
+        'methods' => 'POST',
         'callback' => 'test_navigation_transform_rest',
         'permission_callback' => '__return_true'
     ]);
 
     // Debug endpoint for full-width-left-text-section block
     register_rest_route('wp/v2', '/test-full-width-block/(?P<page_id>\d+)', [
-        'methods' => 'GET',
+        'methods' => 'POST',
         'callback' => 'test_full_width_block_rest',
+        'permission_callback' => '__return_true'
+    ]);
+
+    // Custom POST endpoints for standard WordPress data
+    register_rest_route('wp/v2', '/posts-data', [
+        'methods' => 'POST',
+        'callback' => 'get_posts_data_rest',
+        'permission_callback' => '__return_true'
+    ]);
+
+    register_rest_route('wp/v2', '/pages-data', [
+        'methods' => 'POST',
+        'callback' => 'get_pages_data_rest',
+        'permission_callback' => '__return_true'
+    ]);
+
+    register_rest_route('wp/v2', '/post-by-slug', [
+        'methods' => 'POST',
+        'callback' => 'get_post_by_slug_rest',
+        'permission_callback' => '__return_true'
+    ]);
+
+    register_rest_route('wp/v2', '/page-by-slug', [
+        'methods' => 'POST',
+        'callback' => 'get_page_by_slug_rest',
+        'permission_callback' => '__return_true'
+    ]);
+
+    // Categories endpoint
+    register_rest_route('wp/v2', '/categories-data', [
+        'methods' => 'POST',
+        'callback' => 'get_categories_data_rest',
         'permission_callback' => '__return_true'
     ]);
 });
@@ -184,55 +216,7 @@ function get_menu_items_formatted($menu_id) {
     return array_values($menu_items);
 }
 
-/**
- * Get site settings including logo and favicon
- */
-function get_site_settings_rest() {
-    $logo_id = get_theme_mod('custom_logo');
-    $logo = null;
-
-    if ($logo_id) {
-        $logo_data = wp_get_attachment_image_src($logo_id, 'full');
-        $logo_meta = wp_get_attachment_metadata($logo_id);
-        
-        if ($logo_data) {
-            $logo = [
-                'url' => $logo_data[0],
-                'width' => $logo_data[1],
-                'height' => $logo_data[2],
-                'alt' => get_post_meta($logo_id, '_wp_attachment_image_alt', true) ?: get_bloginfo('name')
-            ];
-        }
-    }
-
-    // Get favicon
-    $favicon_id = get_option('site_icon');
-    $favicon = null;
-
-    if ($favicon_id) {
-        $favicon = [
-            'url' => wp_get_attachment_url($favicon_id),
-            'width' => 512,
-            'height' => 512,
-            'sizes' => [
-                '32' => wp_get_attachment_image_url($favicon_id, [32, 32]),
-                '180' => wp_get_attachment_image_url($favicon_id, [180, 180]),
-                '192' => wp_get_attachment_image_url($favicon_id, [192, 192]),
-                '512' => wp_get_attachment_image_url($favicon_id, [512, 512]),
-            ]
-        ];
-    }
-
-    $settings = [
-        'title' => get_bloginfo('name'),
-        'description' => get_bloginfo('description'),
-        'url' => get_bloginfo('url'),
-        'logo' => $logo,
-        'favicon' => $favicon
-    ];
-
-    return rest_ensure_response($settings);
-}
+// Site settings function is now handled by parent theme
 
 /**
  * Get footer widgets
@@ -293,9 +277,9 @@ add_action('rest_api_init', function() {
 
         if ($origin && in_array($origin, $allowed_origins)) {
             header('Access-Control-Allow-Origin: ' . $origin);
-            header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+            header('Access-Control-Allow-Methods: POST, OPTIONS');
             header('Access-Control-Allow-Credentials: true');
-            header('Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce');
+            header('Access-Control-Allow-Headers: Authorization, Content-Type, X-WP-Nonce, Accept');
         }
 
         return $value;
@@ -686,6 +670,74 @@ function transform_testimonial_block_data($data) {
 }
 
 /**
+ * Transform roadmap-block flattened data to structured array
+ */
+function transform_roadmap_block_data($data) {
+    // Transform roadmap_items
+    if (isset($data['roadmap_items']) && is_numeric($data['roadmap_items'])) {
+        $roadmap_items_count = intval($data['roadmap_items']);
+        $roadmap_items = [];
+        
+        for ($i = 0; $i < $roadmap_items_count; $i++) {
+            $date_key = "roadmap_items_{$i}_date";
+            $title_key = "roadmap_items_{$i}_title";
+            $description_key = "roadmap_items_{$i}_description";
+            $link_key = "roadmap_items_{$i}_link";
+            $is_completed_key = "roadmap_items_{$i}_is_completed";
+            $is_current_key = "roadmap_items_{$i}_is_current";
+            
+            if (isset($data[$title_key])) {
+                $item = [
+                    'title' => $data[$title_key]
+                ];
+                
+                if (isset($data[$date_key]) && !empty($data[$date_key])) {
+                    $item['date'] = $data[$date_key];
+                }
+                
+                if (isset($data[$description_key]) && !empty($data[$description_key])) {
+                    $item['description'] = $data[$description_key];
+                }
+                
+                if (isset($data[$link_key]) && !empty($data[$link_key])) {
+                    $item['link'] = $data[$link_key];
+                }
+                
+                if (isset($data[$is_completed_key])) {
+                    $item['is_completed'] = (bool) $data[$is_completed_key];
+                }
+                
+                if (isset($data[$is_current_key])) {
+                    $item['is_current'] = (bool) $data[$is_current_key];
+                }
+                
+                $roadmap_items[] = $item;
+            }
+        }
+        
+        $data['roadmap_items'] = $roadmap_items;
+        
+        // Clean up flattened keys
+        for ($i = 0; $i < $roadmap_items_count; $i++) {
+            unset($data["roadmap_items_{$i}_date"]);
+            unset($data["roadmap_items_{$i}_title"]);
+            unset($data["roadmap_items_{$i}_description"]);
+            unset($data["roadmap_items_{$i}_link"]);
+            unset($data["roadmap_items_{$i}_is_completed"]);
+            unset($data["roadmap_items_{$i}_is_current"]);
+            unset($data["_roadmap_items_{$i}_date"]);
+            unset($data["_roadmap_items_{$i}_title"]);
+            unset($data["_roadmap_items_{$i}_description"]);
+            unset($data["_roadmap_items_{$i}_link"]);
+            unset($data["_roadmap_items_{$i}_is_completed"]);
+            unset($data["_roadmap_items_{$i}_is_current"]);
+        }
+    }
+    
+    return $data;
+}
+
+/**
  * Transform investor-block flattened data to structured array
  */
 function transform_investor_block_data($data) {
@@ -941,8 +993,33 @@ function get_acf_block_data($block, $page_id) {
 function get_page_with_acf_blocks_rest($request) {
     $slug = $request['slug'];
     
-    // Get page by slug
+    // Get page by slug - try different approaches for hierarchical pages
     $page = get_page_by_path($slug);
+    
+    // If not found and slug doesn't contain slash, try common parent paths
+    if (!$page && strpos($slug, '/') === false) {
+        $common_parents = ['services', 'pages', 'content'];
+        foreach ($common_parents as $parent) {
+            $hierarchical_path = $parent . '/' . $slug;
+            $page = get_page_by_path($hierarchical_path);
+            if ($page) {
+                break;
+            }
+        }
+    }
+    
+    // If still not found, try to find by post_name directly
+    if (!$page) {
+        $pages = get_posts([
+            'post_type' => 'page',
+            'name' => $slug,
+            'post_status' => 'publish',
+            'posts_per_page' => 1
+        ]);
+        if (!empty($pages)) {
+            $page = $pages[0];
+        }
+    }
     
     if (!$page) {
         return new WP_Error('page_not_found', 'Page not found', ['status' => 404]);
@@ -991,6 +1068,9 @@ function get_page_with_acf_blocks_rest($request) {
                             break;
                         case 'acf/news-block':
                             $processed_block['attrs']['data'] = transform_news_block_data($processed_block['attrs']['data']);
+                            break;
+                        case 'acf/roadmap-block':
+                            $processed_block['attrs']['data'] = transform_roadmap_block_data($processed_block['attrs']['data']);
                             break;
                         case 'acf/investor-block':
                             $processed_block['attrs']['data'] = transform_investor_block_data($processed_block['attrs']['data']);
@@ -1194,4 +1274,212 @@ function test_full_width_block_rest($request) {
     ];
     
     return rest_ensure_response($result);
+}
+
+/**
+ * Get posts data via POST
+ */
+function get_posts_data_rest($request) {
+    $params = $request->get_json_params() ?: [];
+    
+    // Default parameters
+    $args = [
+        'post_type' => 'post',
+        'post_status' => 'publish',
+        'posts_per_page' => isset($params['per_page']) ? intval($params['per_page']) : 10,
+        'paged' => isset($params['page']) ? intval($params['page']) : 1,
+    ];
+    
+    // Add additional parameters if provided
+    if (isset($params['category'])) {
+        $args['category_name'] = $params['category'];
+    }
+    
+    if (isset($params['tag'])) {
+        $args['tag'] = $params['tag'];
+    }
+    
+    if (isset($params['author'])) {
+        $args['author'] = intval($params['author']);
+    }
+    
+    if (isset($params['search'])) {
+        $args['s'] = sanitize_text_field($params['search']);
+    }
+    
+    $posts = get_posts($args);
+    $formatted_posts = [];
+    
+    foreach ($posts as $post) {
+        $formatted_posts[] = [
+            'id' => $post->ID,
+            'title' => $post->post_title,
+            'slug' => $post->post_name,
+            'content' => $post->post_content,
+            'excerpt' => $post->post_excerpt,
+            'date' => $post->post_date,
+            'modified' => $post->post_modified,
+            'author' => get_the_author_meta('display_name', $post->post_author),
+            'featured_image' => get_post_thumbnail_id($post->ID) ? expand_image_field(get_post_thumbnail_id($post->ID)) : null,
+            'categories' => wp_get_post_categories($post->ID, ['fields' => 'names']),
+            'tags' => wp_get_post_tags($post->ID, ['fields' => 'names']),
+        ];
+    }
+    
+    return rest_ensure_response($formatted_posts);
+}
+
+/**
+ * Get pages data via POST
+ */
+function get_pages_data_rest($request) {
+    $params = $request->get_json_params() ?: [];
+    
+    // Default parameters
+    $args = [
+        'post_type' => 'page',
+        'post_status' => 'publish',
+        'posts_per_page' => isset($params['per_page']) ? intval($params['per_page']) : 10,
+        'paged' => isset($params['page']) ? intval($params['page']) : 1,
+    ];
+    
+    if (isset($params['search'])) {
+        $args['s'] = sanitize_text_field($params['search']);
+    }
+    
+    $pages = get_posts($args);
+    $formatted_pages = [];
+    
+    foreach ($pages as $page) {
+        $formatted_pages[] = [
+            'id' => $page->ID,
+            'title' => $page->post_title,
+            'slug' => $page->post_name,
+            'content' => $page->post_content,
+            'excerpt' => $page->post_excerpt,
+            'date' => $page->post_date,
+            'modified' => $page->post_modified,
+            'parent' => $page->post_parent,
+            'featured_image' => get_post_thumbnail_id($page->ID) ? expand_image_field(get_post_thumbnail_id($page->ID)) : null,
+        ];
+    }
+    
+    return rest_ensure_response($formatted_pages);
+}
+
+/**
+ * Get single post by slug via POST
+ */
+function get_post_by_slug_rest($request) {
+    $params = $request->get_json_params() ?: [];
+    
+    if (!isset($params['slug'])) {
+        return new WP_Error('missing_slug', 'Slug parameter is required', ['status' => 400]);
+    }
+    
+    $slug = sanitize_text_field($params['slug']);
+    $posts = get_posts([
+        'name' => $slug,
+        'post_type' => 'post',
+        'post_status' => 'publish',
+        'posts_per_page' => 1
+    ]);
+    
+    if (empty($posts)) {
+        return new WP_Error('post_not_found', 'Post not found', ['status' => 404]);
+    }
+    
+    $post = $posts[0];
+    
+    $result = [
+        'id' => $post->ID,
+        'title' => $post->post_title,
+        'slug' => $post->post_name,
+        'content' => $post->post_content,
+        'excerpt' => $post->post_excerpt,
+        'date' => $post->post_date,
+        'modified' => $post->post_modified,
+        'author' => get_the_author_meta('display_name', $post->post_author),
+        'featured_image' => get_post_thumbnail_id($post->ID) ? expand_image_field(get_post_thumbnail_id($post->ID)) : null,
+        'categories' => wp_get_post_categories($post->ID, ['fields' => 'names']),
+        'tags' => wp_get_post_tags($post->ID, ['fields' => 'names']),
+    ];
+    
+    return rest_ensure_response($result);
+}
+
+/**
+ * Get single page by slug via POST
+ */
+function get_page_by_slug_rest($request) {
+    $params = $request->get_json_params() ?: [];
+    
+    if (!isset($params['slug'])) {
+        return new WP_Error('missing_slug', 'Slug parameter is required', ['status' => 400]);
+    }
+    
+    $slug = sanitize_text_field($params['slug']);
+    $page = get_page_by_path($slug);
+    
+    if (!$page) {
+        return new WP_Error('page_not_found', 'Page not found', ['status' => 404]);
+    }
+    
+    $result = [
+        'id' => $page->ID,
+        'title' => $page->post_title,
+        'slug' => $page->post_name,
+        'content' => $page->post_content,
+        'excerpt' => $page->post_excerpt,
+        'date' => $page->post_date,
+        'modified' => $page->post_modified,
+        'parent' => $page->post_parent,
+        'featured_image' => get_post_thumbnail_id($page->ID) ? expand_image_field(get_post_thumbnail_id($page->ID)) : null,
+    ];
+    
+    return rest_ensure_response($result);
+}
+/**
+ * Get categories data via POST
+ */
+function get_categories_data_rest($request) {
+    $params = $request->get_json_params() ?: [];
+    
+    // Default parameters
+    $args = [
+        'taxonomy' => 'category',
+        'hide_empty' => false,
+        'number' => isset($params['per_page']) ? intval($params['per_page']) : 100,
+    ];
+    
+    // Add slug filter if provided
+    if (isset($params['slug'])) {
+        $args['slug'] = sanitize_text_field($params['slug']);
+    }
+    
+    // Add search filter if provided
+    if (isset($params['search'])) {
+        $args['search'] = sanitize_text_field($params['search']);
+    }
+    
+    $categories = get_terms($args);
+    
+    if (is_wp_error($categories)) {
+        return new WP_Error('categories_error', 'Error fetching categories', ['status' => 500]);
+    }
+    
+    $formatted_categories = [];
+    
+    foreach ($categories as $category) {
+        $formatted_categories[] = [
+            'id' => $category->term_id,
+            'name' => $category->name,
+            'slug' => $category->slug,
+            'description' => $category->description,
+            'count' => $category->count,
+            'parent' => $category->parent,
+        ];
+    }
+    
+    return rest_ensure_response($formatted_categories);
 }
