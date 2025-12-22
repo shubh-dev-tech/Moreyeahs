@@ -1,0 +1,215 @@
+{
+    "key": "group_service_roadmaps_block",
+    "title": "Service Roadmaps Block",
+    "fields": [
+        {
+            "key": "field_roadmaps_heading",
+            "label": "Heading",
+            "name": "heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the main heading for the roadmap section",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Our DevOps Strategy Roadmap",
+            "placeholder": "Our DevOps Strategy Roadmap",
+            "show_in_graphql": 1,
+            "graphql_field_name": "heading",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_roadmaps_subheading",
+            "label": "Subheading",
+            "name": "subheading",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Enter the subheading text (optional)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "Strategic approach to digital transformation",
+            "show_in_graphql": 1,
+            "graphql_field_name": "subheading",
+            "maxlength": "",
+            "rows": 3,
+            "new_lines": ""
+        },
+        {
+            "key": "field_roadmaps_right_image",
+            "label": "Right Side Image",
+            "name": "right_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Upload an image to display on the right side of the roadmap",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "show_in_graphql": 1,
+            "graphql_field_name": "rightImage"
+        },
+        {
+            "key": "field_roadmaps_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose a background color for the section",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#e8f5e8",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "show_in_graphql": 1,
+            "graphql_field_name": "backgroundColor"
+        },
+        {
+            "key": "field_roadmaps_steps",
+            "label": "Roadmap Steps",
+            "name": "roadmap_steps",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add roadmap steps. Each step will be displayed with an icon, title, and description.",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 1,
+            "max": 10,
+            "collapsed": "",
+            "button_label": "Add Step",
+            "rows_per_page": 20,
+            "show_in_graphql": 1,
+            "graphql_field_name": "roadmapSteps",
+            "sub_fields": [
+                {
+                    "key": "field_roadmaps_step_icon",
+                    "label": "Step Icon",
+                    "name": "step_icon",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Upload an icon for this step (optional)",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "stepIcon",
+                    "parent_repeater": "field_roadmaps_steps"
+                },
+                {
+                    "key": "field_roadmaps_step_title",
+                    "label": "Step Title",
+                    "name": "step_title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter the title for this step",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "Assess & Analyze",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "stepTitle",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_roadmaps_steps"
+                },
+                {
+                    "key": "field_roadmaps_step_description",
+                    "label": "Step Description",
+                    "name": "step_description",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Enter the description for this step",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "Evaluate current DevOps maturity using industry frameworks, identify capability gaps, and establish baseline metrics for improvement tracking",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "stepDescription",
+                    "maxlength": "",
+                    "rows": 3,
+                    "new_lines": "",
+                    "parent_repeater": "field_roadmaps_steps"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/service-roadmaps-block"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Service roadmaps block with customizable steps, icons, and right-side image",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1734883200
+}
