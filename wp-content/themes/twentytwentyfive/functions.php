@@ -1191,6 +1191,69 @@ require_once get_template_directory() . '/inc/acf-section-id-field.php';
 // Load REST API endpoints for headless WordPress
 require_once get_template_directory() . '/inc/rest-api-endpoints.php';
 
+// Add essential REST API endpoints directly in functions.php for Vercel compatibility
+add_action('rest_api_init', function() {
+    // Site settings endpoint (essential for Vercel)
+    register_rest_route('wp/v2', '/site-settings-direct', [
+        'methods' => 'POST',
+        'callback' => function() {
+            $settings = [
+                'title' => get_bloginfo('name'),
+                'description' => get_bloginfo('description'),
+                'url' => get_bloginfo('url'),
+                'logo' => null,
+                'favicon' => null
+            ];
+            
+            // Get logo
+            $logo_id = get_theme_mod('custom_logo') ?: get_option('custom_logo_id');
+            if ($logo_id) {
+                $logo_data = wp_get_attachment_image_src($logo_id, 'full');
+                if ($logo_data) {
+                    $settings['logo'] = [
+                        'id' => intval($logo_id),
+                        'url' => $logo_data[0],
+                        'width' => intval($logo_data[1]),
+                        'height' => intval($logo_data[2]),
+                        'alt' => get_post_meta($logo_id, '_wp_attachment_image_alt', true) ?: get_bloginfo('name')
+                    ];
+                }
+            }
+            
+            // Get favicon
+            $favicon_id = get_option('site_icon');
+            if ($favicon_id) {
+                $favicon_url = wp_get_attachment_url($favicon_id);
+                if ($favicon_url) {
+                    $settings['favicon'] = [
+                        'id' => intval($favicon_id),
+                        'url' => $favicon_url,
+                        'width' => 512,
+                        'height' => 512
+                    ];
+                }
+            }
+            
+            return rest_ensure_response($settings);
+        },
+        'permission_callback' => '__return_true'
+    ]);
+    
+    // Test endpoint to verify this is working
+    register_rest_route('wp/v2', '/parent-theme-test', [
+        'methods' => 'GET',
+        'callback' => function() {
+            return rest_ensure_response([
+                'message' => 'Parent theme REST API working',
+                'theme' => get_stylesheet(),
+                'template' => get_template(),
+                'time' => current_time('mysql')
+            ]);
+        },
+        'permission_callback' => '__return_true'
+    ]);
+});
+
 // Load Mega Menu CPT
 require_once get_template_directory() . '/inc/mega-menu-cpt.php';
 

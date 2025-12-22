@@ -6287,3 +6287,1122 @@ Stack trace:
 [19-Dec-2025 07:30:05 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
 [19-Dec-2025 07:30:05 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
 [19-Dec-2025 07:30:06 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:04:33 UTC] PHP Parse error:  Unclosed '{' on line 129 in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 1489
+[19-Dec-2025 09:16:25 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:16:25 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:16:25 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:30:27 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:32:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:34:29 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:36:30 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 09:36:30 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 09:36:30 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 09:36:30 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 09:36:30 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 09:36:30 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 09:36:30 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 09:36:31 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 09:36:31 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 09:36:31 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 09:36:31 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 09:36:31 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 09:36:31 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 09:36:31 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 09:42:38 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:44:39 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:23 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:23 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:23 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:23 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:24 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:24 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:29 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:29 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:29 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:36 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:46:40 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:48:41 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:50:42 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:52:27 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:53:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:55:29 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:57:30 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 09:59:31 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:01:32 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:44 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:44 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:44 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:45 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:45 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:45 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:45 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:45 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:45 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:58 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:58 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:58 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:58 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:58 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:24:58 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:03 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:04 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:04 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:14 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:14 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:15 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:19 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:19 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:19 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:20 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:20 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:20 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:27 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:27 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:27 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:28 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:32 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:32 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:32 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:32 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:32 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:33 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:33 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:33 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:33 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:34 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:34 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:34 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:36 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:36 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:36 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:36 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:36 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:25:37 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:41 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:41 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:41 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:41 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:42 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:42 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:47 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:47 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:47 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:47 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:47 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:54 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:54 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:54 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:54 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:54 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:55 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:55 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:55 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:55 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:55 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:27:55 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:02 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:02 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:02 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:02 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:02 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:03 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:03 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:03 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:03 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:03 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:03 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:09 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:09 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:09 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:09 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:09 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:16 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:16 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:16 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:17 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:17 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:17 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:28:53 UTC] PHP Fatal error:  Cannot redeclare get_all_menus_rest() (previously declared in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive\inc\rest-api-endpoints.php:137) in C:\xampp\htdocs\moreyeahs-new\wp-content\themes\twentytwentyfive-child\inc\rest-api-endpoints.php on line 143
+[19-Dec-2025 10:30:05 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:30:05 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:30:05 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:30:05 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:30:05 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:30:05 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:30:05 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:30:05 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:30:05 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:30:05 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:30:05 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:30:05 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:30:05 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:30:05 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:30:05 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:30:05 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:30:05 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:30:05 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:30:05 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:30:05 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:30:05 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:30:05 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:30:05 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:45 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:45 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:45 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:45 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:45 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:45 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:45 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:45 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:45 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:45 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:45 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:45 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:45 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:45 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:45 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:45 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:45 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:45 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:45 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:45 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:45 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:45 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:45 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:45 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:45 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:45 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:45 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:45 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:45 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:45 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:45 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:45 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:45 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:45 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:45 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:45 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:45 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:45 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:45 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:45 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:45 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:45 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:45 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:45 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:45 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:45 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:45 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:45 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:45 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:45 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:46 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:46 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:46 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:46 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:46 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:46 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:46 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:49 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:49 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:49 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:49 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:49 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:49 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:49 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:49 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:49 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:49 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:49 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:49 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:49 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:49 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:49 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:49 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:50 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:50 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:50 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:50 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:50 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:50 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:50 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:50 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:50 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:50 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:50 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:50 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:50 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:50 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:50 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:50 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:51 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:51 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:51 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:51 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:51 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:51 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:51 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:51 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:51 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:51 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:51 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:51 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:51 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:51 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:51 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:51 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:53 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:53 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:53 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:53 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:53 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:53 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:53 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:53 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:53 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:53 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:53 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:53 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:53 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:53 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:53 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:53 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:53 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:53 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:53 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:59 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:59 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:59 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:59 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:59 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:59 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:59 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:59 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:59 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:59 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:59 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:59 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:59 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:59 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:59 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:59 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:59 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:59 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:59 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:59 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:31:59 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:31:59 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:31:59 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:31:59 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:31:59 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:31:59 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:31:59 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:59 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:31:59 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:32:00 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:32:00 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:32:00 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:32:00 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:32:00 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:32:00 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:32:00 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:32:00 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:32:00 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: WordPress init action fired
+[19-Dec-2025 10:32:00 UTC] DEBUG: Active theme: twentytwentyfive-child
+[19-Dec-2025 10:32:00 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[19-Dec-2025 10:32:00 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[19-Dec-2025 10:32:00 UTC] DEBUG: ACF loaded: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: ACF version: 6.6.2
+[19-Dec-2025 10:32:00 UTC] DEBUG: WordPress fully loaded
+[19-Dec-2025 10:32:00 UTC] DEBUG: rest_api_init action fired
+[19-Dec-2025 10:32:00 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[19-Dec-2025 10:32:00 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[19-Dec-2025 10:32:00 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[19-Dec-2025 10:32:00 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:37 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:37 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:37 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:37 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:37 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:37 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:37 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:37 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:37 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:37 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:37 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:37 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:37 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:37 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:37 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:37 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:37 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:37 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:37 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:37 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:37 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:37 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:37 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:37 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:37 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:38 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:38 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:38 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:38 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:38 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:38 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:38 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:38 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:38 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:38 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:38 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:38 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:38 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:38 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:38 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:38 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:38 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:38 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:38 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:38 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:38 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:38 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:38 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:39 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:39 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:39 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:39 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:39 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:39 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:39 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:39 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:39 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:39 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:39 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:39 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:39 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:39 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:39 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:39 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:39 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:39 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:39 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:40 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:40 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:40 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:40 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:40 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:40 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:40 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:41 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:41 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:41 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:41 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:41 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:41 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:41 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:41 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:41 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:41 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:41 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:41 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:41 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:41 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:41 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:41 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:41 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:41 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:41 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:41 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:41 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:41 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:41 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:41 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:41 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:41 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:42 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:42 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:42 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:42 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:42 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:42 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:42 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:42 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:42 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:42 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:42 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:42 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:42 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:42 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:42 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:42 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:42 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:42 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:42 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:42 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:42 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:42 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:42 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:42 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:42 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:42 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:42 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:42 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:42 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:42 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:42 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:43 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:43 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:43 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:43 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:43 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:43 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:43 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:44 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:44 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:44 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:44 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:44 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:44 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:44 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:49 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:49 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:49 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:49 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:49 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:49 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:49 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:49 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:49 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:49 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:49 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:49 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:49 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:49 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:49 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:49 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:50 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:50 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:50 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:50 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:50 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:50 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:50 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:51 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:51 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:51 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:51 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:51 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:51 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:51 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:51 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:51 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:51 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:51 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:51 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:51 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:51 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:51 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:51 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:52 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:52 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:52 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:52 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:52 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:52 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:52 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:52 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:52 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:52 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:52 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:52 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:52 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:52 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:52 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:52 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:52 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:52 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:52 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:55 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:55 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:55 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:55 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:55 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:55 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:55 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:55 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:55 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:55 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:55 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:55 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:55 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:55 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:55 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:55 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:56 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:56 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:56 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:56 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:56 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:56 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:56 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:56 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:56 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:56 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:56 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:56 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:56 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:56 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:56 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:56 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:56 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:56 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:56 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:56 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:56 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:56 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:56 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:56 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:56 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:57 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:57 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:57 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:57 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:57 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:57 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:57 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:57 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:57 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:57 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:57 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:57 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:57 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:57 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:57 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:57 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:57 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:57 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:57 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:58 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:58 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:58 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:58 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:58 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:58 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:58 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:58 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:49:58 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:58 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:49:58 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:49:58 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:49:58 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:49:58 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:49:58 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:49:58 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:49:59 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:59 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:59 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:59 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:59 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:59 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:59 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:49:59 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:49:59 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:49:59 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:49:59 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:49:59 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:49:59 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:49:59 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:00 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:00 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:00 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:00 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:00 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:00 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:00 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:02 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:02 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:02 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:02 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:02 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:02 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:02 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:07 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:07 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:07 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:07 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:07 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:07 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:07 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:07 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:50:07 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:07 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:07 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:50:07 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:50:07 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:50:07 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:50:07 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:50:07 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:09 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:09 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:09 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:09 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:09 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:09 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:09 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:09 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:09 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:09 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:09 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:50:09 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:09 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:09 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:09 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:50:09 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:09 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:09 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:09 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:09 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:09 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:09 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:09 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:09 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:10 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:10 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:10 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:10 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:10 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:10 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:10 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:50:10 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:10 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:10 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:10 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:10 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:10 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:10 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:10 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:50:10 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:10 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:10 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:10 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:10 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:10 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:10 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:10 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:50:10 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:10 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:10 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:10 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:10 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:10 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:10 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:10 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:50:10 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:10 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:10 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:10 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:10 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:10 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:10 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:10 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:50:10 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:10 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:10 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:10 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:10 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:50:10 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:10 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:50:10 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:50:16 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:16 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:16 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:16 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:16 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:16 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:16 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:17 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:17 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:17 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:17 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:17 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:17 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:17 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:19 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:19 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:19 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:19 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:19 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:19 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:19 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:23 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:23 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:23 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:23 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:23 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:23 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:23 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:23 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:23 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:23 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:23 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:23 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:23 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:23 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:25 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:25 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:25 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:25 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:25 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:25 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:25 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:26 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:26 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:26 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:26 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:26 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:26 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:26 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:26 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:50:26 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:26 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:26 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:50:26 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:50:26 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:50:26 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:50:26 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:50:26 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:50:26 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:26 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:26 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:26 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:26 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:26 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:26 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:27 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:27 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:27 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:27 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:27 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:27 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:27 UTC] DEBUG: WordPress fully loaded
+[22-Dec-2025 06:50:27 UTC] DEBUG: rest_api_init action fired
+[22-Dec-2025 06:50:27 UTC] DEBUG: Simple test endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:27 UTC] DEBUG: Site settings endpoint registration result: SUCCESS
+[22-Dec-2025 06:50:27 UTC] DEBUG: Function get_site_settings_rest exists: YES
+[22-Dec-2025 06:50:27 UTC] DEBUG: Function get_mega_menus_rest exists: YES
+[22-Dec-2025 06:50:27 UTC] DEBUG: Function get_footer_widgets_rest exists: YES
+[22-Dec-2025 06:50:27 UTC] DEBUG: Function get_page_with_acf_blocks_rest exists: YES
+[22-Dec-2025 06:50:27 UTC] DEBUG: Function get_posts_data_rest exists: YES
+[22-Dec-2025 06:50:27 UTC] DEBUG: Function get_categories_data_rest exists: YES
+[22-Dec-2025 06:50:29 UTC] DEBUG: WordPress init action fired
+[22-Dec-2025 06:50:29 UTC] DEBUG: Active theme: twentytwentyfive-child
+[22-Dec-2025 06:50:29 UTC] DEBUG: Template directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive
+[22-Dec-2025 06:50:29 UTC] DEBUG: Stylesheet directory: C:\xampp\htdocs\moreyeahs-new/wp-content/themes/twentytwentyfive-child
+[22-Dec-2025 06:50:29 UTC] DEBUG: ACF loaded: YES
+[22-Dec-2025 06:50:29 UTC] DEBUG: ACF version: 6.6.2
+[22-Dec-2025 06:50:29 UTC] DEBUG: WordPress fully loaded

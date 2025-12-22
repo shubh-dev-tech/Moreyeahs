@@ -10,11 +10,11 @@ import './styles.scss';
 
 interface Post {
   id: number;
-  title: {
-    rendered: string;
+  title?: {
+    rendered?: string;
   };
-  excerpt: {
-    rendered: string;
+  excerpt?: {
+    rendered?: string;
   };
   link: string;
   date: string;
@@ -239,10 +239,13 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
   };
 
   const getFeaturedImageAlt = (post: Post) => {
-    return post._embedded?.['wp:featuredmedia']?.[0]?.alt_text || post.title.rendered;
+    return post._embedded?.['wp:featuredmedia']?.[0]?.alt_text || post.title?.rendered || 'Post image';
   };
 
-  const stripHtml = (html: string) => {
+  const stripHtml = (html: string | undefined) => {
+    if (!html || typeof html !== 'string') {
+      return '';
+    }
     return html.replace(/<[^>]*>/g, '').trim();
   };
 
@@ -293,11 +296,11 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
                 <div className="stories-blog-block__card-content">
                   <h3 className="stories-blog-block__card-title">
                     <a href={post.link} target="_blank" rel="noopener noreferrer">
-                      {stripHtml(post.title.rendered)}
+                      {stripHtml(post.title?.rendered)}
                     </a>
                   </h3>
                   <p className="stories-blog-block__card-excerpt">
-                    {stripHtml(post.excerpt.rendered).substring(0, 120)}...
+                    {stripHtml(post.excerpt?.rendered).substring(0, 120)}...
                   </p>
                   <time className="stories-blog-block__card-date">
                     {new Date(post.date).toLocaleDateString('en-US', {
