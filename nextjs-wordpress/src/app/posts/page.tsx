@@ -34,17 +34,27 @@ export default async function PostsPage() {
       <section className="posts-grid">
         <div className="posts-grid__items">
           {posts.length > 0 ? (
-            posts.map((post) => (
-              <div key={post.id} className="post-card">
-                <h3>
-                  <a href={`/posts/${post.slug}`}>
-                    <span dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
-                  </a>
-                </h3>
-                <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
-                <p className="post-date">{new Date(post.date).toLocaleDateString()}</p>
-              </div>
-            ))
+            posts.map((post) => {
+              // Safely extract title and excerpt
+              const titleText = typeof post?.title === 'string' ? post.title : post?.title?.rendered || 'Untitled';
+              const excerptText = typeof post?.excerpt === 'string' ? post.excerpt : post?.excerpt?.rendered || '';
+              const slug = post?.slug || '';
+              const date = post?.date || new Date().toISOString();
+              
+              return (
+                <div key={post.id} className="post-card">
+                  <h3>
+                    <a href={`/posts/${slug}`}>
+                      {titleText.replace(/<[^>]*>/g, '')}
+                    </a>
+                  </h3>
+                  {excerptText && (
+                    <div dangerouslySetInnerHTML={{ __html: excerptText }} />
+                  )}
+                  <p className="post-date">{new Date(date).toLocaleDateString()}</p>
+                </div>
+              );
+            })
           ) : (
             <p>No posts found. Please create some posts in WordPress.</p>
           )}

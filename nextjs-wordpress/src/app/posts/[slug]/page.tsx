@@ -74,9 +74,10 @@ export default async function PostPage({ params }: { params: { slug: string } })
     <article className="post-single">
       <div className="container container--narrow">
         <header className="post-single__header">
-          <h1 className="post-single__title">
-            <span dangerouslySetInnerHTML={{ __html: post.title?.rendered || post.title || 'Untitled' }} />
-          </h1>
+          <h1 
+            className="post-single__title"
+            dangerouslySetInnerHTML={{ __html: post.title?.rendered || post.title || 'Untitled' }}
+          />
 
           <div className="post-single__meta">
             {author && (
