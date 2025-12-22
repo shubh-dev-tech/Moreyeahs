@@ -30,6 +30,7 @@ import StoriesBlogBlockWrapper from './stories-blog-block/StoriesBlogBlockWrappe
 import FullImgContentBlock from './full-img-content-block/FullImgContentBlock';
 import RoadmapBlock from './roadmap-block/RoadmapBlock';
 import ServiceRoadmapsBlock from './service-roadmaps-block/ServiceRoadmapsBlock';
+import ServiceAcrossMultiBlock from './service-across-multi-block/ServiceAcrossMultiBlock';
 import InfinityTestimonialBothSideBlock from './infinity-testimonial-both-side/InfinityTestimonialBothSideBlock';
 import VideoSectionBlock from './video-section/VideoSectionBlock';
 import { CoreParagraph } from './core/Paragraph';
@@ -65,6 +66,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/full-img-content-block': FullImgContentBlock,
   'acf/roadmap-block': RoadmapBlock,
   'acf/service-roadmaps-block': ServiceRoadmapsBlock,
+  'acf/service-across-multi-block': ServiceAcrossMultiBlock,
   'acf/infinity-testimonial-both-side': InfinityTestimonialBothSideBlock,
   'acf/video-section': VideoSectionBlock,
   

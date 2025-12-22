@@ -576,6 +576,35 @@ function twentytwentyfive_register_acf_blocks() {
                 ),
             ),
         ),
+        
+        // Service Across Multi Block
+        array(
+            'name'              => 'service-across-multi-block',
+            'title'             => __('Service Across Multi Block', 'twentytwentyfive'),
+            'description'       => __('Multi-cloud services block with cloud platforms, service categories, technologies, and testimonial quote', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'cloud',
+            'keywords'          => array('service', 'multi', 'cloud', 'platforms', 'technologies', 'testimonial'),
+            'render_template'   => 'blocks/service-across-multi-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/service-across-multi-block/style.css',
+            'enqueue_script'    => get_template_directory_uri() . '/blocks/service-across-multi-block/script.js',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'main_heading' => 'Delivering Seamless Services Across Multi-Cloud Platforms',
+                        'main_description' => 'We enable enterprises to design, deploy, and manage secure, scalable, and high-performance solutions across leading cloud providers.',
+                        'testimonial_quote' => 'The best service is delivered when customer success becomes your own.',
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block
