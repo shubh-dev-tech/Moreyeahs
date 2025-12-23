@@ -33,6 +33,7 @@ import ServiceRoadmapsBlock from './service-roadmaps-block/ServiceRoadmapsBlock'
 import ServiceAcrossMultiBlock from './service-across-multi-block/ServiceAcrossMultiBlock';
 import InfinityTestimonialBothSideBlock from './infinity-testimonial-both-side/InfinityTestimonialBothSideBlock';
 import VideoSectionBlock from './video-section/VideoSectionBlock';
+import CredentialsAcquiredBlock from './credentials-acquired-block/CredentialsAcquiredBlock';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
@@ -69,6 +70,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/service-across-multi-block': ServiceAcrossMultiBlock,
   'acf/infinity-testimonial-both-side': InfinityTestimonialBothSideBlock,
   'acf/video-section': VideoSectionBlock,
+  'acf/credentials-acquired-block': CredentialsAcquiredBlock,
   
   // Custom Blocks (without ACF)
   'moreyeahs/slider': MoreyeahsSliderBlock,
