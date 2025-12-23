@@ -605,6 +605,49 @@ function twentytwentyfive_register_acf_blocks() {
                 ),
             ),
         ),
+        
+        // Credentials Acquired Block
+        array(
+            'name'              => 'credentials-acquired-block',
+            'title'             => __('Credentials Acquired Block', 'twentytwentyfive'),
+            'description'       => __('Display credentials acquired with colored dots and titles on a dark background', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'awards',
+            'keywords'          => array('credentials', 'certifications', 'achievements', 'awards', 'qualifications'),
+            'render_template'   => 'blocks/credentials-acquired-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/credentials-acquired-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading' => 'Credentials Acquired',
+                        'background_color' => '#1a1a2e',
+                        'text_color' => '#ffffff',
+                        'credentials_list' => array(
+                            array(
+                                'credential_title' => 'Azure DevOps Engineer Expert',
+                                'dot_color' => '#00A3E0'
+                            ),
+                            array(
+                                'credential_title' => 'GCP Professional Cloud DevOps Engineer',
+                                'dot_color' => '#00A3E0'
+                            ),
+                            array(
+                                'credential_title' => 'AWS Certified Solutions Architect - Professional',
+                                'dot_color' => '#32CD32'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block
