@@ -1,0 +1,171 @@
+.caseStudiesArchive {
+  padding: 60px 20px;
+  background: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pageHeader {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.pageTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.pageDescription {
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.caseStudiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.caseStudyCard {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.caseStudyCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.caseStudyCardImage {
+  position: relative;
+  overflow: hidden;
+}
+
+.cardImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.caseStudyCard:hover .cardImage {
+  transform: scale(1.05);
+}
+
+.caseStudyCardContent {
+  padding: 30px;
+}
+
+.caseStudyCardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.caseStudyCardTitle a {
+  color: #333;
+  text-decoration: none;
+}
+
+.caseStudyCardTitle a:hover {
+  color: #e91e63;
+}
+
+.caseStudyCardExcerpt {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.caseStudyCardExcerpt p {
+  margin: 0;
+}
+
+.caseStudyCardMeta {
+  color: #999;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.caseStudyCardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #e91e63;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.caseStudyCardLink:hover {
+  color: #ad1457;
+}
+
+.noPostsFound {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.noPostsFound h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.noPostsFound p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .caseStudiesArchive {
+    padding: 40px 15px;
+  }
+  
+  .pageTitle {
+    font-size: 2rem;
+  }
+  
+  .pageDescription {
+    font-size: 1.1rem;
+  }
+  
+  .caseStudiesGrid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .caseStudyCardContent {
+    padding: 25px 20px;
+  }
+  
+  .caseStudyCardTitle {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .caseStudiesArchive {
+    padding: 30px 10px;
+  }
+  
+  .pageTitle {
+    font-size: 1.75rem;
+  }
+  
+  .caseStudyCardContent {
+    padding: 20px 15px;
+  }
+}

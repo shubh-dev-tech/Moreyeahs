@@ -1,0 +1,184 @@
+.case-study-quote {
+    margin: 40px 0;
+}
+
+.case-study-quote__content {
+    position: relative;
+    margin: 0;
+    padding: 40px 50px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    font-style: italic;
+    overflow: hidden;
+}
+
+.case-study-quote__marks {
+    position: absolute;
+    font-size: 6rem;
+    font-weight: bold;
+    opacity: 0.15;
+    line-height: 1;
+    font-family: Georgia, serif;
+}
+
+.case-study-quote__mark--open {
+    top: -10px;
+    left: 20px;
+}
+
+.case-study-quote__marks--close {
+    bottom: -40px;
+    right: 20px;
+}
+
+.case-study-quote__mark--close {
+    transform: rotate(180deg);
+}
+
+.case-study-quote__text {
+    position: relative;
+    z-index: 2;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    margin: 0 0 25px 0;
+    font-weight: 500;
+    text-align: center;
+}
+
+.case-study-quote__attribution {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding-top: 20px;
+    font-style: normal;
+}
+
+.case-study-quote__author {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-style: normal;
+}
+
+.case-study-quote__details {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.case-study-quote__position,
+.case-study-quote__company {
+    font-weight: 600;
+}
+
+/* Alternative styles for different quote types */
+.case-study-quote--large .case-study-quote__text {
+    font-size: 1.6rem;
+}
+
+.case-study-quote--compact {
+    margin: 25px 0;
+}
+
+.case-study-quote--compact .case-study-quote__content {
+    padding: 25px 35px;
+}
+
+.case-study-quote--compact .case-study-quote__text {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.case-study-quote--compact .case-study-quote__marks {
+    font-size: 4rem;
+}
+
+.case-study-quote--compact .case-study-quote__mark--open {
+    top: -5px;
+    left: 15px;
+}
+
+.case-study-quote--compact .case-study-quote__marks--close {
+    bottom: -25px;
+    right: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .case-study-quote__content {
+        padding: 30px 35px;
+    }
+    
+    .case-study-quote__text {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+    
+    .case-study-quote__marks {
+        font-size: 4rem;
+    }
+    
+    .case-study-quote__mark--open {
+        top: -5px;
+        left: 15px;
+    }
+    
+    .case-study-quote__marks--close {
+        bottom: -25px;
+        right: 15px;
+    }
+    
+    .case-study-quote__author {
+        font-size: 1rem;
+    }
+    
+    .case-study-quote__details {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .case-study-quote {
+        margin: 30px 0;
+    }
+    
+    .case-study-quote__content {
+        padding: 25px 25px;
+        border-radius: 12px;
+    }
+    
+    .case-study-quote__text {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+    
+    .case-study-quote__marks {
+        font-size: 3rem;
+    }
+    
+    .case-study-quote__mark--open {
+        top: 0px;
+        left: 10px;
+    }
+    
+    .case-study-quote__marks--close {
+        bottom: -15px;
+        right: 10px;
+    }
+    
+    .case-study-quote__attribution {
+        padding-top: 15px;
+    }
+    
+    .case-study-quote__author {
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+    }
+    
+    .case-study-quote__details {
+        font-size: 0.85rem;
+    }
+}
