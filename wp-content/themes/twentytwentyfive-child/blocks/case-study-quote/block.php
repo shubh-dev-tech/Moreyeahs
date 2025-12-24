@@ -30,6 +30,11 @@ $text_color = get_field('text_color') ?: '#ffffff';
 $show_quotation_marks = get_field('show_quotation_marks') !== false ? get_field('show_quotation_marks') : true;
 $quote_style = get_field('quote_style') ?: 'gradient';
 
+// Don't render if quote text is empty or just whitespace
+if (empty($quote_text) || trim($quote_text) === '') {
+    return;
+}
+
 // Build inline styles
 $quote_styles = array();
 if ($quote_style === 'solid') {

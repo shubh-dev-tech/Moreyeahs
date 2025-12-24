@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import CaseStudyPage from '@/components/case-study/CaseStudyPage';
-import { CaseStudyData } from '@/components/case-study';
+import CaseStudyTemplatePage from '@/components/case-study/CaseStudyTemplatePage';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 interface CaseStudyPageProps {
   params: {
@@ -9,94 +9,94 @@ interface CaseStudyPageProps {
   };
 }
 
+interface CaseStudyData {
+  id: number;
+  title: {
+    rendered: string;
+  };
+  slug: string;
+  content: {
+    rendered: string;
+  };
+  excerpt: {
+    rendered: string;
+  };
+  date: string;
+  featured_image?: string;
+  acf_fields?: any;
+  _embedded?: any;
+}
+
 // Fetch case study data from WordPress API
 async function getCaseStudy(slug: string): Promise<CaseStudyData | null> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || process.env.WORDPRESS_URL || 'http://localhost';
     
+    // Validate slug
+    if (!slug || typeof slug !== 'string') {
+      console.error('Invalid slug provided:', slug);
+      return null;
+    }
+    
     // Use standard WordPress REST API endpoint
-    const response = await fetch(`${baseUrl}/wp-json/wp/v2/case_study?slug=${slug}&_embed`, {
-      next: { revalidate: 60 } // Revalidate every minute
+    const response = await fetch(`${baseUrl}/wp-json/wp/v2/case_study?slug=${encodeURIComponent(slug)}&_embed`, {
+      next: { revalidate: 60 }, // Revalidate every minute
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
     });
 
     if (!response.ok) {
+      console.error(`Failed to fetch case study: ${response.status} ${response.statusText}`);
       return null;
     }
 
     const caseStudies = await response.json();
-    if (!caseStudies || caseStudies.length === 0) {
+    if (!caseStudies || !Array.isArray(caseStudies) || caseStudies.length === 0) {
+      console.warn('No case studies found for slug:', slug);
       return null;
     }
 
     const caseStudy = caseStudies[0];
     
-    // Helper function to extract rendered content
-    const extractRendered = (field: any): string => {
-      if (!field) return '';
-      if (typeof field === 'string') return field;
-      if (field.rendered) return field.rendered;
-      return '';
-    };
+    // Validate required fields
+    if (!caseStudy.id || !caseStudy.title) {
+      console.error('Invalid case study data structure:', caseStudy);
+      return null;
+    }
     
-    // Extract title from HTML content if WordPress title is empty
-    const extractTitleFromContent = (content: string): string => {
-      if (!content) return 'Untitled Case Study';
-      // Try to find h1 tag
-      const h1Match = content.match(/<h1[^>]*>([^<]+)<\/h1>/);
-      if (h1Match) return h1Match[1];
-      return 'Case Study';
-    };
-    
-    // Parse blocks from content if available
-    const contentRendered = extractRendered(caseStudy.content);
-    const blocks = contentRendered ? parseWordPressBlocks(contentRendered) : [];
-    
-    const rawTitle = extractRendered(caseStudy.title);
-    const rawExcerpt = extractRendered(caseStudy.excerpt);
-    
-    // If title is empty, extract from content
-    const finalTitle = rawTitle.trim() || extractTitleFromContent(contentRendered);
-    const finalExcerpt = rawExcerpt.trim() || contentRendered.replace(/<[^>]+>/g, '').substring(0, 200);
+    // Fetch ACF fields separately if not included
+    if (!caseStudy.acf_fields && !caseStudy.acf) {
+      try {
+        const acfResponse = await fetch(`${baseUrl}/wp-json/wp/v2/case_study/${caseStudy.id}?acf_format=standard`, {
+          next: { revalidate: 60 },
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (acfResponse.ok) {
+          const acfData = await acfResponse.json();
+          caseStudy.acf_fields = acfData.acf || acfData.acf_fields || {};
+        } else {
+          console.warn('Failed to fetch ACF fields, using empty object');
+          caseStudy.acf_fields = {};
+        }
+      } catch (error) {
+        console.warn('Failed to fetch ACF fields:', error);
+        caseStudy.acf_fields = {};
+      }
+    } else {
+      caseStudy.acf_fields = caseStudy.acf_fields || caseStudy.acf || {};
+    }
 
-    return {
-      id: caseStudy.id,
-      title: finalTitle,
-      slug: caseStudy.slug,
-      content: contentRendered,
-      excerpt: finalExcerpt,
-      date: caseStudy.date,
-      featured_image: caseStudy._embedded?.['wp:featuredmedia']?.[0]?.source_url || caseStudy.featured_image,
-      blocks: blocks,
-      acf_fields: caseStudy.acf_fields || caseStudy.acf || {}
-    };
+    return caseStudy;
   } catch (error) {
     console.error('Error fetching case study:', error);
     return null;
   }
-}
-
-// Simple WordPress block parser
-function parseWordPressBlocks(content: string): any[] {
-  // This is a simplified parser
-  // In production, use @wordpress/block-serialization-default-parser
-  const blockPattern = /<!--\s+wp:(\S+)\s+(\{[^}]+\})?\s+-->/g;
-  const blocks: any[] = [];
-  let match;
-
-  while ((match = blockPattern.exec(content)) !== null) {
-    const blockName = match[1];
-    const attrs = match[2] ? JSON.parse(match[2]) : {};
-    
-    blocks.push({
-      blockName: `acf/${blockName.replace('acf/', '')}`,
-      attrs: attrs,
-      innerBlocks: [],
-      innerHTML: '',
-      innerContent: []
-    });
-  }
-
-  return blocks;
 }
 
 // Generate metadata for SEO
@@ -110,31 +110,36 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
     };
   }
 
-  const title = typeof caseStudy.title === 'string' ? caseStudy.title : 'Case Study';
-  const excerpt = typeof caseStudy.excerpt === 'string' ? caseStudy.excerpt : '';
+  const title = caseStudy.acf_fields?.header_section?.title || 
+               caseStudy.title?.rendered || 
+               'Case Study';
+  const description = caseStudy.acf_fields?.header_section?.subtitle || 
+                     caseStudy.excerpt?.rendered?.replace(/<[^>]*>/g, '') || 
+                     `Read our case study about ${title}`;
   
   return {
     title: `${title} - Case Study`,
-    description: excerpt || `Read our case study about ${title}`,
+    description,
     openGraph: {
       title: `${title} - Case Study`,
-      description: excerpt || `Read our case study about ${title}`,
+      description,
       type: 'article',
       publishedTime: caseStudy.date,
-      images: caseStudy.featured_image ? [
+      images: caseStudy._embedded?.['wp:featuredmedia']?.[0]?.source_url ? [
         {
-          url: caseStudy.featured_image,
+          url: caseStudy._embedded['wp:featuredmedia'][0].source_url,
           width: 1200,
           height: 630,
-          alt: caseStudy.title
+          alt: title
         }
       ] : []
     },
     twitter: {
       card: 'summary_large_image',
       title: `${title} - Case Study`,
-      description: excerpt || `Read our case study about ${title}`,
-      images: caseStudy.featured_image ? [caseStudy.featured_image] : []
+      description,
+      images: caseStudy._embedded?.['wp:featuredmedia']?.[0]?.source_url ? 
+              [caseStudy._embedded['wp:featuredmedia'][0].source_url] : []
     }
   };
 }
@@ -151,7 +156,7 @@ export async function generateStaticParams() {
 
     const caseStudies = await response.json();
     
-    return caseStudies.map((caseStudy: CaseStudyData) => ({
+    return caseStudies.map((caseStudy: any) => ({
       slug: caseStudy.slug
     }));
   } catch (error) {
@@ -169,7 +174,9 @@ export default async function CaseStudyPageRoute({ params }: CaseStudyPageProps)
 
   return (
     <main className="case-study-main">
-      <CaseStudyPage caseStudy={caseStudy} />
+      <ErrorBoundary>
+        <CaseStudyTemplatePage caseStudy={caseStudy} />
+      </ErrorBoundary>
     </main>
   );
 }

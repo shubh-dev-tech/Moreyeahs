@@ -82,6 +82,18 @@ function twentytwentyfive_child_include_parent_functions() {
         require_once $parent_inc_path . '/acf-blocks.php';
     }
     
+    // Include case study template manager
+    $case_study_template = get_stylesheet_directory() . '/inc/case-study-template.php';
+    if (file_exists($case_study_template)) {
+        require_once $case_study_template;
+    }
+    
+    // Include case study admin interface
+    $case_study_admin = get_stylesheet_directory() . '/inc/case-study-admin.php';
+    if (file_exists($case_study_admin)) {
+        require_once $case_study_admin;
+    }
+    
     // Include test endpoint first
     $test_endpoint = get_stylesheet_directory() . '/test-endpoint.php';
     if (file_exists($test_endpoint)) {
@@ -792,3 +804,58 @@ add_action('wp_update_nav_menu', function($menu_id, $menu_data = null) {
         update_option("nav_menu_location_{$location}", $assigned_menu_id);
     }
 }, 10, 2);
+
+/**
+ * Force ACF field group synchronization
+ * This ensures the case study template fields are properly loaded
+ */
+function force_acf_field_sync() {
+    if (!function_exists('acf_get_field_groups')) {
+        return;
+    }
+    
+    // Check if case study template field group exists
+    $field_group = acf_get_field_group('group_case_study_template');
+    
+    if (!$field_group) {
+        // Try to sync from JSON
+        $json_file = get_stylesheet_directory() . '/acf-json/group_case_study_template.json';
+        if (file_exists($json_file)) {
+            $json_data = json_decode(file_get_contents($json_file), true);
+            if ($json_data && function_exists('acf_import_field_group')) {
+                acf_import_field_group($json_data);
+            }
+        }
+    }
+}
+add_action('acf/init', 'force_acf_field_sync');
+
+/**
+ * Ensure ACF fields are available in REST API
+ */
+function add_acf_to_case_study_rest_api() {
+    if (!function_exists('get_fields')) {
+        return;
+    }
+    
+    register_rest_field('case_study', 'acf_fields', array(
+        'get_callback' => function($post) {
+            $fields = get_fields($post['id']);
+            return $fields ? $fields : array();
+        },
+        'schema' => null,
+    ));
+}
+add_action('rest_api_init', 'add_acf_to_case_study_rest_api');
+
+/**
+ * Debug ACF field saving
+ */
+function debug_acf_save($post_id) {
+    if (get_post_type($post_id) === 'case_study') {
+        error_log('ACF Save Debug - Post ID: ' . $post_id);
+        error_log('ACF Save Debug - POST data: ' . print_r($_POST, true));
+    }
+}
+add_action('acf/save_post', 'debug_acf_save', 1);
+
