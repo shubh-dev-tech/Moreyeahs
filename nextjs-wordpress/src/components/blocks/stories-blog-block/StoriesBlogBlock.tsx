@@ -116,6 +116,7 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
             'posts': 'posts',
             'page': 'pages',
             'pages': 'pages',
+            'case_study': 'case_study',
             'case-studies': 'case-studies',
             'products': 'products',
             'testimonials': 'testimonials'
@@ -168,12 +169,61 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
         console.log('Category filter:', category);
         console.log('Post type:', post_type);
         
-        // Try custom POST endpoint first, fallback to standard GET
+        // Try different approaches based on post type
         let postsData;
         try {
-          postsData = await fetchWordPressAPI<Post[]>('/wp/v2/posts-data', postData);
-        } catch {
-          // Fallback to standard WordPress endpoint
+          // For standard WordPress post types (post, page), use direct REST API
+          if (post_type === 'post' || post_type === 'posts') {
+            const params = new URLSearchParams({
+              per_page: '4',
+              _embed: 'true',
+              orderby: 'date',
+              order: 'desc'
+            });
+            
+            if (postData.categories) {
+              params.append('categories', postData.categories);
+            }
+            
+            const response = await fetch(`${CLIENT_WORDPRESS_API_URL}/wp/v2/posts?${params.toString()}`);
+            if (response.ok) {
+              postsData = await response.json();
+            }
+          }
+          // For case_study post type, try the specific endpoint first
+          else if (post_type === 'case_study') {
+            try {
+              const params = new URLSearchParams({
+                per_page: '4',
+                _embed: 'true',
+                orderby: 'date',
+                order: 'desc'
+              });
+              
+              if (postData.categories) {
+                params.append('categories', postData.categories);
+              }
+              
+              const response = await fetch(`${CLIENT_WORDPRESS_API_URL}${endpoint}?${params.toString()}`);
+              if (response.ok) {
+                postsData = await response.json();
+              }
+            } catch (caseStudyError) {
+              console.warn('Case study endpoint failed, trying fallback:', caseStudyError);
+            }
+          }
+          
+          // If no data yet, try the generic posts-data endpoint
+          if (!postsData) {
+            postsData = await fetchWordPressAPI<Post[]>('/wp/v2/posts-data', {
+              ...postData,
+              post_type: post_type
+            });
+          }
+        } catch (apiError) {
+          console.warn('Custom API failed, trying final fallback:', apiError);
+          
+          // Final fallback to standard WordPress endpoint
           const params = new URLSearchParams({
             per_page: '4',
             _embed: 'true',
@@ -185,9 +235,16 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
             params.append('categories', postData.categories);
           }
           
-          const response = await fetch(`${CLIENT_WORDPRESS_API_URL}/wp/v2/posts?${params.toString()}`);
-          if (response.ok) {
-            postsData = await response.json();
+          // Use the correct endpoint based on post type
+          const fallbackEndpoint = (post_type === 'post' || post_type === 'posts') ? '/wp/v2/posts' : endpoint;
+          
+          try {
+            const response = await fetch(`${CLIENT_WORDPRESS_API_URL}${fallbackEndpoint}?${params.toString()}`);
+            if (response.ok) {
+              postsData = await response.json();
+            }
+          } catch (fallbackError) {
+            console.error('All API attempts failed:', fallbackError);
           }
         }
         console.log('Fetched posts:', postsData?.length || 0, 'posts');
@@ -215,6 +272,7 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
       'posts': 'ARTICLE',
       'page': 'PAGE',
       'pages': 'PAGE',
+      'case_study': 'CASE STUDY',
       'case-studies': 'CASE STUDY',
       'case_studies': 'CASE STUDY',
       'products': 'PRODUCT',

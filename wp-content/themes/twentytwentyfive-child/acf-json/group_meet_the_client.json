@@ -1,0 +1,225 @@
+{
+    "key": "group_meet_the_client",
+    "title": "Meet the Client",
+    "fields": [
+        {
+            "key": "field_mtc_section_title",
+            "label": "Section Title",
+            "name": "section_title",
+            "type": "text",
+            "instructions": "Title for this section",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Meet the Client",
+            "placeholder": "Meet the Client",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_mtc_show_icon",
+            "label": "Show Icon",
+            "name": "show_icon",
+            "type": "true_false",
+            "instructions": "Show icon next to the section title",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Yes",
+            "ui_off_text": "No"
+        },
+        {
+            "key": "field_mtc_icon_color",
+            "label": "Icon Color",
+            "name": "icon_color",
+            "type": "color_picker",
+            "instructions": "Color for the section icon",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_mtc_show_icon",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#e91e63",
+            "enable_opacity": 0,
+            "return_format": "string"
+        },
+        {
+            "key": "field_mtc_section_icon",
+            "label": "Custom Section Icon",
+            "name": "section_icon",
+            "type": "image",
+            "instructions": "Optional custom icon (if not provided, default icon will be used)",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_mtc_show_icon",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "mime_types": "jpg,jpeg,png,svg"
+        },
+        {
+            "key": "field_mtc_client_content",
+            "label": "Client Description",
+            "name": "client_content",
+            "type": "wysiwyg",
+            "instructions": "Rich text content describing the client and project context",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
+        },
+        {
+            "key": "field_mtc_client_image",
+            "label": "Client Image",
+            "name": "client_image",
+            "type": "image",
+            "instructions": "Photo of the client contact person",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "mime_types": "jpg,jpeg,png"
+        },
+        {
+            "key": "field_mtc_client_name",
+            "label": "Client Name",
+            "name": "client_name",
+            "type": "text",
+            "instructions": "Name of the client contact person",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Haseet Sanghrajka",
+            "placeholder": "Enter client name",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_mtc_client_designation",
+            "label": "Client Designation",
+            "name": "client_designation",
+            "type": "text",
+            "instructions": "Job title or designation of the client",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "CEO",
+            "placeholder": "Enter designation",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_mtc_client_company",
+            "label": "Client Company",
+            "name": "client_company",
+            "type": "text",
+            "instructions": "Company name of the client",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "Enter company name",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_mtc_client_quote",
+            "label": "Client Quote",
+            "name": "client_quote",
+            "type": "textarea",
+            "instructions": "Optional quote from the client",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "100",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "Enter client quote",
+            "maxlength": "",
+            "rows": 3,
+            "new_lines": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/meet-the-client"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Fields for the Meet the Client block"
+}

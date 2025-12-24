@@ -10,3 +10,99 @@ Version: 1.0.0
 @import url("../twentytwentyfive/style.css");
 
 /* Add your custom styles below this line */
+/* Case Study Specific Styles */
+.case-study-main {
+    background: #ffffff;
+}
+
+.case-study-article {
+    margin: 0;
+    padding: 0;
+}
+
+.case-study-content {
+    margin: 0;
+    padding: 0;
+}
+
+/* Global Case Study Block Styles */
+.wp-block-acf-case-study-header,
+.wp-block-acf-case-study-layout,
+.wp-block-acf-case-study-left-sidebar,
+.wp-block-acf-meet-the-client,
+.wp-block-acf-case-study-content-section,
+.wp-block-acf-case-study-quote,
+.wp-block-acf-case-study-cta {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Remove default block margins for case study blocks */
+.case-study-main .wp-block {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Ensure full width for case study header */
+.wp-block-acf-case-study-header.alignfull {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    width: 100vw;
+    max-width: 100vw;
+}
+
+/* Ensure proper spacing for layout block */
+.wp-block-acf-case-study-layout.alignfull {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    width: 100vw;
+    max-width: 100vw;
+}
+
+/* Admin Editor Styles */
+.block-editor-page .wp-block-acf-case-study-header,
+.block-editor-page .wp-block-acf-case-study-layout {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Case Study Typography */
+.case-study-main h1,
+.case-study-main h2,
+.case-study-main h3,
+.case-study-main h4,
+.case-study-main h5,
+.case-study-main h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.case-study-main p {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .wp-block-acf-case-study-header.alignfull,
+    .wp-block-acf-case-study-layout.alignfull {
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+    }
+}
+
+/* Print styles for case studies */
+@media print {
+    .case-study-header__gradient {
+        background: #f0f0f0 !important;
+    }
+    
+    .case-study-left-sidebar {
+        background: #f8f9fa !important;
+        color: #333 !important;
+    }
+    
+    .case-study-quote__content {
+        background: #f0f0f0 !important;
+        color: #333 !important;
+    }
+}

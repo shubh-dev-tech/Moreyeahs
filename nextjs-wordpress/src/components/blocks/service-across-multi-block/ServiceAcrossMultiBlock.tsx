@@ -122,7 +122,7 @@ const ServiceAcrossMultiBlock: React.FC<ServiceAcrossMultiBlockProps> = ({
         {testimonialQuote && (
           <div className="sam-testimonial">
             <blockquote className="sam-quote">
-              "{testimonialQuote}"
+              &ldquo;{testimonialQuote}&rdquo;
             </blockquote>
           </div>
         )}

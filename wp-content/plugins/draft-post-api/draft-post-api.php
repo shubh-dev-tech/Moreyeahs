@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Draft Post API
+ * Plugin Name: Secure Draft Post API
  * Plugin URI: https://example.com
- * Description: A WordPress plugin that provides a POST API endpoint for creating posts in draft mode
- * Version: 1.0.0
+ * Description: A secure WordPress plugin with JWT authentication for creating draft posts only
+ * Version: 2.0.0
  * Author: Your Name
  * License: GPL v2 or later
  * Text Domain: draft-post-api
@@ -14,10 +14,101 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Define JWT secret key (should be in wp-config.php for production)
+if (!defined('JWT_SECRET_KEY')) {
+    define('JWT_SECRET_KEY', 'your-super-secret-jwt-key-change-this-in-production');
+}
+
+/**
+ * JWT Helper Class
+ */
+class JWT_Helper {
+    
+    /**
+     * Generate JWT token
+     */
+    public static function generate_token($user_id, $expiration = null) {
+        if (!$expiration) {
+            $expiration = time() + (24 * 60 * 60); // 24 hours
+        }
+        
+        $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
+        $payload = json_encode([
+            'user_id' => $user_id,
+            'exp' => $expiration,
+            'iat' => time()
+        ]);
+        
+        $base64Header = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
+        $base64Payload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payload));
+        
+        $signature = hash_hmac('sha256', $base64Header . "." . $base64Payload, JWT_SECRET_KEY, true);
+        $base64Signature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
+        
+        return $base64Header . "." . $base64Payload . "." . $base64Signature;
+    }
+    
+    /**
+     * Validate JWT token
+     */
+    public static function validate_token($token) {
+        if (!$token) {
+            return false;
+        }
+        
+        $parts = explode('.', $token);
+        if (count($parts) !== 3) {
+            return false;
+        }
+        
+        list($header, $payload, $signature) = $parts;
+        
+        // Verify signature
+        $valid_signature = hash_hmac('sha256', $header . "." . $payload, JWT_SECRET_KEY, true);
+        $valid_signature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($valid_signature));
+        
+        if (!hash_equals($signature, $valid_signature)) {
+            return false;
+        }
+        
+        // Decode payload with proper padding
+        $payload_padded = str_pad(str_replace(['-', '_'], ['+', '/'], $payload), strlen($payload) % 4, '=', STR_PAD_RIGHT);
+        $payload_data = json_decode(base64_decode($payload_padded), true);
+        
+        if (!$payload_data) {
+            return false;
+        }
+        
+        // Check expiration
+        if (isset($payload_data['exp']) && $payload_data['exp'] < time()) {
+            return false;
+        }
+        
+        return $payload_data;
+    }
+    
+    /**
+     * Get token from request headers
+     */
+    public static function get_token_from_request($request) {
+        $auth_header = $request->get_header('Authorization');
+        
+        if (!$auth_header) {
+            return null;
+        }
+        
+        if (strpos($auth_header, 'Bearer ') === 0) {
+            return substr($auth_header, 7);
+        }
+        
+        return null;
+    }
+}
+
 /**
  * Main plugin class
  */
-class DraftPostAPI {
+class SecureDraftPostAPI {
     
     /**
      * Constructor
@@ -31,11 +122,31 @@ class DraftPostAPI {
      * Register REST API routes
      */
     public function register_rest_routes() {
-        // Create draft post endpoint
-        register_rest_route('draft-api/v1', '/create-post', array(
+        // Authentication endpoint
+        register_rest_route('draft-api/v1', '/auth', array(
+            'methods' => 'POST',
+            'callback' => array($this, 'authenticate_user'),
+            'permission_callback' => '__return_true',
+            'args' => array(
+                'username' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'description' => 'Username or email',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ),
+                'password' => array(
+                    'required' => true,
+                    'type' => 'string',
+                    'description' => 'User password'
+                )
+            )
+        ));
+        
+        // Create draft post endpoint (ONLY endpoint for post operations)
+        register_rest_route('draft-api/v1', '/create-draft', array(
             'methods' => 'POST',
             'callback' => array($this, 'create_draft_post'),
-            'permission_callback' => array($this, 'check_permissions'),
+            'permission_callback' => array($this, 'check_jwt_permissions'),
             'args' => array(
                 'title' => array(
                     'required' => true,
@@ -76,11 +187,6 @@ class DraftPostAPI {
                     'type' => 'integer',
                     'description' => 'Featured image attachment ID'
                 ),
-                'author' => array(
-                    'required' => false,
-                    'type' => 'integer',
-                    'description' => 'Author user ID'
-                ),
                 'meta' => array(
                     'required' => false,
                     'type' => 'object',
@@ -89,11 +195,11 @@ class DraftPostAPI {
             )
         ));
         
-        // Get draft posts endpoint
-        register_rest_route('draft-api/v1', '/draft-posts', array(
+        // Get user's draft posts endpoint (read-only)
+        register_rest_route('draft-api/v1', '/my-drafts', array(
             'methods' => 'GET',
-            'callback' => array($this, 'get_draft_posts'),
-            'permission_callback' => array($this, 'check_permissions'),
+            'callback' => array($this, 'get_user_draft_posts'),
+            'permission_callback' => array($this, 'check_jwt_permissions'),
             'args' => array(
                 'per_page' => array(
                     'required' => false,
@@ -106,89 +212,117 @@ class DraftPostAPI {
                     'type' => 'integer',
                     'default' => 1,
                     'description' => 'Page number'
-                ),
-                'author' => array(
-                    'required' => false,
-                    'type' => 'integer',
-                    'description' => 'Filter by author ID'
                 )
             )
         ));
         
-        // Update draft post endpoint
-        register_rest_route('draft-api/v1', '/update-post/(?P<id>\d+)', array(
-            'methods' => 'PUT',
-            'callback' => array($this, 'update_draft_post'),
-            'permission_callback' => array($this, 'check_permissions'),
-            'args' => array(
-                'title' => array(
-                    'required' => false,
-                    'type' => 'string',
-                    'sanitize_callback' => 'sanitize_text_field'
-                ),
-                'content' => array(
-                    'required' => false,
-                    'type' => 'string',
-                    'sanitize_callback' => 'wp_kses_post'
-                ),
-                'excerpt' => array(
-                    'required' => false,
-                    'type' => 'string',
-                    'sanitize_callback' => 'sanitize_textarea_field'
-                ),
-                'status' => array(
-                    'required' => false,
-                    'type' => 'string',
-                    'enum' => array('draft', 'publish', 'private'),
-                    'description' => 'Post status'
-                ),
-                'categories' => array(
-                    'required' => false,
-                    'type' => 'array',
-                    'items' => array(
-                        'type' => array('integer', 'string')
-                    )
-                ),
-                'tags' => array(
-                    'required' => false,
-                    'type' => 'array',
-                    'items' => array(
-                        'type' => 'string'
-                    )
-                ),
-                'featured_image' => array(
-                    'required' => false,
-                    'type' => 'integer'
-                ),
-                'meta' => array(
-                    'required' => false,
-                    'type' => 'object'
-                )
-            )
-        ));
-        
-        // Delete draft post endpoint
-        register_rest_route('draft-api/v1', '/delete-post/(?P<id>\d+)', array(
-            'methods' => 'DELETE',
-            'callback' => array($this, 'delete_draft_post'),
-            'permission_callback' => array($this, 'check_permissions')
+        // Debug endpoint to test JWT validation
+        register_rest_route('draft-api/v1', '/debug-token', array(
+            'methods' => 'GET',
+            'callback' => array($this, 'debug_token'),
+            'permission_callback' => '__return_true'
         ));
     }
     
     /**
-     * Create a new draft post
+     * Authenticate user and return JWT token
+     */
+    public function authenticate_user($request) {
+        $params = $request->get_params();
+        $username = $params['username'];
+        $password = $params['password'];
+        
+        // Authenticate user
+        $user = wp_authenticate($username, $password);
+        
+        if (is_wp_error($user)) {
+            return new WP_Error(
+                'authentication_failed',
+                'Invalid username or password',
+                array('status' => 401)
+            );
+        }
+        
+        // Check if user can create posts
+        if (!user_can($user->ID, 'edit_posts')) {
+            return new WP_Error(
+                'insufficient_permissions',
+                'User does not have permission to create posts',
+                array('status' => 403)
+            );
+        }
+        
+        // Generate JWT token
+        $token = JWT_Helper::generate_token($user->ID);
+        
+        return rest_ensure_response(array(
+            'success' => true,
+            'token' => $token,
+            'user' => array(
+                'id' => $user->ID,
+                'username' => $user->user_login,
+                'email' => $user->user_email,
+                'display_name' => $user->display_name
+            ),
+            'expires_in' => 24 * 60 * 60 // 24 hours in seconds
+        ));
+    }
+    
+    /**
+     * Check JWT permissions
+     */
+    public function check_jwt_permissions($request) {
+        $token = JWT_Helper::get_token_from_request($request);
+        
+        if (!$token) {
+            return new WP_Error(
+                'no_token',
+                'Authorization token is required',
+                array('status' => 401)
+            );
+        }
+        
+        $payload = JWT_Helper::validate_token($token);
+        
+        if (!$payload) {
+            return new WP_Error(
+                'invalid_token',
+                'Invalid or expired token',
+                array('status' => 401)
+            );
+        }
+        
+        // Check if user still exists and has permissions
+        $user = get_user_by('ID', $payload['user_id']);
+        if (!$user || !user_can($user->ID, 'edit_posts')) {
+            return new WP_Error(
+                'insufficient_permissions',
+                'User does not have permission to access this endpoint',
+                array('status' => 403)
+            );
+        }
+        
+        // Store user ID in request for use in callbacks
+        $request->set_param('authenticated_user_id', $payload['user_id']);
+        
+        return true;
+    }
+    
+    /**
+     * Create a new draft post (ONLY operation allowed)
      */
     public function create_draft_post($request) {
         $params = $request->get_params();
+        $user_id = $request->get_param('authenticated_user_id');
         
-        // Prepare post data
+        // Prepare post data - ALWAYS create as draft
         $post_data = array(
             'post_title' => $params['title'],
             'post_content' => isset($params['content']) ? $params['content'] : '',
             'post_excerpt' => isset($params['excerpt']) ? $params['excerpt'] : '',
-            'post_status' => 'draft',
+            'post_status' => 'draft', // FORCED to draft only
             'post_type' => 'post',
-            'post_author' => isset($params['author']) ? intval($params['author']) : get_current_user_id()
+            'post_author' => $user_id // Use authenticated user ID
         );
         
         // Insert the post
@@ -197,7 +331,7 @@ class DraftPostAPI {
         if (is_wp_error($post_id)) {
             return new WP_Error(
                 'post_creation_failed',
-                'Failed to create post: ' . $post_id->get_error_message(),
+                'Failed to create draft post: ' . $post_id->get_error_message(),
                 array('status' => 500)
             );
         }
@@ -231,25 +365,27 @@ class DraftPostAPI {
         $post = get_post($post_id);
         $response_data = $this->format_post_response($post);
         
-        return rest_ensure_response($response_data);
+        return rest_ensure_response(array(
+            'success' => true,
+            'message' => 'Draft post created successfully',
+            'post' => $response_data
+        ));
     }
     
     /**
-     * Get draft posts
+     * Get authenticated user's draft posts (read-only)
      */
-    public function get_draft_posts($request) {
+    public function get_user_draft_posts($request) {
         $params = $request->get_params();
+        $user_id = $request->get_param('authenticated_user_id');
         
         $args = array(
             'post_type' => 'post',
             'post_status' => 'draft',
             'posts_per_page' => intval($params['per_page']),
-            'paged' => intval($params['page'])
+            'paged' => intval($params['page']),
+            'author' => $user_id // Only get authenticated user's drafts
         );
-        
-        if (isset($params['author']) && is_numeric($params['author'])) {
-            $args['author'] = intval($params['author']);
-        }
         
         $posts = get_posts($args);
         $formatted_posts = array();
@@ -264,138 +400,46 @@ class DraftPostAPI {
         $total_posts = get_posts($total_args);
         $total_count = count($total_posts);
         
-        $response = rest_ensure_response($formatted_posts);
-        $response->header('X-WP-Total', $total_count);
-        $response->header('X-WP-TotalPages', ceil($total_count / intval($params['per_page'])));
+        $response = rest_ensure_response(array(
+            'success' => true,
+            'posts' => $formatted_posts,
+            'pagination' => array(
+                'total' => $total_count,
+                'pages' => ceil($total_count / intval($params['per_page'])),
+                'current_page' => intval($params['page']),
+                'per_page' => intval($params['per_page'])
+            )
+        ));
         
         return $response;
     }
     
     /**
-     * Update a draft post
+     * Debug token validation
      */
-    public function update_draft_post($request) {
-        $post_id = intval($request['id']);
-        $params = $request->get_params();
+    public function debug_token($request) {
+        $token = JWT_Helper::get_token_from_request($request);
         
-        // Check if post exists
-        $post = get_post($post_id);
-        if (!$post) {
-            return new WP_Error('post_not_found', 'Post not found', array('status' => 404));
+        if (!$token) {
+            return rest_ensure_response(array(
+                'error' => 'No token provided',
+                'headers' => $request->get_headers(),
+                'auth_header' => $request->get_header('Authorization')
+            ));
         }
         
-        // Prepare update data
-        $update_data = array('ID' => $post_id);
-        
-        if (isset($params['title'])) {
-            $update_data['post_title'] = $params['title'];
-        }
-        
-        if (isset($params['content'])) {
-            $update_data['post_content'] = $params['content'];
-        }
-        
-        if (isset($params['excerpt'])) {
-            $update_data['post_excerpt'] = $params['excerpt'];
-        }
-        
-        if (isset($params['status'])) {
-            $update_data['post_status'] = $params['status'];
-        }
-        
-        // Update the post
-        $result = wp_update_post($update_data);
-        
-        if (is_wp_error($result)) {
-            return new WP_Error(
-                'post_update_failed',
-                'Failed to update post: ' . $result->get_error_message(),
-                array('status' => 500)
-            );
-        }
-        
-        // Handle categories
-        if (isset($params['categories'])) {
-            $category_ids = $this->process_categories($params['categories']);
-            wp_set_post_categories($post_id, $category_ids);
-        }
-        
-        // Handle tags
-        if (isset($params['tags'])) {
-            wp_set_post_tags($post_id, $params['tags']);
-        }
-        
-        // Handle featured image
-        if (isset($params['featured_image'])) {
-            if (is_numeric($params['featured_image'])) {
-                set_post_thumbnail($post_id, intval($params['featured_image']));
-            } else {
-                delete_post_thumbnail($post_id);
-            }
-        }
-        
-        // Handle custom meta fields
-        if (isset($params['meta']) && is_array($params['meta'])) {
-            foreach ($params['meta'] as $key => $value) {
-                update_post_meta($post_id, sanitize_key($key), $value);
-            }
-        }
-        
-        // Get updated post data
-        $updated_post = get_post($post_id);
-        $response_data = $this->format_post_response($updated_post);
-        
-        return rest_ensure_response($response_data);
-    }
-    
-    /**
-     * Delete a draft post
-     */
-    public function delete_draft_post($request) {
-        $post_id = intval($request['id']);
-        
-        // Check if post exists
-        $post = get_post($post_id);
-        if (!$post) {
-            return new WP_Error('post_not_found', 'Post not found', array('status' => 404));
-        }
-        
-        // Delete the post
-        $result = wp_delete_post($post_id, true); // true = force delete, skip trash
-        
-        if (!$result) {
-            return new WP_Error(
-                'post_deletion_failed',
-                'Failed to delete post',
-                array('status' => 500)
-            );
-        }
+        $parts = explode('.', $token);
+        $payload = JWT_Helper::validate_token($token);
         
         return rest_ensure_response(array(
-            'deleted' => true,
-            'id' => $post_id,
-            'message' => 'Post deleted successfully'
+            'token_received' => $token,
+            'token_parts_count' => count($parts),
+            'jwt_secret_defined' => defined('JWT_SECRET_KEY'),
+            'jwt_secret_value' => JWT_SECRET_KEY,
+            'validation_result' => $payload,
+            'current_time' => time(),
+            'token_parts' => $parts
         ));
-    }
-    
-    /**
-     * Check permissions for API access
-     */
-    public function check_permissions($request) {
-        // For development/testing, allow public access
-        // Comment out the return true line below for production use
-        return true;
-        
-        // Production permission check (uncomment for production)
-        // if (current_user_can('edit_posts')) {
-        //     return true;
-        // }
-        
-        // return new WP_Error(
-        //     'rest_forbidden',
-        //     'You do not have permission to access this endpoint',
-        //     array('status' => 403)
-        // );
     }
     
     /**
@@ -499,17 +543,17 @@ class DraftPostAPI {
 }
 
 // Initialize the plugin
-function init_draft_post_api() {
-    new DraftPostAPI();
+function init_secure_draft_post_api() {
+    new SecureDraftPostAPI();
 }
-add_action('plugins_loaded', 'init_draft_post_api');
+add_action('plugins_loaded', 'init_secure_draft_post_api');
 
 /**
  * Activation hook
  */
 register_activation_hook(__FILE__, function() {
     // Initialize the plugin to register routes
-    init_draft_post_api();
+    init_secure_draft_post_api();
     // Flush rewrite rules to ensure REST routes work
     flush_rewrite_rules();
 });
@@ -525,8 +569,8 @@ register_deactivation_hook(__FILE__, function() {
 /**
  * Debug function to check if routes are registered
  */
-function debug_draft_api_routes() {
-    if (current_user_can('manage_options') && isset($_GET['debug_draft_api'])) {
+function debug_secure_draft_api_routes() {
+    if (current_user_can('manage_options') && isset($_GET['debug_secure_draft_api'])) {
         $rest_server = rest_get_server();
         $routes = $rest_server->get_routes();
         $draft_routes = array();
@@ -540,4 +584,4 @@ function debug_draft_api_routes() {
         wp_die('<pre>' . print_r($draft_routes, true) . '</pre>');
     }
 }
-add_action('init', 'debug_draft_api_routes');
+add_action('init', 'debug_secure_draft_api_routes');

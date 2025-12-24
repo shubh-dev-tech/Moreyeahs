@@ -1,0 +1,225 @@
+{
+    "key": "group_case_study_content_section",
+    "title": "Case Study Content Section",
+    "fields": [
+        {
+            "key": "field_cscs_enable_section",
+            "label": "Enable Section",
+            "name": "enable_section",
+            "type": "true_false",
+            "instructions": "Enable or disable this section",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Enabled",
+            "ui_off_text": "Disabled"
+        },
+        {
+            "key": "field_cscs_section_type",
+            "label": "Section Type",
+            "name": "section_type",
+            "type": "select",
+            "instructions": "Choose a predefined section type or select 'custom' for manual configuration",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "75",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "challenges": "The Challenges",
+                "solution": "The Solution",
+                "partner": "The Partner",
+                "approach": "The Approach",
+                "technology": "Technology & Innovation",
+                "outcome": "The Outcome",
+                "efficiency": "Efficiency Benefits",
+                "lessons": "Lessons Learned and Future Plans",
+                "custom": "Custom Section"
+            },
+            "default_value": "custom",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_cscs_section_title",
+            "label": "Section Title",
+            "name": "section_title",
+            "type": "text",
+            "instructions": "Title for this section (auto-filled for predefined types)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "Enter section title",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_cscs_icon_color",
+            "label": "Icon Color",
+            "name": "icon_color",
+            "type": "color_picker",
+            "instructions": "Color for the section icon",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#e91e63",
+            "enable_opacity": 0,
+            "return_format": "string"
+        },
+        {
+            "key": "field_cscs_section_icon",
+            "label": "Custom Section Icon",
+            "name": "section_icon",
+            "type": "image",
+            "instructions": "Optional custom icon (if not provided, default icon will be used based on section type)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "mime_types": "jpg,jpeg,png,svg"
+        },
+        {
+            "key": "field_cscs_section_content",
+            "label": "Section Content",
+            "name": "section_content",
+            "type": "wysiwyg",
+            "instructions": "Main content for this section",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "100",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
+        },
+        {
+            "key": "field_cscs_bullet_points",
+            "label": "Bullet Points",
+            "name": "bullet_points",
+            "type": "repeater",
+            "instructions": "Add bullet points for this section",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "field_cscs_bullet_text",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Add Bullet Point",
+            "sub_fields": [
+                {
+                    "key": "field_cscs_bullet_text",
+                    "label": "Bullet Text",
+                    "name": "bullet_text",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "Enter bullet point",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                }
+            ]
+        },
+        {
+            "key": "field_cscs_section_quote",
+            "label": "Section Quote",
+            "name": "section_quote",
+            "type": "textarea",
+            "instructions": "Optional quote for this section",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "Enter quote",
+            "maxlength": "",
+            "rows": 4,
+            "new_lines": ""
+        },
+        {
+            "key": "field_cscs_show_divider",
+            "label": "Show Divider",
+            "name": "show_divider",
+            "type": "true_false",
+            "instructions": "Show divider line at the bottom of this section",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "100",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Yes",
+            "ui_off_text": "No"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/case-study-content-section"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Fields for the Case Study Content Section block - reusable for Challenges, Solution, Partner, etc."
+}
