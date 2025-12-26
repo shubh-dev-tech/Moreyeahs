@@ -1,7 +1,50 @@
-/**
- * Case Study Blocks Styles
- * Modern, professional styling matching the City Dynamics design
- */
+/* ============================================
+   Global Case Study List Containment
+   ============================================ */
+
+/* Ensure all ul/ol elements in case study blocks stay contained */
+.case-study-article ul,
+.case-study-article ol,
+[class*="case-study"] ul,
+[class*="case-study"] ol {
+    margin: 15px 0;
+    padding-left: 25px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: block;
+    position: relative;
+    list-style-position: inside;
+}
+
+.case-study-article ul li,
+.case-study-article ol li,
+[class*="case-study"] ul li,
+[class*="case-study"] ol li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: list-item;
+    position: relative;
+}
+
+/* Force containment for any stubborn lists */
+.case-study-main ul,
+.case-study-main ol {
+    contain: layout style;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* ============================================
+   Case Study Blocks Styles
+   Modern, professional styling matching the City Dynamics design
+   ============================================ */
 
 /* ============================================
    Case Study Header Block
@@ -104,6 +147,49 @@
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+/* Ensure all content within layout stays contained */
+.case-study-layout__content * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.case-study-layout__content ul,
+.case-study-layout__content ol {
+    margin: 15px 0;
+    padding-left: 25px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: block;
+    position: relative;
+}
+
+.case-study-layout__content ul li,
+.case-study-layout__content ol li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: list-item;
+    position: relative;
+}
+
+/* Additional containment for any nested lists */
+.case-study-layout__content ul ul,
+.case-study-layout__content ol ol,
+.case-study-layout__content ul ol,
+.case-study-layout__content ol ul {
+    margin: 8px 0;
+    padding-left: 20px;
+    max-width: calc(100% - 20px);
 }
 
 @media (max-width: 1024px) {
@@ -322,6 +408,10 @@
 
 .case-study-content-section {
     margin-bottom: 40px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .content-section__header {
@@ -350,6 +440,10 @@
 
 .content-section__content {
     padding-left: 47px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .content-section__text {
@@ -371,6 +465,33 @@
 .content-section__text b {
     color: #e91e63;
     font-weight: 600;
+}
+
+/* Fix for ul/ol elements in content sections */
+.content-section__text ul,
+.content-section__text ol {
+    margin: 15px 0;
+    padding-left: 25px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: block;
+    position: relative;
+}
+
+.content-section__text ul li,
+.content-section__text ol li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    color: #333333;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: list-item;
+    position: relative;
 }
 
 .content-section__bullets {
@@ -517,6 +638,7 @@
     
     .case-study-layout__content {
         padding: 25px;
+        overflow: hidden;
     }
     
     .case-study-left-sidebar {
@@ -534,6 +656,7 @@
     
     .content-section__content {
         padding-left: 0;
+        overflow: hidden;
     }
     
     .case-study-cta {
@@ -542,6 +665,15 @@
     
     .case-study-cta__title {
         font-size: 24px;
+    }
+    
+    /* Mobile-specific list containment */
+    .case-study-article ul,
+    .case-study-article ol,
+    [class*="case-study"] ul,
+    [class*="case-study"] ol {
+        padding-left: 20px;
+        margin: 10px 0;
     }
 }
 

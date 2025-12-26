@@ -243,6 +243,41 @@ const CaseStudyContentSection: React.FC<CaseStudyContentSectionProps> = ({
           text-decoration: underline;
         }
 
+        .content-section__text :global(ul),
+        .content-section__text :global(ol) {
+          margin: 15px 0;
+          padding-left: 25px;
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
+          overflow: hidden;
+          display: block;
+          position: relative;
+        }
+
+        .content-section__text :global(ul li),
+        .content-section__text :global(ol li) {
+          margin-bottom: 8px;
+          line-height: 1.6;
+          color: #555555;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
+          display: list-item;
+          position: relative;
+        }
+
+        .content-section__text :global(ul ul),
+        .content-section__text :global(ol ol),
+        .content-section__text :global(ul ol),
+        .content-section__text :global(ol ul) {
+          margin: 8px 0;
+          padding-left: 20px;
+          max-width: calc(100% - 20px);
+        }
+
         .content-section__bullets {
           list-style: none;
           padding: 0;

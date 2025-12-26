@@ -38,7 +38,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
           margin: '20px'
         }}>
           <h2>Something went wrong</h2>
-          <p>We're sorry, but there was an error loading this content.</p>
+          <p>We&apos;re sorry, but there was an error loading this content.</p>
           <button 
             onClick={() => this.setState({ hasError: false })}
             style={{

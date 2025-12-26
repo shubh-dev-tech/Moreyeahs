@@ -96,6 +96,8 @@ if ($background_image && !empty($background_image['url'])) {
                                 class="video-section__video"
                                 preload="metadata"
                                 muted
+                                playsinline
+                                controls
                                 <?php if ($video['video_thumbnail'] && !empty($video['video_thumbnail']['url'])): ?>
                                 poster="<?php echo esc_url($video['video_thumbnail']['url']); ?>"
                                 <?php endif; ?>
@@ -200,12 +202,15 @@ if ($background_image && !empty($background_image['url'])) {
     function goToSlide(index) {
         if (index < 0 || index >= slides.length) return;
         
-        // Pause current video
-        const currentVideo = slides[currentSlide]?.querySelector('.video-section__video');
-        if (currentVideo) {
-            currentVideo.pause();
-            currentVideo.currentTime = 0;
-        }
+        // Pause all videos when switching slides
+        videos.forEach((video, i) => {
+            if (!video.paused) {
+                video.pause();
+                playingVideos.delete(i);
+                const overlay = video.parentElement.querySelector('.video-section__play-overlay');
+                if (overlay) overlay.classList.remove('playing');
+            }
+        });
         
         // Hide all slides
         slides.forEach((slide, i) => {
@@ -237,7 +242,19 @@ if ($background_image && !empty($background_image['url'])) {
     function handlePlayVideo(index) {
         const video = videos[index];
         if (video) {
-            video.play();
+            // Pause all other videos first
+            videos.forEach((v, i) => {
+                if (i !== index && !v.paused) {
+                    v.pause();
+                    playingVideos.delete(i);
+                }
+            });
+            
+            video.play().catch(e => {
+                console.log('Video play failed:', e);
+                // If autoplay fails, show controls
+                video.controls = true;
+            });
             playingVideos.add(index);
             
             const overlay = video.parentElement.querySelector('.video-section__play-overlay');
@@ -327,12 +344,29 @@ if ($background_image && !empty($background_image['url'])) {
             const overlay = video.parentElement.querySelector('.video-section__play-overlay');
             if (overlay) overlay.classList.add('playing');
             updatePlayPauseButton(index);
+            
+            // Pause auto-advance when video starts playing
+            if (autoplayInterval) {
+                clearInterval(autoplayInterval);
+                autoplayInterval = null;
+            }
         });
         
         video.addEventListener('pause', () => {
             const overlay = video.parentElement.querySelector('.video-section__play-overlay');
             if (overlay) overlay.classList.remove('playing');
             updatePlayPauseButton(index);
+            
+            // Resume auto-advance when video is paused (if no other videos are playing)
+            const hasPlayingVideo = Array.from(videos).some(v => !v.paused);
+            if (!hasPlayingVideo && slides.length > 1 && !autoplayInterval) {
+                autoplayInterval = setInterval(() => {
+                    const stillHasPlayingVideo = Array.from(videos).some(v => !v.paused);
+                    if (!stillHasPlayingVideo) {
+                        nextSlide();
+                    }
+                }, 5000);
+            }
         });
         
         video.addEventListener('ended', () => {
@@ -340,13 +374,40 @@ if ($background_image && !empty($background_image['url'])) {
             const overlay = video.parentElement.querySelector('.video-section__play-overlay');
             if (overlay) overlay.classList.remove('playing');
             updatePlayPauseButton(index);
+            
+            // Resume auto-advance when video ends (if no other videos are playing)
+            const hasPlayingVideo = Array.from(videos).some(v => !v.paused);
+            if (!hasPlayingVideo && slides.length > 1 && !autoplayInterval) {
+                autoplayInterval = setInterval(() => {
+                    const stillHasPlayingVideo = Array.from(videos).some(v => !v.paused);
+                    if (!stillHasPlayingVideo) {
+                        nextSlide();
+                    }
+                }, 5000);
+            }
+        });
+        
+        // Handle video load errors
+        video.addEventListener('error', (e) => {
+            console.error('Video load error:', e);
+            video.controls = true; // Show controls if there's an error
+        });
+        
+        // Handle video click to play/pause
+        video.addEventListener('click', (e) => {
+            e.preventDefault();
+            togglePlayPause(index);
         });
     });
     
-    // Auto-advance slides every 5 seconds
+    // Auto-advance slides every 5 seconds (but pause when video is playing)
     if (slides.length > 1) {
         autoplayInterval = setInterval(() => {
-            nextSlide();
+            // Don't auto-advance if any video is currently playing
+            const hasPlayingVideo = Array.from(videos).some(video => !video.paused);
+            if (!hasPlayingVideo) {
+                nextSlide();
+            }
         }, 5000);
     }
     
