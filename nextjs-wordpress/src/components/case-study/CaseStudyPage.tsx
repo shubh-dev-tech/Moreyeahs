@@ -210,7 +210,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({
   };
 
   return (
-    <div className={`${styles.caseStudyPage} ${className}`}>
+    <div className={`${styles.caseStudyPage} case-study-main ${className}`}>
       {blocks.length > 0 
         ? blocks.map((block, index) => renderBlock(block, index))
         : renderFallbackLayout()

@@ -303,6 +303,10 @@
 /* Content */
 .content {
   background: white;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Dynamic Heading Section */
@@ -431,10 +435,59 @@
   line-height: 1.7;
   color: #495057;
   margin-bottom: 25px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .sectionContent p {
   margin-bottom: 15px;
+}
+
+/* Global ul/ol containment for all content sections */
+.sectionContent ul,
+.sectionContent ol,
+.content ul,
+.content ol {
+  margin: 15px 0;
+  padding-left: 25px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  list-style-position: inside;
+}
+
+.sectionContent ul li,
+.sectionContent ol li,
+.content ul li,
+.content ol li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+  color: #495057;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: list-item;
+  position: relative;
+}
+
+.sectionContent ul ul,
+.sectionContent ol ol,
+.sectionContent ul ol,
+.sectionContent ol ul,
+.content ul ul,
+.content ol ol,
+.content ul ol,
+.content ol ul {
+  margin: 8px 0;
+  padding-left: 20px;
+  max-width: calc(100% - 20px);
 }
 
 .sectionQuotes {

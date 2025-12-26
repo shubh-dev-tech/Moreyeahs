@@ -131,6 +131,29 @@ export default function StoriesBlogBlockSimple({ data = {} }: StoriesBlogBlockSi
     fetchPosts();
   }, [post_type, category]);
 
+  const getPostUrl = (post: Post) => {
+    // Convert WordPress URLs to Next.js frontend URLs
+    if (post_type === 'case_study' && post.link) {
+      // Extract slug from WordPress URL
+      // Example: http://localhost/moreyeahs-new/case-study/hello-world/ -> hello-world
+      const urlParts = post.link.split('/');
+      const slug = urlParts[urlParts.length - 2] || urlParts[urlParts.length - 1];
+      
+      if (slug) {
+        // Use current origin for the Next.js URL (automatically detects the correct port)
+        if (typeof window !== 'undefined') {
+          return `${window.location.origin}/case-study/${slug}`;
+        }
+        // Fallback for server-side rendering
+        return `/case-study/${slug}`;
+      }
+    }
+    
+    // For other post types, you can add similar logic
+    // For now, fallback to original link
+    return post.link;
+  };
+
   const backgroundStyles: React.CSSProperties = {
     backgroundColor: background_color,
     ...(background_image && {
@@ -207,7 +230,7 @@ export default function StoriesBlogBlockSimple({ data = {} }: StoriesBlogBlockSi
                   color: '#333'
                 }}>
                   <h3 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>
-                    <a href={post.link} target="_blank" rel="noopener noreferrer" style={{
+                    <a href={getPostUrl(post)} target="_blank" rel="noopener noreferrer" style={{
                       color: '#333',
                       textDecoration: 'none'
                     }}>

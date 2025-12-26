@@ -5,6 +5,7 @@ import Image from 'next/image';
 import LoadingSpinner from '../LoadingSpinner';
 import CaseStudyQuote from './CaseStudyQuote';
 import styles from './CaseStudyTemplatePage.module.css';
+import './CaseStudy.global.css';
 
 interface CaseStudyTemplateData {
   id: number;
@@ -147,7 +148,7 @@ const CaseStudyTemplatePage: React.FC<CaseStudyTemplatePageProps> = ({
   };
 
   return (
-    <div className={`${styles.caseStudyTemplate} ${className}`}>
+    <div className={`${styles.caseStudyTemplate} case-study-main ${className}`}>
       {/* Header Section */}
       <section className={styles.headerSection}>
         <div 

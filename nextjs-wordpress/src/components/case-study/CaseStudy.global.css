@@ -43,12 +43,25 @@
 .case-study-layout__content ul:not(.content-section__bullets) {
   padding-left: 25px;
   margin: 20px 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: block;
+  position: relative;
 }
 
 .case-study-layout__content ul:not(.content-section__bullets) li {
   margin-bottom: 12px;
   color: #555555;
   line-height: 1.7;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: list-item;
+  position: relative;
 }
 
 .case-study-layout__content ul:not(.content-section__bullets) li::marker {
@@ -58,17 +71,48 @@
 .case-study-layout__content ol {
   padding-left: 25px;
   margin: 20px 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: block;
+  position: relative;
 }
 
 .case-study-layout__content ol li {
   margin-bottom: 12px;
   color: #555555;
   line-height: 1.7;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: list-item;
+  position: relative;
 }
 
 .case-study-layout__content ol li::marker {
   color: #e91e63;
   font-weight: 600;
+}
+
+/* Nested lists containment */
+.case-study-layout__content ul ul,
+.case-study-layout__content ol ol,
+.case-study-layout__content ul ol,
+.case-study-layout__content ol ul {
+  margin: 8px 0;
+  padding-left: 20px;
+  max-width: calc(100% - 20px);
+}
+
+/* Global containment for any ul/ol in case study content */
+.case-study-main ul,
+.case-study-main ol {
+  contain: layout style;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Image styling */
