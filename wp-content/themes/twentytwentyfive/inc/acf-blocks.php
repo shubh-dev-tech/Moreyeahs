@@ -529,6 +529,125 @@ function twentytwentyfive_register_acf_blocks() {
                 ),
             ),
         ),
+        
+        // Service Roadmaps Block
+        array(
+            'name'              => 'service-roadmaps-block',
+            'title'             => __('Service Roadmaps Block', 'twentytwentyfive'),
+            'description'       => __('Display service roadmaps with customizable steps, icons, and right-side image', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'list-view',
+            'keywords'          => array('roadmap', 'service', 'steps', 'timeline', 'process', 'strategy'),
+            'render_template'   => 'blocks/service-roadmaps-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/service-roadmaps-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'     => 'Our DevOps Strategy Roadmap',
+                        'subheading'  => 'Strategic approach to digital transformation',
+                        'background_color' => '#e8f5e8',
+                        'roadmap_steps' => array(
+                            array(
+                                'step_title' => 'Assess & Analyze',
+                                'step_description' => 'Evaluate current DevOps maturity using industry frameworks, identify capability gaps, and establish baseline metrics for improvement tracking',
+                            ),
+                            array(
+                                'step_title' => 'Implement Automation',
+                                'step_description' => 'Deploy CI/CD pipelines with clear milestones, automate testing and deployment processes, and establish measurable success criteria',
+                            ),
+                            array(
+                                'step_title' => 'Build Culture',
+                                'step_description' => 'Foster transparency through open communication channels, establish shared responsibility models, and create psychological safety for innovation',
+                            ),
+                            array(
+                                'step_title' => 'Refine & Optimize',
+                                'step_description' => 'Continuously enhance processes based on real-time feedback, performance metrics, and lessons learned from each iteration',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        
+        // Service Across Multi Block
+        array(
+            'name'              => 'service-across-multi-block',
+            'title'             => __('Service Across Multi Block', 'twentytwentyfive'),
+            'description'       => __('Multi-cloud services block with cloud platforms, service categories, technologies, and testimonial quote', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'cloud',
+            'keywords'          => array('service', 'multi', 'cloud', 'platforms', 'technologies', 'testimonial'),
+            'render_template'   => 'blocks/service-across-multi-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/service-across-multi-block/style.css',
+            'enqueue_script'    => get_template_directory_uri() . '/blocks/service-across-multi-block/script.js',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'main_heading' => 'Delivering Seamless Services Across Multi-Cloud Platforms',
+                        'main_description' => 'We enable enterprises to design, deploy, and manage secure, scalable, and high-performance solutions across leading cloud providers.',
+                        'testimonial_quote' => 'The best service is delivered when customer success becomes your own.',
+                    ),
+                ),
+            ),
+        ),
+        
+        // Credentials Acquired Block
+        array(
+            'name'              => 'credentials-acquired-block',
+            'title'             => __('Credentials Acquired Block', 'twentytwentyfive'),
+            'description'       => __('Display credentials acquired with colored dots and titles on a dark background', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'awards',
+            'keywords'          => array('credentials', 'certifications', 'achievements', 'awards', 'qualifications'),
+            'render_template'   => 'blocks/credentials-acquired-block/block.php',
+            'enqueue_style'     => get_template_directory_uri() . '/blocks/credentials-acquired-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading' => 'Credentials Acquired',
+                        'background_color' => '#1a1a2e',
+                        'text_color' => '#ffffff',
+                        'credentials_list' => array(
+                            array(
+                                'credential_title' => 'Azure DevOps Engineer Expert',
+                                'dot_color' => '#00A3E0'
+                            ),
+                            array(
+                                'credential_title' => 'GCP Professional Cloud DevOps Engineer',
+                                'dot_color' => '#00A3E0'
+                            ),
+                            array(
+                                'credential_title' => 'AWS Certified Solutions Architect - Professional',
+                                'dot_color' => '#32CD32'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block

@@ -47,6 +47,28 @@
             "new_lines": ""
         },
         {
+            "key": "field_stories_card_label",
+            "label": "Card Label",
+            "name": "card_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the label text that appears on each card (e.g., 'BLOG POST', 'CASE STUDY'). Leave empty to auto-generate from post type.",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "BLOG POST",
+            "show_in_graphql": 1,
+            "graphql_field_name": "cardLabel",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_stories_post_type",
             "label": "Post Type",
             "name": "post_type",
@@ -61,9 +83,7 @@
                 "id": ""
             },
             "choices": {
-                "post": "Posts",
-                "page": "Pages",
-                "mega_menu": "Mega Menus"
+                "post": "Posts"
             },
             "default_value": "post",
             "return_format": "value",
@@ -92,21 +112,14 @@
                 "id": ""
             },
             "choices": {
-                "": "All Categories",
-                "6": "AU",
-                "7": "Brisbane",
-                "8": "Canberaa",
-                "10": "devops",
-                "9": "service",
-                "3": "testing",
-                "1": "Uncategorized"
+                "": "All Categories"
             },
-            "default_value": false,
+            "default_value": "",
             "return_format": "value",
             "multiple": 0,
             "allow_null": 1,
             "ui": 1,
-            "ajax": 1,
+            "ajax": 0,
             "placeholder": "Select a category (optional)",
             "show_in_graphql": 1,
             "graphql_field_name": "category",

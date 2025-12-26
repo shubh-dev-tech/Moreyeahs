@@ -1,0 +1,159 @@
+/* Credentials Acquired Block Styles */
+.credentials-acquired-block {
+    padding: 80px 20px;
+    min-height: 400px;
+    position: relative;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.credentials-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.credentials-heading {
+    font-size: 3rem;
+    font-weight: 300;
+    margin-bottom: 60px;
+    color: inherit;
+    letter-spacing: 1px;
+}
+
+.credentials-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.credential-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.credential-item:hover {
+    transform: translateX(10px);
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.credential-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 20px;
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(0, 163, 224, 0.3);
+    transition: all 0.3s ease;
+}
+
+.credential-item:hover .credential-dot {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(0, 163, 224, 0.5);
+}
+
+.credential-title {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: inherit;
+    line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .credentials-acquired-block {
+        padding: 60px 15px;
+    }
+    
+    .credentials-heading {
+        font-size: 2.2rem;
+        margin-bottom: 40px;
+    }
+    
+    .credentials-list {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .credential-item {
+        padding: 12px 0;
+    }
+    
+    .credential-title {
+        font-size: 1rem;
+    }
+    
+    .credential-dot {
+        width: 10px;
+        height: 10px;
+        margin-right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .credentials-acquired-block {
+        padding: 40px 10px;
+    }
+    
+    .credentials-heading {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+    }
+    
+    .credential-item {
+        padding: 10px 0;
+    }
+    
+    .credential-title {
+        font-size: 0.95rem;
+    }
+}
+
+/* Block Editor Styles */
+.wp-block[data-type="acf/credentials-acquired-block"] {
+    margin: 20px 0;
+}
+
+/* Full Width Alignment */
+.credentials-acquired-block.alignfull {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+}
+
+.credentials-acquired-block.alignwide {
+    width: calc(100% + 200px);
+    margin-left: -100px;
+}
+
+/* Animation for credential items */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.credential-item {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.credential-item:nth-child(1) { animation-delay: 0.1s; }
+.credential-item:nth-child(2) { animation-delay: 0.2s; }
+.credential-item:nth-child(3) { animation-delay: 0.3s; }
+.credential-item:nth-child(4) { animation-delay: 0.4s; }
+.credential-item:nth-child(5) { animation-delay: 0.5s; }
+.credential-item:nth-child(6) { animation-delay: 0.6s; }
+.credential-item:nth-child(7) { animation-delay: 0.7s; }
+.credential-item:nth-child(8) { animation-delay: 0.8s; }
+.credential-item:nth-child(9) { animation-delay: 0.9s; }
+.credential-item:nth-child(10) { animation-delay: 1.0s; }
+.credential-item:nth-child(11) { animation-delay: 1.1s; }

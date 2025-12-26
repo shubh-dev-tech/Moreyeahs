@@ -1,0 +1,294 @@
+{
+    "key": "group_case_study_left_sidebar",
+    "title": "Case Study Left Sidebar",
+    "fields": [
+        {
+            "key": "field_cs_sidebar_sections",
+            "label": "Sidebar Sections",
+            "name": "sidebar_sections",
+            "type": "repeater",
+            "instructions": "Add sections like 'Our Client', 'Profile', 'Focus Areas', 'Technology', etc.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "field_cs_sidebar_section_title",
+            "min": 0,
+            "max": 0,
+            "layout": "block",
+            "button_label": "Add Section",
+            "sub_fields": [
+                {
+                    "key": "field_cs_sidebar_section_icon",
+                    "label": "Section Icon",
+                    "name": "section_icon",
+                    "type": "image",
+                    "instructions": "Optional icon for this section",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "thumbnail",
+                    "library": "all",
+                    "mime_types": "jpg,jpeg,png,svg"
+                },
+                {
+                    "key": "field_cs_sidebar_section_title",
+                    "label": "Section Title",
+                    "name": "section_title",
+                    "type": "text",
+                    "instructions": "Title for this section (e.g., 'Our Client', 'Profile', 'Technology')",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "70",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "Enter section title",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_cs_sidebar_section_items",
+                    "label": "Section Items",
+                    "name": "section_items",
+                    "type": "repeater",
+                    "instructions": "Add items for this section (label + value pairs)",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "collapsed": "field_cs_sidebar_item_label",
+                    "min": 0,
+                    "max": 0,
+                    "layout": "table",
+                    "button_label": "Add Item",
+                    "sub_fields": [
+                        {
+                            "key": "field_cs_sidebar_item_label",
+                            "label": "Label",
+                            "name": "item_label",
+                            "type": "text",
+                            "instructions": "Label for this item (e.g., 'Our Client', 'Location', 'Size')",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "40",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "Enter label",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_cs_sidebar_item_value",
+                            "label": "Value",
+                            "name": "item_value",
+                            "type": "text",
+                            "instructions": "Value for this item (e.g., 'Haseet Sanghrajka', 'London', '5MB')",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "60",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "Enter value",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_cs_sidebar_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "type": "color_picker",
+            "instructions": "Background color for the sidebar",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#e91e63",
+            "enable_opacity": 0,
+            "return_format": "string"
+        },
+        {
+            "key": "field_cs_sidebar_text_color",
+            "label": "Text Color",
+            "name": "text_color",
+            "type": "color_picker",
+            "instructions": "Text color for the sidebar",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffffff",
+            "enable_opacity": 0,
+            "return_format": "string"
+        },
+        {
+            "key": "field_cs_sidebar_show_download_buttons",
+            "label": "Show Download Buttons",
+            "name": "show_download_buttons",
+            "type": "true_false",
+            "instructions": "Show download buttons at the bottom of the sidebar",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Yes",
+            "ui_off_text": "No"
+        },
+        {
+            "key": "field_cs_sidebar_download_buttons",
+            "label": "Download Buttons",
+            "name": "download_buttons",
+            "type": "repeater",
+            "instructions": "Add download buttons for case study materials",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_cs_sidebar_show_download_buttons",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "field_cs_sidebar_button_text",
+            "min": 0,
+            "max": 0,
+            "layout": "block",
+            "button_label": "Add Download Button",
+            "sub_fields": [
+                {
+                    "key": "field_cs_sidebar_button_icon",
+                    "label": "Button Icon",
+                    "name": "button_icon",
+                    "type": "image",
+                    "instructions": "Optional icon for the button",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "thumbnail",
+                    "library": "all",
+                    "mime_types": "jpg,jpeg,png,svg"
+                },
+                {
+                    "key": "field_cs_sidebar_button_text",
+                    "label": "Button Text",
+                    "name": "button_text",
+                    "type": "text",
+                    "instructions": "Text for the button",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "35",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "Download case study",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_cs_sidebar_button_url",
+                    "label": "Button URL",
+                    "name": "button_url",
+                    "type": "url",
+                    "instructions": "URL for the download or link",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "https://"
+                },
+                {
+                    "key": "field_cs_sidebar_button_new_tab",
+                    "label": "Open in New Tab",
+                    "name": "open_in_new_tab",
+                    "type": "true_false",
+                    "instructions": "Open link in new tab",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "15",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 1,
+                    "ui": 1,
+                    "ui_on_text": "Yes",
+                    "ui_off_text": "No"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/case-study-left-sidebar"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Fields for the Case Study Left Sidebar block with repeater sections"
+}

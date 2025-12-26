@@ -452,6 +452,35 @@ function twentytwentyfive_register_acf_blocks() {
                 ),
             ),
         ),
+        
+        // Multi-Cloud Services Block
+        array(
+            'name'              => 'multi-cloud-services-block',
+            'title'             => __('Multi-Cloud Services Block', 'twentytwentyfive'),
+            'description'       => __('Comprehensive multi-cloud services showcase with platforms, categories, technologies, and testimonials', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'cloud',
+            'keywords'          => array('multi-cloud', 'services', 'platforms', 'technologies', 'testimonial', 'aws', 'gcp', 'azure'),
+            'render_template'   => 'blocks/multi-cloud-services-block/block.php',
+            'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/multi-cloud-services-block/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'main_heading' => 'Delivering Seamless Services Across Multi-Cloud Platforms',
+                        'main_description' => 'We enable enterprises to design, deploy, and manage secure, scalable, and high-performance solutions across leading cloud providers.',
+                        'testimonial_quote' => 'The best service is delivered when customer success becomes your own.',
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block
