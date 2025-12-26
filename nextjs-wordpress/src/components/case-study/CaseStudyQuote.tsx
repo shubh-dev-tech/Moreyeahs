@@ -20,77 +20,51 @@ const CaseStudyQuote: React.FC<CaseStudyQuoteProps> = ({
   quotePosition,
   quoteCompany,
   backgroundColor = '#e91e63',
-  textColor = '#ffffff',
+  textColor = '#333333',
   showQuotationMarks = true,
   quoteStyle = 'gradient',
   className = ''
 }) => {
-  // Helper function to adjust color brightness
-  const adjustBrightness = (hex: string, percent: number): string => {
-    // Remove # if present
-    const cleanHex = hex.replace('#', '');
-    
-    // Convert to RGB
-    const r = parseInt(cleanHex.substr(0, 2), 16);
-    const g = parseInt(cleanHex.substr(2, 2), 16);
-    const b = parseInt(cleanHex.substr(4, 2), 16);
-    
-    // Adjust brightness
-    const newR = Math.max(0, Math.min(255, r + (r * percent / 100)));
-    const newG = Math.max(0, Math.min(255, g + (g * percent / 100)));
-    const newB = Math.max(0, Math.min(255, b + (b * percent / 100)));
-    
-    // Convert back to hex
-    return `#${Math.round(newR).toString(16).padStart(2, '0')}${Math.round(newG).toString(16).padStart(2, '0')}${Math.round(newB).toString(16).padStart(2, '0')}`;
-  };
-
-  const quoteStyles = quoteStyle === 'solid'
-    ? {
-        backgroundColor,
-        color: textColor
-      }
-    : {
-        background: `linear-gradient(135deg, ${backgroundColor} 0%, ${adjustBrightness(backgroundColor, -20)} 100%)`,
-        color: textColor
-      };
+  // Don't render if quote text is empty or just whitespace
+  if (!quoteText || quoteText.trim() === '') {
+    return null;
+  }
 
   return (
     <div className={`case-study-quote ${className}`}>
-      <blockquote className="case-study-quote__content" style={quoteStyles}>
-        {showQuotationMarks && (
-          <div className="case-study-quote__marks">
-            <span className="case-study-quote__mark case-study-quote__mark--open">&ldquo;</span>
+      <blockquote className="case-study-quote__content">
+        <div className="case-study-quote__row">
+          <div className="case-study-quote__icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" fill={backgroundColor}/>
+            </svg>
           </div>
-        )}
-        
-        <p className="case-study-quote__text">{quoteText}</p>
-        
-        {(quoteAuthor || quotePosition || quoteCompany) && (
-          <footer className="case-study-quote__attribution">
-            {quoteAuthor && (
-              <cite className="case-study-quote__author">{quoteAuthor}</cite>
-            )}
-            {(quotePosition || quoteCompany) && (
-              <div className="case-study-quote__details">
-                {quotePosition && (
-                  <span className="case-study-quote__position">{quotePosition}</span>
+          
+          <div className="case-study-quote__text-container">
+            <p className="case-study-quote__text">{quoteText}</p>
+            
+            {(quoteAuthor || quotePosition || quoteCompany) && (
+              <footer className="case-study-quote__attribution">
+                {quoteAuthor && (
+                  <cite className="case-study-quote__author">{quoteAuthor}</cite>
                 )}
-                {quoteCompany && (
-                  <>
-                    {quotePosition && ' • '}
-                    <span className="case-study-quote__company">{quoteCompany}</span>
-                  </>
+                {(quotePosition || quoteCompany) && (
+                  <div className="case-study-quote__details">
+                    {quotePosition && (
+                      <span className="case-study-quote__position">{quotePosition}</span>
+                    )}
+                    {quoteCompany && (
+                      <>
+                        {quotePosition && ' • '}
+                        <span className="case-study-quote__company">{quoteCompany}</span>
+                      </>
+                    )}
+                  </div>
                 )}
-              </div>
+              </footer>
             )}
-          </footer>
-        )}
-        
-        {showQuotationMarks && (
-          <div className="case-study-quote__marks case-study-quote__marks--close">
-            <span className="case-study-quote__mark case-study-quote__mark--close">&rdquo;</span>
           </div>
-        )}
+        </div>
       </blockquote>
 
       <style jsx>{`
@@ -101,15 +75,27 @@ const CaseStudyQuote: React.FC<CaseStudyQuoteProps> = ({
         .case-study-quote__content {
           position: relative;
           margin: 0;
-          padding: 30px 40px;
-          border-radius: 0;
+          padding: 0;
+          border: none;
+          background: none;
           box-shadow: none;
           font-style: normal;
-          overflow: hidden;
+          overflow: visible;
         }
 
-        .case-study-quote__marks {
-          display: none;
+        .case-study-quote__row {
+          display: flex;
+          align-items: flex-start;
+          gap: 20px;
+        }
+
+        .case-study-quote__icon {
+          flex-shrink: 0;
+          margin-top: 5px;
+        }
+
+        .case-study-quote__text-container {
+          flex: 1;
         }
 
         .case-study-quote__text {
@@ -121,6 +107,7 @@ const CaseStudyQuote: React.FC<CaseStudyQuoteProps> = ({
           font-weight: 400;
           text-align: left;
           font-style: italic;
+          color: #e91e63;
         }
 
         .case-study-quote__attribution {
@@ -130,7 +117,7 @@ const CaseStudyQuote: React.FC<CaseStudyQuoteProps> = ({
           border-top: none;
           padding-top: 15px;
           font-style: normal;
-        }
+          color: #888888;
         }
 
         .case-study-quote__author {
@@ -143,7 +130,7 @@ const CaseStudyQuote: React.FC<CaseStudyQuoteProps> = ({
 
         .case-study-quote__details {
           font-size: 0.9rem;
-          opacity: 0.9;
+          opacity: 0.7;
           font-weight: 400;
         }
 
@@ -153,27 +140,13 @@ const CaseStudyQuote: React.FC<CaseStudyQuoteProps> = ({
         }
 
         @media (max-width: 768px) {
-          .case-study-quote__content {
-            padding: 30px 35px;
+          .case-study-quote__row {
+            gap: 15px;
           }
           
           .case-study-quote__text {
             font-size: 1.2rem;
             margin-bottom: 20px;
-          }
-          
-          .case-study-quote__marks {
-            font-size: 4rem;
-          }
-          
-          .case-study-quote__mark--open {
-            top: -5px;
-            left: 15px;
-          }
-          
-          .case-study-quote__marks--close {
-            bottom: -25px;
-            right: 15px;
           }
           
           .case-study-quote__author {
@@ -190,29 +163,19 @@ const CaseStudyQuote: React.FC<CaseStudyQuoteProps> = ({
             margin: 30px 0;
           }
           
-          .case-study-quote__content {
-            padding: 25px 25px;
-            border-radius: 12px;
+          .case-study-quote__row {
+            flex-direction: column;
+            gap: 15px;
+          }
+          
+          .case-study-quote__icon {
+            margin-top: 0;
           }
           
           .case-study-quote__text {
             font-size: 1.1rem;
             line-height: 1.5;
             margin-bottom: 15px;
-          }
-          
-          .case-study-quote__marks {
-            font-size: 3rem;
-          }
-          
-          .case-study-quote__mark--open {
-            top: 0px;
-            left: 10px;
-          }
-          
-          .case-study-quote__marks--close {
-            bottom: -15px;
-            right: 10px;
           }
           
           .case-study-quote__attribution {

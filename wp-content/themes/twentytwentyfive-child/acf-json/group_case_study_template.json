@@ -1,0 +1,691 @@
+{
+    "key": "group_case_study_template",
+    "title": "Case Study Template",
+    "fields": [
+        {
+            "key": "field_cst_header_section",
+            "label": "Header Section",
+            "name": "header_section",
+            "type": "group",
+            "instructions": "Header section with gradient background and title",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_cst_header_logo",
+                    "label": "Logo",
+                    "name": "logo",
+                    "type": "image",
+                    "instructions": "Company or project logo",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "thumbnail",
+                    "library": "all",
+                    "mime_types": "jpg,jpeg,png,svg"
+                },
+                {
+                    "key": "field_cst_header_title",
+                    "label": "Title",
+                    "name": "title",
+                    "type": "text",
+                    "instructions": "Main case study title",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "City Dynamics",
+                    "placeholder": "Enter case study title"
+                },
+                {
+                    "key": "field_cst_header_subtitle",
+                    "label": "Subtitle",
+                    "name": "subtitle",
+                    "type": "text",
+                    "instructions": "Subtitle or tagline",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "34",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Transforming Collaboration and Consultancy with SharePoint",
+                    "placeholder": "Enter subtitle"
+                },
+                {
+                    "key": "field_cst_header_dynamic_heading",
+                    "label": "Dynamic Heading",
+                    "name": "dynamic_heading",
+                    "type": "text",
+                    "instructions": "Dynamic heading that appears below the main title",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "100",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Transforming Collaboration and Consultancy with SharePoint",
+                    "placeholder": "Enter dynamic heading"
+                },
+                {
+                    "key": "field_cst_header_bg_image",
+                    "label": "Background Image",
+                    "name": "background_image",
+                    "type": "image",
+                    "instructions": "Header background image",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all"
+                },
+                {
+                    "key": "field_cst_header_gradient_colors",
+                    "label": "Gradient Colors",
+                    "name": "gradient_colors",
+                    "type": "group",
+                    "instructions": "Gradient overlay colors",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_cst_header_color_1",
+                            "label": "Color 1",
+                            "name": "color_1",
+                            "type": "color_picker",
+                            "required": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#00bcd4"
+                        },
+                        {
+                            "key": "field_cst_header_color_2",
+                            "label": "Color 2",
+                            "name": "color_2",
+                            "type": "color_picker",
+                            "required": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#9c27b0"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_cst_sidebar_section",
+            "label": "Sidebar Section",
+            "name": "sidebar_section",
+            "type": "group",
+            "instructions": "Left sidebar with client information",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_cst_sidebar_sections",
+                    "label": "Sidebar Sections",
+                    "name": "sidebar_sections",
+                    "type": "repeater",
+                    "instructions": "Add sections like 'Our Client', 'Profile', 'Focus Areas', etc.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "collapsed": "field_cst_sidebar_section_title",
+                    "min": 0,
+                    "max": 0,
+                    "layout": "block",
+                    "button_label": "Add Section",
+                    "sub_fields": [
+                        {
+                            "key": "field_cst_sidebar_section_title",
+                            "label": "Section Title",
+                            "name": "section_title",
+                            "type": "text",
+                            "instructions": "Title for this section",
+                            "required": 1,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "100",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placeholder": "Enter section title"
+                        },
+                        {
+                            "key": "field_cst_sidebar_section_items",
+                            "label": "Section Items",
+                            "name": "section_items",
+                            "type": "repeater",
+                            "instructions": "Add items for this section",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "collapsed": "field_cst_sidebar_item_text",
+                            "min": 0,
+                            "max": 0,
+                            "layout": "table",
+                            "button_label": "Add Item",
+                            "sub_fields": [
+                                {
+                                    "key": "field_cst_sidebar_item_text",
+                                    "label": "Item Text",
+                                    "name": "item_text",
+                                    "type": "text",
+                                    "instructions": "Text for this item",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "100",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "placeholder": "Enter item text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_cst_client_section",
+            "label": "Meet the Client Section",
+            "name": "client_section",
+            "type": "group",
+            "instructions": "Client profile and information",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_cst_client_image",
+                    "label": "Client Image",
+                    "name": "client_image",
+                    "type": "image",
+                    "instructions": "Photo of the client contact person",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "thumbnail",
+                    "library": "all",
+                    "mime_types": "jpg,jpeg,png"
+                },
+                {
+                    "key": "field_cst_client_name",
+                    "label": "Client Name",
+                    "name": "client_name",
+                    "type": "text",
+                    "instructions": "Name of the client contact person",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Haseet Sanghrajka",
+                    "placeholder": "Enter client name"
+                },
+                {
+                    "key": "field_cst_client_designation",
+                    "label": "Client Designation",
+                    "name": "client_designation",
+                    "type": "text",
+                    "instructions": "Job title or designation",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "CEO",
+                    "placeholder": "Enter designation"
+                },
+                {
+                    "key": "field_cst_client_company",
+                    "label": "Client Company",
+                    "name": "client_company",
+                    "type": "text",
+                    "instructions": "Company name",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "Enter company name"
+                },
+                {
+                    "key": "field_cst_client_content",
+                    "label": "Client Description",
+                    "name": "client_content",
+                    "type": "wysiwyg",
+                    "instructions": "Description about the client and project context",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "100",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "tabs": "all",
+                    "toolbar": "full",
+                    "media_upload": 1,
+                    "delay": 0
+                }
+            ]
+        },
+        {
+            "key": "field_cst_content_sections",
+            "label": "Content Sections",
+            "name": "content_sections",
+            "type": "repeater",
+            "instructions": "Add content sections like 'The Challenges', 'Our Solution', etc.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "field_cst_section_title",
+            "min": 0,
+            "max": 0,
+            "layout": "block",
+            "button_label": "Add Content Section",
+            "sub_fields": [
+                {
+                    "key": "field_cst_section_icon",
+                    "label": "Section Icon",
+                    "name": "section_icon",
+                    "type": "image",
+                    "instructions": "Optional icon for this section",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "20",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "thumbnail",
+                    "library": "all",
+                    "mime_types": "jpg,jpeg,png,svg"
+                },
+                {
+                    "key": "field_cst_section_title",
+                    "label": "Section Title",
+                    "name": "section_title",
+                    "type": "text",
+                    "instructions": "Title for this section",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "40",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "Enter section title"
+                },
+                {
+                    "key": "field_cst_section_icon_color",
+                    "label": "Icon Color",
+                    "name": "icon_color",
+                    "type": "color_picker",
+                    "instructions": "Color for the section icon",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "20",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#e91e63"
+                },
+                {
+                    "key": "field_cst_section_content",
+                    "label": "Section Content",
+                    "name": "section_content",
+                    "type": "wysiwyg",
+                    "instructions": "Main content for this section",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "100",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "tabs": "all",
+                    "toolbar": "full",
+                    "media_upload": 1,
+                    "delay": 0
+                },
+                {
+                    "key": "field_cst_section_quotes",
+                    "label": "Section Quotes",
+                    "name": "section_quotes",
+                    "type": "repeater",
+                    "instructions": "Add quotes for this section",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "collapsed": "field_cst_quote_text",
+                    "min": 0,
+                    "max": 0,
+                    "layout": "table",
+                    "button_label": "Add Quote",
+                    "sub_fields": [
+                        {
+                            "key": "field_cst_quote_text",
+                            "label": "Quote Text",
+                            "name": "quote_text",
+                            "type": "textarea",
+                            "instructions": "Quote text",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "100",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placeholder": "Enter quote",
+                            "rows": 3
+                        }
+                    ]
+                },
+                {
+                    "key": "field_cst_section_bullet_points",
+                    "label": "Bullet Points",
+                    "name": "section_bullet_points",
+                    "type": "repeater",
+                    "instructions": "Add bullet points for this section",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "collapsed": "field_cst_bullet_text",
+                    "min": 0,
+                    "max": 0,
+                    "layout": "table",
+                    "button_label": "Add Bullet Point",
+                    "sub_fields": [
+                        {
+                            "key": "field_cst_bullet_text",
+                            "label": "Bullet Text",
+                            "name": "bullet_text",
+                            "type": "text",
+                            "instructions": "Bullet point text",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "100",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placeholder": "Enter bullet point"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_cst_testimonial_quote",
+            "label": "Testimonial Quote",
+            "name": "testimonial_quote",
+            "type": "group",
+            "instructions": "Main testimonial quote section",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_cst_quote_text",
+                    "label": "Quote Text",
+                    "name": "quote_text",
+                    "type": "textarea",
+                    "instructions": "Main testimonial quote",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "70",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "Enter testimonial quote",
+                    "rows": 4
+                },
+                {
+                    "key": "field_cst_quote_author",
+                    "label": "Quote Author",
+                    "name": "quote_author",
+                    "type": "text",
+                    "instructions": "Author of the quote",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "Enter author name"
+                }
+            ]
+        },
+        {
+            "key": "field_cst_cta_section",
+            "label": "Call-to-Action Section",
+            "name": "cta_section",
+            "type": "group",
+            "instructions": "Call-to-action buttons and content",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_cst_cta_title",
+                    "label": "CTA Title",
+                    "name": "cta_title",
+                    "type": "text",
+                    "instructions": "Title for the CTA section",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Ready to Start Your Project?",
+                    "placeholder": "Enter CTA title"
+                },
+                {
+                    "key": "field_cst_cta_content",
+                    "label": "CTA Content",
+                    "name": "cta_content",
+                    "type": "textarea",
+                    "instructions": "Content for the CTA section",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Let's discuss how we can help you achieve similar results.",
+                    "placeholder": "Enter CTA content",
+                    "rows": 3
+                },
+                {
+                    "key": "field_cst_cta_buttons",
+                    "label": "CTA Buttons",
+                    "name": "cta_buttons",
+                    "type": "repeater",
+                    "instructions": "Add call-to-action buttons",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "collapsed": "field_cst_button_text",
+                    "min": 0,
+                    "max": 0,
+                    "layout": "table",
+                    "button_label": "Add Button",
+                    "sub_fields": [
+                        {
+                            "key": "field_cst_button_text",
+                            "label": "Button Text",
+                            "name": "button_text",
+                            "type": "text",
+                            "instructions": "Text for the button",
+                            "required": 1,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "30",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placeholder": "Button text"
+                        },
+                        {
+                            "key": "field_cst_button_url",
+                            "label": "Button URL",
+                            "name": "button_url",
+                            "type": "url",
+                            "instructions": "URL for the button",
+                            "required": 1,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "40",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placeholder": "https://"
+                        },
+                        {
+                            "key": "field_cst_button_style",
+                            "label": "Button Style",
+                            "name": "button_style",
+                            "type": "select",
+                            "instructions": "Style for the button",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "30",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "primary": "Primary",
+                                "secondary": "Secondary"
+                            },
+                            "default_value": "primary",
+                            "allow_null": 0,
+                            "multiple": 0,
+                            "ui": 0,
+                            "return_format": "value",
+                            "ajax": 0,
+                            "placeholder": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "case_study"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Complete case study template with all sections in one field group"
+}
