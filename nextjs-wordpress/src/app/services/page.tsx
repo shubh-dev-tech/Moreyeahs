@@ -73,6 +73,34 @@ export default async function ServicesPage() {
               </div>
             </Link>
 
+            <Link href="/services/data-engineering" className="group">
+              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <h2 className="text-2xl font-semibold mb-4 group-hover:text-blue-600 transition-colors">
+                  Data Engineering
+                </h2>
+                <p className="text-gray-600">
+                  Build scalable data pipelines, ETL processes, and analytics infrastructure to unlock the value in your data.
+                </p>
+                <div className="mt-4 text-blue-600 font-medium">
+                  Learn More →
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/services/data-science" className="group">
+              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <h2 className="text-2xl font-semibold mb-4 group-hover:text-blue-600 transition-colors">
+                  Data Science
+                </h2>
+                <p className="text-gray-600">
+                  Transform your data into actionable insights with machine learning, analytics, and predictive modeling.
+                </p>
+                <div className="mt-4 text-blue-600 font-medium">
+                  Learn More →
+                </div>
+              </div>
+            </Link>
+
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-2xl font-semibold mb-4">Web Development</h2>
               <p className="text-gray-600">

@@ -794,16 +794,7 @@ add_action('after_switch_theme', function() {
     }
 });
 
-/**
- * Sync menu assignments when they are updated
- */
-add_action('wp_update_nav_menu', function($menu_id) {
-    // Sync current assignments to options
-    $locations = get_theme_mod('nav_menu_locations', []);
-    foreach ($locations as $location => $assigned_menu_id) {
-        update_option("nav_menu_location_{$location}", $assigned_menu_id);
-    }
-}, 10, 1);
+// wp_update_nav_menu hook removed - already handled by parent theme
 
 /**
  * Force ACF field group synchronization
@@ -858,4 +849,59 @@ function debug_acf_save($post_id) {
     }
 }
 add_action('acf/save_post', 'debug_acf_save', 1);
+
+/**
+ * Enable CORS for REST API
+ * This allows your NextJS frontend to access the WordPress REST API
+ */
+function enable_cors_for_rest_api() {
+    // Get the origin of the request
+    $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+    
+    // Define allowed origins (add your NextJS frontend URLs)
+    $allowed_origins = array(
+        'http://localhost:3000',
+        'https://localhost:3000',
+        'http://127.0.0.1:3000',
+        'https://127.0.0.1:3000',
+        'https://moreyeahs-case-vercel.app',
+        'https://www.moreyeahs-case-vercel.app',
+        // Add your staging/production NextJS URLs here
+    );
+    
+    // Check if the origin is allowed
+    if (in_array($origin, $allowed_origins)) {
+        header('Access-Control-Allow-Origin: ' . $origin);
+    } else {
+        // For development, you might want to allow all origins
+        // Remove this in production for security
+        header('Access-Control-Allow-Origin: *');
+    }
+    
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-WP-Nonce, Accept');
+    header('Access-Control-Allow-Credentials: true');
+    
+    // Handle preflight OPTIONS requests
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        status_header(200);
+        exit();
+    }
+}
+
+// Add CORS headers to REST API requests
+add_action('rest_api_init', function() {
+    remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
+    add_filter('rest_pre_serve_request', function($value) {
+        enable_cors_for_rest_api();
+        return $value;
+    });
+});
+
+// Also add CORS headers to regular requests (for non-REST API endpoints)
+add_action('init', function() {
+    if (isset($_SERVER['HTTP_ORIGIN'])) {
+        enable_cors_for_rest_api();
+    }
+});
 
