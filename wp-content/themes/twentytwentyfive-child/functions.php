@@ -31,6 +31,15 @@ function twentytwentyfive_child_enqueue_styles() {
         array($parent_style),
         wp_get_theme()->get('Version')
     );
+    
+    // Enqueue Case Study styles
+    if (is_singular('case_study') || is_post_type_archive('case_study')) {
+        wp_enqueue_style('case-study-styles',
+            get_stylesheet_directory_uri() . '/assets/css/case-study.css',
+            array(),
+            wp_get_theme()->get('Version')
+        );
+    }
 }
 add_action('wp_enqueue_scripts', 'twentytwentyfive_child_enqueue_styles');
 
@@ -71,6 +80,18 @@ function twentytwentyfive_child_include_parent_functions() {
     // Include ACF blocks functionality
     if (file_exists($parent_inc_path . '/acf-blocks.php')) {
         require_once $parent_inc_path . '/acf-blocks.php';
+    }
+    
+    // Include case study template manager
+    $case_study_template = get_stylesheet_directory() . '/inc/case-study-template.php';
+    if (file_exists($case_study_template)) {
+        require_once $case_study_template;
+    }
+    
+    // Include case study admin interface
+    $case_study_admin = get_stylesheet_directory() . '/inc/case-study-admin.php';
+    if (file_exists($case_study_admin)) {
+        require_once $case_study_admin;
     }
     
     // Include test endpoint first
@@ -189,22 +210,46 @@ function twentytwentyfive_child_include_parent_functions() {
                 $params = $request->get_json_params() ?: [];
                 
                 $args = [
-                    'post_type' => 'post',
+                    'post_type' => isset($params['post_type']) ? sanitize_text_field($params['post_type']) : 'post',
                     'post_status' => 'publish',
                     'posts_per_page' => isset($params['per_page']) ? intval($params['per_page']) : 10,
+                    'orderby' => isset($params['orderby']) ? sanitize_text_field($params['orderby']) : 'date',
+                    'order' => isset($params['order']) ? sanitize_text_field($params['order']) : 'DESC',
                 ];
+                
+                // Add category filter if provided
+                if (isset($params['categories']) && !empty($params['categories'])) {
+                    $args['cat'] = intval($params['categories']);
+                }
                 
                 $posts = get_posts($args);
                 $formatted_posts = [];
                 
                 foreach ($posts as $post) {
+                    // Get featured image
+                    $featured_image = null;
+                    if (has_post_thumbnail($post->ID)) {
+                        $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
+                    }
+                    
                     $formatted_posts[] = [
                         'id' => $post->ID,
-                        'title' => $post->post_title,
-                        'slug' => $post->post_name,
-                        'content' => $post->post_content,
-                        'excerpt' => $post->post_excerpt,
+                        'title' => [
+                            'rendered' => $post->post_title
+                        ],
+                        'excerpt' => [
+                            'rendered' => $post->post_excerpt ?: wp_trim_words($post->post_content, 55, '...')
+                        ],
+                        'link' => get_permalink($post->ID),
                         'date' => $post->post_date,
+                        'featured_media' => get_post_thumbnail_id($post->ID),
+                        'categories' => wp_get_post_categories($post->ID, ['fields' => 'ids']),
+                        '_embedded' => [
+                            'wp:featuredmedia' => $featured_image ? [[
+                                'source_url' => $featured_image[0],
+                                'alt_text' => get_post_meta(get_post_thumbnail_id($post->ID), '_wp_attachment_image_alt', true)
+                            ]] : []
+                        ]
                     ];
                 }
                 
@@ -267,6 +312,104 @@ add_filter('acf/settings/save_json', 'twentytwentyfive_child_acf_json_save_point
 // Add your custom functions below this line
 
 /**
+ * Register Case Study Custom Post Type
+ */
+function register_case_study_post_type() {
+    $labels = array(
+        'name'                  => _x('Case Studies', 'Post type general name', 'twentytwentyfive'),
+        'singular_name'         => _x('Case Study', 'Post type singular name', 'twentytwentyfive'),
+        'menu_name'             => _x('Case Studies', 'Admin Menu text', 'twentytwentyfive'),
+        'name_admin_bar'        => _x('Case Study', 'Add New on Toolbar', 'twentytwentyfive'),
+        'add_new'               => __('Add New', 'twentytwentyfive'),
+        'add_new_item'          => __('Add New Case Study', 'twentytwentyfive'),
+        'new_item'              => __('New Case Study', 'twentytwentyfive'),
+        'edit_item'             => __('Edit Case Study', 'twentytwentyfive'),
+        'view_item'             => __('View Case Study', 'twentytwentyfive'),
+        'all_items'             => __('All Case Studies', 'twentytwentyfive'),
+        'search_items'          => __('Search Case Studies', 'twentytwentyfive'),
+        'parent_item_colon'     => __('Parent Case Studies:', 'twentytwentyfive'),
+        'not_found'             => __('No case studies found.', 'twentytwentyfive'),
+        'not_found_in_trash'    => __('No case studies found in Trash.', 'twentytwentyfive'),
+        'featured_image'        => _x('Case Study Featured Image', 'Overrides the "Featured Image" phrase', 'twentytwentyfive'),
+        'set_featured_image'    => _x('Set featured image', 'Overrides the "Set featured image" phrase', 'twentytwentyfive'),
+        'remove_featured_image' => _x('Remove featured image', 'Overrides the "Remove featured image" phrase', 'twentytwentyfive'),
+        'use_featured_image'    => _x('Use as featured image', 'Overrides the "Use as featured image" phrase', 'twentytwentyfive'),
+        'archives'              => _x('Case Study archives', 'The post type archive label', 'twentytwentyfive'),
+        'insert_into_item'      => _x('Insert into case study', 'Overrides the "Insert into post" phrase', 'twentytwentyfive'),
+        'uploaded_to_this_item' => _x('Uploaded to this case study', 'Overrides the "Uploaded to this post" phrase', 'twentytwentyfive'),
+        'filter_items_list'     => _x('Filter case studies list', 'Screen reader text for the filter links', 'twentytwentyfive'),
+        'items_list_navigation' => _x('Case studies list navigation', 'Screen reader text for the pagination', 'twentytwentyfive'),
+        'items_list'            => _x('Case studies list', 'Screen reader text for the items list', 'twentytwentyfive'),
+    );
+
+    $args = array(
+        'labels'                => $labels,
+        'description'           => __('Case Studies showcase client success stories', 'twentytwentyfive'),
+        'public'                => true,
+        'publicly_queryable'    => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'show_in_nav_menus'     => true,
+        'show_in_admin_bar'     => true,
+        'show_in_rest'          => true,
+        'rest_base'             => 'case_study',
+        'rest_controller_class' => 'WP_REST_Posts_Controller',
+        'menu_position'         => 5,
+        'menu_icon'             => 'dashicons-portfolio',
+        'capability_type'       => 'post',
+        'map_meta_cap'          => true,
+        'has_archive'           => true,
+        'rewrite'               => array(
+            'slug'       => 'case-study',
+            'with_front' => false,
+        ),
+        'query_var'             => true,
+        'hierarchical'          => false,
+        'supports'              => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields', 'revisions'),
+        'taxonomies'            => array('category', 'post_tag'), // Add default taxonomies
+        'can_export'            => true,
+        'delete_with_user'      => false,
+    );
+
+    register_post_type('case_study', $args);
+}
+add_action('init', 'register_case_study_post_type', 0);
+
+/**
+ * Flush rewrite rules on theme activation
+ */
+function case_study_flush_rewrites() {
+    register_case_study_post_type();
+    flush_rewrite_rules();
+}
+register_activation_hook(__FILE__, 'case_study_flush_rewrites');
+
+/**
+ * Also flush on theme switch to ensure proper registration
+ */
+add_action('after_switch_theme', function() {
+    register_case_study_post_type();
+    flush_rewrite_rules();
+});
+
+/**
+ * Add ACF fields to REST API for case studies
+ */
+function add_acf_to_case_study_rest() {
+    if (!function_exists('get_fields')) {
+        return;
+    }
+    
+    register_rest_field('case_study', 'acf_fields', array(
+        'get_callback' => function($post) {
+            return get_fields($post['id']);
+        },
+        'schema' => null,
+    ));
+}
+add_action('rest_api_init', 'add_acf_to_case_study_rest');
+
+/**
  * Register Child Theme Specific ACF Blocks
  */
 function twentytwentyfive_child_register_acf_blocks() {
@@ -274,6 +417,127 @@ function twentytwentyfive_child_register_acf_blocks() {
     if (!function_exists('acf_register_block_type')) {
         return;
     }
+
+    // Case Study Header Block
+    acf_register_block_type(array(
+        'name'              => 'case-study-header',
+        'title'             => __('Case Study Header', 'twentytwentyfive'),
+        'description'       => __('Header section with gradient background, logo, title, and subtitle', 'twentytwentyfive'),
+        'category'          => 'case-study',
+        'icon'              => 'cover-image',
+        'keywords'          => array('case study', 'header', 'gradient', 'logo', 'title'),
+        'render_template'   => 'blocks/case-study-header/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/case-study-header/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+    ));
+
+    // Case Study Layout Block (Main Container)
+    acf_register_block_type(array(
+        'name'              => 'case-study-layout',
+        'title'             => __('Case Study Layout', 'twentytwentyfive'),
+        'description'       => __('Main layout container with left sidebar and right content area', 'twentytwentyfive'),
+        'category'          => 'case-study',
+        'icon'              => 'layout',
+        'keywords'          => array('case study', 'layout', 'sidebar', 'content'),
+        'render_template'   => 'blocks/case-study-layout/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/case-study-layout/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+    ));
+
+    // Case Study Left Sidebar Block
+    acf_register_block_type(array(
+        'name'              => 'case-study-left-sidebar',
+        'title'             => __('Case Study Left Sidebar', 'twentytwentyfive'),
+        'description'       => __('Left sidebar with repeater sections for client info, profile, focus areas, and technology', 'twentytwentyfive'),
+        'category'          => 'case-study',
+        'icon'              => 'admin-page',
+        'keywords'          => array('case study', 'sidebar', 'client', 'profile', 'technology'),
+        'render_template'   => 'blocks/case-study-left-sidebar/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/case-study-left-sidebar/style.css',
+        'supports'          => array(
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+    ));
+
+    // Meet the Client Block
+    acf_register_block_type(array(
+        'name'              => 'meet-the-client',
+        'title'             => __('Meet the Client', 'twentytwentyfive'),
+        'description'       => __('Client profile block with image, name, designation, company, and content', 'twentytwentyfive'),
+        'category'          => 'case-study',
+        'icon'              => 'businessman',
+        'keywords'          => array('case study', 'client', 'profile', 'meet'),
+        'render_template'   => 'blocks/meet-the-client/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/meet-the-client/style.css',
+        'supports'          => array(
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+    ));
+
+    // Case Study Content Section Block
+    acf_register_block_type(array(
+        'name'              => 'case-study-content-section',
+        'title'             => __('Case Study Content Section', 'twentytwentyfive'),
+        'description'       => __('Reusable content section with icon, title, content, quotes, and bullet points', 'twentytwentyfive'),
+        'category'          => 'case-study',
+        'icon'              => 'editor-alignleft',
+        'keywords'          => array('case study', 'content', 'section', 'challenges', 'solution'),
+        'render_template'   => 'blocks/case-study-content-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/case-study-content-section/style.css',
+        'supports'          => array(
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+    ));
+
+    // Case Study Quote Block
+    acf_register_block_type(array(
+        'name'              => 'case-study-quote',
+        'title'             => __('Case Study Quote', 'twentytwentyfive'),
+        'description'       => __('Standalone quote block with custom styling', 'twentytwentyfive'),
+        'category'          => 'case-study',
+        'icon'              => 'format-quote',
+        'keywords'          => array('case study', 'quote', 'testimonial'),
+        'render_template'   => 'blocks/case-study-quote/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/case-study-quote/style.css',
+        'supports'          => array(
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+    ));
+
+    // Case Study CTA Block
+    acf_register_block_type(array(
+        'name'              => 'case-study-cta',
+        'title'             => __('Case Study CTA', 'twentytwentyfive'),
+        'description'       => __('Call-to-action section with buttons and links', 'twentytwentyfive'),
+        'category'          => 'case-study',
+        'icon'              => 'button',
+        'keywords'          => array('case study', 'cta', 'call to action', 'button'),
+        'render_template'   => 'blocks/case-study-cta/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/case-study-cta/style.css',
+        'supports'          => array(
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+    ));
 
     // Roadmap Block
     acf_register_block_type(array(
@@ -389,6 +653,23 @@ function twentytwentyfive_child_register_acf_blocks() {
     ));
 }
 add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
+
+/**
+ * Add Case Study block category
+ */
+function case_study_block_categories($categories) {
+    return array_merge(
+        $categories,
+        array(
+            array(
+                'slug'  => 'case-study',
+                'title' => __('Case Study Blocks', 'twentytwentyfive'),
+                'icon'  => 'portfolio',
+            ),
+        )
+    );
+}
+add_filter('block_categories_all', 'case_study_block_categories', 10, 2);
 
 /**
  * Logo Persistence Across Theme Changes
@@ -516,10 +797,65 @@ add_action('after_switch_theme', function() {
 /**
  * Sync menu assignments when they are updated
  */
-add_action('wp_update_nav_menu', function($menu_id, $menu_data = null) {
+add_action('wp_update_nav_menu', function($menu_id) {
     // Sync current assignments to options
     $locations = get_theme_mod('nav_menu_locations', []);
     foreach ($locations as $location => $assigned_menu_id) {
         update_option("nav_menu_location_{$location}", $assigned_menu_id);
     }
-}, 10, 2);
+}, 10, 1);
+
+/**
+ * Force ACF field group synchronization
+ * This ensures the case study template fields are properly loaded
+ */
+function force_acf_field_sync() {
+    if (!function_exists('acf_get_field_groups')) {
+        return;
+    }
+    
+    // Check if case study template field group exists
+    $field_group = acf_get_field_group('group_case_study_template');
+    
+    if (!$field_group) {
+        // Try to sync from JSON
+        $json_file = get_stylesheet_directory() . '/acf-json/group_case_study_template.json';
+        if (file_exists($json_file)) {
+            $json_data = json_decode(file_get_contents($json_file), true);
+            if ($json_data && function_exists('acf_import_field_group')) {
+                acf_import_field_group($json_data);
+            }
+        }
+    }
+}
+add_action('acf/init', 'force_acf_field_sync');
+
+/**
+ * Ensure ACF fields are available in REST API
+ */
+function add_acf_to_case_study_rest_api() {
+    if (!function_exists('get_fields')) {
+        return;
+    }
+    
+    register_rest_field('case_study', 'acf_fields', array(
+        'get_callback' => function($post) {
+            $fields = get_fields($post['id']);
+            return $fields ? $fields : array();
+        },
+        'schema' => null,
+    ));
+}
+add_action('rest_api_init', 'add_acf_to_case_study_rest_api');
+
+/**
+ * Debug ACF field saving
+ */
+function debug_acf_save($post_id) {
+    if (get_post_type($post_id) === 'case_study') {
+        error_log('ACF Save Debug - Post ID: ' . $post_id);
+        error_log('ACF Save Debug - POST data: ' . print_r($_POST, true));
+    }
+}
+add_action('acf/save_post', 'debug_acf_save', 1);
+
