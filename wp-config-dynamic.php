@@ -54,9 +54,9 @@ switch ($wp_environment) {
         if (!defined('DB_HOST')) define('DB_HOST', 'localhost');
         
         // Debug settings for local (only set if not already defined)
-        if (!defined('WP_DEBUG')) define('WP_DEBUG', true);
-        if (!defined('WP_DEBUG_LOG')) define('WP_DEBUG_LOG', true);
-        if (!defined('WP_DEBUG_DISPLAY')) define('WP_DEBUG_DISPLAY', true);
+        if (!defined('WP_DEBUG')) define('WP_DEBUG', false);
+        if (!defined('WP_DEBUG_LOG')) define('WP_DEBUG_LOG', false);
+        if (!defined('WP_DEBUG_DISPLAY')) define('WP_DEBUG_DISPLAY', false);
         
         break;
         

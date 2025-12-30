@@ -1,7 +1,19 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { CaseStudyData } from '@/components/case-study';
 import CaseStudyCard from '@/components/case-study/CaseStudyCard';
+
+// Interface for processed case study data (strings only)
+interface ProcessedCaseStudyData {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt: string;
+  date: string;
+  featured_image: string | null;
+  blocks: any[];
+  acf_fields: any;
+}
 
 export const metadata: Metadata = {
   title: 'Case Studies - Our Success Stories',
@@ -9,12 +21,22 @@ export const metadata: Metadata = {
 };
 
 // Fetch all case studies from WordPress API
-async function getCaseStudies(): Promise<CaseStudyData[]> {
+async function getCaseStudies(): Promise<ProcessedCaseStudyData[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || process.env.WORDPRESS_URL || 'http://localhost';
+    // Use environment-aware URL detection
+    const { getWordPressApiUrl } = await import('@/lib/environment');
+    const apiUrl = getWordPressApiUrl();
     
-    const response = await fetch(`${baseUrl}/wp-json/wp/v2/case_study?per_page=100&_embed`, {
-      next: { revalidate: 60 }
+    console.log('Fetching case studies from:', apiUrl);
+    
+    const response = await fetch(`${apiUrl}/wp/v2/case_study?per_page=100&_embed`, {
+      next: { revalidate: 60 },
+      // Add timeout for build process
+      signal: AbortSignal.timeout(10000), // 10 second timeout
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
     });
 
     if (!response.ok) {
@@ -23,6 +45,11 @@ async function getCaseStudies(): Promise<CaseStudyData[]> {
     }
 
     const caseStudies = await response.json();
+    
+    if (!Array.isArray(caseStudies)) {
+      console.error('Invalid case studies response format');
+      return [];
+    }
     
     // Extract rendered content helper
     const extractRendered = (field: any): string => {

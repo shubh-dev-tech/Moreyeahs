@@ -30,7 +30,9 @@ interface CaseStudyData {
 // Fetch case study data from WordPress API
 async function getCaseStudy(slug: string): Promise<CaseStudyData | null> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || process.env.WORDPRESS_URL || 'http://localhost';
+    // Use environment-aware URL detection
+    const { getWordPressApiUrl } = await import('@/lib/environment');
+    const apiUrl = getWordPressApiUrl();
     
     // Validate slug
     if (!slug || typeof slug !== 'string') {
@@ -38,9 +40,13 @@ async function getCaseStudy(slug: string): Promise<CaseStudyData | null> {
       return null;
     }
     
+    console.log('Fetching case study from:', apiUrl);
+    
     // Use standard WordPress REST API endpoint
-    const response = await fetch(`${baseUrl}/wp-json/wp/v2/case_study?slug=${encodeURIComponent(slug)}&_embed`, {
+    const response = await fetch(`${apiUrl}/wp/v2/case_study?slug=${encodeURIComponent(slug)}&_embed`, {
       next: { revalidate: 60 }, // Revalidate every minute
+      // Add timeout for build process
+      signal: AbortSignal.timeout(10000), // 10 second timeout
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -69,8 +75,9 @@ async function getCaseStudy(slug: string): Promise<CaseStudyData | null> {
     // Fetch ACF fields separately if not included
     if (!caseStudy.acf_fields && !caseStudy.acf) {
       try {
-        const acfResponse = await fetch(`${baseUrl}/wp-json/wp/v2/case_study/${caseStudy.id}?acf_format=standard`, {
+        const acfResponse = await fetch(`${apiUrl}/wp/v2/case_study/${caseStudy.id}?acf_format=standard`, {
           next: { revalidate: 60 },
+          signal: AbortSignal.timeout(5000), // 5 second timeout for ACF
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -147,20 +154,39 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
 // Generate static params for static generation (optional)
 export async function generateStaticParams() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || process.env.WORDPRESS_URL || 'http://localhost';
-    const response = await fetch(`${baseUrl}/wp-json/wp/v2/case_study?per_page=100`);
+    // Use environment-aware URL detection
+    const { getWordPressApiUrl } = await import('@/lib/environment');
+    const apiUrl = getWordPressApiUrl();
+    
+    console.log('Generating static params from:', apiUrl);
+    
+    const response = await fetch(`${apiUrl}/wp/v2/case_study?per_page=100`, {
+      // Add timeout and retry logic for build process
+      signal: AbortSignal.timeout(10000), // 10 second timeout
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
     
     if (!response.ok) {
+      console.warn(`Failed to fetch case studies for static generation: ${response.status}`);
       return [];
     }
 
     const caseStudies = await response.json();
     
+    if (!Array.isArray(caseStudies)) {
+      console.warn('Invalid case studies response format');
+      return [];
+    }
+    
     return caseStudies.map((caseStudy: any) => ({
       slug: caseStudy.slug
     }));
   } catch (error) {
-    console.error('Error generating static params:', error);
+    console.warn('Error generating static params (will use dynamic rendering):', error);
+    // Return empty array to allow dynamic rendering
     return [];
   }
 }
