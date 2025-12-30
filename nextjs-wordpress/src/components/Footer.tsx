@@ -90,7 +90,7 @@ export default async function Footer() {
               {footerData?.copyrightRight ? (
                 <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: footerData.copyrightRight }} />
               ) : (
-                <p>Powered by Next.js & WordPress</p>
+                <p></p>
               )}
             </div>
           </div>

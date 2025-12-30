@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { CaseStudyData } from '@/components/case-study';
+import { CaseStudyData, getRenderedTitle, getRenderedExcerpt } from '@/components/case-study';
 import styles from './page.module.css';
 import { formatDate } from '@/utils/dateUtils';
 
@@ -18,9 +18,20 @@ export const metadata: Metadata = {
 // Fetch case studies from WordPress API
 async function getCaseStudies(): Promise<CaseStudyData[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || process.env.WORDPRESS_URL || 'http://localhost';
-    const response = await fetch(`${baseUrl}/wp-json/wp/v2/case_study?per_page=20`, {
-      next: { revalidate: 300 } // Revalidate every 5 minutes
+    // Use environment-aware URL detection
+    const { getWordPressApiUrl } = await import('@/lib/environment');
+    const apiUrl = getWordPressApiUrl();
+    
+    console.log('Fetching case studies from:', apiUrl);
+    
+    const response = await fetch(`${apiUrl}/wp/v2/case_study?per_page=20`, {
+      next: { revalidate: 300 }, // Revalidate every 5 minutes
+      // Add timeout for build process
+      signal: AbortSignal.timeout(10000), // 10 second timeout
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
     });
 
     if (!response.ok) {
@@ -29,6 +40,12 @@ async function getCaseStudies(): Promise<CaseStudyData[]> {
     }
 
     const caseStudies = await response.json();
+    
+    if (!Array.isArray(caseStudies)) {
+      console.error('Invalid case studies response format');
+      return [];
+    }
+    
     return caseStudies;
   } catch (error) {
     console.error('Error fetching case studies:', error);
@@ -58,7 +75,7 @@ export default async function CaseStudiesPage() {
                     <Link href={`/case-study/${caseStudy.slug}`}>
                       <Image
                         src={caseStudy.featured_image}
-                        alt={caseStudy.title}
+                        alt={getRenderedTitle(caseStudy)}
                         width={400}
                         height={200}
                         className={styles.cardImage}
@@ -70,14 +87,14 @@ export default async function CaseStudiesPage() {
                 <div className={styles.caseStudyCardContent}>
                   <h2 className={styles.caseStudyCardTitle}>
                     <Link href={`/case-study/${caseStudy.slug}`}>
-                      {caseStudy.title}
+                      {getRenderedTitle(caseStudy)}
                     </Link>
                   </h2>
                   
                   {caseStudy.excerpt && (
                     <div 
                       className={styles.caseStudyCardExcerpt}
-                      dangerouslySetInnerHTML={{ __html: caseStudy.excerpt }}
+                      dangerouslySetInnerHTML={{ __html: getRenderedExcerpt(caseStudy) }}
                     />
                   )}
                   
