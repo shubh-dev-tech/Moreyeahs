@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import './styles.scss';
 
 interface CloudPlatform {
@@ -67,10 +68,12 @@ const ServiceAcrossMultiBlock: React.FC<ServiceAcrossMultiBlockProps> = ({
             {cloudPlatforms.map((platform, index) => (
               <div key={index} className="sam-platform-badge">
                 {platform.platformIcon && (
-                  <img 
+                  <Image 
                     src={platform.platformIcon.url} 
                     alt={platform.platformIcon.alt || platform.platformName}
                     className="sam-platform-icon"
+                    width={32}
+                    height={32}
                   />
                 )}
                 <span className="sam-platform-name">{platform.platformName}</span>

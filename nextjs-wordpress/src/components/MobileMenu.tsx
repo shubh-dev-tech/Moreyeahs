@@ -134,7 +134,6 @@ function MobileMenuItems({
 export default function MobileMenu({ items, logo, siteName, megaMenus = [] }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<MegaMenuData | null>(null);
-  const [activeMegaCategory, setActiveMegaCategory] = useState<number>(-1);
   const megaMenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const megaMenuMap: Record<string, MegaMenuData> = megaMenus.reduce((acc, menu) => {
@@ -167,7 +166,6 @@ export default function MobileMenu({ items, logo, siteName, megaMenus = [] }: Mo
   const closeMenu = () => {
     setIsOpen(false);
     setActiveMegaMenu(null);
-    setActiveMegaCategory(-1);
   };
 
   const handleMegaMenuHover = (menuKey: string, menuData: MegaMenuData) => {
@@ -175,16 +173,10 @@ export default function MobileMenu({ items, logo, siteName, megaMenus = [] }: Mo
       clearTimeout(megaMenuTimeoutRef.current);
     }
     setActiveMegaMenu(menuData);
-    setActiveMegaCategory(0); // Auto-select first category
   };
 
   const handleMegaMenuLeave = () => {
     setActiveMegaMenu(null);
-    setActiveMegaCategory(-1);
-  };
-
-  const handleCategoryHover = (categoryIndex: number) => {
-    setActiveMegaCategory(categoryIndex);
   };
 
   return (
@@ -296,63 +288,55 @@ export default function MobileMenu({ items, logo, siteName, megaMenus = [] }: Mo
           </div>
         </nav>
 
-        {/* Mega Menu Panel - Rendered outside burger menu */}
-        {activeMegaMenu && (
-          <div 
-            className={`mobile-menu__mega-panel ${activeMegaMenu ? 'visible' : ''}`}
+        {/* Mega Menu Panel - Full width with 5 items per row */}
+        <div 
+          className={`mobile-menu__mega-panel ${activeMegaMenu ? 'visible' : ''}`}
+        >
+          <button 
+            className="mobile-menu__mega-close"
+            onClick={handleMegaMenuLeave}
+            aria-label="Close mega menu"
           >
-            <button 
-              className="mobile-menu__mega-close"
-              onClick={handleMegaMenuLeave}
-              aria-label="Close mega menu"
-            >
-              ×
-            </button>
-            <div className="mobile-menu__mega-sidebar">
+            ×
+          </button>
+          {activeMegaMenu && (
+            <>
+              {/* Main Heading */}
               <div className="mobile-menu__mega-heading">{activeMegaMenu.main_heading}</div>
               
-              <div className="mobile-menu__mega-categories">
-                {activeMegaMenu.categories.map((category, catIndex) => (
-                  <div
-                    key={catIndex}
-                    className={`mobile-menu__mega-category ${activeMegaCategory === catIndex ? 'active' : ''}`}
-                    onMouseEnter={() => handleCategoryHover(catIndex)}
-                  >
-                    {category.icon && <span className="category-icon">{category.icon}</span>}
-                    <span className="category-title">{category.title}</span>
-                    <svg 
-                      width="12" 
-                      height="12" 
-                      viewBox="0 0 12 12" 
-                      fill="none"
-                      className="category-arrow"
-                    >
-                      <path d="M4.5 3L7.5 6L4.5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={`mobile-menu__mega-content ${activeMegaCategory >= 0 ? 'visible' : ''}`}>
-              {activeMegaCategory >= 0 && activeMegaMenu.categories[activeMegaCategory] && (
-                <ul className="mobile-menu__mega-items">
-                  {activeMegaMenu.categories[activeMegaCategory].items.map((megaItem, itemIndex) => (
-                    <li key={itemIndex}>
-                      <Link
-                        href={megaItem.url}
-                        className="mobile-menu__mega-link"
-                        onClick={closeMenu}
-                      >
-                        {megaItem.title}
-                      </Link>
-                    </li>
+              {/* Full Width Content - 5 Items per Row */}
+              <div className="mobile-menu__mega-content">
+                <div className="mobile-menu__mega-all-items">
+                  {activeMegaMenu.categories.map((category, catIndex) => (
+                    category.items && category.items.length > 0 && (
+                      <div key={catIndex} className="mobile-menu__mega-category-section">
+                        {/* Category Header Row */}
+                        <div className="mobile-menu__mega-category-header-row">
+                          <h4 className="mobile-menu__mega-category-title">{category.title}</h4>
+                          <div className="mobile-menu__mega-category-divider"></div>
+                        </div>
+                        
+                        {/* Items in 5-column grid */}
+                        <div className="mobile-menu__mega-items-grid">
+                          {category.items.map((megaItem, itemIndex) => (
+                            <Link
+                              key={itemIndex}
+                              href={megaItem.url}
+                              className="mobile-menu__mega-link"
+                              onClick={closeMenu}
+                            >
+                              {megaItem.title}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )
                   ))}
-                </ul>
-              )}
-            </div>
-          </div>
-        )}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </>
   );
