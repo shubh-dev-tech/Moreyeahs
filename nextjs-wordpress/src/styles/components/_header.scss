@@ -12,9 +12,9 @@
   padding-right: 40px!important;
   z-index: $z-index-header;
   padding: 1.25rem 0;
-  background-color: #ffffff40;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  // background-color: #ffffff40;
+  // backdrop-filter: blur(10px);
+  // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   @include transition(all 0.3s ease);
 
   @include mobile {

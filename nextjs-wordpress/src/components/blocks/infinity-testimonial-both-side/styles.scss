@@ -1,3 +1,5 @@
+@import '../../../styles/variables';
+
 /* Infinity Testimonial Both Side Block Styles */
 .infinity-testimonial-both-side {
   padding: 60px 0;
@@ -171,7 +173,8 @@
   &__quote-icon {
     font-size: 60px;
     color: #667eea;
-    font-family: Georgia, serif;
+    font-family: $font-primary;
+    font-weight: 300;
     line-height: 1;
     margin-bottom: 15px;
     opacity: 0.3;
