@@ -27,7 +27,7 @@ $decoration-opacity: 0.1;
 $section-padding: 4rem 2rem;
 $container-max-width: 1400px;
 $content-gap: 4rem;
-$image-max-width: 600px;
+$image-max-width: 400px;
 
 $heading-size: 3rem;
 $heading-size-mobile: 2rem;
@@ -253,7 +253,7 @@ $transition-speed: 0.3s;
   width: 100%;
   height: auto;
   max-width: $image-max-width;
-  margin-left: auto;
+  margin: auto;
   display: block;
   border-radius: 4px;
 }
