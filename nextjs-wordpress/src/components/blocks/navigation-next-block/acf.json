@@ -61,6 +61,111 @@
       "instructions": "URL for the button",
       "required": 0,
       "default_value": "#"
+    },
+    {
+      "key": "field_navigation_next_background_type",
+      "label": "Background Type",
+      "name": "background_type",
+      "type": "select",
+      "instructions": "Choose between solid color or gradient background",
+      "required": 0,
+      "choices": {
+        "solid": "Solid Color",
+        "gradient": "Linear Gradient"
+      },
+      "default_value": "solid"
+    },
+    {
+      "key": "field_navigation_next_background_color",
+      "label": "Background Color",
+      "name": "background_color",
+      "type": "color_picker",
+      "instructions": "Choose the background color for the block",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_navigation_next_background_type",
+            "operator": "==",
+            "value": "solid"
+          }
+        ]
+      ],
+      "default_value": "#9b4d96"
+    },
+    {
+      "key": "field_navigation_next_gradient_direction",
+      "label": "Gradient Direction",
+      "name": "gradient_direction",
+      "type": "select",
+      "instructions": "Choose the direction of the gradient",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_navigation_next_background_type",
+            "operator": "==",
+            "value": "gradient"
+          }
+        ]
+      ],
+      "choices": {
+        "to right": "Left to Right",
+        "to left": "Right to Left",
+        "to bottom": "Top to Bottom",
+        "to top": "Bottom to Top",
+        "to bottom right": "Top Left to Bottom Right",
+        "to bottom left": "Top Right to Bottom Left",
+        "to top right": "Bottom Left to Top Right",
+        "to top left": "Bottom Right to Top Left",
+        "45deg": "45 Degrees",
+        "135deg": "135 Degrees"
+      },
+      "default_value": "to right"
+    },
+    {
+      "key": "field_navigation_next_gradient_colors",
+      "label": "Gradient Colors",
+      "name": "gradient_colors",
+      "type": "repeater",
+      "instructions": "Add gradient color stops (minimum 2 colors required)",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_navigation_next_background_type",
+            "operator": "==",
+            "value": "gradient"
+          }
+        ]
+      ],
+      "min": 2,
+      "max": 5,
+      "layout": "table",
+      "button_label": "Add Color Stop",
+      "sub_fields": [
+        {
+          "key": "field_navigation_next_gradient_color",
+          "label": "Color",
+          "name": "color",
+          "type": "color_picker",
+          "instructions": "Choose a color for this gradient stop",
+          "required": 1,
+          "default_value": "#9b4d96"
+        },
+        {
+          "key": "field_navigation_next_gradient_position",
+          "label": "Position (%)",
+          "name": "position",
+          "type": "number",
+          "instructions": "Position of this color stop (0-100%)",
+          "required": 0,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "placeholder": "Auto"
+        }
+      ]
     }
   ],
   "location": [

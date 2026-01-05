@@ -50,12 +50,13 @@ if (!empty($block['align'])) {
         </div>
         <?php endif; ?>
 
-        <!-- Main Content with Background Image and Testimonial -->
+        <!-- Main Content with Background Image and Testimonial Slider -->
         <div class="testimonial-block__main-content">
             <?php if ($background_image): ?>
             <div class="testimonial-block__background">
                 <img src="<?php echo esc_url($background_image['url']); ?>" 
                      alt="<?php echo esc_attr($background_image['alt']); ?>">
+                <div class="testimonial-block__background-overlay"></div>
             </div>
             <?php endif; ?>
 
@@ -66,45 +67,68 @@ if (!empty($block['align'])) {
             <?php endif; ?>
 
             <?php if ($testimonials): ?>
-            <div class="testimonial-block__slider">
-                <?php foreach ($testimonials as $index => $testimonial): ?>
-                <div class="testimonial-block__slide" data-slide="<?php echo $index; ?>" style="<?php echo $index === 0 ? 'display: block;' : 'display: none;'; ?>">
-                    <div class="testimonial-block__quote-label">WHAT OUR PEOPLE SAY</div>
-                    
-                    <div class="testimonial-block__content-wrapper">
-                        <?php if (!empty($testimonial['author_image'])): ?>
-                        <div class="testimonial-block__image">
-                            <img src="<?php echo esc_url($testimonial['author_image']['url']); ?>" 
-                                 alt="<?php echo esc_attr($testimonial['author_image']['alt']); ?>" 
-                                 width="60" 
-                                 height="60">
-                        </div>
-                        <?php endif; ?>
-                        
-                        <div class="testimonial-block__content">
+            <div class="testimonial-block__slider-container">
+                <div class="testimonial-block__slider">
+                    <?php foreach ($testimonials as $index => $testimonial): ?>
+                    <div class="testimonial-block__slide" data-slide="<?php echo $index; ?>" style="<?php echo $index === 0 ? 'display: block;' : 'display: none;'; ?>">
+                        <div class="testimonial-block__card">
                             <?php if (!empty($testimonial['quote'])): ?>
-                                <p class="testimonial-block__quote-heading">"<?php echo esc_html($testimonial['quote']); ?>"</p>
+                                <div class="testimonial-block__quote">
+                                    <?php echo esc_html($testimonial['quote']); ?>
+                                </div>
                             <?php endif; ?>
                             
-                            <?php if (!empty($testimonial['author_name'])): ?>
-                                <p class="testimonial-block__author">
-                                    - <?php echo esc_html($testimonial['author_name']); ?>
-                                    <?php if (!empty($testimonial['author_title'])): ?>
-                                        <span><?php echo esc_html($testimonial['author_title']); ?></span>
+                            <div class="testimonial-block__author-section">
+                                <?php if (!empty($testimonial['author_image'])): ?>
+                                <div class="testimonial-block__author-image">
+                                    <img src="<?php echo esc_url($testimonial['author_image']['url']); ?>" 
+                                         alt="<?php echo esc_attr($testimonial['author_image']['alt']); ?>">
+                                </div>
+                                <?php endif; ?>
+                                
+                                <div class="testimonial-block__author-info">
+                                    <?php if (!empty($testimonial['author_name'])): ?>
+                                        <div class="testimonial-block__author-name">
+                                            <?php echo esc_html($testimonial['author_name']); ?>
+                                        </div>
                                     <?php endif; ?>
-                                </p>
-                            <?php endif; ?>
+                                    
+                                    <?php if (!empty($testimonial['author_title'])): ?>
+                                        <div class="testimonial-block__author-title">
+                                            <?php echo esc_html($testimonial['author_title']); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <?php endforeach; ?>
                 </div>
-                <?php endforeach; ?>
 
                 <?php if (count($testimonials) > 1): ?>
-                <div class="testimonial-block__dots">
-                    <?php foreach ($testimonials as $index => $testimonial): ?>
-                    <button class="testimonial-block__dot <?php echo $index === 0 ? 'testimonial-block__dot--active' : ''; ?>" 
-                            onclick="testimonialGoToSlide('<?php echo esc_attr($block_id); ?>', <?php echo $index; ?>)"></button>
-                    <?php endforeach; ?>
+                <div class="testimonial-block__navigation">
+                    <button class="testimonial-block__nav-btn testimonial-block__nav-prev" 
+                            onclick="testimonialPrevSlide('<?php echo esc_attr($block_id); ?>')">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button class="testimonial-block__nav-btn testimonial-block__nav-next" 
+                            onclick="testimonialNextSlide('<?php echo esc_attr($block_id); ?>')">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="testimonial-block__progress">
+                    <div class="testimonial-block__progress-dots">
+                        <?php foreach ($testimonials as $index => $testimonial): ?>
+                        <button class="testimonial-block__progress-dot <?php echo $index === 0 ? 'testimonial-block__progress-dot--active' : ''; ?>" 
+                                onclick="testimonialGoToSlide('<?php echo esc_attr($block_id); ?>', <?php echo $index; ?>)"
+                                aria-label="Go to testimonial <?php echo $index + 1; ?>"></button>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
                 <?php endif; ?>
             </div>
@@ -132,41 +156,131 @@ if (!empty($block['align'])) {
     const blockId = '<?php echo esc_js($block_id); ?>';
     let currentSlide = 0;
     const totalSlides = <?php echo count($testimonials); ?>;
+    let autoplayInterval;
+    let isAutoplayPaused = false;
 
-    window.testimonialNextSlide = function(id) {
-        if (id !== blockId) return;
+    // Initialize autoplay
+    function startAutoplay() {
+        if (totalSlides <= 1) return;
+        
+        autoplayInterval = setInterval(() => {
+            if (!isAutoplayPaused) {
+                nextSlide();
+            }
+        }, 5000); // Change slide every 5 seconds
+    }
+
+    function stopAutoplay() {
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+        }
+    }
+
+    function pauseAutoplay() {
+        isAutoplayPaused = true;
+    }
+
+    function resumeAutoplay() {
+        isAutoplayPaused = false;
+    }
+
+    function nextSlide() {
         currentSlide = (currentSlide + 1) % totalSlides;
         updateSlide();
+    }
+
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateSlide();
+    }
+
+    // Global functions for external access
+    window.testimonialNextSlide = function(id) {
+        if (id !== blockId) return;
+        pauseAutoplay();
+        nextSlide();
+        setTimeout(resumeAutoplay, 10000); // Resume autoplay after 10 seconds
     };
 
     window.testimonialPrevSlide = function(id) {
         if (id !== blockId) return;
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        updateSlide();
+        pauseAutoplay();
+        prevSlide();
+        setTimeout(resumeAutoplay, 10000); // Resume autoplay after 10 seconds
     };
 
     window.testimonialGoToSlide = function(id, index) {
         if (id !== blockId) return;
+        pauseAutoplay();
         currentSlide = index;
         updateSlide();
+        setTimeout(resumeAutoplay, 10000); // Resume autoplay after 10 seconds
     };
 
     function updateSlide() {
         const block = document.getElementById(blockId);
+        if (!block) return;
+        
         const slides = block.querySelectorAll('.testimonial-block__slide');
-        const dots = block.querySelectorAll('.testimonial-block__dot');
+        const progressDots = block.querySelectorAll('.testimonial-block__progress-dot');
 
         slides.forEach((slide, index) => {
-            slide.style.display = index === currentSlide ? 'flex' : 'none';
+            if (index === currentSlide) {
+                slide.style.display = 'block';
+                slide.style.opacity = '0';
+                slide.style.transform = 'translateX(20px)';
+                
+                // Animate in
+                setTimeout(() => {
+                    slide.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    slide.style.opacity = '1';
+                    slide.style.transform = 'translateX(0)';
+                }, 10);
+            } else {
+                slide.style.display = 'none';
+                slide.style.opacity = '0';
+                slide.style.transform = 'translateX(0)';
+            }
         });
 
-        dots.forEach((dot, index) => {
+        // Update progress dots
+        progressDots.forEach((dot, index) => {
             if (index === currentSlide) {
-                dot.classList.add('testimonial-block__dot--active');
+                dot.classList.add('testimonial-block__progress-dot--active');
             } else {
-                dot.classList.remove('testimonial-block__dot--active');
+                dot.classList.remove('testimonial-block__progress-dot--active');
             }
         });
     }
+
+    // Add hover pause/resume functionality
+    function initHoverControls() {
+        const block = document.getElementById(blockId);
+        if (!block) return;
+
+        const sliderContainer = block.querySelector('.testimonial-block__slider-container');
+        if (sliderContainer) {
+            sliderContainer.addEventListener('mouseenter', pauseAutoplay);
+            sliderContainer.addEventListener('mouseleave', resumeAutoplay);
+        }
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                initHoverControls();
+                startAutoplay();
+            }, 100);
+        });
+    } else {
+        setTimeout(() => {
+            initHoverControls();
+            startAutoplay();
+        }, 100);
+    }
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', stopAutoplay);
 })();
 </script>

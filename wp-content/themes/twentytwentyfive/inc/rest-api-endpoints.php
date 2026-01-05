@@ -560,6 +560,60 @@ function transform_navigation_next_block_data($data) {
         $data['regions'] = array_values($data['regions']);
     }
     
+    // Transform gradient colors if present
+    if (isset($data['gradient_colors']) && is_numeric($data['gradient_colors'])) {
+        $gradient_colors_count = intval($data['gradient_colors']);
+        $gradient_colors = [];
+        
+        for ($i = 0; $i < $gradient_colors_count; $i++) {
+            $color_key = "gradient_colors_{$i}_color";
+            $position_key = "gradient_colors_{$i}_position";
+            
+            if (isset($data[$color_key])) {
+                $gradient_color = [
+                    'color' => $data[$color_key]
+                ];
+                
+                if (isset($data[$position_key]) && !empty($data[$position_key])) {
+                    $gradient_color['position'] = intval($data[$position_key]);
+                }
+                
+                $gradient_colors[] = $gradient_color;
+            }
+        }
+        
+        $data['gradient_colors'] = $gradient_colors;
+        
+        // Clean up flattened keys
+        for ($i = 0; $i < $gradient_colors_count; $i++) {
+            unset($data["gradient_colors_{$i}_color"]);
+            unset($data["gradient_colors_{$i}_position"]);
+            unset($data["_gradient_colors_{$i}_color"]);
+            unset($data["_gradient_colors_{$i}_position"]);
+        }
+    }
+    // Handle gradient_colors array that's already structured
+    elseif (isset($data['gradient_colors']) && is_array($data['gradient_colors'])) {
+        // Gradient colors are already structured, ensure proper format
+        foreach ($data['gradient_colors'] as $index => $gradient_color) {
+            if (!isset($gradient_color['color'])) {
+                // Remove invalid gradient colors
+                unset($data['gradient_colors'][$index]);
+            }
+        }
+        // Re-index array to remove gaps
+        $data['gradient_colors'] = array_values($data['gradient_colors']);
+    }
+    
+    // Ensure background fields are properly included
+    $background_fields = ['background_type', 'background_color', 'gradient_direction'];
+    foreach ($background_fields as $field) {
+        if (isset($data[$field])) {
+            // Field is already present, keep it as is
+            continue;
+        }
+    }
+    
     return $data;
 }
 
