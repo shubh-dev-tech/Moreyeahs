@@ -1,5 +1,5 @@
 .navigation-next-block {
-  background: #9b4d96;
+  /* Background color now set dynamically via inline styles */
   padding: 60px 20px;
   color: white;
   display: flex;
@@ -30,7 +30,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #9b4d96;
+  /* Background color now set dynamically via inline styles */
   text-decoration: none;
   color: white;
   overflow: hidden;
@@ -45,11 +45,6 @@
 
 .navigation-next-block__region:nth-child(n + 3) {
   border-bottom: none;
-}
-
-.navigation-next-block__region:hover {
-  background: #d0b5d5;
-  color: #fff;
 }
 
 .navigation-next-block__region:hover .navigation-next-block__region-name {
@@ -74,7 +69,9 @@
   align-items: flex-start;
   justify-content: center;
   padding: 60px 80px;
-  background: #9b4d96;
+  background: transparent; /* Remove background, let parent background show through */
+  /* Or use a different background color: */
+  /* background: rgba(255, 255, 255, 0.1); /* Semi-transparent white overlay */
 }
 
 .navigation-next-block__heading {

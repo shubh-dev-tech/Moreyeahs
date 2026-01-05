@@ -47,6 +47,29 @@
             "new_lines": ""
         },
         {
+            "key": "field_counter_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the background color for the counter block",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffffff",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "show_in_graphql": 1,
+            "graphql_field_name": "backgroundColor",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
             "key": "field_counter_counters",
             "label": "Counters",
             "name": "counters",
@@ -184,5 +207,5 @@
     "description": "A block to display statistics and counters with heading and sub-heading",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1764914742
+    "modified": 1767597253
 }

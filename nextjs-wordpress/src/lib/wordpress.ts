@@ -269,3 +269,69 @@ export async function getMegaMenus(): Promise<MegaMenuData[]> {
 
 // Export environment utilities for use in components
 export { transformMediaUrl, transformWordPressUrl, getWordPressUrl, getWordPressApiUrl } from './environment';
+
+// Posts with ACF blocks API functions
+export interface PostWithACFBlocks {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  blocks: any[];
+  acf_fields: Record<string, any> | null;
+}
+
+export async function getPostWithACFBlocks(postId: number): Promise<PostWithACFBlocks | null> {
+  try {
+    const apiUrl = getWordPressApiUrl();
+    const url = `${apiUrl}/wp/v2/posts-with-acf-blocks/${postId}`;
+    
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      },
+      next: { revalidate: 3600 },
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const post = await response.json();
+    return post;
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(`Failed to fetch post with ACF blocks (ID: ${postId}):`, error instanceof Error ? error.message : 'Unknown error');
+    }
+    return null;
+  }
+}
+
+export async function getPageWithACFBlocks(slug: string): Promise<PostWithACFBlocks | null> {
+  try {
+    const apiUrl = getWordPressApiUrl();
+    const url = `${apiUrl}/wp/v2/pages-with-blocks/${slug}`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({}),
+      next: { revalidate: 3600 },
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const page = await response.json();
+    return page;
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(`Failed to fetch page with ACF blocks (slug: ${slug}):`, error instanceof Error ? error.message : 'Unknown error');
+    }
+    return null;
+  }
+}

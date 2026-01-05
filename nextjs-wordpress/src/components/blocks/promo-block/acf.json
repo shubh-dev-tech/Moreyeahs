@@ -52,6 +52,71 @@
       "required": 0,
       "default_value": "",
       "placeholder": "https://example.com"
+    },
+    {
+      "key": "field_promo_reverse_layout",
+      "label": "Reverse Layout",
+      "name": "reverse_layout",
+      "type": "true_false",
+      "instructions": "Enable to reverse the layout (content on right, image on left)",
+      "required": 0,
+      "default_value": 0,
+      "ui": 1,
+      "ui_on_text": "Reversed",
+      "ui_off_text": "Normal"
+    },
+    {
+      "key": "field_promo_background_size",
+      "label": "Background Size",
+      "name": "background_size",
+      "type": "select",
+      "instructions": "Choose how the background image should be sized",
+      "required": 0,
+      "choices": {
+        "contain": "Contain (Default)",
+        "cover": "Cover",
+        "auto": "Auto"
+      },
+      "default_value": "contain",
+      "allow_null": 0,
+      "multiple": 0,
+      "ui": 0,
+      "return_format": "value"
+    },
+    {
+      "key": "field_promo_background_color",
+      "label": "Background Color",
+      "name": "background_color",
+      "type": "color_picker",
+      "instructions": "Choose a background color (default: #131A4E)",
+      "required": 0,
+      "default_value": "#131A4E",
+      "enable_opacity": 1,
+      "return_format": "string"
+    },
+    {
+      "key": "field_promo_min_height",
+      "label": "Minimum Height (px)",
+      "name": "min_height",
+      "type": "number",
+      "instructions": "Set the minimum height in pixels (default: 400)",
+      "required": 0,
+      "default_value": 400,
+      "min": 200,
+      "max": 800,
+      "step": 50
+    },
+    {
+      "key": "field_promo_padding",
+      "label": "Content Padding (px)",
+      "name": "content_padding",
+      "type": "number",
+      "instructions": "Set the content padding in pixels (default: 60)",
+      "required": 0,
+      "default_value": 60,
+      "min": 20,
+      "max": 120,
+      "step": 10
     }
   ],
   "location": [

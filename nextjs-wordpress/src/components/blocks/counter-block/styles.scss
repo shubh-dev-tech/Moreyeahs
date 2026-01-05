@@ -1,6 +1,6 @@
 .counter-block {
-  padding: 100px 20px !important;
-  background-color: #fff !important;
+  padding: 60px 20px !important;
+  /* Background color will be set via inline styles */
   width: 100%;
 
   &__container {
@@ -28,11 +28,11 @@
     // Decorative lines above heading
     &::before {
       content: '' !important;
-      display: block !important;
-      width: 60px !important;
-      height: 2px !important;
-      background: linear-gradient(90deg, #ddd 0%, #ddd 20%, transparent 20%, transparent 40%, #ddd 40%, #ddd 60%, transparent 60%, transparent 80%, #ddd 80%, #ddd 100%) !important;
-      margin: 0 auto 20px !important;
+      // display: block !important;
+      // width: 60px !important;
+      // height: 2px !important;
+      // background: linear-gradient(90deg, #ddd 0%, #ddd 20%, transparent 20%, transparent 40%, #ddd 40%, #ddd 60%, transparent 60%, transparent 80%, #ddd 80%, #ddd 100%) !important;
+      // margin: 0 auto 20px !important;
     }
 
     @media (max-width: 768px) {

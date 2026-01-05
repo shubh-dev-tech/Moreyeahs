@@ -1,0 +1,153 @@
+{
+    "key": "group_purpose_right_block",
+    "title": "Purpose Right Block",
+    "fields": [
+        {
+            "key": "field_purpose_right_heading",
+            "label": "Heading",
+            "name": "heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the main heading text",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "Our Purpose",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_purpose_right_sub_heading",
+            "label": "Sub Heading",
+            "name": "sub_heading",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Enter the sub heading\/description text",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "To amplify human potential and create the next opportunity for people, businesses and communities",
+            "rows": 3,
+            "new_lines": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_purpose_right_background_image",
+            "label": "Background Image",
+            "name": "background_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Upload a background image for the section",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0,
+            "mime_types": ""
+        },
+        {
+            "key": "field_purpose_right_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose a background color (will be used as overlay or fallback)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#1a1a2e",
+            "enable_opacity": true,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_purpose_right_reverse_layout",
+            "label": "Reverse Layout",
+            "name": "reverse_layout",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Enable to move content to the left side instead of right",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "Left Side",
+            "ui_off_text": "Right Side",
+            "message": ""
+        },
+        {
+            "key": "field_purpose_right_text_color",
+            "label": "Text Color",
+            "name": "text_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the text color",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffffff",
+            "enable_opacity": false,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/purpose-right-block"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [],
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "modified": 1767337782
+}
