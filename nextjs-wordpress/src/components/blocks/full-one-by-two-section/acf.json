@@ -1,0 +1,132 @@
+{
+  "key": "group_full_one_by_two_section",
+  "title": "Full One by Two Section",
+  "fields": [
+    {
+      "key": "field_fobt_heading",
+      "label": "Main Heading",
+      "name": "heading",
+      "type": "text",
+      "instructions": "Enter the main heading for the section",
+      "required": 1,
+      "default_value": "",
+      "placeholder": "From Processes to Power Moves"
+    },
+    {
+      "key": "field_fobt_sub_heading",
+      "label": "Sub Heading",
+      "name": "sub_heading",
+      "type": "textarea",
+      "instructions": "Enter the sub heading text below the main heading",
+      "required": 0,
+      "default_value": "",
+      "placeholder": "We replace fragmented workflows and manual dependencies with intelligent, scalable digital systems.",
+      "rows": 3
+    },
+    {
+      "key": "field_fobt_highlight_text",
+      "label": "Highlight Text",
+      "name": "highlight_text",
+      "type": "text",
+      "instructions": "Enter text that will be highlighted (optional)",
+      "required": 0,
+      "default_value": "",
+      "placeholder": "Highlights"
+    },
+    {
+      "key": "field_fobt_highlight_points",
+      "label": "Highlight Points",
+      "name": "highlight_points",
+      "type": "repeater",
+      "instructions": "Add highlight points or bullet items",
+      "required": 0,
+      "layout": "table",
+      "min": 0,
+      "max": 10,
+      "button_label": "Add Highlight Point",
+      "sub_fields": [
+        {
+          "key": "field_fobt_point_text",
+          "label": "Point Text",
+          "name": "point_text",
+          "type": "text",
+          "instructions": "Enter the highlight point text",
+          "required": 1,
+          "default_value": "",
+          "placeholder": "Faster time to market"
+        }
+      ]
+    },
+    {
+      "key": "field_fobt_button_text",
+      "label": "Button Text",
+      "name": "button_text",
+      "type": "text",
+      "instructions": "Enter the text for the call to action button (optional)",
+      "required": 0,
+      "default_value": "",
+      "placeholder": "See How"
+    },
+    {
+      "key": "field_fobt_button_link",
+      "label": "Button Link",
+      "name": "button_link",
+      "type": "url",
+      "instructions": "Enter the URL for the button (optional)",
+      "required": 0,
+      "default_value": "",
+      "placeholder": "https://example.com"
+    },
+    {
+      "key": "field_fobt_main_image",
+      "label": "Main Image",
+      "name": "main_image",
+      "type": "image",
+      "instructions": "Upload the main image that will cover half of the section",
+      "required": 1,
+      "return_format": "array",
+      "preview_size": "medium",
+      "library": "all"
+    },
+    {
+      "key": "field_fobt_reverse_layout",
+      "label": "Reverse Layout",
+      "name": "reverse_layout",
+      "type": "true_false",
+      "instructions": "Enable to place image on the left and content on the right",
+      "required": 0,
+      "message": "Reverse layout (Image Left, Content Right)",
+      "default_value": 0,
+      "ui": 1
+    },
+    {
+      "key": "field_fobt_background_color",
+      "label": "Background Color",
+      "name": "background_color",
+      "type": "color_picker",
+      "instructions": "Choose a background color for the section",
+      "required": 0,
+      "default_value": "#1a5f4f",
+      "return_format": "string"
+    },
+    {
+      "key": "field_fobt_text_color",
+      "label": "Text Color",
+      "name": "text_color",
+      "type": "color_picker",
+      "instructions": "Choose the text color for the content",
+      "required": 0,
+      "default_value": "#ffffff",
+      "return_format": "string"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/full-one-by-two-section"
+      }
+    ]
+  ]
+}
