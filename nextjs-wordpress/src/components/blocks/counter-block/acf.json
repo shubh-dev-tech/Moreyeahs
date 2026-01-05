@@ -47,6 +47,26 @@
             "new_lines": ""
         },
         {
+            "key": "field_counter_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the background color for the counter block",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffffff",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "show_in_graphql": 1,
+            "graphql_field_name": "backgroundColor"
+        },
+        {
             "key": "field_counter_counters",
             "label": "Counters",
             "name": "counters",

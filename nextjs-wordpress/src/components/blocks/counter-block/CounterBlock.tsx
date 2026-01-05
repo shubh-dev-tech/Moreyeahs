@@ -13,6 +13,7 @@ interface CounterBlockProps {
     heading?: string;
     sub_heading?: string;
     counters?: CounterItem[];
+    background_color?: string;
   };
 }
 
@@ -20,7 +21,8 @@ export default function CounterBlock({ data }: CounterBlockProps) {
   const {
     heading,
     sub_heading,
-    counters
+    counters,
+    background_color
   } = data || {};
 
   if (!heading && !sub_heading && (!counters || counters.length === 0)) {
@@ -28,9 +30,16 @@ export default function CounterBlock({ data }: CounterBlockProps) {
   }
 
   const blockId = `counter-block-${Math.random().toString(36).substring(2, 9)}`;
+  
+  // Set default background color if not specified
+  const backgroundColor = background_color || '#ffffff';
+  
+  const blockStyles = {
+    backgroundColor: backgroundColor
+  };
 
   return (
-    <section id={blockId} className="counter-block">
+    <section id={blockId} className="counter-block" style={blockStyles}>
       <div className="counter-block__container">
         {(heading || sub_heading) && (
           <div className="counter-block__header">
