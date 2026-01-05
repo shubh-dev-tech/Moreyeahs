@@ -77,8 +77,11 @@ add_action('after_setup_theme', 'twentytwentyfive_child_copy_acf_fields');
 function twentytwentyfive_child_include_parent_functions() {
     $parent_inc_path = get_template_directory() . '/inc';
     
-    // Include ACF blocks functionality
-    if (file_exists($parent_inc_path . '/acf-blocks.php')) {
+    // Include ACF blocks functionality from child theme
+    $child_acf_blocks = get_stylesheet_directory() . '/inc/acf-blocks.php';
+    if (file_exists($child_acf_blocks)) {
+        require_once $child_acf_blocks;
+    } elseif (file_exists($parent_inc_path . '/acf-blocks.php')) {
         require_once $parent_inc_path . '/acf-blocks.php';
     }
     
@@ -192,12 +195,91 @@ function twentytwentyfive_child_include_parent_functions() {
                 
                 $blocks = parse_blocks($page->post_content);
                 
+                // Process ACF blocks to include field data
+                $processed_blocks = [];
+                foreach ($blocks as $block) {
+                    if (strpos($block['blockName'], 'acf/') === 0) {
+                        // This is an ACF block - get the field data
+                        $block_id = $block['attrs']['id'] ?? null;
+                        if ($block_id && function_exists('get_fields')) {
+                            $acf_fields = get_fields($page->ID);
+                            if ($acf_fields) {
+                                $block['attrs']['data'] = $acf_fields;
+                            }
+                        }
+                    }
+                    $processed_blocks[] = $block;
+                }
+                
                 return rest_ensure_response([
                     'id' => $page->ID,
                     'title' => $page->post_title,
                     'slug' => $page->post_name,
                     'content' => $page->post_content,
-                    'blocks' => $blocks
+                    'blocks' => $processed_blocks
+                ]);
+            },
+            'permission_callback' => '__return_true'
+        ]);
+        
+        // Posts with ACF blocks endpoint
+        register_rest_route('wp/v2', '/posts-with-acf-blocks/(?P<id>\d+)', [
+            'methods' => 'GET',
+            'callback' => function($request) {
+                $post_id = $request['id'];
+                $post = get_post($post_id);
+                
+                if (!$post) {
+                    return new WP_Error('post_not_found', 'Post not found', ['status' => 404]);
+                }
+                
+                $blocks = parse_blocks($post->post_content);
+                
+                // Process ACF blocks to include field data
+                $processed_blocks = [];
+                foreach ($blocks as $block) {
+                    if (strpos($block['blockName'], 'acf/') === 0) {
+                        // This is an ACF block - get all ACF fields for the post
+                        if (function_exists('get_fields')) {
+                            $acf_fields = get_fields($post_id);
+                            if ($acf_fields && is_array($acf_fields)) {
+                                // Process the fields to ensure proper data types
+                                $processed_fields = [];
+                                foreach ($acf_fields as $field_name => $value) {
+                                    // Handle different field types
+                                    if (is_array($value) && isset($value['ID'])) {
+                                        // This is likely an image field - convert to consistent format
+                                        $image_data = wp_get_attachment_image_src($value['ID'], 'full');
+                                        if ($image_data) {
+                                            $processed_fields[$field_name] = [
+                                                'id' => intval($value['ID']),
+                                                'url' => $image_data[0],
+                                                'width' => intval($image_data[1]),
+                                                'height' => intval($image_data[2]),
+                                                'alt' => $value['alt'] ?? ''
+                                            ];
+                                        } else {
+                                            $processed_fields[$field_name] = $value;
+                                        }
+                                    } else {
+                                        // For all other field types, use as-is
+                                        $processed_fields[$field_name] = $value;
+                                    }
+                                }
+                                $block['attrs']['data'] = $processed_fields;
+                            }
+                        }
+                    }
+                    $processed_blocks[] = $block;
+                }
+                
+                return rest_ensure_response([
+                    'id' => $post->ID,
+                    'title' => $post->post_title,
+                    'slug' => $post->post_name,
+                    'content' => $post->post_content,
+                    'blocks' => $processed_blocks,
+                    'acf_fields' => function_exists('get_fields') ? get_fields($post_id) : null
                 ]);
             },
             'permission_callback' => '__return_true'
@@ -291,20 +373,24 @@ add_action('after_setup_theme', 'twentytwentyfive_child_include_parent_functions
  * This ensures field groups are managed in the child theme
  */
 function twentytwentyfive_child_acf_json_load_point($paths) {
-    // Remove original path
+    // Remove original path to prevent duplicates
     unset($paths[0]);
     
-    // Add child theme path
+    // Add child theme path first (highest priority)
     $paths[] = get_stylesheet_directory() . '/acf-json';
     
-    // Add parent theme path as fallback
-    $paths[] = get_template_directory() . '/acf-json';
+    // Add parent theme path as fallback only if child theme doesn't have the file
+    $parent_path = get_template_directory() . '/acf-json';
+    if (is_dir($parent_path)) {
+        $paths[] = $parent_path;
+    }
     
     return $paths;
 }
 add_filter('acf/settings/load_json', 'twentytwentyfive_child_acf_json_load_point');
 
 function twentytwentyfive_child_acf_json_save_point($path) {
+    // Always save to child theme
     return get_stylesheet_directory() . '/acf-json';
 }
 add_filter('acf/settings/save_json', 'twentytwentyfive_child_acf_json_save_point');
@@ -408,6 +494,27 @@ function add_acf_to_case_study_rest() {
     ));
 }
 add_action('rest_api_init', 'add_acf_to_case_study_rest');
+
+/**
+ * Add ACF fields to REST API for all post types
+ */
+function add_acf_to_rest_api() {
+    if (!function_exists('get_fields')) {
+        return;
+    }
+    
+    $post_types = get_post_types(['public' => true], 'names');
+    
+    foreach ($post_types as $post_type) {
+        register_rest_field($post_type, 'acf_fields', array(
+            'get_callback' => function($post) {
+                return get_fields($post['id']);
+            },
+            'schema' => null,
+        ));
+    }
+}
+add_action('rest_api_init', 'add_acf_to_rest_api');
 
 /**
  * Register Child Theme Specific ACF Blocks
@@ -762,6 +869,46 @@ function twentytwentyfive_child_register_acf_blocks() {
                     'text_alignment'  => 'center',
                     'background_color' => '#1a1a2e',
                     'overlay_opacity' => 0.7,
+                ),
+            ),
+        ),
+    ));
+
+    // Full One by Two Section Block
+    acf_register_block_type(array(
+        'name'              => 'full-one-by-two-section',
+        'title'             => __('Full One by Two Section', 'twentytwentyfive'),
+        'description'       => __('Full-width section with content on one half and image on the other half, with reverse layout option', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'columns',
+        'keywords'          => array('full', 'one', 'two', 'section', 'image', 'content', 'reverse', 'layout', 'highlights'),
+        'render_template'   => 'blocks/full-one-by-two-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/full-one-by-two-section/style.css',
+        'enqueue_script'    => '',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading'         => 'From Processes to Power Moves',
+                    'sub_heading'     => 'We replace fragmented workflows and manual dependencies with intelligent, scalable digital systems.',
+                    'highlight_text'  => 'Highlights',
+                    'highlight_points' => array(
+                        array('point_text' => 'Faster time to market'),
+                        array('point_text' => 'Lower operational risk'),
+                        array('point_text' => 'Predictable scalability'),
+                        array('point_text' => 'Data-focused decisions'),
+                    ),
+                    'button_text'     => 'See How',
+                    'button_link'     => '#',
+                    'background_color' => '#1a5f4f',
+                    'text_color'      => '#ffffff',
+                    'reverse_layout'  => false,
                 ),
             ),
         ),
