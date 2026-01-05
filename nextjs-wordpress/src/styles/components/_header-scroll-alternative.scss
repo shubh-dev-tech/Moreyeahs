@@ -1,0 +1,90 @@
+// Alternative CSS-only approach using scroll-driven animations (experimental)
+// This requires modern browser support for scroll-driven animations
+
+@supports (animation-timeline: scroll()) {
+  .header {
+    animation: header-scroll linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0px 200px;
+  }
+
+  .header__menu {
+    animation: menu-hide linear both;
+    animation-timeline: scroll(root);
+    animation-range: 100px 200px;
+  }
+
+  @keyframes header-scroll {
+    0% {
+      background-color: transparent;
+      backdrop-filter: blur(0px);
+      box-shadow: none;
+    }
+    100% {
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  @keyframes menu-hide {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+  }
+}
+
+// Fallback for browsers that don't support scroll-driven animations
+@supports not (animation-timeline: scroll()) {
+  // Use the JavaScript approach as fallback
+  .header__menu {
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+
+    &--hidden {
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  .header {
+    transition: all 0.3s ease;
+
+    &--scrolled {
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+      .header__logo {
+        color: $color-text;
+        text-shadow: none;
+      }
+
+      .header__logo-image {
+        filter: none;
+      }
+
+      .header__menu a {
+        color: $color-text;
+        text-shadow: none;
+      }
+
+      .header__search-btn {
+        color: $color-text;
+        text-shadow: none;
+      }
+
+      .hamburger-line {
+        background-color: $color-text;
+        box-shadow: none;
+      }
+    }
+  }
+}

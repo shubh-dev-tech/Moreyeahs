@@ -651,6 +651,121 @@ function twentytwentyfive_child_register_acf_blocks() {
             ),
         ),
     ));
+
+    // Text Image Alternating Block
+    acf_register_block_type(array(
+        'name'              => 'text-image-alternating-block',
+        'title'             => __('Text Image Alternating Block', 'twentytwentyfive'),
+        'description'       => __('Dynamic block with background image, heading, subheading, and alternating text-image content sections', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'align-pull-left',
+        'keywords'          => array('text', 'image', 'alternating', 'dynamic', 'content', 'sections'),
+        'render_template'   => 'blocks/text-image-alternating-block/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/text-image-alternating-block/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'main_heading' => 'What "We Mean Solution" Really Means',
+                    'main_subheading' => 'Every solution we build is accountable to performance, scalability and business value.',
+                    'content_sections' => array(
+                        array(
+                            'text_content' => 'We don\'t sell technology — we solve business problems.',
+                            'layout_type' => 'text-left',
+                        ),
+                        array(
+                            'text_content' => 'We design for outcomes, not just delivery.',
+                            'layout_type' => 'text-right',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ));
+
+    // Service Details Section Block
+    acf_register_block_type(array(
+        'name'              => 'service-details-section',
+        'title'             => __('Service Details Section', 'twentytwentyfive'),
+        'description'       => __('Display services in a responsive grid with icons, titles, descriptions, and customizable background', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'grid-view',
+        'keywords'          => array('service', 'details', 'grid', 'responsive', 'icons', 'solutions'),
+        'render_template'   => 'blocks/service-details-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/service-details-section/style.css',
+        'enqueue_script'    => '',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading'     => 'What We Mean by Solutions',
+                    'sub_heading' => 'We bring you powerful advantages to navigate your digital transformation',
+                    'background_color' => '#f8f9fa',
+                    'grid_columns' => '3',
+                    'services'    => array(
+                        array(
+                            'service_title' => 'Data Science & AI',
+                            'service_description' => "• AI/ML models\n• Computer vision\n• Predictive analytics\n• Data visualization",
+                        ),
+                        array(
+                            'service_title' => 'Data Engineering',
+                            'service_description' => "• Cloud data pipelines\n• Modern data platforms\n• Real-time analytics",
+                        ),
+                        array(
+                            'service_title' => 'DevOps & Cloud Engineering',
+                            'service_description' => "• CI/CD\n• Cloud migration\n• Infrastructure automation",
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ));
+
+    // Call to Action Section Block
+    acf_register_block_type(array(
+        'name'              => 'call-to-action-section',
+        'title'             => __('Call to Action Section', 'twentytwentyfive'),
+        'description'       => __('Display a call to action with customizable background, heading, subheading, and button with particle effects', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'megaphone',
+        'keywords'          => array('cta', 'call to action', 'button', 'banner', 'hero', 'particles'),
+        'render_template'   => 'blocks/call-to-action-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/call-to-action-section/style.css',
+        'enqueue_script'    => '',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading'         => 'Let\'s Solve What\'s Next',
+                    'sub_heading'     => 'Tell us your challenge. We\'ll design the solution.',
+                    'button_text'     => 'Talk to Our Experts',
+                    'button_link'     => '#contact',
+                    'button_style'    => 'primary',
+                    'text_alignment'  => 'center',
+                    'background_color' => '#1a1a2e',
+                    'overlay_opacity' => 0.7,
+                ),
+            ),
+        ),
+    ));
 }
 add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
 

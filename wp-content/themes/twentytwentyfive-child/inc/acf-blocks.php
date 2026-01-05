@@ -481,6 +481,82 @@ function twentytwentyfive_register_acf_blocks() {
                 ),
             ),
         ),
+        
+        // Service Details Section Block
+        array(
+            'name'              => 'service-details-section',
+            'title'             => __('Service Details Section', 'twentytwentyfive'),
+            'description'       => __('Display services in a responsive grid with icons, titles, descriptions, and customizable background', 'twentytwentyfive'),
+            'category'          => 'formatting',
+            'icon'              => 'grid-view',
+            'keywords'          => array('service', 'details', 'grid', 'responsive', 'icons', 'solutions'),
+            'render_template'   => 'blocks/service-details-section/block.php',
+            'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/service-details-section/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'     => 'What We Mean by Solutions',
+                        'sub_heading' => 'We bring you powerful advantages to navigate your digital transformation',
+                        'background_color' => '#f8f9fa',
+                        'grid_columns' => '3',
+                        'services'    => array(
+                            array(
+                                'service_title' => 'Data Science & AI',
+                                'service_description' => "• AI/ML models\n• Computer vision\n• Predictive analytics\n• Data visualization",
+                            ),
+                            array(
+                                'service_title' => 'Data Engineering',
+                                'service_description' => "• Cloud data pipelines\n• Modern data platforms\n• Real-time analytics",
+                            ),
+                            array(
+                                'service_title' => 'DevOps & Cloud Engineering',
+                                'service_description' => "• CI/CD\n• Cloud migration\n• Infrastructure automation",
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        
+        // Image Gallery Section Block
+        array(
+            'name'              => 'image-gallery-section',
+            'title'             => __('Image Gallery Section', 'twentytwentyfive'),
+            'description'       => __('Flexible image gallery with multiple layout options (3-6 columns) and infinite slider mode', 'twentytwentyfive'),
+            'category'          => 'media',
+            'icon'              => 'format-gallery',
+            'keywords'          => array('image', 'gallery', 'slider', 'grid', 'columns', 'infinite', 'carousel'),
+            'render_template'   => 'blocks/image-gallery-section/block.php',
+            'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/image-gallery-section/style.css',
+            'enqueue_script'    => '',
+            'supports'          => array(
+                'align'  => array('full', 'wide'),
+                'mode'   => true,
+                'jsx'    => true,
+                'anchor' => true,
+            ),
+            'example'           => array(
+                'attributes' => array(
+                    'mode' => 'preview',
+                    'data' => array(
+                        'heading'         => 'Cloud & Platform Partnerships',
+                        'sub_heading'     => 'Trusted partnerships with leading technology providers',
+                        'gallery_layout'  => '4',
+                        'enable_slider'   => false,
+                        'background_color' => '#f8f9fa',
+                        'text_color'      => '#333333',
+                    ),
+                ),
+            ),
+        ),
     );
 
     // Register each block

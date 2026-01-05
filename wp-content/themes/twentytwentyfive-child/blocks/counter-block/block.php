@@ -12,6 +12,7 @@
 $heading = get_field('heading');
 $sub_heading = get_field('sub_heading');
 $counters = get_field('counters');
+$background_color = get_field('background_color');
 
 // Generate unique block ID
 $block_id = 'counter-block-' . uniqid();
@@ -20,9 +21,17 @@ $block_id = 'counter-block-' . uniqid();
 if (empty($heading) && empty($sub_heading) && empty($counters)) {
     return;
 }
+
+// Set default background color if not specified
+if (empty($background_color)) {
+    $background_color = '#ffffff';
+}
+
+// Prepare inline styles
+$block_styles = 'background-color: ' . esc_attr($background_color) . ';';
 ?>
 
-<section id="<?php echo esc_attr($block_id); ?>" class="counter-block">
+<section id="<?php echo esc_attr($block_id); ?>" class="counter-block" style="<?php echo $block_styles; ?>">
     <div class="counter-block__container">
         <?php if (!empty($heading) || !empty($sub_heading)) : ?>
             <div class="counter-block__header">

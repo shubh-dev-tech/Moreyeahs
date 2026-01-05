@@ -992,6 +992,78 @@ function transform_investor_block_data($data) {
 }
 
 /**
+ * Transform text-image-alternating-block flattened data to structured array
+ */
+function transform_text_image_alternating_block_data($data) {
+    // Transform content_sections
+    if (isset($data['content_sections']) && is_numeric($data['content_sections'])) {
+        $content_sections_count = intval($data['content_sections']);
+        $content_sections = [];
+        
+        for ($i = 0; $i < $content_sections_count; $i++) {
+            $layout_type_key = "content_sections_{$i}_layout_type";
+            $text_content_key = "content_sections_{$i}_text_content";
+            $section_image_key = "content_sections_{$i}_section_image";
+            
+            if (isset($data[$text_content_key]) || isset($data[$section_image_key])) {
+                $section = [];
+                
+                if (isset($data[$layout_type_key]) && !empty($data[$layout_type_key])) {
+                    $section['layout_type'] = $data[$layout_type_key];
+                } else {
+                    $section['layout_type'] = 'text-left'; // Default value
+                }
+                
+                if (isset($data[$text_content_key]) && !empty($data[$text_content_key])) {
+                    $section['text_content'] = $data[$text_content_key];
+                }
+                
+                if (isset($data[$section_image_key]) && !empty($data[$section_image_key])) {
+                    // Check if image is already expanded (array) or just an ID (numeric)
+                    if (is_array($data[$section_image_key])) {
+                        // Image is already expanded
+                        $section['section_image'] = $data[$section_image_key];
+                    } elseif (is_numeric($data[$section_image_key])) {
+                        // Image is just an ID, expand it
+                        $expanded_image = expand_image_field($data[$section_image_key]);
+                        if ($expanded_image) {
+                            $section['section_image'] = $expanded_image;
+                        }
+                    }
+                }
+                
+                $content_sections[] = $section;
+            }
+        }
+        
+        $data['content_sections'] = $content_sections;
+        
+        // Clean up flattened keys
+        for ($i = 0; $i < $content_sections_count; $i++) {
+            unset($data["content_sections_{$i}_layout_type"]);
+            unset($data["content_sections_{$i}_text_content"]);
+            unset($data["content_sections_{$i}_section_image"]);
+            unset($data["_content_sections_{$i}_layout_type"]);
+            unset($data["_content_sections_{$i}_text_content"]);
+            unset($data["_content_sections_{$i}_section_image"]);
+        }
+    }
+    
+    // Expand background_image if it's just an ID
+    if (isset($data['background_image']) && !empty($data['background_image'])) {
+        if (is_numeric($data['background_image'])) {
+            $expanded_image = expand_image_field($data['background_image']);
+            if ($expanded_image) {
+                $data['background_image'] = $expanded_image;
+            }
+        }
+        // If it's already an array, leave it as is
+    }
+    
+    return $data;
+}
+
+/**
  * Helper function to get ACF block data
  */
 function get_acf_block_data($block, $page_id) {
@@ -1022,6 +1094,45 @@ function get_acf_block_data($block, $page_id) {
             // Ensure reverse_layout field is properly converted to boolean
             if (isset($data['reverse_layout'])) {
                 $data['reverse_layout'] = (bool) $data['reverse_layout'];
+            }
+        }
+        
+        // Special handling for service-details-section block
+        if (isset($block['blockName']) && $block['blockName'] === 'acf/service-details-section') {
+            // Handle services repeater field - if it's just a count, get the actual data
+            if (isset($data['services']) && is_numeric($data['services'])) {
+                // This means we have a count, not the actual data - need to get it manually
+                global $post;
+                $post_id = $page_id ?? ($post ? $post->ID : null);
+                if ($post_id) {
+                    $services = get_field('services', $post_id);
+                    if ($services && is_array($services)) {
+                        $data['services'] = $services;
+                    } else {
+                        $data['services'] = array();
+                    }
+                }
+            }
+            
+            // Ensure background_image field is properly expanded
+            if (isset($data['background_image']) && is_numeric($data['background_image'])) {
+                $expanded_image = expand_image_field($data['background_image']);
+                if ($expanded_image) {
+                    $data['background_image'] = $expanded_image;
+                }
+            }
+            
+            // Process service icons in the services array
+            if (isset($data['services']) && is_array($data['services'])) {
+                foreach ($data['services'] as &$service) {
+                    if (isset($service['service_icon']) && is_numeric($service['service_icon'])) {
+                        $expanded_image = expand_image_field($service['service_icon']);
+                        if ($expanded_image) {
+                            $service['service_icon'] = $expanded_image;
+                        }
+                    }
+                }
+                unset($service); // Break the reference
             }
         }
         
@@ -1092,6 +1203,52 @@ function get_acf_block_data($block, $page_id) {
                             'description' => $value['description'] ?? '',
                             'mime_type' => $value['mime_type'] ?? '',
                         ];
+                    }
+                }
+                
+                // Special handling for repeater fields
+                if ($field_type === 'repeater') {
+                    // For repeater fields, ACF get_field should return the full array
+                    // If we get a numeric value, it means we need to manually construct the repeater data
+                    if (is_numeric($value) || $value === null || $value === false) {
+                        $repeater_data = array();
+                        
+                        // First, try to get the count from the meta field
+                        $count = intval(get_post_meta($page_id, $field_name, true));
+                        
+                        if ($count > 0) {
+                            // Get sub fields for this repeater
+                            $sub_fields = $field['sub_fields'] ?? array();
+                            
+                            for ($i = 0; $i < $count; $i++) {
+                                $row_data = array();
+                                foreach ($sub_fields as $sub_field) {
+                                    $sub_field_name = $sub_field['name'];
+                                    $sub_field_type = $sub_field['type'];
+                                    
+                                    // Try to get the sub field value using the ACF meta key format
+                                    $sub_value = get_post_meta($page_id, $field_name . '_' . $i . '_' . $sub_field_name, true);
+                                    
+                                    // Special handling for image sub fields
+                                    if ($sub_field_type === 'image' && is_numeric($sub_value)) {
+                                        $expanded_image = expand_image_field($sub_value);
+                                        if ($expanded_image) {
+                                            $sub_value = $expanded_image;
+                                        }
+                                    }
+                                    
+                                    if ($sub_value !== '' && $sub_value !== false && $sub_value !== null) {
+                                        $row_data[$sub_field_name] = $sub_value;
+                                    }
+                                }
+                                
+                                if (!empty($row_data)) {
+                                    $repeater_data[] = $row_data;
+                                }
+                            }
+                        }
+                        
+                        $value = $repeater_data;
                     }
                 }
                 
@@ -1168,6 +1325,9 @@ function get_page_with_acf_blocks_rest($request) {
                             break;
                         case 'acf/testimonial-block':
                             $processed_block['attrs']['data'] = transform_testimonial_block_data($processed_block['attrs']['data']);
+                            break;
+                        case 'acf/text-image-alternating-block':
+                            $processed_block['attrs']['data'] = transform_text_image_alternating_block_data($processed_block['attrs']['data']);
                             break;
                     }
 
