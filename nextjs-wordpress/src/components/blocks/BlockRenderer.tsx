@@ -35,9 +35,7 @@ import InfinityTestimonialBothSideBlock from './infinity-testimonial-both-side/I
 import VideoSectionBlock from './video-section/VideoSectionBlock';
 import CredentialsAcquiredBlock from './credentials-acquired-block/CredentialsAcquiredBlock';
 import TextImageAlternatingBlock from './text-image-alternating-block';
-import DebugTextImageAlternatingBlock from './text-image-alternating-block/DebugTextImageAlternatingBlock';
 import ServiceDetailsSection from './service-details-section/ServiceDetailsSection';
-import DebugServiceDetailsSection from './service-details-section/DebugServiceDetailsSection';
 import CallToActionSection from './call-to-action-section/CallToActionSection';
 import FullOneByTwoSection from './full-one-by-two-section/FullOneByTwoSection';
 import { CoreParagraph } from './core/Paragraph';
