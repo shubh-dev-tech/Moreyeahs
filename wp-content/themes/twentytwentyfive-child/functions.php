@@ -246,8 +246,11 @@ function twentytwentyfive_child_include_parent_functions() {
                                 // Process the fields to ensure proper data types
                                 $processed_fields = [];
                                 foreach ($acf_fields as $field_name => $value) {
-                                    // Handle different field types
-                                    if (is_array($value) && isset($value['ID'])) {
+                                    // Handle gallery fields specifically
+                                    if ((strpos($field_name, 'gallery') !== false || strpos($field_name, 'images') !== false) && is_array($value)) {
+                                        // Use our new processing function
+                                        $processed_fields[$field_name] = process_acf_gallery_field($value);
+                                    } elseif (is_array($value) && isset($value['ID'])) {
                                         // This is likely an image field - convert to consistent format
                                         $image_data = wp_get_attachment_image_src($value['ID'], 'full');
                                         if ($image_data) {
@@ -913,6 +916,40 @@ function twentytwentyfive_child_register_acf_blocks() {
             ),
         ),
     ));
+
+    // Partnership Gallery Block
+    acf_register_block_type(array(
+        'name'              => 'partnership-gallery',
+        'title'             => __('Partnership Gallery', 'twentytwentyfive'),
+        'description'       => __('Flexible partnership gallery with multiple layout options, infinite slider, and customizable styling', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'images-alt2',
+        'keywords'          => array('partnership', 'gallery', 'partners', 'logos', 'slider', 'grid'),
+        'render_template'   => 'blocks/partnership-gallery/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/partnership-gallery/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading' => 'Cloud & Platform Partnerships',
+                    'sub_heading' => 'We partner with leading technology companies to deliver comprehensive solutions.',
+                    'layout_type' => 'grid',
+                    'columns_count' => '4',
+                    'enable_slider' => false,
+                    'image_style' => 'contain',
+                    'image_hover_effect' => 'scale',
+                    'background_color' => '#f8f9fa',
+                    'text_color' => '#333333'
+                ),
+            ),
+        ),
+    ));
 }
 add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
 
@@ -1165,5 +1202,113 @@ add_action('init', function() {
     if (isset($_SERVER['HTTP_ORIGIN'])) {
         enable_cors_for_rest_api();
     }
+});
+
+/**
+ * Process ACF Gallery Field - Convert image IDs to full image objects
+ * This function is critical for the Partnership Gallery block to work properly
+ */
+function process_acf_gallery_field($gallery_images) {
+    if (!$gallery_images || !is_array($gallery_images)) {
+        return [];
+    }
+    
+    $processed_images = [];
+    
+    foreach ($gallery_images as $image) {
+        // If image is already processed (has url and sizes), use as-is
+        if (is_array($image) && isset($image['url']) && isset($image['sizes'])) {
+            $processed_images[] = $image;
+            continue;
+        }
+        
+        // If image is just an ID (number or string), process it
+        $image_id = null;
+        if (is_numeric($image)) {
+            $image_id = intval($image);
+        } elseif (is_array($image) && isset($image['ID'])) {
+            $image_id = intval($image['ID']);
+        } elseif (is_array($image) && isset($image['id'])) {
+            $image_id = intval($image['id']);
+        }
+        
+        if ($image_id) {
+            // Get full image data from WordPress
+            $image_data = wp_get_attachment_image_src($image_id, 'full');
+            $image_meta = wp_get_attachment_metadata($image_id);
+            $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
+            $image_post = get_post($image_id);
+            
+            if ($image_data && $image_post) {
+                $processed_image = [
+                    'id' => $image_id,
+                    'url' => $image_data[0],
+                    'width' => $image_data[1],
+                    'height' => $image_data[2],
+                    'alt' => $image_alt ?: $image_post->post_title,
+                    'title' => $image_post->post_title,
+                    'caption' => $image_post->post_excerpt,
+                    'description' => $image_post->post_content,
+                    'sizes' => []
+                ];
+                
+                // Generate different image sizes
+                $image_sizes = ['thumbnail', 'medium', 'medium_large', 'large', 'full'];
+                foreach ($image_sizes as $size) {
+                    $size_data = wp_get_attachment_image_src($image_id, $size);
+                    if ($size_data) {
+                        $processed_image['sizes'][$size] = $size_data[0];
+                    }
+                }
+                
+                // Ensure we have at least the full size
+                if (empty($processed_image['sizes'])) {
+                    $processed_image['sizes']['full'] = $image_data[0];
+                    $processed_image['sizes']['large'] = $image_data[0];
+                    $processed_image['sizes']['medium'] = $image_data[0];
+                    $processed_image['sizes']['thumbnail'] = $image_data[0];
+                }
+                
+                $processed_images[] = $processed_image;
+            }
+        }
+    }
+    
+    return $processed_images;
+}
+
+/**
+ * Add Partnership Gallery REST API endpoint
+ * This endpoint processes ACF gallery fields and returns full image objects
+ */
+add_action('rest_api_init', function() {
+    register_rest_route('wp/v2', '/partnership-gallery/(?P<id>\d+)', [
+        'methods' => 'GET',
+        'callback' => function($request) {
+            $post_id = $request['id'];
+            $post = get_post($post_id);
+            
+            if (!$post) {
+                return new WP_Error('post_not_found', 'Post not found', ['status' => 404]);
+            }
+            
+            // Get ACF fields for this post
+            $acf_fields = function_exists('get_fields') ? get_fields($post_id) : [];
+            
+            // Process gallery images if they exist
+            if (isset($acf_fields['gallery_images']) && is_array($acf_fields['gallery_images'])) {
+                $acf_fields['gallery_images'] = process_acf_gallery_field($acf_fields['gallery_images']);
+            }
+            
+            return rest_ensure_response([
+                'id' => $post->ID,
+                'title' => $post->post_title,
+                'slug' => $post->post_name,
+                'acf_fields' => $acf_fields,
+                'processed_at' => current_time('mysql')
+            ]);
+        },
+        'permission_callback' => '__return_true'
+    ]);
 });
 

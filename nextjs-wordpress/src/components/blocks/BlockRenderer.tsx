@@ -38,6 +38,7 @@ import TextImageAlternatingBlock from './text-image-alternating-block';
 import ServiceDetailsSection from './service-details-section/ServiceDetailsSection';
 import CallToActionSection from './call-to-action-section/CallToActionSection';
 import FullOneByTwoSection from './full-one-by-two-section/FullOneByTwoSection';
+import PartnershipGallery from './partnership-gallery/PartnershipGallery';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
@@ -79,6 +80,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/service-details-section': ServiceDetailsSection,
   'acf/call-to-action-section': CallToActionSection,
   'acf/full-one-by-two-section': FullOneByTwoSection,
+  'acf/partnership-gallery': PartnershipGallery,
   
   // Custom Blocks (without ACF)
   'moreyeahs/slider': MoreyeahsSliderBlock,
