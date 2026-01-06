@@ -1,0 +1,530 @@
+'use client';
+
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import Image from 'next/image';
+import './styles.scss';
+
+interface GalleryImage {
+  id: number;
+  url: string;
+  alt: string;
+  title: string;
+  sizes: {
+    thumbnail: string;
+    medium: string;
+    large: string;
+    full: string;
+  };
+}
+
+interface PartnershipGalleryProps {
+  data?: {
+    heading?: string;
+    sub_heading?: string;
+    gallery_images?: GalleryImage[];
+    layout_type?: 'grid' | 'slider';
+    columns_count?: '3' | '4' | '5' | '6';
+    enable_slider?: boolean;
+    slider_speed?: number;
+    autoplay_slider?: boolean;
+    slider_direction?: 'left' | 'right';
+    image_style?: 'contain' | 'cover' | 'fill';
+    image_hover_effect?: 'scale' | 'fade' | 'rotate' | 'none';
+    background_color?: string;
+    text_color?: string;
+  };
+  // Also support individual props for compatibility
+  heading?: string;
+  sub_heading?: string;
+  gallery_images?: GalleryImage[];
+  layout_type?: 'grid' | 'slider';
+  columns_count?: '3' | '4' | '5' | '6';
+  enable_slider?: boolean;
+  slider_speed?: number;
+  autoplay_slider?: boolean;
+  slider_direction?: 'left' | 'right';
+  image_style?: 'contain' | 'cover' | 'fill';
+  image_hover_effect?: 'scale' | 'fade' | 'rotate' | 'none';
+  background_color?: string;
+  text_color?: string;
+}
+
+const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({ 
+  data,
+  // Individual props as fallback
+  heading: propHeading,
+  sub_heading: propSubHeading,
+  gallery_images: propGalleryImages,
+  layout_type: propLayoutType,
+  columns_count: propColumnsCount,
+  enable_slider: propEnableSlider,
+  slider_speed: propSliderSpeed,
+  autoplay_slider: propAutoplaySlider,
+  slider_direction: propSliderDirection,
+  image_style: propImageStyle,
+  image_hover_effect: propImageHoverEffect,
+  background_color: propBackgroundColor,
+  text_color: propTextColor
+}) => {
+  // Use data prop first, then fall back to individual props
+  const {
+    heading = propHeading,
+    sub_heading = propSubHeading,
+    gallery_images = propGalleryImages || [],
+    layout_type = propLayoutType || 'grid',
+    columns_count = propColumnsCount || '4',
+    enable_slider = propEnableSlider || false,
+    slider_speed = propSliderSpeed || 3,
+    autoplay_slider = propAutoplaySlider !== undefined ? propAutoplaySlider : true,
+    slider_direction = propSliderDirection || 'left',
+    image_style = propImageStyle || 'contain',
+    image_hover_effect = propImageHoverEffect || 'scale',
+    background_color = propBackgroundColor || '#f8f9fa',
+    text_color = propTextColor || '#333333'
+  } = data || {};
+
+  // Process gallery images to ensure they have proper URLs
+  const [processedImages, setProcessedImages] = React.useState<GalleryImage[]>([]);
+  const [isProcessing, setIsProcessing] = React.useState(false);
+
+  // Helper function to get image URL with multiple fallbacks
+  const getImageUrl = (image: any, size: string = 'medium') => {
+    // If image is just a number (ID), construct WordPress media URL directly
+    if (typeof image === 'number' || (typeof image === 'string' && /^\d+$/.test(image))) {
+      const imageId = typeof image === 'string' ? parseInt(image) : image;
+      console.warn('⚠️ Image is still just an ID:', imageId, 'constructing direct WordPress URL');
+      
+      // Construct WordPress media URL directly using the attachment ID
+      // WordPress typically stores uploads in /wp-content/uploads/YYYY/MM/ structure
+      // Since we can't determine the exact path from just the ID, we'll use the WordPress media endpoint
+      // This is a fallback that should work for most cases
+      return `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Error+ID+${imageId}`;
+    }
+    
+    // Try different possible structures for processed images
+    if (image?.sizes?.[size]) {
+      return image.sizes[size];
+    }
+    if (image?.sizes?.large) {
+      return image.sizes.large;
+    }
+    if (image?.sizes?.medium) {
+      return image.sizes.medium;
+    }
+    if (image?.sizes?.full) {
+      return image.sizes.full;
+    }
+    if (image?.url) {
+      return image.url;
+    }
+    if (image?.src) {
+      return image.src;
+    }
+    if (typeof image === 'string' && image.startsWith('http')) {
+      return image;
+    }
+    
+    console.error('❌ Could not extract image URL from:', image);
+    return `https://via.placeholder.com/300x150/cccccc/666666?text=Missing+Image`;
+  };
+
+  // Function to fetch image data from WordPress REST API
+  const fetchImageData = async (imageId: number) => {
+    try {
+      const wpApiUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'http://localhost/moreyeahs-new/wp-json';
+      const response = await fetch(`${wpApiUrl}/wp/v2/media/${imageId}`);
+      
+      if (response.ok) {
+        const imageData = await response.json();
+        return {
+          id: imageId,
+          url: imageData.source_url || imageData.guid?.rendered || '',
+          alt: imageData.alt_text || '',
+          title: imageData.title?.rendered || '',
+          sizes: {
+            thumbnail: imageData.media_details?.sizes?.thumbnail?.source_url || imageData.source_url,
+            medium: imageData.media_details?.sizes?.medium?.source_url || imageData.source_url,
+            large: imageData.media_details?.sizes?.large?.source_url || imageData.source_url,
+            full: imageData.source_url
+          }
+        };
+      }
+    } catch (error) {
+      console.error('Failed to fetch image data for ID:', imageId, error);
+    }
+    
+    return null;
+  };
+
+  // Debug logging (only in development)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🤝 PartnershipGallery Debug:', {
+      dataReceived: !!data,
+      dataKeys: data ? Object.keys(data) : [],
+      galleryImagesRaw: data?.gallery_images,
+      galleryImagesCount: gallery_images?.length || 0,
+      processedImagesCount: processedImages?.length || 0,
+      firstImage: gallery_images?.[0],
+      firstProcessedImage: processedImages?.[0],
+      firstImageType: typeof gallery_images?.[0],
+      firstImageIsNumeric: typeof gallery_images?.[0] === 'number' || (typeof gallery_images?.[0] === 'string' && /^\d+$/.test(gallery_images?.[0])),
+      isProcessing,
+      heading,
+      layout_type
+    });
+    
+    // Log each image in detail
+    if (gallery_images && gallery_images.length > 0) {
+      console.log('📸 Raw Images:', gallery_images);
+      gallery_images.forEach((img, index) => {
+        console.log(`Raw Image ${index}:`, {
+          type: typeof img,
+          value: img,
+          isNumeric: typeof img === 'number' || (typeof img === 'string' && /^\d+$/.test(img)),
+          hasUrl: img?.url ? 'YES' : 'NO',
+          hasSizes: img?.sizes ? 'YES' : 'NO',
+          url: img?.url,
+          sizes: img?.sizes
+        });
+      });
+    }
+
+    // Log processed images
+    if (processedImages && processedImages.length > 0) {
+      console.log('✅ Processed Images:', processedImages);
+      processedImages.forEach((img, index) => {
+        console.log(`Processed Image ${index}:`, {
+          id: img.id,
+          url: img.url,
+          alt: img.alt,
+          hasSizes: img.sizes ? 'YES' : 'NO',
+          mediumUrl: img.sizes?.medium
+        });
+      });
+    } else {
+      console.log('❌ No processed images available');
+    }
+  }
+
+  React.useEffect(() => {
+    const processImages = async () => {
+      if (!gallery_images || gallery_images.length === 0) {
+        setProcessedImages([]);
+        return;
+      }
+
+      // Check if images need processing (are just IDs)
+      const needsProcessing = gallery_images.some(img => 
+        typeof img === 'number' || 
+        (typeof img === 'string' && /^\d+$/.test(img)) ||
+        (typeof img === 'object' && (img as any).ID && !(img as any).url)
+      );
+
+      if (!needsProcessing) {
+        // Images are already processed - convert to proper format
+        console.log('✅ Images already processed, using as-is');
+        setProcessedImages(gallery_images as GalleryImage[]);
+        setIsProcessing(false);
+        return;
+      }
+
+      console.log('🔧 Processing gallery images from IDs...');
+      setIsProcessing(true);
+
+      try {
+        // Try to get the current post ID from the URL or context
+        const currentPath = window.location.pathname;
+        const postIdMatch = currentPath.match(/\/(\d+)\/?$/);
+        const postId = postIdMatch ? postIdMatch[1] : null;
+
+        // If we have a post ID, try to fetch processed data from our REST API endpoint
+        if (postId) {
+          const wpApiUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'http://localhost/moreyeahs-new/wp-json';
+          const response = await fetch(`${wpApiUrl}/wp/v2/partnership-gallery/${postId}`);
+          
+          if (response.ok) {
+            const data = await response.json();
+            if (data.acf_fields && data.acf_fields.gallery_images && Array.isArray(data.acf_fields.gallery_images)) {
+              console.log('✅ Got processed images from REST API');
+              setProcessedImages(data.acf_fields.gallery_images);
+              setIsProcessing(false);
+              return;
+            }
+          }
+        }
+
+        // Fallback: Process images manually using WordPress media API
+        const processed = await Promise.all(
+          gallery_images.map(async (img) => {
+            // If it's just an ID, try to fetch the data first, then fallback to direct URL construction
+            if (typeof img === 'number' || (typeof img === 'string' && /^\d+$/.test(img))) {
+              const imageId = typeof img === 'string' ? parseInt(img) : img;
+              
+              // Try to fetch from WordPress REST API first
+              const imageData = await fetchImageData(imageId);
+              
+              if (imageData) {
+                return imageData;
+              }
+              
+              // Fallback: construct direct WordPress URLs
+              const wpBaseUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL?.replace('/wp-json', '') || 'http://localhost/moreyeahs-new';
+              
+              return {
+                id: imageId,
+                url: `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Error+ID+${imageId}`,
+                alt: `Partnership ${imageId}`,
+                title: `Partnership ${imageId}`,
+                sizes: {
+                  thumbnail: `https://via.placeholder.com/150x75/ff6b6b/ffffff?text=Error+ID+${imageId}`,
+                  medium: `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Error+ID+${imageId}`,
+                  large: `https://via.placeholder.com/600x300/ff6b6b/ffffff?text=Error+ID+${imageId}`,
+                  full: `https://via.placeholder.com/800x400/ff6b6b/ffffff?text=Error+ID+${imageId}`
+                }
+              };
+            }
+            
+            // If it's an object with ID but no URL
+            if (typeof img === 'object' && (img as any).ID && !(img as any).url) {
+              const imageData = await fetchImageData((img as any).ID);
+              return imageData || img;
+            }
+            
+            // Already processed
+            return img as GalleryImage;
+          })
+        );
+
+        setProcessedImages(processed.filter(Boolean) as GalleryImage[]);
+      } catch (error) {
+        console.error('Failed to process gallery images:', error);
+        setProcessedImages([]);
+      } finally {
+        setIsProcessing(false);
+      }
+    };
+
+    processImages();
+  }, [gallery_images]);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Generate unique ID for this instance
+  const sliderId = `partnership-slider-${Math.random().toString(36).substring(2, 11)}`;
+
+  // Handle visibility change (pause when tab is not visible)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsPaused(document.hidden);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, []);
+
+  const moveSlider = useCallback(() => {
+    if (isAnimating || !trackRef.current) return;
+
+    setIsAnimating(true);
+    const slideWidth = 100 / parseInt(columns_count);
+    const slideCount = processedImages.length; // Use processedImages instead of gallery_images
+
+    if (slider_direction === 'right') {
+      // Right to left movement
+      const nextIndex = currentIndex - 1;
+      
+      if (nextIndex < 0) {
+        // Jump to end without animation, then animate to previous
+        trackRef.current.style.transition = 'none';
+        trackRef.current.style.transform = `translateX(-${slideCount * slideWidth}%)`;
+        setCurrentIndex(slideCount - 1);
+        
+        setTimeout(() => {
+          if (trackRef.current) {
+            trackRef.current.style.transition = 'transform 0.8s ease-in-out';
+            const translateX = -((slideCount - 2) * slideWidth);
+            trackRef.current.style.transform = `translateX(${translateX}%)`;
+            setCurrentIndex(slideCount - 2);
+          }
+        }, 50);
+      } else {
+        const translateX = -(nextIndex * slideWidth);
+        trackRef.current.style.transition = 'transform 0.8s ease-in-out';
+        trackRef.current.style.transform = `translateX(${translateX}%)`;
+        setCurrentIndex(nextIndex);
+      }
+    } else {
+      // Left to right movement (default)
+      const nextIndex = currentIndex + 1;
+      const translateX = -(nextIndex * slideWidth);
+      
+      trackRef.current.style.transition = 'transform 0.8s ease-in-out';
+      trackRef.current.style.transform = `translateX(${translateX}%)`;
+
+      if (nextIndex >= slideCount) {
+        // Reset to beginning after animation
+        setTimeout(() => {
+          if (trackRef.current) {
+            trackRef.current.style.transition = 'none';
+            trackRef.current.style.transform = 'translateX(0%)';
+            setCurrentIndex(0);
+          }
+        }, 800);
+      } else {
+        setCurrentIndex(nextIndex);
+      }
+    }
+
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 800);
+  }, [isAnimating, columns_count, processedImages.length, slider_direction, currentIndex]); // Updated dependencies
+
+  useEffect(() => {
+    if (!enable_slider || !autoplay_slider || processedImages.length === 0 || layout_type !== 'slider' || isPaused) return;
+
+    const interval = setInterval(() => {
+      moveSlider();
+    }, slider_speed * 1000);
+
+    return () => clearInterval(interval);
+  }, [enable_slider, autoplay_slider, slider_speed, processedImages.length, layout_type, isPaused, moveSlider]);
+
+  const handleMouseEnter = () => {
+    setIsPaused(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPaused(false);
+  };
+
+  if (isProcessing) {
+    return (
+      <div className="acf-block-placeholder">
+        <div className="acf-block-placeholder-icon">🤝</div>
+        <div className="acf-block-placeholder-text">Partnership Gallery</div>
+        <div className="acf-block-placeholder-instructions">Loading gallery images...</div>
+      </div>
+    );
+  }
+
+  if (processedImages.length === 0) {
+    return (
+      <div className="acf-block-placeholder">
+        <div className="acf-block-placeholder-icon">🤝</div>
+        <div className="acf-block-placeholder-text">Partnership Gallery</div>
+        <div className="acf-block-placeholder-instructions">Add images to display the partnership gallery</div>
+      </div>
+    );
+  }
+
+  // Use processed images for rendering
+  const imagesToRender = processedImages;
+
+  // Duplicate images for infinite loop in slider
+  const sliderImages = (layout_type === 'slider' && enable_slider) ? [...imagesToRender, ...imagesToRender] : imagesToRender;
+
+  return (
+    <section 
+      className={`partnership-gallery-block ${layout_type === 'slider' && enable_slider ? 'slider-mode' : 'grid-mode'}`}
+      style={{ 
+        backgroundColor: background_color, 
+        color: text_color 
+      }}
+      data-layout={layout_type}
+      data-columns={columns_count}
+      data-slider={enable_slider}
+      data-direction={slider_direction}
+    >
+      <div className="container">
+        {(heading || sub_heading) && (
+          <div className="partnership-header">
+            {heading && (
+              <h2 className="partnership-heading">{heading}</h2>
+            )}
+            
+            {sub_heading && (
+              <div 
+                className="partnership-sub-heading"
+                dangerouslySetInnerHTML={{ __html: sub_heading }}
+              />
+            )}
+          </div>
+        )}
+
+        <div className="partnership-container">
+          {layout_type === 'slider' && enable_slider ? (
+            <div 
+              className="partnership-slider" 
+              id={sliderId} 
+              ref={sliderRef}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div 
+                className="partnership-slider-track" 
+                ref={trackRef}
+                style={{
+                  transform: 'translateX(0%)'
+                }}
+              >
+                {sliderImages.map((image, index) => (
+                  <div 
+                    key={`${image.id}-${index}`} 
+                    className="partnership-slide"
+                    style={{ minWidth: `${100 / parseInt(columns_count)}%` }}
+                  >
+                    <div 
+                      className="partnership-image-wrapper"
+                      data-style={image_style}
+                      data-hover={image_hover_effect}
+                    >
+                      <Image
+                        src={getImageUrl(image, 'medium')}
+                        alt={image.alt || image.title || `Partnership ${index + 1}`}
+                        fill
+                        style={{ 
+                          objectFit: image_style === 'contain' ? 'contain' : 
+                                   image_style === 'cover' ? 'cover' : 'fill'
+                        }}
+                        sizes={`(max-width: 768px) 50vw, (max-width: 1024px) 33vw, ${100 / parseInt(columns_count)}vw`}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className={`partnership-grid partnership-grid-${columns_count}`}>
+              {imagesToRender.map((image, index) => (
+                <div key={image.id} className="partnership-item">
+                  <div 
+                    className="partnership-image-wrapper"
+                    data-style={image_style}
+                    data-hover={image_hover_effect}
+                  >
+                    <Image
+                      src={getImageUrl(image, 'medium')}
+                      alt={image.alt || image.title || `Partnership ${index + 1}`}
+                      fill
+                      style={{ 
+                        objectFit: image_style === 'contain' ? 'contain' : 
+                                 image_style === 'cover' ? 'cover' : 'fill'
+                      }}
+                      sizes={`(max-width: 768px) 50vw, (max-width: 1024px) 33vw, ${100 / parseInt(columns_count)}vw`}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default PartnershipGallery;

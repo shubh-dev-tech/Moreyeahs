@@ -1,0 +1,118 @@
+{
+  "key": "group_partnership_gallery",
+  "title": "Partnership Gallery",
+  "fields": [
+    {
+      "key": "field_partnership_heading",
+      "label": "Heading",
+      "name": "heading",
+      "type": "text"
+    },
+    {
+      "key": "field_partnership_sub_heading",
+      "label": "Sub Heading",
+      "name": "sub_heading",
+      "type": "textarea"
+    },
+    {
+      "key": "field_partnership_gallery_images",
+      "label": "Partnership Images",
+      "name": "gallery_images",
+      "type": "gallery"
+    },
+    {
+      "key": "field_partnership_layout_type",
+      "label": "Layout Type",
+      "name": "layout_type",
+      "type": "select",
+      "choices": {
+        "grid": "Grid Layout",
+        "slider": "Slider Layout"
+      }
+    },
+    {
+      "key": "field_partnership_columns_count",
+      "label": "Columns Count",
+      "name": "columns_count",
+      "type": "select",
+      "choices": {
+        "3": "3 Columns",
+        "4": "4 Columns",
+        "5": "5 Columns",
+        "6": "6 Columns"
+      }
+    },
+    {
+      "key": "field_partnership_enable_slider",
+      "label": "Enable Infinite Slider",
+      "name": "enable_slider",
+      "type": "true_false"
+    },
+    {
+      "key": "field_partnership_slider_speed",
+      "label": "Slider Speed (seconds)",
+      "name": "slider_speed",
+      "type": "number"
+    },
+    {
+      "key": "field_partnership_autoplay",
+      "label": "Autoplay Slider",
+      "name": "autoplay_slider",
+      "type": "true_false"
+    },
+    {
+      "key": "field_partnership_slider_direction",
+      "label": "Slider Direction",
+      "name": "slider_direction",
+      "type": "select",
+      "choices": {
+        "left": "Left to Right",
+        "right": "Right to Left"
+      }
+    },
+    {
+      "key": "field_partnership_image_style",
+      "label": "Image Style",
+      "name": "image_style",
+      "type": "select",
+      "choices": {
+        "contain": "Contain (fit within container)",
+        "cover": "Cover (fill container)",
+        "fill": "Fill (stretch to fit)"
+      }
+    },
+    {
+      "key": "field_partnership_image_hover_effect",
+      "label": "Image Hover Effect",
+      "name": "image_hover_effect",
+      "type": "select",
+      "choices": {
+        "scale": "Scale & Lift",
+        "fade": "Fade In",
+        "rotate": "Rotate & Scale",
+        "none": "Color Only"
+      }
+    },
+    {
+      "key": "field_partnership_background_color",
+      "label": "Background Color",
+      "name": "background_color",
+      "type": "color_picker"
+    },
+    {
+      "key": "field_partnership_text_color",
+      "label": "Text Color",
+      "name": "text_color",
+      "type": "color_picker"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/partnership-gallery"
+      }
+    ]
+  ]
+}
