@@ -38,6 +38,17 @@ $text_color = get_field('text_color') ?: '#333333';
 $image_style = get_field('image_style') ?: 'contain';
 $image_hover_effect = get_field('image_hover_effect') ?: 'scale';
 
+// Debug logging for development
+if (defined('WP_DEBUG') && WP_DEBUG) {
+    error_log('Partnership Gallery Block Debug:');
+    error_log('Raw gallery images: ' . print_r($gallery_images_raw, true));
+    error_log('Gallery images type: ' . gettype($gallery_images_raw));
+    if (is_array($gallery_images_raw) && !empty($gallery_images_raw)) {
+        error_log('First image type: ' . gettype($gallery_images_raw[0]));
+        error_log('First image: ' . print_r($gallery_images_raw[0], true));
+    }
+}
+
 // Process gallery images to ensure they have full image data
 $gallery_images = [];
 if ($gallery_images_raw && is_array($gallery_images_raw)) {

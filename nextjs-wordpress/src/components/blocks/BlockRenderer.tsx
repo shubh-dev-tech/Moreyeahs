@@ -39,6 +39,8 @@ import ServiceDetailsSection from './service-details-section/ServiceDetailsSecti
 import CallToActionSection from './call-to-action-section/CallToActionSection';
 import FullOneByTwoSection from './full-one-by-two-section/FullOneByTwoSection';
 import PartnershipGallery from './partnership-gallery/PartnershipGallery';
+import HeroSection from './hero-section/HeroSection';
+import { FooterSection } from './footer-section';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
@@ -81,6 +83,8 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/call-to-action-section': CallToActionSection,
   'acf/full-one-by-two-section': FullOneByTwoSection,
   'acf/partnership-gallery': PartnershipGallery,
+  'acf/hero-section': HeroSection,
+  'acf/footer-section': FooterSection,
   
   // Custom Blocks (without ACF)
   'moreyeahs/slider': MoreyeahsSliderBlock,
@@ -106,6 +110,7 @@ const BLOCK_SECTION_IDS: Record<string, string> = {
   'acf/service-details-section': 'service-details',
   'acf/call-to-action-section': 'call-to-action',
   'acf/full-one-by-two-section': 'full-one-by-two',
+  'acf/hero-section': 'hero-section',
 };
 
 export function BlockRenderer({ blocks }: BlockRendererProps) {

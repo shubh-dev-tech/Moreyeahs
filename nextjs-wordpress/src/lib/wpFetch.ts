@@ -148,6 +148,11 @@ export async function getFooterWidgets(): Promise<any | null> {
   return await wpFetch<any>('/wp/v2/footer-widgets', {});
 }
 
+// Get footer settings with safe fallback (new approach)
+export async function getFooterSettings(): Promise<any | null> {
+  return await wpFetch<any>('/wp/v2/footer-settings', {});
+}
+
 // Get mega menus with safe fallback
 export async function getMegaMenus(): Promise<any[]> {
   const menus = await wpFetch<any[]>('/wp/v2/mega-menus', {});
