@@ -1134,6 +1134,53 @@ function twentytwentyfive_child_register_acf_blocks() {
             ),
         ),
     ));
+
+    // Hero 2 Service Block
+    acf_register_block_type(array(
+        'name'              => 'hero-2-service',
+        'title'             => __('Hero 2 Service', 'twentytwentyfive'),
+        'description'       => __('Hero section with left image and right service blocks, fully customizable with responsive design', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'layout',
+        'keywords'          => array('hero', 'service', 'blocks', 'image', 'responsive', 'data engineering'),
+        'render_template'   => 'blocks/hero-2-service/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/hero-2-service/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'title' => 'What is Data Engineering?',
+                    'subtitle' => 'Integrating Development and Operations.',
+                    'description' => 'DevOps is a set of practices that unifies software development and IT operations. Its goal is to shorten development cycles, increase deployment frequency, and deliver reliable software through automation, collaboration, and continuous improvement.',
+                    'background_color' => '#7ED4AD',
+                    'text_color' => '#333333',
+                    'service_blocks' => array(
+                        array(
+                            'title' => 'Robust Data Architecture Design',
+                            'description' => 'Design data ecosystems that enable efficient accessibility, reliability, scalability, and enhance performance.',
+                            'background_color' => '#ffffff'
+                        ),
+                        array(
+                            'title' => 'Automated ETL & Data Integration',
+                            'description' => 'Automate extraction, transformation, and loading processes while integrating data from multiple sources for consistent views and faster decisions.',
+                            'background_color' => '#ffffff'
+                        ),
+                        array(
+                            'title' => 'Cloud-Ready Data Solutions',
+                            'description' => 'Build cloud-native data solutions on platforms like AWS, Azure, or GCP to enhance performance and reduce costs.',
+                            'background_color' => '#ffffff'
+                        )
+                    )
+                ),
+            ),
+        ),
+    ));
 }
 add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
 
