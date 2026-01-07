@@ -97,6 +97,12 @@ function twentytwentyfive_child_include_parent_functions() {
         require_once $case_study_admin;
     }
     
+    // Include footer settings
+    $footer_settings = get_stylesheet_directory() . '/inc/footer-settings.php';
+    if (file_exists($footer_settings)) {
+        require_once $footer_settings;
+    }
+    
     // Include test endpoint first
     $test_endpoint = get_stylesheet_directory() . '/test-endpoint.php';
     if (file_exists($test_endpoint)) {
@@ -199,11 +205,25 @@ function twentytwentyfive_child_include_parent_functions() {
                 $processed_blocks = [];
                 foreach ($blocks as $block) {
                     if (strpos($block['blockName'], 'acf/') === 0) {
-                        // This is an ACF block - get the field data
+                        // This is an ACF block - get the field data using the block ID
                         $block_id = $block['attrs']['id'] ?? null;
                         if ($block_id && function_exists('get_fields')) {
-                            $acf_fields = get_fields($page->ID);
+                            // Get fields specific to this block instance
+                            $acf_fields = get_fields($block_id);
+                            
+                            // If no block-specific fields, try getting from the page
+                            if (!$acf_fields) {
+                                $acf_fields = get_fields($page->ID);
+                            }
+                            
                             if ($acf_fields) {
+                                // Process gallery fields to ensure they have full image data
+                                foreach ($acf_fields as $field_name => $value) {
+                                    // Check if this is a gallery field and process it
+                                    if ((strpos($field_name, 'gallery') !== false || strpos($field_name, 'images') !== false) && is_array($value)) {
+                                        $acf_fields[$field_name] = process_acf_gallery_field($value);
+                                    }
+                                }
                                 $block['attrs']['data'] = $acf_fields;
                             }
                         }
@@ -239,9 +259,17 @@ function twentytwentyfive_child_include_parent_functions() {
                 $processed_blocks = [];
                 foreach ($blocks as $block) {
                     if (strpos($block['blockName'], 'acf/') === 0) {
-                        // This is an ACF block - get all ACF fields for the post
-                        if (function_exists('get_fields')) {
-                            $acf_fields = get_fields($post_id);
+                        // This is an ACF block - get the field data using the block ID
+                        $block_id = $block['attrs']['id'] ?? null;
+                        if ($block_id && function_exists('get_fields')) {
+                            // Get fields specific to this block instance
+                            $acf_fields = get_fields($block_id);
+                            
+                            // If no block-specific fields, try getting from the post
+                            if (!$acf_fields) {
+                                $acf_fields = get_fields($post_id);
+                            }
+                            
                             if ($acf_fields && is_array($acf_fields)) {
                                 // Process the fields to ensure proper data types
                                 $processed_fields = [];
@@ -364,6 +392,18 @@ function twentytwentyfive_child_include_parent_functions() {
                 }
                 
                 return rest_ensure_response($formatted_categories);
+            },
+            'permission_callback' => '__return_true'
+        ]);
+        
+        // Footer settings endpoint (replaces footer-widgets)
+        register_rest_route('wp/v2', '/footer-settings', [
+            'methods' => 'POST',
+            'callback' => function($request) {
+                if (function_exists('get_footer_settings_data')) {
+                    return rest_ensure_response(get_footer_settings_data());
+                }
+                return rest_ensure_response([]);
             },
             'permission_callback' => '__return_true'
         ]);
@@ -511,7 +551,22 @@ function add_acf_to_rest_api() {
     foreach ($post_types as $post_type) {
         register_rest_field($post_type, 'acf_fields', array(
             'get_callback' => function($post) {
-                return get_fields($post['id']);
+                $fields = get_fields($post['id']);
+                
+                if (!$fields) {
+                    return [];
+                }
+                
+                // Process gallery fields to ensure they have full image data
+                foreach ($fields as $field_name => $value) {
+                    // Check if this is a gallery field (contains 'gallery' or 'images' in name and is array)
+                    if ((strpos($field_name, 'gallery') !== false || strpos($field_name, 'images') !== false) && is_array($value)) {
+                        // Use our processing function to convert IDs to full image objects
+                        $fields[$field_name] = process_acf_gallery_field($value);
+                    }
+                }
+                
+                return $fields;
             },
             'schema' => null,
         ));
@@ -950,6 +1005,36 @@ function twentytwentyfive_child_register_acf_blocks() {
             ),
         ),
     ));
+
+    // Footer Section Block
+    acf_register_block_type(array(
+        'name'              => 'footer-section',
+        'title'             => __('Footer Section', 'twentytwentyfive'),
+        'description'       => __('Dynamic footer section with customizable columns, social links, and branding', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'admin-links',
+        'keywords'          => array('footer', 'links', 'social', 'contact', 'navigation', 'branding'),
+        'render_template'   => 'blocks/footer-section/footer-section.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/footer-section/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'company_description' => 'We are committed to making meaningful contributions to the environment and society. As a global technology leader, MoreYeahs aims to automate digital literacy and foster sustainable, self-sufficient communities.',
+                    'follow_us_text' => 'Follow Us',
+                    'copyright_text' => '© 2025 MoreYeahs. All rights reserved.',
+                    'background_color' => '#f8f9fa',
+                    'text_color' => '#333333'
+                ),
+            ),
+        ),
+    ));
 }
 add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
 
@@ -1213,6 +1298,12 @@ function process_acf_gallery_field($gallery_images) {
         return [];
     }
     
+    // Debug logging
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log('Processing ACF gallery field:');
+        error_log('Input: ' . print_r($gallery_images, true));
+    }
+    
     $processed_images = [];
     
     foreach ($gallery_images as $image) {
@@ -1270,8 +1361,18 @@ function process_acf_gallery_field($gallery_images) {
                 }
                 
                 $processed_images[] = $processed_image;
+                
+                // Debug logging
+                if (defined('WP_DEBUG') && WP_DEBUG) {
+                    error_log('Processed image ID ' . $image_id . ': ' . print_r($processed_image, true));
+                }
             }
         }
+    }
+    
+    // Debug logging
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log('Final processed images: ' . print_r($processed_images, true));
     }
     
     return $processed_images;

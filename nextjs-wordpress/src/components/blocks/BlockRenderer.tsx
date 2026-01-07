@@ -39,6 +39,7 @@ import ServiceDetailsSection from './service-details-section/ServiceDetailsSecti
 import CallToActionSection from './call-to-action-section/CallToActionSection';
 import FullOneByTwoSection from './full-one-by-two-section/FullOneByTwoSection';
 import PartnershipGallery from './partnership-gallery/PartnershipGallery';
+import { FooterSection } from './footer-section';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
@@ -81,6 +82,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/call-to-action-section': CallToActionSection,
   'acf/full-one-by-two-section': FullOneByTwoSection,
   'acf/partnership-gallery': PartnershipGallery,
+  'acf/footer-section': FooterSection,
   
   // Custom Blocks (without ACF)
   'moreyeahs/slider': MoreyeahsSliderBlock,
