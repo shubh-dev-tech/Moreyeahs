@@ -223,6 +223,24 @@ function twentytwentyfive_child_include_parent_functions() {
                                     if ((strpos($field_name, 'gallery') !== false || strpos($field_name, 'images') !== false) && is_array($value)) {
                                         $acf_fields[$field_name] = process_acf_gallery_field($value);
                                     }
+                                    // Check if this is a single image field and process it
+                                    elseif ((strpos($field_name, 'image') !== false || strpos($field_name, 'hero_image') !== false) && $value) {
+                                        $processed_image = process_acf_image_field($value);
+                                        if ($processed_image) {
+                                            $acf_fields[$field_name] = $processed_image;
+                                        }
+                                    }
+                                    // Process nested group fields
+                                    elseif (is_array($value)) {
+                                        foreach ($value as $sub_field_name => $sub_value) {
+                                            if ((strpos($sub_field_name, 'image') !== false || strpos($sub_field_name, 'hero_image') !== false) && $sub_value) {
+                                                $processed_image = process_acf_image_field($sub_value);
+                                                if ($processed_image) {
+                                                    $acf_fields[$field_name][$sub_field_name] = $processed_image;
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 $block['attrs']['data'] = $acf_fields;
                             }
@@ -278,7 +296,17 @@ function twentytwentyfive_child_include_parent_functions() {
                                     if ((strpos($field_name, 'gallery') !== false || strpos($field_name, 'images') !== false) && is_array($value)) {
                                         // Use our new processing function
                                         $processed_fields[$field_name] = process_acf_gallery_field($value);
-                                    } elseif (is_array($value) && isset($value['ID'])) {
+                                    } 
+                                    // Handle single image fields
+                                    elseif ((strpos($field_name, 'image') !== false || strpos($field_name, 'hero_image') !== false) && $value) {
+                                        $processed_image = process_acf_image_field($value);
+                                        if ($processed_image) {
+                                            $processed_fields[$field_name] = $processed_image;
+                                        } else {
+                                            $processed_fields[$field_name] = $value;
+                                        }
+                                    }
+                                    elseif (is_array($value) && isset($value['ID'])) {
                                         // This is likely an image field - convert to consistent format
                                         $image_data = wp_get_attachment_image_src($value['ID'], 'full');
                                         if ($image_data) {
@@ -291,6 +319,18 @@ function twentytwentyfive_child_include_parent_functions() {
                                             ];
                                         } else {
                                             $processed_fields[$field_name] = $value;
+                                        }
+                                    } 
+                                    // Process nested group fields
+                                    elseif (is_array($value)) {
+                                        $processed_fields[$field_name] = $value;
+                                        foreach ($value as $sub_field_name => $sub_value) {
+                                            if ((strpos($sub_field_name, 'image') !== false || strpos($sub_field_name, 'hero_image') !== false) && $sub_value) {
+                                                $processed_image = process_acf_image_field($sub_value);
+                                                if ($processed_image) {
+                                                    $processed_fields[$field_name][$sub_field_name] = $processed_image;
+                                                }
+                                            }
                                         }
                                     } else {
                                         // For all other field types, use as-is
@@ -563,6 +603,24 @@ function add_acf_to_rest_api() {
                     if ((strpos($field_name, 'gallery') !== false || strpos($field_name, 'images') !== false) && is_array($value)) {
                         // Use our processing function to convert IDs to full image objects
                         $fields[$field_name] = process_acf_gallery_field($value);
+                    }
+                    // Check if this is a single image field
+                    elseif ((strpos($field_name, 'image') !== false || strpos($field_name, 'hero_image') !== false) && $value) {
+                        $processed_image = process_acf_image_field($value);
+                        if ($processed_image) {
+                            $fields[$field_name] = $processed_image;
+                        }
+                    }
+                    // Process nested group fields
+                    elseif (is_array($value)) {
+                        foreach ($value as $sub_field_name => $sub_value) {
+                            if ((strpos($sub_field_name, 'image') !== false || strpos($sub_field_name, 'hero_image') !== false) && $sub_value) {
+                                $processed_image = process_acf_image_field($sub_value);
+                                if ($processed_image) {
+                                    $fields[$field_name][$sub_field_name] = $processed_image;
+                                }
+                            }
+                        }
                     }
                 }
                 
@@ -1035,6 +1093,47 @@ function twentytwentyfive_child_register_acf_blocks() {
             ),
         ),
     ));
+
+    // Hero Section Block
+    acf_register_block_type(array(
+        'name'              => 'hero-section',
+        'title'             => __('Hero Section', 'twentytwentyfive'),
+        'description'       => __('Hero section with full-size image, customizable layout, height options, and color settings', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'cover-image',
+        'keywords'          => array('hero', 'section', 'image', 'banner', 'full-size', 'layout', 'reverse'),
+        'render_template'   => 'blocks/hero-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/hero-section/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading' => 'Why DevOps?',
+                    'sub_heading' => 'Prior to DevOps framework, IT services domain used to follow conventional method while developing a product or framing a service. This method includes requirement gathering, developing code, testing entire code and deployed at the end. This approach leads to delayed product/service delivery, probability of code filled with bugs and unsatisfied customer community. Amid a rapidly evolving world, availability, security and optimized cost also added to the sophistication.',
+                    'layout_settings' => array(
+                        'reverse_layout' => false,
+                        'image_position' => 'right',
+                        'content_alignment' => 'left'
+                    ),
+                    'height_settings' => array(
+                        'section_height' => 'medium'
+                    ),
+                    'color_settings' => array(
+                        'background_color' => '#e8d5f2',
+                        'background_overlay' => 30,
+                        'heading_color' => '#333333',
+                        'sub_heading_color' => '#666666'
+                    )
+                ),
+            ),
+        ),
+    ));
 }
 add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
 
@@ -1288,6 +1387,86 @@ add_action('init', function() {
         enable_cors_for_rest_api();
     }
 });
+
+/**
+ * Process ACF Image Field - Convert image ID to full image object
+ * This function is used for single image fields (not galleries)
+ */
+function process_acf_image_field($image_data) {
+    if (!$image_data) {
+        return null;
+    }
+    
+    // Debug logging
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log('Processing ACF image field:');
+        error_log('Input: ' . print_r($image_data, true));
+    }
+    
+    // If image is already processed (has url and sizes), use as-is
+    if (is_array($image_data) && isset($image_data['url']) && isset($image_data['sizes'])) {
+        return $image_data;
+    }
+    
+    // If image is just an ID (number or string), process it
+    $image_id = null;
+    if (is_numeric($image_data)) {
+        $image_id = intval($image_data);
+    } elseif (is_array($image_data) && isset($image_data['ID'])) {
+        $image_id = intval($image_data['ID']);
+    } elseif (is_array($image_data) && isset($image_data['id'])) {
+        $image_id = intval($image_data['id']);
+    }
+    
+    if ($image_id) {
+        // Get full image data from WordPress
+        $image_data_wp = wp_get_attachment_image_src($image_id, 'full');
+        $image_meta = wp_get_attachment_metadata($image_id);
+        $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
+        $image_post = get_post($image_id);
+        
+        if ($image_data_wp && $image_post) {
+            $processed_image = [
+                'id' => $image_id,
+                'url' => $image_data_wp[0],
+                'width' => $image_data_wp[1],
+                'height' => $image_data_wp[2],
+                'alt' => $image_alt ?: $image_post->post_title,
+                'title' => $image_post->post_title,
+                'caption' => $image_post->post_excerpt,
+                'description' => $image_post->post_content,
+                'sizes' => []
+            ];
+            
+            // Generate different image sizes
+            $image_sizes = ['thumbnail', 'medium', 'medium_large', 'large', 'full'];
+            foreach ($image_sizes as $size) {
+                $size_data = wp_get_attachment_image_src($image_id, $size);
+                if ($size_data) {
+                    $processed_image['sizes'][$size] = $size_data[0];
+                }
+            }
+            
+            // Ensure we have at least the full size
+            if (empty($processed_image['sizes'])) {
+                $processed_image['sizes']['full'] = $image_data_wp[0];
+                $processed_image['sizes']['large'] = $image_data_wp[0];
+                $processed_image['sizes']['medium'] = $image_data_wp[0];
+                $processed_image['sizes']['thumbnail'] = $image_data_wp[0];
+            }
+            
+            // Debug logging
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log('Processed image ID ' . $image_id . ': ' . print_r($processed_image, true));
+            }
+            
+            return $processed_image;
+        }
+    }
+    
+    // If we can't process it, return null
+    return null;
+}
 
 /**
  * Process ACF Gallery Field - Convert image IDs to full image objects
