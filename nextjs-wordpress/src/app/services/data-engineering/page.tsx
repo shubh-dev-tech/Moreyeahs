@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WORDPRESS_API_URL } from '@/lib/env';
 
 export const metadata: Metadata = {
@@ -39,9 +40,7 @@ export default async function DataEngineeringPage() {
             dangerouslySetInnerHTML={{ __html: pageData.content.rendered }}
           />
           {pageData.acf && pageData.acf.blocks && (
-            <div className="blocks">
-              {/* Render blocks if available */}
-            </div>
+            <BlockRenderer blocks={pageData.acf.blocks} />
           )}
         </div>
       </div>
