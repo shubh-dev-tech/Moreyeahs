@@ -1181,6 +1181,56 @@ function twentytwentyfive_child_register_acf_blocks() {
             ),
         ),
     ));
+
+    // Service Testimonial Block
+    acf_register_block_type(array(
+        'name'              => 'service-testimonial',
+        'title'             => __('Service Testimonial', 'twentytwentyfive'),
+        'description'       => __('Advanced testimonial slider with service cards, client testimonials, tilt and blur effects', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'format-quote',
+        'keywords'          => array('testimonial', 'service', 'slider', 'client', 'review', 'tilt', 'blur'),
+        'render_template'   => 'blocks/service-testimonial/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/service-testimonial/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading' => 'What Our Clients Say',
+                    'sub_heading' => 'Discover how our services have transformed businesses across industries',
+                    'autoplay_slider' => true,
+                    'slider_speed' => 4,
+                    'show_navigation' => true,
+                    'show_dots' => true,
+                    'background_color' => '#0a0f1c',
+                    'text_color' => '#ffffff',
+                    'accent_color' => '#ffd700',
+                    'testimonial_items' => array(
+                        array(
+                            'quote' => 'The Data Engineering team completely transformed our data infrastructure. We went from manual processes to automated pipelines that save us 40 hours per week.',
+                            'client_name' => 'Sarah Johnson',
+                            'client_position' => 'CTO',
+                            'client_company' => 'TechFlow Solutions',
+                            'service_icon' => 'fas fa-database',
+                            'service_title' => 'Data Engineering',
+                            'service_features' => array(
+                                array('feature_text' => 'ETL Pipeline Development'),
+                                array('feature_text' => 'Cloud Migration'),
+                                array('feature_text' => 'Infrastructure Automation')
+                            ),
+                            'rating' => 5
+                        )
+                    )
+                ),
+            ),
+        ),
+    ));
 }
 add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
 
