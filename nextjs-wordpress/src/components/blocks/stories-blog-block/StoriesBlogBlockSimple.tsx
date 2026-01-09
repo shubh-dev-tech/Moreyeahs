@@ -113,11 +113,8 @@ export default function StoriesBlogBlockSimple({ data = {} }: StoriesBlogBlockSi
           timestamp: new Date().toISOString()
         });
 
-        console.log(`Fetching posts from: ${fullUrl}`);
         const postsData = await fetchWordPressAPI<Post[]>(fullUrl);
         setPosts(postsData || []);
-        
-        console.log('Posts fetched successfully:', postsData.length);
         
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';

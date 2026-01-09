@@ -1,0 +1,169 @@
+{
+  "key": "group_stories_blog_block",
+  "title": "Stories & Blog Block",
+  "fields": [
+    {
+      "key": "field_stories_heading",
+      "label": "Heading",
+      "name": "heading",
+      "type": "text",
+      "instructions": "Enter the main heading for the section",
+      "required": 1,
+      "default_value": "Success Stories",
+      "placeholder": "Success Stories"
+    },
+    {
+      "key": "field_stories_subheading",
+      "label": "Subheading",
+      "name": "subheading",
+      "type": "textarea",
+      "instructions": "Enter the subheading text",
+      "required": 0,
+      "default_value": "Your partner through complexities of Agile and DevOps transformation",
+      "placeholder": "Your partner through complexities of Agile and DevOps transformation",
+      "rows": 3
+    },
+    {
+      "key": "field_stories_heading_color",
+      "label": "Heading Color",
+      "name": "heading_color",
+      "type": "color_picker",
+      "instructions": "Choose the color for the main heading",
+      "required": 0,
+      "wrapper": {
+        "width": "50"
+      },
+      "default_value": "#ffffff",
+      "enable_opacity": 1,
+      "return_format": "string"
+    },
+    {
+      "key": "field_stories_subheading_color",
+      "label": "Subheading Color",
+      "name": "subheading_color",
+      "type": "color_picker",
+      "instructions": "Choose the color for the subheading text",
+      "required": 0,
+      "wrapper": {
+        "width": "50"
+      },
+      "default_value": "#ffffff",
+      "enable_opacity": 1,
+      "return_format": "string"
+    },
+    {
+      "key": "field_stories_card_label",
+      "label": "Card Label",
+      "name": "card_label",
+      "type": "text",
+      "instructions": "Enter the label text that appears on each card (e.g., 'BLOG POST', 'CASE STUDY'). Leave empty to auto-generate from post type.",
+      "required": 0,
+      "wrapper": {
+        "width": "50"
+      },
+      "placeholder": "BLOG POST"
+    },
+    {
+      "key": "field_stories_post_type",
+      "label": "Post Type",
+      "name": "post_type",
+      "type": "select",
+      "instructions": "Select the post type to display. This will determine which content type to display.",
+      "required": 1,
+      "wrapper": {
+        "width": "50"
+      },
+      "choices": {
+        "post": "Posts",
+        "case_study": "Case Studies",
+        "page": "Pages"
+      },
+      "default_value": "post",
+      "return_format": "value",
+      "ui": 1,
+      "placeholder": "Select a post type"
+    },
+    {
+      "key": "field_stories_category",
+      "label": "Category",
+      "name": "category",
+      "type": "select",
+      "instructions": "Select a category to filter by (leave empty for all categories). Categories will update based on the selected post type.",
+      "required": 0,
+      "wrapper": {
+        "width": "50"
+      },
+      "choices": {
+        "": "All Categories"
+      },
+      "default_value": "",
+      "return_format": "value",
+      "allow_null": 1,
+      "ui": 1,
+      "placeholder": "Select a category (optional)"
+    },
+    {
+      "key": "field_stories_button_text",
+      "label": "Button Text",
+      "name": "button_text",
+      "type": "text",
+      "instructions": "Enter the text for the CTA button",
+      "required": 1,
+      "wrapper": {
+        "width": "50"
+      },
+      "default_value": "Show More",
+      "placeholder": "Show More"
+    },
+    {
+      "key": "field_stories_button_url",
+      "label": "Button URL",
+      "name": "button_url",
+      "type": "url",
+      "instructions": "Enter the URL for the CTA button",
+      "required": 1,
+      "wrapper": {
+        "width": "50"
+      },
+      "placeholder": "https://example.com"
+    },
+    {
+      "key": "field_stories_bg_color",
+      "label": "Background Color",
+      "name": "background_color",
+      "type": "color_picker",
+      "instructions": "Choose a background color for the section",
+      "required": 0,
+      "wrapper": {
+        "width": "50"
+      },
+      "default_value": "#4a148c",
+      "enable_opacity": 1,
+      "return_format": "string"
+    },
+    {
+      "key": "field_stories_bg_image",
+      "label": "Background Image",
+      "name": "background_image",
+      "type": "image",
+      "instructions": "Upload a background image (optional). This will overlay the background color.",
+      "required": 0,
+      "wrapper": {
+        "width": "50"
+      },
+      "return_format": "array",
+      "library": "all",
+      "preview_size": "medium"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/stories-blog-block"
+      }
+    ]
+  ],
+  "description": "Dynamic content block that displays latest 4 posts from a configured post type and category with customizable background and heading colors"
+}

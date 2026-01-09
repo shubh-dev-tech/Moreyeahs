@@ -40,7 +40,7 @@ async function getCaseStudy(slug: string): Promise<CaseStudyData | null> {
       return null;
     }
     
-    console.log('Fetching case study from:', apiUrl);
+
     
     // Use standard WordPress REST API endpoint
     const response = await fetch(`${apiUrl}/wp/v2/case_study?slug=${encodeURIComponent(slug)}&_embed`, {
@@ -158,7 +158,7 @@ export async function generateStaticParams() {
     const { getWordPressApiUrl } = await import('@/lib/environment');
     const apiUrl = getWordPressApiUrl();
     
-    console.log('Generating static params from:', apiUrl);
+
     
     const response = await fetch(`${apiUrl}/wp/v2/case_study?per_page=100`, {
       // Add timeout and retry logic for build process

@@ -27,7 +27,7 @@ async function getCaseStudies(): Promise<ProcessedCaseStudyData[]> {
     const { getWordPressApiUrl } = await import('@/lib/environment');
     const apiUrl = getWordPressApiUrl();
     
-    console.log('Fetching case studies from:', apiUrl);
+
     
     const response = await fetch(`${apiUrl}/wp/v2/case_study?per_page=100&_embed`, {
       next: { revalidate: 60 },

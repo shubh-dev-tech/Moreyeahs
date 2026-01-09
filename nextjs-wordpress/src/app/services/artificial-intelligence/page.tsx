@@ -20,18 +20,8 @@ async function getAIPageData() {
       next: { revalidate: 60 }
     });
     
-    console.log('Custom endpoint response status:', customResponse.status);
-    
     if (customResponse.ok) {
       const pageData = await customResponse.json();
-      console.log('Custom endpoint result:', {
-        id: pageData?.id,
-        title: pageData?.title?.rendered,
-        slug: pageData?.slug,
-        hasContent: !!pageData?.content?.rendered,
-        hasBlocks: !!pageData?.blocks,
-        blocksCount: pageData?.blocks?.length || 0
-      });
       return pageData;
     }
     
@@ -40,19 +30,9 @@ async function getAIPageData() {
       next: { revalidate: 60 }
     });
     
-    console.log('Standard API response status:', response.status);
-    
     if (response.ok) {
       const pages = await response.json();
-      console.log('Standard API result:', pages?.length ? `Found ${pages.length} pages` : 'No pages found');
       if (pages && pages.length > 0) {
-        console.log('Standard API page data:', {
-          id: pages[0].id,
-          title: pages[0].title?.rendered,
-          slug: pages[0].slug,
-          hasContent: !!pages[0].content?.rendered,
-          hasACF: !!pages[0].acf
-        });
         return pages[0];
       }
     }
@@ -68,14 +48,9 @@ async function getAIPageData() {
 export default async function ArtificialIntelligencePage() {
   const pageData = await getAIPageData();
 
-  // Add debugging info
-  console.log('WordPress API URL:', WORDPRESS_API_URL);
-  console.log('Page data received:', !!pageData);
-
   if (pageData) {
     // First check if we have blocks from the custom endpoint
     if (pageData.blocks && Array.isArray(pageData.blocks) && pageData.blocks.length > 0) {
-      console.log('Rendering with custom endpoint blocks:', pageData.blocks.length);
       return (
         <main className="min-h-screen">
           <BlockRenderer blocks={pageData.blocks} />
@@ -85,7 +60,6 @@ export default async function ArtificialIntelligencePage() {
 
     // Parse blocks from content if available
     const blocks = parseBlocks(pageData.content?.rendered || '') || [];
-    console.log('Parsed blocks count:', blocks.length);
 
     // If we have parsed blocks, render them with BlockRenderer
     if (blocks && blocks.length > 0) {
@@ -98,7 +72,6 @@ export default async function ArtificialIntelligencePage() {
 
     // If no blocks but we have content, render with WordPressContent
     if (pageData.content?.rendered) {
-      console.log('Rendering with WordPressContent');
       return (
         <main className="min-h-screen">
           <WordPressContent content={pageData.content.rendered} />
@@ -108,7 +81,6 @@ export default async function ArtificialIntelligencePage() {
 
     // If WordPress page exists but has no content, render with ACF blocks if available
     if (pageData.acf && pageData.acf.blocks) {
-      console.log('Rendering with ACF blocks');
       return (
         <main className="min-h-screen">
           <div className="ai-page">

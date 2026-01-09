@@ -47,6 +47,52 @@
             "new_lines": ""
         },
         {
+            "key": "field_stories_heading_color",
+            "label": "Heading Color",
+            "name": "heading_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the color for the main heading",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffffff",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "show_in_graphql": 1,
+            "graphql_field_name": "headingColor",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_stories_subheading_color",
+            "label": "Subheading Color",
+            "name": "subheading_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the color for the subheading text",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffffff",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "show_in_graphql": 1,
+            "graphql_field_name": "subheadingColor",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
             "key": "field_stories_card_label",
             "label": "Card Label",
             "name": "card_label",
@@ -83,7 +129,10 @@
                 "id": ""
             },
             "choices": {
-                "post": "Posts"
+                "post": "Posts",
+                "page": "Pages",
+                "case_study": "Case Studies",
+                "mega_menu": "Mega Menus"
             },
             "default_value": "post",
             "return_format": "value",
@@ -112,9 +161,16 @@
                 "id": ""
             },
             "choices": {
-                "": "All Categories"
+                "": "All Categories",
+                "6": "AU",
+                "7": "Brisbane",
+                "8": "Canberaa",
+                "10": "devops",
+                "9": "service",
+                "3": "testing",
+                "1": "Uncategorized"
             },
-            "default_value": "",
+            "default_value": false,
             "return_format": "value",
             "multiple": 0,
             "allow_null": 1,
@@ -234,8 +290,8 @@
     "instruction_placement": "label",
     "hide_on_screen": "",
     "active": true,
-    "description": "Dynamic content block that displays latest 4 posts from a configured post type and category with customizable background",
+    "description": "Dynamic content block that displays latest 4 posts from a configured post type and category with customizable background and heading colors",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1765948706
+    "modified": 1767854999
 }

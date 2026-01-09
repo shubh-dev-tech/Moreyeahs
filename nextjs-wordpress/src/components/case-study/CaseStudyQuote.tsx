@@ -19,7 +19,7 @@ const CaseStudyQuote: React.FC<CaseStudyQuoteProps> = ({
   quoteAuthor,
   quotePosition,
   quoteCompany,
-  backgroundColor = '#e91e63',
+  backgroundColor = '#516FC2',
   textColor = '#333333',
   showQuotationMarks = true,
   quoteStyle = 'gradient',
@@ -104,10 +104,10 @@ const CaseStudyQuote: React.FC<CaseStudyQuoteProps> = ({
           font-size: 1.05rem;
           line-height: 1.7;
           margin: 0;
-          font-weight: 400;
+          font-weight: 600;
           text-align: left;
           font-style: italic;
-          color: #e91e63;
+          color: #516FC2;
         }
 
         .case-study-quote__attribution {

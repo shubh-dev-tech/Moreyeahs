@@ -1,0 +1,252 @@
+.multi-cloud-services-block {
+    padding: 80px 0;
+    min-height: 500px;
+    position: relative;
+}
+
+.multi-cloud-services-block .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Section */
+.mcs-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.mcs-main-heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--heading-color, #1f2937);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.mcs-description {
+    font-size: 1.1rem;
+    color: var(--text-color, #374151);
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.mcs-platforms {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.platform-badge {
+    background-color: #6366f1;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* Services Grid */
+.mcs-services-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.mcs-services-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+/* Service Cards */
+.mcs-service-card {
+    background-color: var(--card-bg-color, #ffffff);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mcs-service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.service-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.service-header i {
+    font-size: 1.5rem;
+    color: #6366f1;
+}
+
+.service-header h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--heading-color, #1f2937);
+    margin: 0;
+}
+
+.service-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.service-items li {
+    color: var(--text-color, #374151);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 15px;
+}
+
+.service-items li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #6366f1;
+    font-weight: bold;
+}
+
+/* Tech Badges */
+.tech-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.tech-badge {
+    background-color: #ef4444;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* Credentials Column */
+.mcs-credentials-column {
+    position: sticky;
+    top: 20px;
+}
+
+.mcs-credentials-card {
+    background-color: #6366f1;
+    padding: 40px 30px;
+    border-radius: 20px;
+    color: white;
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
+}
+
+.credentials-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: white;
+}
+
+.credentials-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.credentials-list li {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    position: relative;
+    padding-left: 15px;
+}
+
+.credentials-list li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .mcs-services-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .mcs-services-column {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .mcs-credentials-column {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .multi-cloud-services-block {
+        padding: 60px 0;
+    }
+    
+    .mcs-main-heading {
+        font-size: 2rem;
+    }
+    
+    .mcs-description {
+        font-size: 1rem;
+    }
+    
+    .mcs-platforms {
+        gap: 10px;
+    }
+    
+    .platform-badge {
+        padding: 6px 15px;
+        font-size: 0.8rem;
+    }
+    
+    .mcs-service-card,
+    .mcs-credentials-card {
+        padding: 25px 20px;
+    }
+    
+    .service-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .credentials-title {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .multi-cloud-services-block .container {
+        padding: 0 15px;
+    }
+    
+    .mcs-main-heading {
+        font-size: 1.8rem;
+    }
+    
+    .mcs-service-card,
+    .mcs-credentials-card {
+        padding: 20px 15px;
+    }
+}

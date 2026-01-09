@@ -16,10 +16,9 @@ echo.
 echo Starting Next.js dev server...
 echo.
 echo ========================================
-echo Visit these URLs to test:
+echo Visit this URL:
 echo ========================================
 echo Homepage:   http://localhost:3000
-echo Test API:   http://localhost:3000/test-api
 echo ========================================
 echo.
 

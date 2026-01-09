@@ -1182,6 +1182,105 @@ function twentytwentyfive_child_register_acf_blocks() {
         ),
     ));
 
+    // Multi Cloud Services Block
+    acf_register_block_type(array(
+        'name'              => 'multi-cloud-services',
+        'title'             => __('Multi Cloud Services', 'twentytwentyfive'),
+        'description'       => __('Dynamic multi-cloud services section with customizable styling, credentials, and implementations', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'cloud',
+        'keywords'          => array('multi-cloud', 'services', 'credentials', 'platforms', 'aws', 'azure', 'gcp'),
+        'render_template'   => 'blocks/multi-cloud-services/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/multi-cloud-services/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'main_heading' => 'Delivering Seamless Services Across Multi-Cloud Platforms',
+                    'description' => 'We enable enterprises to design, deploy, and manage secure, scalable, and high-performance solutions across leading cloud providers.',
+                    'cloud_platforms' => array(
+                        array('platform_name' => 'Google cloud platform (GCP)', 'platform_color' => '#4285f4'),
+                        array('platform_name' => 'Amazon Web Services (AWS)', 'platform_color' => '#ff9900'),
+                        array('platform_name' => 'Microsoft Azure cloud (Azure)', 'platform_color' => '#0078d4'),
+                    ),
+                    'styling_options' => array(
+                        'background_type' => 'gradient',
+                        'gradient_start' => '#c4b5fd',
+                        'gradient_end' => '#a78bfa',
+                    ),
+                ),
+            ),
+        ),
+    ));
+
+    // Video Hero Section Block
+    acf_register_block_type(array(
+        'name'              => 'video-hero-section',
+        'title'             => __('Video Hero Section', 'twentytwentyfive'),
+        'description'       => __('Dynamic video hero section with multiple video sources, overlay content, and performance optimizations', 'twentytwentyfive'),
+        'category'          => 'media',
+        'icon'              => 'video-alt3',
+        'keywords'          => array('video', 'hero', 'section', 'youtube', 'vimeo', 'overlay', 'cta'),
+        'render_template'   => 'blocks/video-hero-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/video-hero-section/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'main_heading' => 'Follow Your Heart Rescue!',
+                    'subtitle' => 'Pet Supplies & Toy Drive',
+                    'video_source' => 'url',
+                    'video_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                    'video_settings' => array(
+                        'autoplay' => false,
+                        'muted' => false,
+                        'loop' => false,
+                        'controls' => true,
+                        'preload' => 'metadata'
+                    ),
+                    'overlay_content' => array(
+                        'show_overlay' => true,
+                        'overlay_position' => 'center-center',
+                        'overlay_background' => 'semi-transparent'
+                    ),
+                    'styling_options' => array(
+                        'section_height' => 'viewport',
+                        'video_aspect_ratio' => '16/9',
+                        'text_color' => '#ffffff',
+                        'heading_color' => '#ffffff',
+                        'border_radius' => 12
+                    ),
+                    'cta_buttons' => array(
+                        array(
+                            'button_text' => 'Donate Now',
+                            'button_url' => '#donate',
+                            'button_style' => 'primary',
+                            'button_color' => '#10b981'
+                        ),
+                        array(
+                            'button_text' => 'Learn More',
+                            'button_url' => '#about',
+                            'button_style' => 'outline',
+                            'button_color' => '#ffffff'
+                        )
+                    )
+                ),
+            ),
+        ),
+    ));
+
     // Service Testimonial Block
     acf_register_block_type(array(
         'name'              => 'service-testimonial',
@@ -1227,6 +1326,42 @@ function twentytwentyfive_child_register_acf_blocks() {
                             'rating' => 5
                         )
                     )
+                ),
+            ),
+        ),
+    ));
+
+    // Stories & Blog Block
+    acf_register_block_type(array(
+        'name'              => 'stories-blog-block',
+        'title'             => __('Stories & Blog Block', 'twentytwentyfive'),
+        'description'       => __('Dynamic content block with auto-detecting post types, custom backgrounds, and latest 4 posts display with customizable heading colors', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'admin-post',
+        'keywords'          => array('stories', 'blog', 'posts', 'dynamic', 'content', 'case study', 'articles'),
+        'render_template'   => 'blocks/stories-blog-block/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/stories-blog-block/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading' => 'Success Stories',
+                    'subheading' => 'Your partner through complexities of Agile and DevOps transformation',
+                    'heading_color' => '#ffffff',
+                    'subheading_color' => '#e8eaf6',
+                    'card_label' => 'CASE STUDY',
+                    'post_type' => 'case_study',
+                    'category' => '',
+                    'button_text' => 'View All Stories',
+                    'button_url' => '/case-studies',
+                    'background_color' => '#4a148c',
+                    'background_image' => ''
                 ),
             ),
         ),

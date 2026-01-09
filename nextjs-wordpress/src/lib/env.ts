@@ -51,7 +51,5 @@ export function getWordPressUrl(): string {
 
 // Build-time safety check - log configuration but never throw
 if (typeof process !== 'undefined' && IS_DEVELOPMENT) {
-  console.log('[env] Environment - Local:', IS_LOCAL, 'Vercel:', IS_VERCEL);
-  console.log('[env] WordPress API:', WORDPRESS_API_URL);
-  console.log('[env] Base URL:', WORDPRESS_BASE_URL);
+  // Environment logging removed for production
 }

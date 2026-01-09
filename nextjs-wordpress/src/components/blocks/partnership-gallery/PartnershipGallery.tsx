@@ -167,66 +167,16 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
     return `https://via.placeholder.com/300x150/cccccc/666666?text=Missing+Image`;
   };
 
-  // Debug logging (only in development)
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🤝 PartnershipGallery Debug:', {
-      dataReceived: !!data,
-      dataKeys: data ? Object.keys(data) : [],
-      galleryImagesRaw: data?.gallery_images,
-      galleryImagesCount: gallery_images?.length || 0,
-      processedImagesCount: processedImages?.length || 0,
-      firstImage: gallery_images?.[0],
-      firstProcessedImage: processedImages?.[0],
-      firstImageType: typeof gallery_images?.[0],
-      firstImageIsNumeric: typeof gallery_images?.[0] === 'number' || (typeof gallery_images?.[0] === 'string' && /^\d+$/.test(gallery_images?.[0])),
-      isProcessing,
-      heading,
-      layout_type
-    });
-    
-    // Log each image in detail
-    if (gallery_images && gallery_images.length > 0) {
-      console.log('📸 Raw Images:', gallery_images);
-      gallery_images.forEach((img, index) => {
-        console.log(`Raw Image ${index}:`, {
-          type: typeof img,
-          value: img,
-          isNumeric: typeof img === 'number' || (typeof img === 'string' && /^\d+$/.test(img)),
-          hasUrl: img?.url ? 'YES' : 'NO',
-          hasSizes: img?.sizes ? 'YES' : 'NO',
-          url: img?.url,
-          sizes: img?.sizes
-        });
-      });
-    }
-
-    // Log processed images
-    if (processedImages && processedImages.length > 0) {
-      console.log('✅ Processed Images:', processedImages);
-      processedImages.forEach((img, index) => {
-        console.log(`Processed Image ${index}:`, {
-          id: img.id,
-          url: img.url,
-          alt: img.alt,
-          hasSizes: img.sizes ? 'YES' : 'NO',
-          mediumUrl: img.sizes?.medium
-        });
-      });
-    } else {
-      console.log('❌ No processed images available');
-    }
-  }
+  // Debug logging removed for production
 
   React.useEffect(() => {
     const processImages = async () => {
       if (!gallery_images || gallery_images.length === 0) {
-        console.log('❌ No gallery images provided');
         setProcessedImages([]);
         setIsProcessing(false);
         return;
       }
 
-      console.log('🔧 Processing gallery images from WordPress:', gallery_images);
       setIsProcessing(true);
 
       const processed: GalleryImage[] = [];
@@ -252,7 +202,6 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
         // If image is just an ID, try to fetch the full data
         if (typeof img === 'number' || (typeof img === 'string' && /^\d+$/.test(img))) {
           const imageId = typeof img === 'string' ? parseInt(img) : img;
-          console.log(`🔄 Fetching data for image ID: ${imageId}`);
           
           const imageData = await fetchImageData(imageId);
           if (imageData) {
@@ -288,7 +237,6 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
         console.warn('⚠️ Unrecognized image format:', img);
       }
 
-      console.log('✅ Processed images:', processed);
       setProcessedImages(processed);
       setIsProcessing(false);
     };
