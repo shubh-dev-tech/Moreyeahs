@@ -32,6 +32,8 @@ interface StoriesBlogBlockProps {
   data: {
     heading?: string;
     subheading?: string;
+    heading_color?: string;
+    subheading_color?: string;
     card_label?: string;
     post_type?: string;
     category?: string;
@@ -51,6 +53,8 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
         return {
           heading: element.getAttribute('data-heading') || 'Success Stories',
           subheading: element.getAttribute('data-subheading') || 'Your partner through complexities of Agile and DevOps transformation',
+          heading_color: element.getAttribute('data-heading-color') || '#ffffff',
+          subheading_color: element.getAttribute('data-subheading-color') || '#ffffff',
           card_label: element.getAttribute('data-card-label') || '',
           post_type: element.getAttribute('data-post-type') || 'post',
           category: element.getAttribute('data-category') || '',
@@ -69,6 +73,8 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
   const {
     heading = 'Success Stories',
     subheading = 'Your partner through complexities of Agile and DevOps transformation',
+    heading_color = '#ffffff',
+    subheading_color = '#ffffff',
     card_label = '',
     post_type = 'post',
     category = '',
@@ -164,11 +170,6 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
           }
         }
 
-        console.log(`Fetching posts from: ${endpoint}`);
-        console.log('POST data:', postData);
-        console.log('Category filter:', category);
-        console.log('Post type:', post_type);
-        
         // Try different approaches based on post type
         let postsData;
         try {
@@ -247,7 +248,6 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
             console.error('All API attempts failed:', fallbackError);
           }
         }
-        console.log('Fetched posts:', postsData?.length || 0, 'posts');
         setPosts(postsData || []);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -346,8 +346,18 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
       <div className="stories-blog-block__container">
         {/* Header Section */}
         <div className="stories-blog-block__header">
-          <h2 className="stories-blog-block__heading">{heading}</h2>
-          <p className="stories-blog-block__subheading">{subheading}</p>
+          <h2 
+            className="stories-blog-block__heading"
+            style={{ color: heading_color }}
+          >
+            {heading}
+          </h2>
+          <p 
+            className="stories-blog-block__subheading"
+            style={{ color: subheading_color }}
+          >
+            {subheading}
+          </p>
         </div>
 
         {/* Content Grid */}

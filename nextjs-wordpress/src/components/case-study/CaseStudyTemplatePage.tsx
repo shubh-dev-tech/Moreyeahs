@@ -308,7 +308,7 @@ const CaseStudyTemplatePage: React.FC<CaseStudyTemplatePageProps> = ({
                     {section.section_icon?.url && (
                       <div 
                         className={styles.sectionIcon}
-                        style={{ color: section.icon_color || '#e91e63' }}
+                        style={{ color: section.icon_color || '#516FC2' }}
                       >
                         <SafeImage
                           src={section.section_icon.url}
@@ -337,7 +337,7 @@ const CaseStudyTemplatePage: React.FC<CaseStudyTemplatePageProps> = ({
                           <CaseStudyQuote
                             key={quoteIndex}
                             quoteText={quote.quote_text}
-                            backgroundColor={section.icon_color || '#e91e63'}
+                            backgroundColor={section.icon_color || '#516FC2'}
                             className={styles.sectionQuote}
                           />
                         ))}
@@ -360,7 +360,7 @@ const CaseStudyTemplatePage: React.FC<CaseStudyTemplatePageProps> = ({
                   <CaseStudyQuote
                     quoteText={testimonial.quote_text}
                     quoteAuthor={testimonial.quote_author}
-                    backgroundColor="#e91e63"
+                    backgroundColor="#516FC2"
                     className={styles.testimonialQuote}
                   />
                 </section>

@@ -158,8 +158,7 @@ export function getEnvironmentConfig(): EnvironmentConfig {
 
   // Optional build-time debug log (only server-side)
   if (typeof window === 'undefined' && (process.env.DEBUG_ENV === 'true' || process.env.NEXT_PUBLIC_DEBUG_ENV === 'true')) {
-    // eslint-disable-next-line no-console
-    console.info(`[env] environment=${environment} nextjsUrl=${nextjsUrl} wordpressUrl=${wordpressUrl} wordpressApiUrl=${wordpressApiUrl}`);
+    // Debug logging removed for production
   }
   
   return {

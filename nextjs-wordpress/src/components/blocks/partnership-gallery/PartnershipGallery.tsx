@@ -87,18 +87,57 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
   const [processedImages, setProcessedImages] = React.useState<GalleryImage[]>([]);
   const [isProcessing, setIsProcessing] = React.useState(false);
 
+  // Function to fetch image data from WordPress REST API if we only have IDs
+  const fetchImageData = React.useCallback(async (imageId: number): Promise<GalleryImage | null> => {
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost';
+      const response = await fetch(`${baseUrl}/wp-json/wp/v2/media/${imageId}`);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch image ${imageId}`);
+      }
+      
+      const imageData = await response.json();
+      
+      return {
+        id: imageData.id,
+        url: imageData.source_url,
+        alt: imageData.alt_text || imageData.title?.rendered || '',
+        title: imageData.title?.rendered || '',
+        sizes: {
+          thumbnail: imageData.media_details?.sizes?.thumbnail?.source_url || imageData.source_url,
+          medium: imageData.media_details?.sizes?.medium?.source_url || imageData.source_url,
+          large: imageData.media_details?.sizes?.large?.source_url || imageData.source_url,
+          full: imageData.source_url
+        }
+      };
+    } catch (error) {
+      console.error('Failed to fetch image data for ID:', imageId, error);
+      return null;
+    }
+  }, []);
+
   // Helper function to get image URL with multiple fallbacks
   const getImageUrl = (image: any, size: string = 'medium') => {
-    // If image is just a number (ID), construct WordPress media URL directly
+    // If image is just a number (ID), try to construct the WordPress media URL
     if (typeof image === 'number' || (typeof image === 'string' && /^\d+$/.test(image))) {
       const imageId = typeof image === 'string' ? parseInt(image) : image;
-      console.warn('⚠️ Image is still just an ID:', imageId, 'constructing direct WordPress URL');
+      console.warn('⚠️ Image is still just an ID:', imageId, 'this should have been processed by WordPress');
       
-      // Construct WordPress media URL directly using the attachment ID
-      // WordPress typically stores uploads in /wp-content/uploads/YYYY/MM/ structure
-      // Since we can't determine the exact path from just the ID, we'll use the WordPress media endpoint
-      // This is a fallback that should work for most cases
-      return `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Error+ID+${imageId}`;
+      // Try to construct a WordPress media URL based on the site structure
+      // This is a fallback - ideally images should be processed on the backend
+      const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost';
+      
+      // Try common WordPress upload paths
+      const possiblePaths = [
+        `${baseUrl}/wp-content/uploads/2026/01/image-${imageId}.jpg`,
+        `${baseUrl}/wp-content/uploads/2026/01/image-${imageId}.png`,
+        `${baseUrl}/wp-content/uploads/2025/12/image-${imageId}.jpg`,
+        `${baseUrl}/wp-content/uploads/2025/12/image-${imageId}.png`,
+      ];
+      
+      // For now, return a placeholder that shows the ID for debugging
+      return `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=ID+${imageId}`;
     }
     
     // Try different possible structures for processed images
@@ -128,184 +167,82 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
     return `https://via.placeholder.com/300x150/cccccc/666666?text=Missing+Image`;
   };
 
-  // Function to fetch image data from WordPress REST API
-  const fetchImageData = async (imageId: number) => {
-    try {
-      const wpApiUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'http://localhost/moreyeahs-new/wp-json';
-      const response = await fetch(`${wpApiUrl}/wp/v2/media/${imageId}`);
-      
-      if (response.ok) {
-        const imageData = await response.json();
-        return {
-          id: imageId,
-          url: imageData.source_url || imageData.guid?.rendered || '',
-          alt: imageData.alt_text || '',
-          title: imageData.title?.rendered || '',
-          sizes: {
-            thumbnail: imageData.media_details?.sizes?.thumbnail?.source_url || imageData.source_url,
-            medium: imageData.media_details?.sizes?.medium?.source_url || imageData.source_url,
-            large: imageData.media_details?.sizes?.large?.source_url || imageData.source_url,
-            full: imageData.source_url
-          }
-        };
-      }
-    } catch (error) {
-      console.error('Failed to fetch image data for ID:', imageId, error);
-    }
-    
-    return null;
-  };
-
-  // Debug logging (only in development)
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🤝 PartnershipGallery Debug:', {
-      dataReceived: !!data,
-      dataKeys: data ? Object.keys(data) : [],
-      galleryImagesRaw: data?.gallery_images,
-      galleryImagesCount: gallery_images?.length || 0,
-      processedImagesCount: processedImages?.length || 0,
-      firstImage: gallery_images?.[0],
-      firstProcessedImage: processedImages?.[0],
-      firstImageType: typeof gallery_images?.[0],
-      firstImageIsNumeric: typeof gallery_images?.[0] === 'number' || (typeof gallery_images?.[0] === 'string' && /^\d+$/.test(gallery_images?.[0])),
-      isProcessing,
-      heading,
-      layout_type
-    });
-    
-    // Log each image in detail
-    if (gallery_images && gallery_images.length > 0) {
-      console.log('📸 Raw Images:', gallery_images);
-      gallery_images.forEach((img, index) => {
-        console.log(`Raw Image ${index}:`, {
-          type: typeof img,
-          value: img,
-          isNumeric: typeof img === 'number' || (typeof img === 'string' && /^\d+$/.test(img)),
-          hasUrl: img?.url ? 'YES' : 'NO',
-          hasSizes: img?.sizes ? 'YES' : 'NO',
-          url: img?.url,
-          sizes: img?.sizes
-        });
-      });
-    }
-
-    // Log processed images
-    if (processedImages && processedImages.length > 0) {
-      console.log('✅ Processed Images:', processedImages);
-      processedImages.forEach((img, index) => {
-        console.log(`Processed Image ${index}:`, {
-          id: img.id,
-          url: img.url,
-          alt: img.alt,
-          hasSizes: img.sizes ? 'YES' : 'NO',
-          mediumUrl: img.sizes?.medium
-        });
-      });
-    } else {
-      console.log('❌ No processed images available');
-    }
-  }
+  // Debug logging removed for production
 
   React.useEffect(() => {
     const processImages = async () => {
       if (!gallery_images || gallery_images.length === 0) {
         setProcessedImages([]);
-        return;
-      }
-
-      // Check if images need processing (are just IDs)
-      const needsProcessing = gallery_images.some(img => 
-        typeof img === 'number' || 
-        (typeof img === 'string' && /^\d+$/.test(img)) ||
-        (typeof img === 'object' && (img as any).ID && !(img as any).url)
-      );
-
-      if (!needsProcessing) {
-        // Images are already processed - convert to proper format
-        console.log('✅ Images already processed, using as-is');
-        setProcessedImages(gallery_images as GalleryImage[]);
         setIsProcessing(false);
         return;
       }
 
-      console.log('🔧 Processing gallery images from IDs...');
       setIsProcessing(true);
 
-      try {
-        // Try to get the current post ID from the URL or context
-        const currentPath = window.location.pathname;
-        const postIdMatch = currentPath.match(/\/(\d+)\/?$/);
-        const postId = postIdMatch ? postIdMatch[1] : null;
+      const processed: GalleryImage[] = [];
 
-        // If we have a post ID, try to fetch processed data from our REST API endpoint
-        if (postId) {
-          const wpApiUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'http://localhost/moreyeahs-new/wp-json';
-          const response = await fetch(`${wpApiUrl}/wp/v2/partnership-gallery/${postId}`);
-          
-          if (response.ok) {
-            const data = await response.json();
-            if (data.acf_fields && data.acf_fields.gallery_images && Array.isArray(data.acf_fields.gallery_images)) {
-              console.log('✅ Got processed images from REST API');
-              setProcessedImages(data.acf_fields.gallery_images);
-              setIsProcessing(false);
-              return;
-            }
-          }
+      for (let i = 0; i < gallery_images.length; i++) {
+        const img = gallery_images[i];
+        
+        console.log(`Processing image ${i}:`, {
+          type: typeof img,
+          value: img,
+          isNumeric: typeof img === 'number' || (typeof img === 'string' && /^\d+$/.test(img)),
+          hasUrl: img?.url ? 'YES' : 'NO',
+          hasSizes: img?.sizes ? 'YES' : 'NO',
+          keys: typeof img === 'object' ? Object.keys(img) : 'not object'
+        });
+
+        // If image is already a complete object with URL and sizes, use it
+        if (img && typeof img === 'object' && img.url && img.sizes) {
+          processed.push(img as GalleryImage);
+          continue;
         }
 
-        // Fallback: Process images manually using WordPress media API
-        const processed = await Promise.all(
-          gallery_images.map(async (img) => {
-            // If it's just an ID, try to fetch the data first, then fallback to direct URL construction
-            if (typeof img === 'number' || (typeof img === 'string' && /^\d+$/.test(img))) {
-              const imageId = typeof img === 'string' ? parseInt(img) : img;
-              
-              // Try to fetch from WordPress REST API first
-              const imageData = await fetchImageData(imageId);
-              
-              if (imageData) {
-                return imageData;
+        // If image is just an ID, try to fetch the full data
+        if (typeof img === 'number' || (typeof img === 'string' && /^\d+$/.test(img))) {
+          const imageId = typeof img === 'string' ? parseInt(img) : img;
+          
+          const imageData = await fetchImageData(imageId);
+          if (imageData) {
+            processed.push(imageData);
+          } else {
+            // Create a fallback image object
+            processed.push({
+              id: imageId,
+              url: `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Error+ID+${imageId}`,
+              alt: `Image ${imageId}`,
+              title: `Image ${imageId}`,
+              sizes: {
+                thumbnail: `https://via.placeholder.com/150x150/ff6b6b/ffffff?text=Error+ID+${imageId}`,
+                medium: `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Error+ID+${imageId}`,
+                large: `https://via.placeholder.com/600x300/ff6b6b/ffffff?text=Error+ID+${imageId}`,
+                full: `https://via.placeholder.com/800x400/ff6b6b/ffffff?text=Error+ID+${imageId}`
               }
-              
-              // Fallback: construct direct WordPress URLs
-              const wpBaseUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL?.replace('/wp-json', '') || 'http://localhost/moreyeahs-new';
-              
-              return {
-                id: imageId,
-                url: `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Error+ID+${imageId}`,
-                alt: `Partnership ${imageId}`,
-                title: `Partnership ${imageId}`,
-                sizes: {
-                  thumbnail: `https://via.placeholder.com/150x75/ff6b6b/ffffff?text=Error+ID+${imageId}`,
-                  medium: `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Error+ID+${imageId}`,
-                  large: `https://via.placeholder.com/600x300/ff6b6b/ffffff?text=Error+ID+${imageId}`,
-                  full: `https://via.placeholder.com/800x400/ff6b6b/ffffff?text=Error+ID+${imageId}`
-                }
-              };
-            }
-            
-            // If it's an object with ID but no URL
-            if (typeof img === 'object' && (img as any).ID && !(img as any).url) {
-              const imageData = await fetchImageData((img as any).ID);
-              return imageData || img;
-            }
-            
-            // Already processed
-            return img as GalleryImage;
-          })
-        );
+            });
+          }
+          continue;
+        }
 
-        setProcessedImages(processed.filter(Boolean) as GalleryImage[]);
-      } catch (error) {
-        console.error('Failed to process gallery images:', error);
-        setProcessedImages([]);
-      } finally {
-        setIsProcessing(false);
+        // If image has an ID property, try to use that
+        if (img && typeof img === 'object' && ((img as any).ID || (img as any).id)) {
+          const imageId = (img as any).ID || (img as any).id;
+          const imageData = await fetchImageData(imageId);
+          if (imageData) {
+            processed.push(imageData);
+          }
+          continue;
+        }
+
+        console.warn('⚠️ Unrecognized image format:', img);
       }
+
+      setProcessedImages(processed);
+      setIsProcessing(false);
     };
 
     processImages();
-  }, [gallery_images]);
+  }, [gallery_images, fetchImageData]);
   const sliderRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
