@@ -14,11 +14,13 @@ interface ServiceItem {
 
 interface ServiceSection {
   section_icon?: string;
+  section_image?: any; // More flexible to handle different ACF formats
   section_title: string;
   section_items: ServiceItem[];
   section_bg_color?: string;
   section_text_color?: string;
   section_border_color?: string;
+  arrow_color?: string;
 }
 
 interface CredentialItem {
@@ -31,6 +33,8 @@ interface CredentialsSection {
   bg_color: string;
   text_color?: string;
   border_color?: string;
+  credential_image?: any; // More flexible to handle different ACF formats
+  arrow_color?: string;
 }
 
 interface TechBadge {
@@ -47,6 +51,8 @@ interface ImplementationsSection {
   section_bg_color?: string;
   section_text_color?: string;
   section_border_color?: string;
+  show_section?: boolean;
+  section_image?: any; // Image for the implementations section header
 }
 
 interface StylingOptions {
@@ -122,6 +128,43 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
     '--card-bg-color': styling_options?.card_bg_color || '#ffffff'
   } as React.CSSProperties);
 
+  // Generate arrow color CSS variable for a specific section
+  const getArrowColorVariable = (arrowColor?: string): React.CSSProperties => ({
+    '--arrow-color': arrowColor || '#6366f1'
+  } as React.CSSProperties);
+
+  // Helper function to get image URL from different ACF formats
+  const getImageUrl = (image?: { url: string; alt?: string } | string | any): string | null => {
+    if (!image) return null;
+    
+    // Handle string URL
+    if (typeof image === 'string') return image;
+    
+    // Handle ACF array format
+    if (typeof image === 'object') {
+      // Check for direct url property
+      if (image.url) return image.url;
+      
+      // Check for sizes object (ACF array format)
+      if (image.sizes && image.sizes.thumbnail) return image.sizes.thumbnail;
+      if (image.sizes && image.sizes.medium) return image.sizes.medium;
+      if (image.sizes && image.sizes.full) return image.sizes.full;
+      
+      // Fallback to direct image URL
+      if (typeof image === 'string') return image;
+    }
+    
+    return null;
+  };
+
+  // Helper function to get image alt text
+  const getImageAlt = (image?: { url: string; alt?: string } | string | any, fallback?: string): string => {
+    if (!image) return fallback || '';
+    if (typeof image === 'string') return fallback || '';
+    if (typeof image === 'object' && image.alt) return image.alt;
+    return fallback || '';
+  };
+
   return (
     <div 
       className="multi-cloud-services-block"
@@ -165,11 +208,18 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
                   borderColor: section.section_border_color || '#e5e7eb',
                   borderWidth: '2px',
                   borderStyle: 'solid',
-                  color: section.section_text_color || styling_options?.text_color || '#374151'
+                  color: section.section_text_color || styling_options?.text_color || '#374151',
+                  ...getArrowColorVariable(section.arrow_color)
                 }}
               >
                 <div className="service-header">
-                  {section.section_icon && (
+                  {getImageUrl(section.section_image) ? (
+                    <img 
+                      src={getImageUrl(section.section_image)!} 
+                      alt={getImageAlt(section.section_image, section.section_title)}
+                      className="section-image"
+                    />
+                  ) : section.section_icon && (
                     <i className={section.section_icon}></i>
                   )}
                   <h3 style={{ color: section.section_text_color || styling_options?.heading_color || '#1f2937' }}>
@@ -181,7 +231,8 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
                     {section.section_items.map((item, itemIndex) => (
                       <li 
                         key={itemIndex}
-                        style={{ color: section.section_text_color || styling_options?.text_color || '#374151' }}
+                        // style={{ color: section.section_text_color || styling_options?.text_color || '#374151' }}
+                        style={{ color: '#374151' }}
                       >
                         {item.item_text}
                       </li>
@@ -192,7 +243,7 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
             ))}
 
             {/* Implementations & Tech Section */}
-            {implementations_section && (
+            {implementations_section && implementations_section.show_section !== false && (
               <div 
                 className="mcs-service-card"
                 style={{
@@ -204,6 +255,21 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
                 }}
               >
                 <div className="service-header">
+                  {(() => {
+                    const imageUrl = getImageUrl(implementations_section.section_image);
+                    console.log('Implementations section image debug:', {
+                      section_image: implementations_section.section_image,
+                      imageUrl: imageUrl,
+                      hasImage: !!imageUrl
+                    });
+                    return imageUrl ? (
+                      <img 
+                        src={imageUrl} 
+                        alt={getImageAlt(implementations_section.section_image, implementations_section.title)}
+                        className="section-image"
+                      />
+                    ) : null;
+                  })()}
                   <h3 style={{ color: implementations_section.section_text_color || styling_options?.heading_color || '#1f2937' }}>
                     {implementations_section.title}
                   </h3>
@@ -244,21 +310,31 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
                   borderColor: credentials_section.border_color || '#4f46e5',
                   borderWidth: '2px',
                   borderStyle: 'solid',
-                  color: credentials_section.text_color || '#ffffff'
+                  color: credentials_section.text_color || '#ffffff',
+                  ...getArrowColorVariable(credentials_section.arrow_color)
                 }}
               >
-                <h3 
-                  className="credentials-title"
-                  style={{ color: credentials_section.text_color || '#ffffff' }}
-                >
-                  {credentials_section.title}
-                </h3>
+                <div className="credentials-header">
+                  {getImageUrl(credentials_section.credential_image) && (
+                    <img 
+                      src={getImageUrl(credentials_section.credential_image)!} 
+                      alt={getImageAlt(credentials_section.credential_image, credentials_section.title)}
+                      className="credentials-image"
+                    />
+                  )}
+                  <h3 
+                    className="credentials-title"
+                    style={{ color: credentials_section.text_color || '#ffffff' }}
+                  >
+                    {credentials_section.title}
+                  </h3>
+                </div>
                 {credentials_section.items && credentials_section.items.length > 0 && (
                   <ul className="credentials-list">
                     {credentials_section.items.map((item, index) => (
                       <li 
                         key={index}
-                        style={{ color: credentials_section.text_color || 'rgba(255, 255, 255, 0.9)' }}
+                       style={{ color: '#374151' }}
                       >
                         {item.text}
                       </li>

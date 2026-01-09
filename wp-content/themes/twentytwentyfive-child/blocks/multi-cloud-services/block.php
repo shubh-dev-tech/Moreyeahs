@@ -87,16 +87,36 @@ echo $custom_css;
                     <?php foreach ($services_sections as $section): ?>
                         <?php
                         $section_style = '';
-                        if (!empty($section['section_bg_color']) || !empty($section['section_border_color'])) {
+                        $arrow_color_style = '';
+                        if (!empty($section['section_bg_color']) || !empty($section['section_border_color']) || !empty($section['arrow_color'])) {
                             $bg_color = $section['section_bg_color'] ?? $styling_options['card_bg_color'] ?? '#ffffff';
                             $border_color = $section['section_border_color'] ?? '#e5e7eb';
                             $text_color = $section['section_text_color'] ?? $styling_options['text_color'] ?? '#374151';
-                            $section_style = "background-color: {$bg_color}; border: 2px solid {$border_color}; color: {$text_color};";
+                            $arrow_color = $section['arrow_color'] ?? '#6366f1';
+                            $section_style = "background-color: {$bg_color}; border: 2px solid {$border_color}; color: {$text_color}; --arrow-color: {$arrow_color};";
                         }
                         ?>
                         <div class="mcs-service-card" style="<?php echo esc_attr($section_style); ?>">
                             <div class="service-header">
-                                <?php if (!empty($section['section_icon'])): ?>
+                                <?php if (!empty($section['section_image'])): ?>
+                                    <?php 
+                                    $image_url = '';
+                                    $image_alt = $section['section_title'];
+                                    
+                                    if (is_array($section['section_image'])) {
+                                        $image_url = $section['section_image']['url'] ?? '';
+                                        $image_alt = $section['section_image']['alt'] ?? $section['section_title'];
+                                    } elseif (is_numeric($section['section_image'])) {
+                                        $image_url = wp_get_attachment_image_url($section['section_image'], 'thumbnail');
+                                        $image_alt = get_post_meta($section['section_image'], '_wp_attachment_image_alt', true) ?: $section['section_title'];
+                                    } elseif (is_string($section['section_image'])) {
+                                        $image_url = $section['section_image'];
+                                    }
+                                    ?>
+                                    <?php if ($image_url): ?>
+                                        <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($image_alt); ?>" class="section-image" />
+                                    <?php endif; ?>
+                                <?php elseif (!empty($section['section_icon'])): ?>
                                     <i class="<?php echo esc_attr($section['section_icon']); ?>"></i>
                                 <?php endif; ?>
                                 <h3 style="color: <?php echo esc_attr($section['section_text_color'] ?? $styling_options['heading_color'] ?? '#1f2937'); ?>">
@@ -106,7 +126,7 @@ echo $custom_css;
                             <?php if (!empty($section['section_items'])): ?>
                                 <ul class="service-items">
                                     <?php foreach ($section['section_items'] as $item): ?>
-                                        <li style="color: <?php echo esc_attr($section['section_text_color'] ?? $styling_options['text_color'] ?? '#374151'); ?>">
+                                        <li style="color: #374151;">
                                             <?php echo esc_html($item['item_text']); ?>
                                         </li>
                                     <?php endforeach; ?>
@@ -117,7 +137,7 @@ echo $custom_css;
                 <?php endif; ?>
 
                 <!-- Implementations & Tech Section -->
-                <?php if (!empty($implementations_section)): ?>
+                <?php if (!empty($implementations_section) && ($implementations_section['show_section'] ?? true)): ?>
                     <?php
                     $impl_style = '';
                     if (!empty($implementations_section['section_bg_color']) || !empty($implementations_section['section_border_color'])) {
@@ -129,6 +149,25 @@ echo $custom_css;
                     ?>
                     <div class="mcs-service-card" style="<?php echo esc_attr($impl_style); ?>">
                         <div class="service-header">
+                            <?php if (!empty($implementations_section['section_image'])): ?>
+                                <?php 
+                                $impl_image_url = '';
+                                $impl_image_alt = $implementations_section['title'] ?? 'Implementations & Tech';
+                                
+                                if (is_array($implementations_section['section_image'])) {
+                                    $impl_image_url = $implementations_section['section_image']['url'] ?? '';
+                                    $impl_image_alt = $implementations_section['section_image']['alt'] ?? $impl_image_alt;
+                                } elseif (is_numeric($implementations_section['section_image'])) {
+                                    $impl_image_url = wp_get_attachment_image_url($implementations_section['section_image'], 'thumbnail');
+                                    $impl_image_alt = get_post_meta($implementations_section['section_image'], '_wp_attachment_image_alt', true) ?: $impl_image_alt;
+                                } elseif (is_string($implementations_section['section_image'])) {
+                                    $impl_image_url = $implementations_section['section_image'];
+                                }
+                                ?>
+                                <?php if ($impl_image_url): ?>
+                                    <img src="<?php echo esc_url($impl_image_url); ?>" alt="<?php echo esc_attr($impl_image_alt); ?>" class="section-image" />
+                                <?php endif; ?>
+                            <?php endif; ?>
                             <h3 style="color: <?php echo esc_attr($implementations_section['section_text_color'] ?? $styling_options['heading_color'] ?? '#1f2937'); ?>">
                                 <?php echo esc_html($implementations_section['title'] ?? 'Implementations & Tech'); ?>
                             </h3>
@@ -165,17 +204,39 @@ echo $custom_css;
                 $cred_bg_color = $credentials_section['bg_color'] ?? '#6366f1';
                 $cred_text_color = $credentials_section['text_color'] ?? '#ffffff';
                 $cred_border_color = $credentials_section['border_color'] ?? '#4f46e5';
-                $cred_style = "background-color: {$cred_bg_color}; color: {$cred_text_color}; border: 2px solid {$cred_border_color};";
+                $cred_arrow_color = $credentials_section['arrow_color'] ?? 'rgba(255, 255, 255, 0.7)';
+                $cred_style = "background-color: {$cred_bg_color}; color: {$cred_text_color}; border: 2px solid {$cred_border_color}; --arrow-color: {$cred_arrow_color};";
                 ?>
                 <div class="mcs-credentials-column">
                     <div class="mcs-credentials-card" style="<?php echo esc_attr($cred_style); ?>">
-                        <h3 class="credentials-title" style="color: <?php echo esc_attr($cred_text_color); ?>">
-                            <?php echo esc_html($credentials_section['title'] ?? 'Credentials'); ?>
-                        </h3>
+                        <div class="credentials-header">
+                            <?php if (!empty($credentials_section['credential_image'])): ?>
+                                <?php 
+                                $cred_image_url = '';
+                                $cred_image_alt = $credentials_section['title'];
+                                
+                                if (is_array($credentials_section['credential_image'])) {
+                                    $cred_image_url = $credentials_section['credential_image']['url'] ?? '';
+                                    $cred_image_alt = $credentials_section['credential_image']['alt'] ?? $credentials_section['title'];
+                                } elseif (is_numeric($credentials_section['credential_image'])) {
+                                    $cred_image_url = wp_get_attachment_image_url($credentials_section['credential_image'], 'thumbnail');
+                                    $cred_image_alt = get_post_meta($credentials_section['credential_image'], '_wp_attachment_image_alt', true) ?: $credentials_section['title'];
+                                } elseif (is_string($credentials_section['credential_image'])) {
+                                    $cred_image_url = $credentials_section['credential_image'];
+                                }
+                                ?>
+                                <?php if ($cred_image_url): ?>
+                                    <img src="<?php echo esc_url($cred_image_url); ?>" alt="<?php echo esc_attr($cred_image_alt); ?>" class="credentials-image" />
+                                <?php endif; ?>
+                            <?php endif; ?>
+                            <h3 class="credentials-title" style="color: <?php echo esc_attr($cred_text_color); ?>">
+                                <?php echo esc_html($credentials_section['title'] ?? 'Credentials'); ?>
+                            </h3>
+                        </div>
                         <?php if (!empty($credentials_section['items'])): ?>
                             <ul class="credentials-list">
                                 <?php foreach ($credentials_section['items'] as $item): ?>
-                                    <li style="color: <?php echo esc_attr($cred_text_color); ?>">
+                                    <li style="color: #374151">
                                         <?php echo esc_html($item['text']); ?>
                                     </li>
                                 <?php endforeach; ?>

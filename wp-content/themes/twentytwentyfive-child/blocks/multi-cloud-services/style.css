@@ -91,6 +91,13 @@
     color: #6366f1;
 }
 
+.service-header .section-image {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
 .service-header h3 {
     font-size: 1.2rem;
     font-weight: 600;
@@ -117,7 +124,7 @@
     content: "→";
     position: absolute;
     left: 0;
-    color: #6366f1;
+    color: var(--arrow-color, #6366f1) !important;
     font-weight: bold;
 }
 
@@ -156,8 +163,22 @@
 .credentials-title {
     font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 25px;
+    margin: 0;
     color: white;
+}
+
+.credentials-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.credentials-header .credentials-image {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .credentials-list {
@@ -167,7 +188,7 @@
 }
 
 .credentials-list li {
-    color: rgba(255, 255, 255, 0.9);
+    color: #374151;
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 12px;
@@ -179,7 +200,7 @@
     content: "→";
     position: absolute;
     left: 0;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--arrow-color, rgba(255, 255, 255, 0.7)) !important;
     font-weight: bold;
 }
 
