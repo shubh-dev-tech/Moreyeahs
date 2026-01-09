@@ -42,6 +42,8 @@ import PartnershipGallery from './partnership-gallery/PartnershipGallery';
 import HeroSection from './hero-section/HeroSection';
 import Hero2Service from './hero-2-service/Hero2Service';
 import ServiceTestimonial from './service-testimonial/ServiceTestimonial';
+import MultiCloudServices from './multi-cloud-services/MultiCloudServices';
+import VideoHeroSection from './video-hero-section/VideoHeroSection';
 import { FooterSection } from './footer-section';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
@@ -88,6 +90,8 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/hero-section': HeroSection,
   'acf/hero-2-service': Hero2Service,
   'acf/service-testimonial': ServiceTestimonial,
+  'acf/multi-cloud-services': MultiCloudServices,
+  'acf/video-hero-section': VideoHeroSection,
   'acf/footer-section': FooterSection,
   
   // Custom Blocks (without ACF)
@@ -117,6 +121,8 @@ const BLOCK_SECTION_IDS: Record<string, string> = {
   'acf/hero-section': 'hero-section',
   'acf/hero-2-service': 'hero-2-service',
   'acf/service-testimonial': 'service-testimonial',
+  'acf/multi-cloud-services': 'multi-cloud-services',
+  'acf/video-hero-section': 'video-hero-section',
 };
 
 export function BlockRenderer({ blocks }: BlockRendererProps) {

@@ -163,36 +163,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     return `https://via.placeholder.com/800x400/cccccc/666666?text=Missing+Image`;
   };
 
-  // Debug logging (only in development)
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🦸 HeroSection Debug:', {
-      dataReceived: !!data,
-      dataKeys: data ? Object.keys(data) : [],
-      heroImageRaw: data?.hero_image,
-      backgroundImageRaw: background_image,
-      heroImageType: typeof hero_image,
-      backgroundImageType: typeof background_image,
-      processedImage,
-      processedBackgroundImage,
-      isProcessing,
-      heading,
-      reverse_layout,
-      section_height,
-      background_overlay
-    });
-  }
+  // Debug logging removed for production
 
   React.useEffect(() => {
     const processImages = async () => {
       if (!hero_image && !background_image) {
-        console.log('❌ No hero or background images provided');
         setProcessedImage(null);
         setProcessedBackgroundImage(null);
         setIsProcessing(false);
         return;
       }
 
-      console.log('🔧 Processing images from WordPress:', { hero_image, background_image });
       setIsProcessing(true);
 
       // Process hero image
@@ -204,7 +185,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           // If image is just an ID, try to fetch the full data
           if (typeof hero_image === 'number' || (typeof hero_image === 'string' && /^\d+$/.test(hero_image))) {
             const imageId = typeof hero_image === 'string' ? parseInt(hero_image) : hero_image;
-            console.log(`🔄 Fetching data for hero image ID: ${imageId}`);
             
             const imageData = await fetchImageData(imageId);
             if (imageData) {
@@ -248,7 +228,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           // If image is just an ID, try to fetch the full data
           if (typeof background_image === 'number' || (typeof background_image === 'string' && /^\d+$/.test(background_image))) {
             const imageId = typeof background_image === 'string' ? parseInt(background_image) : background_image;
-            console.log(`🔄 Fetching data for background image ID: ${imageId}`);
             
             const imageData = await fetchImageData(imageId);
             if (imageData) {

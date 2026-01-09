@@ -141,7 +141,7 @@
     border-radius: 0;
     padding: 15px;
     box-shadow: none;
-    border-bottom: 2px solid #e91e63;
+    border-bottom: 2px solid #516FC2;
     padding-bottom: 30px;
 }
 
@@ -157,7 +157,7 @@
     border-radius: 0;
     padding: 20px;
     /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
-    border-bottom: 2px solid #e91e63;
+    border-bottom: 2px solid #516FC2;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -165,14 +165,14 @@
 
 .clientImageContainer {
   flex-shrink: 0;
-  border-right: 2px solid #e91e63;
+  border-right: 2px solid #516FC2;
   padding-right: 15px;
 }
 
 .clientImage {
   border-radius: 8px;
   object-fit: cover;
-  /* border: 2px solid #e91e63; */
+  /* border: 2px solid #516FC2; */
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
 }
 
@@ -185,7 +185,7 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin: 0 0 5px 0;
-  color: #e91e63;
+  color: #516FC2;
 }
 
 .clientDesignationSidebar {
@@ -197,7 +197,7 @@
 
 /* Our Client Section */
 .ourClientSection {
-  background: #e91e63;
+  background: #516FC2;
   border-radius: 20px;
   padding: 30px 25px;
   color: white;
@@ -253,10 +253,10 @@
 
 /* Sidebar */
 .sidebar {
-  background: #e91e63;
-  border-radius: 20px;
-  padding: 40px 30px;
-  color: white;
+     background: linear-gradient(135deg, rgb(46, 188, 212), rgb(30, 39, 176));
+    padding: 40px 30px;
+    border-radius: 30px;
+    color: white;
 }
 
 .sidebarSection {
@@ -311,19 +311,85 @@
 
 /* Dynamic Heading Section */
 .dynamicHeadingSection {
+  position: relative;
   margin-bottom: 30px;
-  border-bottom: 3px solid #e91e63;
+  padding-bottom: 12px;
 }
+
+/* Gradient line */
+.dynamicHeadingSection::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(135deg, rgb(0, 188, 212), rgb(156, 39, 176));
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* Sliding dot inside the line */
+.dynamicHeadingSection::before {
+  content: "";
+  position: absolute;
+  bottom: 1px;              /* centers dot inside 3px line */
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: white;        /* dot color */
+  border-radius: 50%;
+  animation: slideDot 2.5s linear infinite;
+}
+
+@keyframes slideDot {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(calc(100vw - 20px)); }
+}
+
 
 .dynamicHeading {
   font-size: 2.5rem;
-  font-weight: 600;
+  font-weight: 700;
   margin: 0;
-  color: #2c3e50;
-  text-align: left;
-  line-height: 1.3;
   padding: 20px 0;
+  line-height: 1.3;
+  text-align: left;
+  position: relative;
+
+  background: linear-gradient(135deg, rgb(0, 188, 212), rgb(156, 39, 176));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+
+  overflow: hidden;
 }
+
+/* Subtle shine */
+.dynamicHeading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 32%,
+    rgba(255,255,255,0.45) 46%,
+    rgba(255,255,255,0.8) 50%,
+    rgba(255,255,255,0.45) 54%,
+    transparent 68%
+  );
+  transform: translateX(-120%) skewX(-12deg);
+  animation: textShine 6.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes textShine {
+  0%   { transform: translateX(-120%) skewX(-12deg); }
+  40%  { transform: translateX(120%)  skewX(-12deg); }
+  100% { transform: translateX(120%)  skewX(-12deg); }
+}
+
 
 /* Section Styles */
 .clientSection,
@@ -332,7 +398,7 @@
 .ctaSection {
   margin-bottom: 50px;
   padding-bottom: 40px;
-  border-bottom: 2px solid #e91e63;
+  border-bottom: 2px solid #516FC2;
 }
 
 .ctaSection {
@@ -357,15 +423,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #e91e63;
+  color: #516FC2;
   flex-shrink: 0;
 }
 
 .sectionTitle {
   font-size: 2rem;
-  font-weight: 400;
+  font-weight: 600;
   margin: 0;
-  color: #e91e63;
+  color: #516FC2;
   line-height: 1.3;
 }
 
@@ -383,19 +449,19 @@
   padding: 20px;
   background: #f8f9fa;
   border-radius: 10px;
-  border: 2px solid #e91e63;
+  border: 2px solid #516FC2;
 }
 
 .clientImageContainer {
   flex-shrink: 0;
-  border-right: 2px solid #e91e63;
+  border-right: 2px solid #516FC2;
   padding-right: 20px;
 }
 
 .clientImage {
   border-radius: 8px;
   object-fit: cover;
-  /* border: 2px solid #e91e63; */
+  /* border: 2px solid #516FC2; */
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
 }
 
@@ -407,7 +473,7 @@
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0 0 5px 0;
-  color: #e91e63;
+  color: #516FC2;
 }
 
 .clientDesignation {
@@ -594,7 +660,7 @@
 }
 
 .ctaButton.primary {
-  background: linear-gradient(135deg, #e91e63, #ad1457);
+  background: linear-gradient(135deg, #516FC2, #ad1457);
   color: white;
   box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
 }
@@ -606,12 +672,12 @@
 
 .ctaButton.secondary {
   background: transparent;
-  color: #e91e63;
-  border: 2px solid #e91e63;
+  color: #516FC2;
+  border: 2px solid #516FC2;
 }
 
 .ctaButton.secondary:hover {
-  background: #e91e63;
+  background: #516FC2;
   color: white;
   transform: translateY(-2px);
 }
@@ -669,7 +735,7 @@
   
   .clientImageContainer {
     border-right: none;
-    border-bottom: 2px solid #e91e63;
+    border-bottom: 2px solid #516FC2;
     padding-right: 0;
     padding-bottom: 15px;
   }
@@ -681,7 +747,7 @@
   
   .meetClientSection .clientImageContainer {
     border-right: none;
-    border-bottom: 2px solid #e91e63;
+    border-bottom: 2px solid #516FC2;
     padding-right: 0;
     padding-bottom: 15px;
   }

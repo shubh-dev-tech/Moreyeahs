@@ -1,0 +1,458 @@
+{
+  "key": "group_video_hero_section",
+  "title": "Video Hero Section Block",
+  "fields": [
+    {
+      "key": "field_vhs_main_heading",
+      "label": "Main Heading",
+      "name": "main_heading",
+      "type": "text",
+      "default_value": "Follow Your Heart Rescue!"
+    },
+    {
+      "key": "field_vhs_subtitle",
+      "label": "Subtitle",
+      "name": "subtitle",
+      "type": "text",
+      "default_value": "Pet Supplies & Toy Drive"
+    },
+    {
+      "key": "field_vhs_videos",
+      "label": "Videos",
+      "name": "videos",
+      "type": "repeater",
+      "sub_fields": [
+        {
+          "key": "field_vhs_video_title",
+          "label": "Video Title",
+          "name": "video_title",
+          "type": "text",
+          "instructions": "Optional title for this video slide"
+        },
+        {
+          "key": "field_vhs_video_source",
+          "label": "Video Source",
+          "name": "video_source",
+          "type": "select",
+          "choices": {
+            "upload": "Upload Video File",
+            "url": "Video URL (YouTube, Vimeo, etc.)",
+            "embed": "Embed Code"
+          },
+          "default_value": "upload"
+        },
+        {
+          "key": "field_vhs_video_file",
+          "label": "Video File",
+          "name": "video_file",
+          "type": "file",
+          "return_format": "array",
+          "mime_types": "mp4,webm,ogg,mov",
+          "conditional_logic": [
+            [
+              {
+                "field": "field_vhs_video_source",
+                "operator": "==",
+                "value": "upload"
+              }
+            ]
+          ]
+        },
+        {
+          "key": "field_vhs_video_url",
+          "label": "Video URL",
+          "name": "video_url",
+          "type": "url",
+          "instructions": "Enter YouTube, Vimeo, or direct video URL",
+          "conditional_logic": [
+            [
+              {
+                "field": "field_vhs_video_source",
+                "operator": "==",
+                "value": "url"
+              }
+            ]
+          ]
+        },
+        {
+          "key": "field_vhs_video_embed",
+          "label": "Video Embed Code",
+          "name": "video_embed",
+          "type": "textarea",
+          "instructions": "Paste the complete embed code (iframe, etc.)",
+          "conditional_logic": [
+            [
+              {
+                "field": "field_vhs_video_source",
+                "operator": "==",
+                "value": "embed"
+              }
+            ]
+          ]
+        },
+        {
+          "key": "field_vhs_poster_image",
+          "label": "Video Poster/Thumbnail",
+          "name": "poster_image",
+          "type": "image",
+          "return_format": "array",
+          "instructions": "Image shown before video plays"
+        }
+      ],
+      "min": 1,
+      "layout": "row",
+      "button_label": "Add Video"
+    },
+    {
+      "key": "field_vhs_slider_settings",
+      "label": "Slider Settings",
+      "name": "slider_settings",
+      "type": "group",
+      "sub_fields": [
+        {
+          "key": "field_vhs_autoplay_slider",
+          "label": "Autoplay Slider",
+          "name": "autoplay_slider",
+          "type": "true_false",
+          "default_value": 1,
+          "instructions": "Automatically advance to next video"
+        },
+        {
+          "key": "field_vhs_slider_speed",
+          "label": "Slider Speed",
+          "name": "slider_speed",
+          "type": "number",
+          "default_value": 5000,
+          "append": "ms",
+          "instructions": "Time between slides in milliseconds"
+        },
+        {
+          "key": "field_vhs_show_dots",
+          "label": "Show Navigation Dots",
+          "name": "show_dots",
+          "type": "true_false",
+          "default_value": 1
+        },
+        {
+          "key": "field_vhs_show_arrows",
+          "label": "Show Navigation Arrows",
+          "name": "show_arrows",
+          "type": "true_false",
+          "default_value": 1
+        },
+        {
+          "key": "field_vhs_pause_on_hover",
+          "label": "Pause on Hover",
+          "name": "pause_on_hover",
+          "type": "true_false",
+          "default_value": 1
+        }
+      ]
+    },
+    {
+      "key": "field_vhs_background_settings",
+      "label": "Background Settings",
+      "name": "background_settings",
+      "type": "group",
+      "sub_fields": [
+        {
+          "key": "field_vhs_background_type",
+          "label": "Background Type",
+          "name": "background_type",
+          "type": "select",
+          "choices": {
+            "color": "Solid Color",
+            "gradient": "Gradient",
+            "image": "Background Image"
+          },
+          "default_value": "gradient"
+        },
+        {
+          "key": "field_vhs_bg_color",
+          "label": "Background Color",
+          "name": "bg_color",
+          "type": "color_picker",
+          "default_value": "#667eea",
+          "conditional_logic": [
+            [
+              {
+                "field": "field_vhs_background_type",
+                "operator": "==",
+                "value": "color"
+              }
+            ]
+          ]
+        },
+        {
+          "key": "field_vhs_gradient_start",
+          "label": "Gradient Start Color",
+          "name": "gradient_start",
+          "type": "color_picker",
+          "default_value": "#667eea",
+          "conditional_logic": [
+            [
+              {
+                "field": "field_vhs_background_type",
+                "operator": "==",
+                "value": "gradient"
+              }
+            ]
+          ]
+        },
+        {
+          "key": "field_vhs_gradient_end",
+          "label": "Gradient End Color",
+          "name": "gradient_end",
+          "type": "color_picker",
+          "default_value": "#764ba2",
+          "conditional_logic": [
+            [
+              {
+                "field": "field_vhs_background_type",
+                "operator": "==",
+                "value": "gradient"
+              }
+            ]
+          ]
+        },
+        {
+          "key": "field_vhs_gradient_direction",
+          "label": "Gradient Direction",
+          "name": "gradient_direction",
+          "type": "select",
+          "choices": {
+            "135deg": "Diagonal (Default)",
+            "0deg": "Left to Right",
+            "90deg": "Top to Bottom",
+            "180deg": "Right to Left",
+            "270deg": "Bottom to Top"
+          },
+          "default_value": "135deg",
+          "conditional_logic": [
+            [
+              {
+                "field": "field_vhs_background_type",
+                "operator": "==",
+                "value": "gradient"
+              }
+            ]
+          ]
+        },
+        {
+          "key": "field_vhs_bg_image",
+          "label": "Background Image",
+          "name": "bg_image",
+          "type": "image",
+          "return_format": "array",
+          "conditional_logic": [
+            [
+              {
+                "field": "field_vhs_background_type",
+                "operator": "==",
+                "value": "image"
+              }
+            ]
+          ]
+        },
+        {
+          "key": "field_vhs_bg_image_overlay",
+          "label": "Background Image Overlay",
+          "name": "bg_image_overlay",
+          "type": "color_picker",
+          "default_value": "rgba(0, 0, 0, 0.4)",
+          "instructions": "Overlay color on background image",
+          "conditional_logic": [
+            [
+              {
+                "field": "field_vhs_background_type",
+                "operator": "==",
+                "value": "image"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "key": "field_vhs_video_settings",
+      "label": "Video Settings",
+      "name": "video_settings",
+      "type": "group",
+      "sub_fields": [
+        {
+          "key": "field_vhs_autoplay",
+          "label": "Autoplay Videos",
+          "name": "autoplay",
+          "type": "true_false",
+          "default_value": 0,
+          "instructions": "Note: Most browsers block autoplay with sound"
+        },
+        {
+          "key": "field_vhs_muted",
+          "label": "Muted",
+          "name": "muted",
+          "type": "true_false",
+          "default_value": 0,
+          "instructions": "Start videos muted (required for autoplay in most browsers)"
+        },
+        {
+          "key": "field_vhs_loop",
+          "label": "Loop Videos",
+          "name": "loop",
+          "type": "true_false",
+          "default_value": 0
+        },
+        {
+          "key": "field_vhs_controls",
+          "label": "Show Controls",
+          "name": "controls",
+          "type": "true_false",
+          "default_value": 1
+        },
+        {
+          "key": "field_vhs_preload",
+          "label": "Preload",
+          "name": "preload",
+          "type": "select",
+          "choices": {
+            "none": "None - Don't preload",
+            "metadata": "Metadata - Preload video metadata only",
+            "auto": "Auto - Preload entire video"
+          },
+          "default_value": "metadata",
+          "instructions": "Controls how much video data to preload"
+        }
+      ]
+    },
+    {
+      "key": "field_vhs_styling_options",
+      "label": "Styling Options",
+      "name": "styling_options",
+      "type": "group",
+      "sub_fields": [
+        {
+          "key": "field_vhs_section_height",
+          "label": "Section Height",
+          "name": "section_height",
+          "type": "select",
+          "choices": {
+            "auto": "Auto (Based on content)",
+            "viewport": "Full Viewport Height",
+            "custom": "Custom Height"
+          },
+          "default_value": "viewport"
+        },
+        {
+          "key": "field_vhs_custom_height",
+          "label": "Custom Height",
+          "name": "custom_height",
+          "type": "number",
+          "default_value": 600,
+          "append": "px",
+          "conditional_logic": [
+            [
+              {
+                "field": "field_vhs_section_height",
+                "operator": "==",
+                "value": "custom"
+              }
+            ]
+          ]
+        },
+        {
+          "key": "field_vhs_video_aspect_ratio",
+          "label": "Video Aspect Ratio",
+          "name": "video_aspect_ratio",
+          "type": "select",
+          "choices": {
+            "16/9": "16:9 (Widescreen)",
+            "4/3": "4:3 (Standard)",
+            "1/1": "1:1 (Square)",
+            "21/9": "21:9 (Ultra-wide)",
+            "auto": "Auto (Original ratio)"
+          },
+          "default_value": "16/9"
+        },
+        {
+          "key": "field_vhs_text_color",
+          "label": "Text Color",
+          "name": "text_color",
+          "type": "color_picker",
+          "default_value": "#ffffff"
+        },
+        {
+          "key": "field_vhs_heading_color",
+          "label": "Heading Color",
+          "name": "heading_color",
+          "type": "color_picker",
+          "default_value": "#ffffff"
+        },
+        {
+          "key": "field_vhs_border_radius",
+          "label": "Video Border Radius",
+          "name": "border_radius",
+          "type": "number",
+          "default_value": 12,
+          "append": "px"
+        }
+      ]
+    },
+    {
+      "key": "field_vhs_cta_buttons",
+      "label": "Call-to-Action Buttons",
+      "name": "cta_buttons",
+      "type": "repeater",
+      "sub_fields": [
+        {
+          "key": "field_vhs_cta_text",
+          "label": "Button Text",
+          "name": "button_text",
+          "type": "text"
+        },
+        {
+          "key": "field_vhs_cta_url",
+          "label": "Button URL",
+          "name": "button_url",
+          "type": "url"
+        },
+        {
+          "key": "field_vhs_cta_style",
+          "label": "Button Style",
+          "name": "button_style",
+          "type": "select",
+          "choices": {
+            "primary": "Primary",
+            "secondary": "Secondary",
+            "outline": "Outline"
+          },
+          "default_value": "primary"
+        },
+        {
+          "key": "field_vhs_cta_color",
+          "label": "Button Color",
+          "name": "button_color",
+          "type": "color_picker",
+          "default_value": "#6366f1"
+        }
+      ],
+      "min": 0,
+      "max": 3,
+      "layout": "table",
+      "button_label": "Add Button"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/video-hero-section"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label"
+}

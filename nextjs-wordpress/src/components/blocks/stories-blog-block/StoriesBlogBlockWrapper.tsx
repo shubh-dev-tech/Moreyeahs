@@ -27,6 +27,8 @@ interface StoriesBlogBlockWrapperProps {
   data?: {
     heading?: string;
     subheading?: string;
+    heading_color?: string;
+    subheading_color?: string;
     post_type?: string;
     category?: string;
     button_text?: string;
