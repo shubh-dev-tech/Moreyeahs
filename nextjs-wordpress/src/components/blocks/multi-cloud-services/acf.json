@@ -52,7 +52,15 @@
           "label": "Section Icon",
           "name": "section_icon",
           "type": "text",
-          "instructions": "Font Awesome icon class (e.g., fas fa-shield-alt)"
+          "instructions": "Font Awesome icon class (e.g., fas fa-shield-alt). Leave empty if using image."
+        },
+        {
+          "key": "field_mcs_section_image",
+          "label": "Section Image",
+          "name": "section_image",
+          "type": "image",
+          "instructions": "Upload an image to use instead of icon. This will override the icon if both are provided.",
+          "return_format": "array"
         },
         {
           "key": "field_mcs_section_title",
@@ -97,6 +105,14 @@
           "name": "section_border_color",
           "type": "color_picker",
           "default_value": "#e5e7eb"
+        },
+        {
+          "key": "field_mcs_section_arrow_color",
+          "label": "Arrow Color",
+          "name": "arrow_color",
+          "type": "color_picker",
+          "default_value": "#6366f1",
+          "instructions": "Color for the arrow bullets in this section's list items"
         }
       ],
       "min": 1,
@@ -153,6 +169,22 @@
           "name": "border_color",
           "type": "color_picker",
           "default_value": "#4f46e5"
+        },
+        {
+          "key": "field_mcs_cred_image",
+          "label": "Credentials Image",
+          "name": "credential_image",
+          "type": "image",
+          "instructions": "Upload an image to display in the credentials section header",
+          "return_format": "array"
+        },
+        {
+          "key": "field_mcs_cred_arrow_color",
+          "label": "Arrow Color",
+          "name": "arrow_color",
+          "type": "color_picker",
+          "default_value": "rgba(255, 255, 255, 0.7)",
+          "instructions": "Color for the arrow bullets in the credentials list"
         }
       ]
     },
@@ -162,6 +194,22 @@
       "name": "implementations_section",
       "type": "group",
       "sub_fields": [
+        {
+          "key": "field_mcs_impl_show_section",
+          "label": "Show Section",
+          "name": "show_section",
+          "type": "true_false",
+          "default_value": 1,
+          "instructions": "Toggle to show or hide the Implementations & Tech section"
+        },
+        {
+          "key": "field_mcs_impl_section_image",
+          "label": "Section Image",
+          "name": "section_image",
+          "type": "image",
+          "instructions": "Upload an image to display next to the section title",
+          "return_format": "array"
+        },
         {
           "key": "field_mcs_impl_title",
           "label": "Section Title",
