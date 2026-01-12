@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WORDPRESS_API_URL } from '@/lib/env';
+import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 
 export const metadata: Metadata = {
   title: 'Our Services | MoreYeahs',
@@ -37,7 +38,7 @@ export default async function ServicesPage() {
         <div className="mx-auto px-4 py-8">
           <div 
             className="content mb-8"
-            dangerouslySetInnerHTML={{ __html: pageData.content.rendered }}
+            dangerouslySetInnerHTML={{ __html: sanitizeWordPressContent(pageData.content.rendered) }}
           />
           {pageData.acf && pageData.acf.blocks && (
             <BlockRenderer blocks={pageData.acf.blocks} />

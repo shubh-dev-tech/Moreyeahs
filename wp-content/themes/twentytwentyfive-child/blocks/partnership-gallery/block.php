@@ -47,6 +47,7 @@ if (defined('WP_DEBUG') && WP_DEBUG) {
         error_log('First image type: ' . gettype($gallery_images_raw[0]));
         error_log('First image: ' . print_r($gallery_images_raw[0], true));
     }
+    error_log('Function exists check: ' . (function_exists('process_acf_gallery_field') ? 'YES' : 'NO'));
 }
 
 // Process gallery images to ensure they have full image data
@@ -96,6 +97,12 @@ if ($gallery_images_raw && is_array($gallery_images_raw)) {
             }
         }
     }
+}
+
+// Debug logging after processing
+if (defined('WP_DEBUG') && WP_DEBUG) {
+    error_log('Processed gallery images: ' . print_r($gallery_images, true));
+    error_log('Processed gallery images count: ' . count($gallery_images));
 }
 
 // If no images, show placeholder in admin

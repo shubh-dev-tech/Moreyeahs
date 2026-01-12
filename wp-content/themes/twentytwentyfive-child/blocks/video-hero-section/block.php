@@ -85,15 +85,19 @@ if (!empty($styling_options)) {
 }
 
 // Helper function to get YouTube video ID
-function get_youtube_video_id($url) {
-    preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $url, $matches);
-    return isset($matches[1]) ? $matches[1] : null;
+if (!function_exists('get_youtube_video_id')) {
+    function get_youtube_video_id($url) {
+        preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $url, $matches);
+        return isset($matches[1]) ? $matches[1] : null;
+    }
 }
 
 // Helper function to get Vimeo video ID
-function get_vimeo_video_id($url) {
-    preg_match('/(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i', $url, $matches);
-    return isset($matches[1]) ? $matches[1] : null;
+if (!function_exists('get_vimeo_video_id')) {
+    function get_vimeo_video_id($url) {
+        preg_match('/(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i', $url, $matches);
+        return isset($matches[1]) ? $matches[1] : null;
+    }
 }
 
 // Ensure we have at least one video

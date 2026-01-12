@@ -1331,41 +1331,8 @@ function twentytwentyfive_child_register_acf_blocks() {
         ),
     ));
 
-    // Stories & Blog Block
-    acf_register_block_type(array(
-        'name'              => 'stories-blog-block',
-        'title'             => __('Stories & Blog Block', 'twentytwentyfive'),
-        'description'       => __('Dynamic content block with auto-detecting post types, custom backgrounds, and latest 4 posts display with customizable heading colors', 'twentytwentyfive'),
-        'category'          => 'formatting',
-        'icon'              => 'admin-post',
-        'keywords'          => array('stories', 'blog', 'posts', 'dynamic', 'content', 'case study', 'articles'),
-        'render_template'   => 'blocks/stories-blog-block/block.php',
-        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/stories-blog-block/style.css',
-        'supports'          => array(
-            'align'  => array('full', 'wide'),
-            'mode'   => true,
-            'jsx'    => true,
-            'anchor' => true,
-        ),
-        'example'           => array(
-            'attributes' => array(
-                'mode' => 'preview',
-                'data' => array(
-                    'heading' => 'Success Stories',
-                    'subheading' => 'Your partner through complexities of Agile and DevOps transformation',
-                    'heading_color' => '#ffffff',
-                    'subheading_color' => '#e8eaf6',
-                    'card_label' => 'CASE STUDY',
-                    'post_type' => 'case_study',
-                    'category' => '',
-                    'button_text' => 'View All Stories',
-                    'button_url' => '/case-studies',
-                    'background_color' => '#4a148c',
-                    'background_image' => ''
-                ),
-            ),
-        ),
-    ));
+    // Note: stories-blog-block is already registered in parent theme
+    // Removed duplicate registration to prevent conflicts
 }
 add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
 
@@ -1737,7 +1704,6 @@ function process_acf_gallery_field($gallery_images) {
         if ($image_id) {
             // Get full image data from WordPress
             $image_data = wp_get_attachment_image_src($image_id, 'full');
-            $image_meta = wp_get_attachment_metadata($image_id);
             $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
             $image_post = get_post($image_id);
             
@@ -1777,6 +1743,28 @@ function process_acf_gallery_field($gallery_images) {
                 if (defined('WP_DEBUG') && WP_DEBUG) {
                     error_log('Processed image ID ' . $image_id . ': ' . print_r($processed_image, true));
                 }
+            } else {
+                // If we can't get the image data, create a fallback
+                if (defined('WP_DEBUG') && WP_DEBUG) {
+                    error_log('Failed to get image data for ID: ' . $image_id);
+                }
+                
+                $processed_images[] = [
+                    'id' => $image_id,
+                    'url' => wp_get_attachment_url($image_id) ?: '',
+                    'width' => 0,
+                    'height' => 0,
+                    'alt' => "Image {$image_id}",
+                    'title' => "Image {$image_id}",
+                    'caption' => '',
+                    'description' => '',
+                    'sizes' => [
+                        'thumbnail' => wp_get_attachment_url($image_id) ?: '',
+                        'medium' => wp_get_attachment_url($image_id) ?: '',
+                        'large' => wp_get_attachment_url($image_id) ?: '',
+                        'full' => wp_get_attachment_url($image_id) ?: ''
+                    ]
+                ];
             }
         }
     }

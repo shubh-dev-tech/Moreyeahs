@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WORDPRESS_API_URL } from '@/lib/env';
+import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import ServiceTestimonial from '@/components/blocks/service-testimonial/ServiceTestimonial';
 
 export const metadata: Metadata = {
@@ -38,7 +39,9 @@ export default async function DataEngineeringPage() {
         <div className="mx-auto px-4 py-8">
           <div 
             className="content mb-8"
-            dangerouslySetInnerHTML={{ __html: pageData.content.rendered }}
+            dangerouslySetInnerHTML={{ 
+              __html: sanitizeWordPressContent(pageData.content.rendered)
+            }}
           />
           {pageData.acf && pageData.acf.blocks && (
             <BlockRenderer blocks={pageData.acf.blocks} />

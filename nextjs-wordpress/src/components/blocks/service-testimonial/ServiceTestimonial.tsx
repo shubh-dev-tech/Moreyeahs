@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
+import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import './styles.scss';
 
 interface TestimonialItem {
@@ -150,7 +151,7 @@ const ServiceTestimonial: React.FC<ServiceTestimonialProps> = ({
   const [isPaused, setIsPaused] = useState(false);
 
   // Generate unique ID for this instance
-  const sliderId = `testimonial-slider-${Math.random().toString(36).substring(2, 11)}`;
+  const sliderId = useRef(`testimonial-slider-${Math.random().toString(36).substring(2, 11)}`).current;
 
   // Handle visibility change (pause when tab is not visible)
   useEffect(() => {
@@ -201,6 +202,46 @@ const ServiceTestimonial: React.FC<ServiceTestimonialProps> = ({
 
     return () => clearInterval(interval);
   }, [autoplay_slider, slider_speed, testimonial_items.length, isPaused, moveSlider]);
+
+  // Cleanup effect to prevent conflicts
+  useEffect(() => {
+    return () => {
+      // Clear any potential global functions that might conflict
+      if (typeof window !== 'undefined') {
+        const globalFunctions = Object.keys(window).filter(key => 
+          key.includes('nextSlide_block_') || key.includes('prevSlide_block_')
+        );
+        globalFunctions.forEach(funcName => {
+          try {
+            delete (window as any)[funcName];
+          } catch (e) {
+            // Ignore errors when trying to delete
+          }
+        });
+      }
+    };
+  }, []);
+
+  // Additional safety: Override any WordPress block functions that might conflict
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Create safe no-op functions for any WordPress block functions that might be called
+      const blockId = sliderId.replace('testimonial-slider-', '');
+      const possibleFunctions = [
+        `nextSlide_block_${blockId}`,
+        `prevSlide_block_${blockId}`,
+        `goToSlide_block_${blockId}`
+      ];
+      
+      possibleFunctions.forEach(funcName => {
+        if (!(window as any)[funcName]) {
+          (window as any)[funcName] = () => {
+            console.warn(`WordPress function ${funcName} called but handled by React component`);
+          };
+        }
+      });
+    }
+  }, [sliderId]);
 
   const handleMouseEnter = () => {
     setIsPaused(true);
@@ -265,7 +306,7 @@ const ServiceTestimonial: React.FC<ServiceTestimonialProps> = ({
           {sub_heading && (
             <div 
               className="testimonial-sub-heading"
-              dangerouslySetInnerHTML={{ __html: sub_heading }}
+              dangerouslySetInnerHTML={{ __html: sanitizeWordPressContent(sub_heading) }}
             />
           )}
         </div>

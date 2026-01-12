@@ -74,30 +74,34 @@ if ($testimonial_items) {
 }
 
 // Helper function to get section height
-function get_section_height($background_height, $custom_height) {
-    switch ($background_height) {
-        case 'small':
-            return '60vh';
-        case 'medium':
-            return '80vh';
-        case 'large':
-            return '100vh';
-        case 'custom':
-            return $custom_height . 'px';
-        default:
-            return 'auto';
+if (!function_exists('get_section_height')) {
+    function get_section_height($background_height, $custom_height) {
+        switch ($background_height) {
+            case 'small':
+                return '60vh';
+            case 'medium':
+                return '80vh';
+            case 'large':
+                return '100vh';
+            case 'custom':
+                return $custom_height . 'px';
+            default:
+                return 'auto';
+        }
     }
 }
 
 // Helper function to get background styles
-function get_background_styles($background_image, $background_color, $background_height, $custom_height, $text_color) {
-    $styles = "background-color: {$background_color}; color: {$text_color}; min-height: " . get_section_height($background_height, $custom_height) . ";";
-    
-    if ($background_image && !empty($background_image['url'])) {
-        $styles .= " background-image: url('{$background_image['url']}'); background-size: cover; background-position: center; background-repeat: no-repeat;";
+if (!function_exists('get_background_styles')) {
+    function get_background_styles($background_image, $background_color, $background_height, $custom_height, $text_color) {
+        $styles = "background-color: {$background_color}; color: {$text_color}; min-height: " . get_section_height($background_height, $custom_height) . ";";
+        
+        if ($background_image && !empty($background_image['url'])) {
+            $styles .= " background-image: url('{$background_image['url']}'); background-size: cover; background-position: center; background-repeat: no-repeat;";
+        }
+        
+        return $styles;
     }
-    
-    return $styles;
 }
 
 // Prepare data for JSON output
