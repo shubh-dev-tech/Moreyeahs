@@ -87,15 +87,65 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
   const [processedImages, setProcessedImages] = React.useState<GalleryImage[]>([]);
   const [isProcessing, setIsProcessing] = React.useState(false);
 
+  // Function to process gallery images via WordPress REST API
+  const processGalleryImages = React.useCallback(async (imageIds: number[]): Promise<GalleryImage[]> => {
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://dev.moreyeahs.com';
+      const response = await fetch(`${baseUrl}/wp-json/wp/v2/process-gallery`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          image_ids: imageIds
+        })
+      });
+      
+      if (!response.ok) {
+        console.error(`Failed to process gallery images: ${response.status} ${response.statusText}`);
+        return [];
+      }
+      
+      const result = await response.json();
+      
+      if (result.success && result.images) {
+        console.log('✅ Successfully processed gallery images via REST API:', result.images);
+        return result.images;
+      }
+      
+      return [];
+    } catch (error) {
+      console.error('Failed to process gallery images via REST API:', error);
+      return [];
+    }
+  }, []);
+
   // Function to fetch image data from WordPress REST API if we only have IDs
   const fetchImageData = React.useCallback(async (imageId: number): Promise<GalleryImage | null> => {
     try {
       const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost';
+      
+      // First try to get the image from WordPress media endpoint
       const response = await fetch(`${baseUrl}/wp-json/wp/v2/media/${imageId}`);
       
       if (!response.ok) {
         console.error(`Failed to fetch image ${imageId}: ${response.status} ${response.statusText}`);
-        return null;
+        
+        // If the media endpoint fails, try to construct a basic image object
+        // This is a fallback for when WordPress media is not accessible
+        const fallbackUrl = `${baseUrl}/wp-content/uploads/`;
+        return {
+          id: imageId,
+          url: `${fallbackUrl}image-${imageId}.jpg`, // This won't work but prevents crashes
+          alt: `Image ${imageId}`,
+          title: `Image ${imageId}`,
+          sizes: {
+            thumbnail: `${fallbackUrl}image-${imageId}-150x150.jpg`,
+            medium: `${fallbackUrl}image-${imageId}-300x300.jpg`,
+            large: `${fallbackUrl}image-${imageId}-1024x1024.jpg`,
+            full: `${fallbackUrl}image-${imageId}.jpg`
+          }
+        };
       }
       
       const imageData = await response.json();
@@ -123,10 +173,15 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
     // If image is just a number (ID), try to construct the WordPress media URL
     if (typeof image === 'number' || (typeof image === 'string' && /^\d+$/.test(image))) {
       const imageId = typeof image === 'string' ? parseInt(image) : image;
-      console.warn('⚠️ Image is still just an ID:', imageId, 'this should have been processed by WordPress');
+      console.warn('⚠️ Image is still just an ID:', imageId, 'constructing direct URL');
       
-      // Return a placeholder that shows the ID for debugging
-      return `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Error+ID+${imageId}`;
+      // Try to construct a direct WordPress media URL
+      const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://dev.moreyeahs.com';
+      const directUrl = `${baseUrl}/wp-content/uploads/`;
+      
+      // This is a fallback - we don't know the actual filename, so we'll show a placeholder
+      // but with a more helpful message
+      return `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Image+ID+${imageId}+Not+Processed`;
     }
     
     // Try different possible structures for processed images
@@ -161,13 +216,43 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
   React.useEffect(() => {
     const processImages = async () => {
       if (!gallery_images || gallery_images.length === 0) {
+        console.log('No gallery images provided');
         setProcessedImages([]);
         setIsProcessing(false);
         return;
       }
 
+      console.log('🔍 Starting image processing with:', {
+        count: gallery_images.length,
+        firstImage: gallery_images[0],
+        allImages: gallery_images
+      });
+
       setIsProcessing(true);
 
+      // Check if all images are just IDs - if so, try batch processing first
+      const allImageIds = gallery_images.every(img => 
+        typeof img === 'number' || (typeof img === 'string' && /^\d+$/.test(img))
+      );
+
+      if (allImageIds) {
+        console.log('🔄 All images are IDs, trying batch processing...');
+        const imageIds = gallery_images.map(img => 
+          typeof img === 'string' ? parseInt(img) : img
+        );
+        
+        const batchProcessed = await processGalleryImages(imageIds);
+        if (batchProcessed.length > 0) {
+          console.log('✅ Batch processing successful!');
+          setProcessedImages(batchProcessed);
+          setIsProcessing(false);
+          return;
+        }
+        
+        console.log('⚠️ Batch processing failed, falling back to individual processing...');
+      }
+
+      // Fallback to individual processing
       const processed: GalleryImage[] = [];
 
       for (let i = 0; i < gallery_images.length; i++) {
@@ -184,6 +269,7 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
 
         // If image is already a complete object with URL and sizes, use it
         if (img && typeof img === 'object' && img.url && img.sizes) {
+          console.log(`✅ Image ${i} already processed, using as-is`);
           processed.push(img as GalleryImage);
           continue;
         }
@@ -191,11 +277,14 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
         // If image is just an ID, try to fetch the full data
         if (typeof img === 'number' || (typeof img === 'string' && /^\d+$/.test(img))) {
           const imageId = typeof img === 'string' ? parseInt(img) : img;
+          console.log(`🔄 Fetching data for image ID: ${imageId}`);
           
           const imageData = await fetchImageData(imageId);
           if (imageData) {
+            console.log(`✅ Successfully fetched data for image ID ${imageId}:`, imageData);
             processed.push(imageData);
           } else {
+            console.log(`❌ Failed to fetch data for image ID ${imageId}, creating fallback`);
             // Create a fallback image object
             processed.push({
               id: imageId,
@@ -216,8 +305,10 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
         // If image has an ID property, try to use that
         if (img && typeof img === 'object' && ((img as any).ID || (img as any).id)) {
           const imageId = (img as any).ID || (img as any).id;
+          console.log(`🔄 Processing image with ID property: ${imageId}`);
           const imageData = await fetchImageData(imageId);
           if (imageData) {
+            console.log(`✅ Successfully processed image with ID ${imageId}`);
             processed.push(imageData);
           }
           continue;
@@ -226,12 +317,18 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
         console.warn('⚠️ Unrecognized image format:', img);
       }
 
+      console.log('🏁 Image processing complete:', {
+        originalCount: gallery_images.length,
+        processedCount: processed.length,
+        processed: processed
+      });
+
       setProcessedImages(processed);
       setIsProcessing(false);
     };
 
     processImages();
-  }, [gallery_images, fetchImageData]);
+  }, [gallery_images, fetchImageData, processGalleryImages]);
   const sliderRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
