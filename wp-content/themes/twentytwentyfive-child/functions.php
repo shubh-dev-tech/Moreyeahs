@@ -599,10 +599,21 @@ function add_acf_to_rest_api() {
                 
                 // Process gallery fields to ensure they have full image data
                 foreach ($fields as $field_name => $value) {
+                    // Debug logging for gallery fields
+                    if (defined('WP_DEBUG') && WP_DEBUG && (strpos($field_name, 'gallery') !== false || strpos($field_name, 'images') !== false)) {
+                        error_log("REST API: Processing field '{$field_name}' with value: " . print_r($value, true));
+                    }
+                    
                     // Check if this is a gallery field (contains 'gallery' or 'images' in name and is array)
                     if ((strpos($field_name, 'gallery') !== false || strpos($field_name, 'images') !== false) && is_array($value)) {
                         // Use our processing function to convert IDs to full image objects
-                        $fields[$field_name] = process_acf_gallery_field($value);
+                        $processed_gallery = process_acf_gallery_field($value);
+                        $fields[$field_name] = $processed_gallery;
+                        
+                        // Debug logging
+                        if (defined('WP_DEBUG') && WP_DEBUG) {
+                            error_log("REST API: Processed gallery field '{$field_name}': " . print_r($processed_gallery, true));
+                        }
                     }
                     // Check if this is a single image field
                     elseif ((strpos($field_name, 'image') !== false || strpos($field_name, 'hero_image') !== false) && $value) {
@@ -1782,6 +1793,34 @@ function process_acf_gallery_field($gallery_images) {
  * This endpoint processes ACF gallery fields and returns full image objects
  */
 add_action('rest_api_init', function() {
+    // Custom endpoint for processing gallery images
+    register_rest_route('wp/v2', '/process-gallery', [
+        'methods' => 'POST',
+        'callback' => function($request) {
+            $image_ids = $request->get_param('image_ids');
+            
+            if (!$image_ids || !is_array($image_ids)) {
+                return new WP_Error('invalid_data', 'image_ids parameter must be an array', ['status' => 400]);
+            }
+            
+            $processed_images = process_acf_gallery_field($image_ids);
+            
+            return rest_ensure_response([
+                'success' => true,
+                'images' => $processed_images,
+                'count' => count($processed_images)
+            ]);
+        },
+        'permission_callback' => '__return_true', // Allow public access
+        'args' => [
+            'image_ids' => [
+                'required' => true,
+                'type' => 'array',
+                'description' => 'Array of image IDs to process'
+            ]
+        ]
+    ]);
+    
     register_rest_route('wp/v2', '/partnership-gallery/(?P<id>\d+)', [
         'methods' => 'GET',
         'callback' => function($request) {
@@ -1801,11 +1840,13 @@ add_action('rest_api_init', function() {
             }
             
             return rest_ensure_response([
-                'id' => $post->ID,
-                'title' => $post->post_title,
-                'slug' => $post->post_name,
+                'id' => $post_id,
                 'acf_fields' => $acf_fields,
-                'processed_at' => current_time('mysql')
+                'post_data' => [
+                    'title' => $post->post_title,
+                    'content' => $post->post_content,
+                    'status' => $post->post_status
+                ]
             ]);
         },
         'permission_callback' => '__return_true'
