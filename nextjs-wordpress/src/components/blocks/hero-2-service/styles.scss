@@ -57,21 +57,21 @@
   }
 
   &__title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: 16px;
     line-height: 1.2;
   }
 
   &__subtitle {
-    font-size: 1.25rem;
+    font-size: 17px;
     font-weight: 600;
     margin-bottom: 16px;
     opacity: 0.9;
   }
 
   &__description {
-    font-size: 1rem;
+    font-size: 15px;
     line-height: 1.6;
     opacity: 0.8;
     margin-bottom: 0;
@@ -229,7 +229,8 @@
   &__block {
     padding: 24px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #FFFFFF52!important;
+    // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     border: 1px solid rgba(0, 0, 0, 0.05);
 
