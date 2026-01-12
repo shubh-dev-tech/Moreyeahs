@@ -1,6 +1,7 @@
 import { getHomepageData } from '@/lib/wpFetch';
 import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
+import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 
 // Build-safe: this page uses ISR with 60s revalidation
 // If WordPress is offline during build, it will show fallback content
@@ -42,7 +43,7 @@ export default async function Home() {
             className="prose max-w-none"
             suppressHydrationWarning
             dangerouslySetInnerHTML={{ 
-              __html: page.content?.rendered || page.content || '<p>Welcome! Content will appear here when WordPress is connected.</p>' 
+              __html: sanitizeWordPressContent(page.content?.rendered || page.content || '<p>Welcome! Content will appear here when WordPress is connected.</p>')
             }}
           />
         </div>

@@ -47,31 +47,33 @@ $social_icons = array(
 );
 
 // Helper function to render column
-function render_footer_column($title, $columns) {
-    if (empty($columns)) return;
-    
-    echo '<div class="footer-column">';
-    echo '<h3 class="footer-column-title">' . esc_html($title) . '</h3>';
-    
-    foreach ($columns as $column) {
-        echo '<div class="footer-column-section">';
-        if (!empty($column['title'])) {
-            echo '<h4 class="footer-section-title">' . esc_html($column['title']) . '</h4>';
-        }
+if (!function_exists('render_footer_column')) {
+    function render_footer_column($title, $columns) {
+        if (empty($columns)) return;
         
-        if (!empty($column['links'])) {
-            echo '<ul class="footer-links">';
-            foreach ($column['links'] as $link) {
-                if (!empty($link['label']) && !empty($link['url'])) {
-                    $target = !empty($link['target']) ? $link['target'] : '_self';
-                    echo '<li><a href="' . esc_url($link['url']) . '" target="' . esc_attr($target) . '" class="footer-link">' . esc_html($link['label']) . '</a></li>';
-                }
+        echo '<div class="footer-column">';
+        echo '<h3 class="footer-column-title">' . esc_html($title) . '</h3>';
+        
+        foreach ($columns as $column) {
+            echo '<div class="footer-column-section">';
+            if (!empty($column['title'])) {
+                echo '<h4 class="footer-section-title">' . esc_html($column['title']) . '</h4>';
             }
-            echo '</ul>';
+            
+            if (!empty($column['links'])) {
+                echo '<ul class="footer-links">';
+                foreach ($column['links'] as $link) {
+                    if (!empty($link['label']) && !empty($link['url'])) {
+                        $target = !empty($link['target']) ? $link['target'] : '_self';
+                        echo '<li><a href="' . esc_url($link['url']) . '" target="' . esc_attr($target) . '" class="footer-link">' . esc_html($link['label']) . '</a></li>';
+                    }
+                }
+                echo '</ul>';
+            }
+            echo '</div>';
         }
         echo '</div>';
     }
-    echo '</div>';
 }
 ?>
 

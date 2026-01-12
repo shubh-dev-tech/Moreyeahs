@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { Block, isACFBlock, getBlockType } from '@/lib/blocks';
+import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 
 // Import block components
 import { HeroBlock } from './hero-block';
@@ -164,7 +165,7 @@ export function BlockRenderer({ blocks }: BlockRendererProps) {
           <div
             className="prose max-w-none"
             suppressHydrationWarning
-            dangerouslySetInnerHTML={{ __html: block.innerHTML }}
+            dangerouslySetInnerHTML={{ __html: sanitizeWordPressContent(block.innerHTML) }}
           />
         </section>
       );

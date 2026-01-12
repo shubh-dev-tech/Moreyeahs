@@ -46,22 +46,24 @@ if ($quote_style === 'solid') {
 $quote_styles[] = 'color: ' . $text_color;
 
 // Helper function to adjust color brightness
-function adjustBrightness($hex, $percent) {
-    // Remove # if present
-    $hex = ltrim($hex, '#');
-    
-    // Convert to RGB
-    $r = hexdec(substr($hex, 0, 2));
-    $g = hexdec(substr($hex, 2, 2));
-    $b = hexdec(substr($hex, 4, 2));
-    
-    // Adjust brightness
-    $r = max(0, min(255, $r + ($r * $percent / 100)));
-    $g = max(0, min(255, $g + ($g * $percent / 100)));
-    $b = max(0, min(255, $b + ($b * $percent / 100)));
-    
-    // Convert back to hex
-    return sprintf("#%02x%02x%02x", $r, $g, $b);
+if (!function_exists('adjustBrightness')) {
+    function adjustBrightness($hex, $percent) {
+        // Remove # if present
+        $hex = ltrim($hex, '#');
+        
+        // Convert to RGB
+        $r = hexdec(substr($hex, 0, 2));
+        $g = hexdec(substr($hex, 2, 2));
+        $b = hexdec(substr($hex, 4, 2));
+        
+        // Adjust brightness
+        $r = max(0, min(255, $r + ($r * $percent / 100)));
+        $g = max(0, min(255, $g + ($g * $percent / 100)));
+        $b = max(0, min(255, $b + ($b * $percent / 100)));
+        
+        // Convert back to hex
+        return sprintf("#%02x%02x%02x", $r, $g, $b);
+    }
 }
 ?>
 

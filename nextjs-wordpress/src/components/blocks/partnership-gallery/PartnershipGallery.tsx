@@ -94,7 +94,8 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
       const response = await fetch(`${baseUrl}/wp-json/wp/v2/media/${imageId}`);
       
       if (!response.ok) {
-        throw new Error(`Failed to fetch image ${imageId}`);
+        console.error(`Failed to fetch image ${imageId}: ${response.status} ${response.statusText}`);
+        return null;
       }
       
       const imageData = await response.json();
@@ -124,20 +125,8 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
       const imageId = typeof image === 'string' ? parseInt(image) : image;
       console.warn('⚠️ Image is still just an ID:', imageId, 'this should have been processed by WordPress');
       
-      // Try to construct a WordPress media URL based on the site structure
-      // This is a fallback - ideally images should be processed on the backend
-      const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost';
-      
-      // Try common WordPress upload paths
-      const possiblePaths = [
-        `${baseUrl}/wp-content/uploads/2026/01/image-${imageId}.jpg`,
-        `${baseUrl}/wp-content/uploads/2026/01/image-${imageId}.png`,
-        `${baseUrl}/wp-content/uploads/2025/12/image-${imageId}.jpg`,
-        `${baseUrl}/wp-content/uploads/2025/12/image-${imageId}.png`,
-      ];
-      
-      // For now, return a placeholder that shows the ID for debugging
-      return `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=ID+${imageId}`;
+      // Return a placeholder that shows the ID for debugging
+      return `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Error+ID+${imageId}`;
     }
     
     // Try different possible structures for processed images
