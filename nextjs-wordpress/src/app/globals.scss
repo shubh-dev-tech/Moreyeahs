@@ -22,6 +22,9 @@ img, video, iframe, embed, object {
   height: auto;
 }
 
+.block-not-use{
+  display: none!important;
+}
 /* WordPress raw HTML content styling */
 .wordpress-content {
   width: 100%;

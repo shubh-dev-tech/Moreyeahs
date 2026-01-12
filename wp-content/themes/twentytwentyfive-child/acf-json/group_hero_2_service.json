@@ -503,6 +503,50 @@
                     "custom_palette_source": "",
                     "palette_colors": "",
                     "show_color_wheel": true
+                },
+                {
+                    "key": "field_hero2_block_title_color",
+                    "label": "Title Color",
+                    "name": "title_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Color of the block title text",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#333333",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "parent_repeater": "field_hero2_service_blocks",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true
+                },
+                {
+                    "key": "field_hero2_block_description_color",
+                    "label": "Description Color",
+                    "name": "description_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Color of the block description text",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#666666",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "parent_repeater": "field_hero2_service_blocks",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true
                 }
             ]
         },
@@ -709,5 +753,5 @@
     "description": "Hero section with left image and right service blocks",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1767784243
+    "modified": 1768206827
 }

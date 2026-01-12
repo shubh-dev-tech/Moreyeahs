@@ -8,6 +8,8 @@ interface ServiceBlock {
   title: string;
   description: string;
   backgroundColor?: string;
+  titleColor?: string;
+  descriptionColor?: string;
 }
 
 interface BulletPoint {
@@ -65,17 +67,23 @@ const Hero2Service: React.FC<Hero2ServiceProps> = ({
     {
       title: "Assess and Analyze",
       description: "Evaluate current DevOps maturity using industry frameworks, identify capabilities gaps and establish baseline metrics for improvement tracking",
-      backgroundColor: "#ffffff"
+      backgroundColor: "#ffffff",
+      titleColor: "#333333",
+      descriptionColor: "#666666"
     },
     {
       title: "Implement Automation", 
       description: "Deploy CI/CD pipelines with clear milestones, automate testing and deployment processes and establish measurable success criteria.",
-      backgroundColor: "#ffffff"
+      backgroundColor: "#ffffff",
+      titleColor: "#333333",
+      descriptionColor: "#666666"
     },
     {
       title: "Build Culture",
       description: "Foster transparency through open communication channels, establish shared responsibility models, and create psychological safety for innovation",
-      backgroundColor: "#ffffff"
+      backgroundColor: "#ffffff",
+      titleColor: "#333333",
+      descriptionColor: "#666666"
     }
   ],
   bulletPoints = [
@@ -278,12 +286,18 @@ const Hero2Service: React.FC<Hero2ServiceProps> = ({
                       style={{ backgroundColor: block.backgroundColor || '#ffffff' }}
                     >
                       {block.title && block.title.trim() && (
-                        <h4 className="hero-2-service__block-title">
+                        <h4 
+                          className="hero-2-service__block-title"
+                          style={{ color: block.titleColor || '#333333' }}
+                        >
                           {block.title}
                         </h4>
                       )}
                       {block.description && block.description.trim() && (
-                        <p className="hero-2-service__block-description">
+                        <p 
+                          className="hero-2-service__block-description"
+                          style={{ color: block.descriptionColor || '#666666' }}
+                        >
                           {block.description}
                         </p>
                       )}

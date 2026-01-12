@@ -264,6 +264,22 @@
           "name": "background_color",
           "type": "color_picker",
           "default_value": "#ffffff"
+        },
+        {
+          "key": "field_hero2_block_title_color",
+          "label": "Title Color",
+          "name": "title_color",
+          "type": "color_picker",
+          "default_value": "#333333",
+          "instructions": "Color of the block title text"
+        },
+        {
+          "key": "field_hero2_block_description_color",
+          "label": "Description Color",
+          "name": "description_color",
+          "type": "color_picker",
+          "default_value": "#666666",
+          "instructions": "Color of the block description text"
         }
       ]
     },
