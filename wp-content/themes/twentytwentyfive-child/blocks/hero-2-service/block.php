@@ -113,12 +113,12 @@ if ($image_full_width) {
                         <?php foreach ($service_blocks as $block): ?>
                             <div class="hero-2-service__block" style="background-color: <?php echo esc_attr($block['background_color'] ?: '#ffffff'); ?>;">
                                 <?php if (!empty(trim($block['title']))): ?>
-                                    <h4 class="hero-2-service__block-title">
+                                    <h4 class="hero-2-service__block-title" style="color: <?php echo esc_attr($block['title_color'] ?: '#333333'); ?>;">
                                         <?php echo esc_html($block['title']); ?>
                                     </h4>
                                 <?php endif; ?>
                                 <?php if (!empty(trim($block['description']))): ?>
-                                    <p class="hero-2-service__block-description">
+                                    <p class="hero-2-service__block-description" style="color: <?php echo esc_attr($block['description_color'] ?: '#666666'); ?>;">
                                         <?php echo esc_html($block['description']); ?>
                                     </p>
                                 <?php endif; ?>
