@@ -1342,6 +1342,41 @@ function twentytwentyfive_child_register_acf_blocks() {
         ),
     ));
 
+    // Domain Enables Section Block
+    acf_register_block_type(array(
+        'name'              => 'domain-enables-section',
+        'title'             => __('Domain Enables Section', 'twentytwentyfive'),
+        'description'       => __('Dynamic section with background options, feature points with icons, and layout controls', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'admin-tools',
+        'keywords'          => array('domain', 'enables', 'features', 'background', 'icons', 'layout'),
+        'render_template'   => 'blocks/domain-enables-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/domain-enables-section/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading' => 'What This <span class="highlight">Domain Enables</span>',
+                    'subheading' => 'We help organizations unlock the full value of the Microsoft ecosystem by transforming individual tools into a unified business platform.',
+                    'background_type' => 'color',
+                    'background_color' => '#E0F7FA',
+                    'feature_points' => array(
+                        array('text' => 'Centralize business operations'),
+                        array('text' => 'Automate repetitive processes'),
+                        array('text' => 'Improve cross team collaboration'),
+                        array('text' => 'Scale securely with Azure')
+                    )
+                ),
+            ),
+        ),
+    ));
+
     // Note: stories-blog-block is already registered in parent theme
     // Removed duplicate registration to prevent conflicts
 }
