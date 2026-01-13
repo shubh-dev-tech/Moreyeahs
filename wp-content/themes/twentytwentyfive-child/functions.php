@@ -450,6 +450,34 @@ function twentytwentyfive_child_include_parent_functions() {
                                 $block['attrs']['data'] = array_merge($block['attrs']['data'] ?? [], $direct_acf_data);
                             }
                         }
+                        
+                        // ENHANCED: For faq-section, get ACF data directly from post
+                        if ($block['blockName'] === 'acf/faq-section') {
+                            $direct_acf_data = [];
+                            
+                            // Get all ACF fields for this post
+                            if (function_exists('get_fields')) {
+                                $all_fields = get_fields($post_id);
+                                if ($all_fields) {
+                                    foreach ($all_fields as $field_name => $field_value) {
+                                        if ($field_name === 'faq_items' && is_array($field_value)) {
+                                            // Process FAQ items - no special processing needed for text fields
+                                            $direct_acf_data['faq_items'] = $field_value;
+                                        } elseif ($field_name === 'background_image' && $field_value) {
+                                            // Process background image
+                                            $direct_acf_data['background_image'] = process_acf_image_field($field_value);
+                                        } else {
+                                            $direct_acf_data[$field_name] = $field_value;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // Merge direct ACF data with existing block data
+                            if (!empty($direct_acf_data)) {
+                                $block['attrs']['data'] = array_merge($block['attrs']['data'] ?? [], $direct_acf_data);
+                            }
+                        }
                     }
                     
                     // Process inner blocks recursively
@@ -547,6 +575,10 @@ function twentytwentyfive_child_include_parent_functions() {
                                     // Handle right_paragraphs repeater field
                                     elseif ($field_name === 'right_paragraphs' && is_array($value)) {
                                         $processed_fields[$field_name] = $value; // No special processing needed
+                                    }
+                                    // Handle faq_items repeater field (for faq-section)
+                                    elseif ($field_name === 'faq_items' && is_array($value)) {
+                                        $processed_fields[$field_name] = $value; // FAQ items are just text fields, no special processing needed
                                     }
                                     // Handle single image fields
                                     elseif ((strpos($field_name, 'image') !== false || strpos($field_name, 'hero_image') !== false) && $value) {
@@ -2039,6 +2071,54 @@ function twentytwentyfive_child_register_acf_blocks() {
                             'step_number' => 'Step 3',
                             'title' => 'Collaboration',
                             'subtitle' => 'Seamless team synergy'
+                        )
+                    )
+                ),
+            ),
+        ),
+    ));
+
+    // FAQ Section Block
+    acf_register_block_type(array(
+        'name'              => 'faq-section',
+        'title'             => __('FAQ Section', 'twentytwentyfive'),
+        'description'       => __('Dynamic FAQ section with expandable questions, customizable backgrounds, colors, and height options', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'editor-help',
+        'keywords'          => array('faq', 'questions', 'answers', 'accordion', 'help', 'background', 'gradient'),
+        'render_template'   => 'blocks/faq-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/faq-section/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'background_type' => 'gradient',
+                    'gradient_start_color' => '#e0f7fa',
+                    'gradient_end_color' => '#b2ebf2',
+                    'section_height' => 'auto',
+                    'title_part1' => 'Frequently Asked',
+                    'title_part2' => 'Questions',
+                    'title_color' => '#1a365d',
+                    'title_highlight_color' => '#0ea5e9',
+                    'title_font_size' => '2.5rem',
+                    'faq_items' => array(
+                        array(
+                            'question' => 'Can Microsoft tools be customized for our workflows?',
+                            'answer' => 'Yes, all Microsoft solutions we implement are customized based on your business processes.'
+                        ),
+                        array(
+                            'question' => 'Do you support migration from legacy systems?',
+                            'answer' => 'We provide comprehensive migration services from legacy systems to modern Microsoft solutions.'
+                        ),
+                        array(
+                            'question' => 'How secure is the Microsoft ecosystem?',
+                            'answer' => 'Microsoft provides enterprise-grade security with advanced threat protection and compliance features.'
                         )
                     )
                 ),
