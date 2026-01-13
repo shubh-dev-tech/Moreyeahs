@@ -45,6 +45,11 @@ import Hero2Service from './hero-2-service/Hero2Service';
 import ServiceTestimonial from './service-testimonial/ServiceTestimonial';
 import MultiCloudServices from './multi-cloud-services/MultiCloudServices';
 import VideoHeroSection from './video-hero-section/VideoHeroSection';
+import DomainEnablesSection from './domain-enables-section/DomainEnablesSection';
+import SpecializationsSection from './specializations-section/SpecializationsSection';
+import ServicesSection from './services-section/ServicesSection';
+import FitsTogetherSection from './fits-together-section/FitsTogetherSection';
+import FaqSection from './faq-section/FaqSection';
 import { FooterSection } from './footer-section';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
@@ -93,6 +98,11 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/service-testimonial': ServiceTestimonial,
   'acf/multi-cloud-services': MultiCloudServices,
   'acf/video-hero-section': VideoHeroSection,
+  'acf/domain-enables-section': DomainEnablesSection,
+  'acf/specializations-section': SpecializationsSection,
+  'acf/services-section': ServicesSection,
+  'acf/fits-together-section': FitsTogetherSection,
+  'acf/faq-section': FaqSection,
   'acf/footer-section': FooterSection,
   
   // Custom Blocks (without ACF)
@@ -124,6 +134,11 @@ const BLOCK_SECTION_IDS: Record<string, string> = {
   'acf/service-testimonial': 'service-testimonial',
   'acf/multi-cloud-services': 'multi-cloud-services',
   'acf/video-hero-section': 'video-hero-section',
+  'acf/domain-enables-section': 'domain-enables-section',
+  'acf/specializations-section': 'specializations-section',
+  'acf/services-section': 'services-section',
+  'acf/fits-together-section': 'fits-together-section',
+  'acf/faq-section': 'faq-section',
 };
 
 export function BlockRenderer({ blocks }: BlockRendererProps) {

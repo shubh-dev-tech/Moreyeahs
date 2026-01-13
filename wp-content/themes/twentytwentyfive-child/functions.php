@@ -201,52 +201,299 @@ function twentytwentyfive_child_include_parent_functions() {
                 
                 $blocks = parse_blocks($page->post_content);
                 
-                // Process ACF blocks to include field data
+                // Process ACF blocks to include field data - ENHANCED FOR NESTED BLOCKS
                 $processed_blocks = [];
-                foreach ($blocks as $block) {
-                    if (strpos($block['blockName'], 'acf/') === 0) {
-                        // This is an ACF block - get the field data using the block ID
-                        $block_id = $block['attrs']['id'] ?? null;
-                        if ($block_id && function_exists('get_fields')) {
-                            // Get fields specific to this block instance
-                            $acf_fields = get_fields($block_id);
+                
+                // Function to extract ACF data from block attributes
+                $extract_acf_data_from_attrs = function($block_data) {
+                    $processed_data = [];
+                    
+                    // Handle specializations section specifically
+                    if (isset($block_data['left_items']) && is_numeric($block_data['left_items'])) {
+                        $left_count = intval($block_data['left_items']);
+                        $left_items = [];
+                        
+                        for ($i = 0; $i < $left_count; $i++) {
+                            $item = [];
+                            $item['heading'] = $block_data["left_items_{$i}_heading"] ?? '';
+                            $item['subheading'] = $block_data["left_items_{$i}_subheading"] ?? '';
+                            $item['heading_color'] = $block_data["left_items_{$i}_heading_color"] ?? '#333333';
+                            $item['subheading_color'] = $block_data["left_items_{$i}_subheading_color"] ?? '#666666';
                             
-                            // If no block-specific fields, try getting from the page
-                            if (!$acf_fields) {
-                                $acf_fields = get_fields($page->ID);
+                            // Process image
+                            $image_id = $block_data["left_items_{$i}_image"] ?? null;
+                            if ($image_id) {
+                                $item['image'] = process_acf_image_field($image_id);
                             }
                             
-                            if ($acf_fields) {
-                                // Process gallery fields to ensure they have full image data
-                                foreach ($acf_fields as $field_name => $value) {
-                                    // Check if this is a gallery field and process it
-                                    if ((strpos($field_name, 'gallery') !== false || strpos($field_name, 'images') !== false) && is_array($value)) {
-                                        $acf_fields[$field_name] = process_acf_gallery_field($value);
-                                    }
-                                    // Check if this is a single image field and process it
-                                    elseif ((strpos($field_name, 'image') !== false || strpos($field_name, 'hero_image') !== false) && $value) {
-                                        $processed_image = process_acf_image_field($value);
-                                        if ($processed_image) {
-                                            $acf_fields[$field_name] = $processed_image;
-                                        }
-                                    }
-                                    // Process nested group fields
-                                    elseif (is_array($value)) {
-                                        foreach ($value as $sub_field_name => $sub_value) {
-                                            if ((strpos($sub_field_name, 'image') !== false || strpos($sub_field_name, 'hero_image') !== false) && $sub_value) {
-                                                $processed_image = process_acf_image_field($sub_value);
-                                                if ($processed_image) {
-                                                    $acf_fields[$field_name][$sub_field_name] = $processed_image;
+                            if (!empty($item['heading'])) {
+                                $left_items[] = $item;
+                            }
+                        }
+                        $processed_data['left_items'] = $left_items;
+                    }
+                    
+                    if (isset($block_data['right_paragraphs']) && is_numeric($block_data['right_paragraphs'])) {
+                        $right_count = intval($block_data['right_paragraphs']);
+                        $right_paragraphs = [];
+                        
+                        for ($i = 0; $i < $right_count; $i++) {
+                            $paragraph = [];
+                            $paragraph['text'] = $block_data["right_paragraphs_{$i}_text"] ?? '';
+                            $paragraph['color'] = $block_data["right_paragraphs_{$i}_color"] ?? '#666666';
+                            
+                            if (!empty($paragraph['text'])) {
+                                $right_paragraphs[] = $paragraph;
+                            }
+                        }
+                        $processed_data['right_paragraphs'] = $right_paragraphs;
+                    }
+                    
+                    // Handle services section service_items repeater - ENHANCED
+                    if (isset($block_data['service_items'])) {
+                        $service_items = [];
+                        
+                        // Check if it's already an array (proper ACF data)
+                        if (is_array($block_data['service_items']) && !is_numeric($block_data['service_items'])) {
+                            $service_items = $block_data['service_items'];
+                            
+                            // Process images in the array
+                            foreach ($service_items as &$item) {
+                                if (isset($item['image']) && $item['image']) {
+                                    $item['image'] = process_acf_image_field($item['image']);
+                                }
+                            }
+                        }
+                        // Handle numeric count format
+                        elseif (is_numeric($block_data['service_items'])) {
+                            $service_count = intval($block_data['service_items']);
+                            
+                            for ($i = 0; $i < $service_count; $i++) {
+                                $item = [];
+                                $item['heading'] = $block_data["service_items_{$i}_heading"] ?? '';
+                                $item['description'] = $block_data["service_items_{$i}_description"] ?? '';
+                                $item['heading_color'] = $block_data["service_items_{$i}_heading_color"] ?? '#333333';
+                                $item['description_color'] = $block_data["service_items_{$i}_description_color"] ?? '#666666';
+                                
+                                // Process image
+                                $image_id = $block_data["service_items_{$i}_image"] ?? null;
+                                if ($image_id) {
+                                    $item['image'] = process_acf_image_field($image_id);
+                                }
+                                
+                                if (!empty($item['heading'])) {
+                                    $service_items[] = $item;
+                                }
+                            }
+                        }
+                        
+                        $processed_data['service_items'] = $service_items;
+                    }
+                    
+                    // Handle fits-together-section steps repeater - ENHANCED
+                    if (isset($block_data['steps'])) {
+                        $steps = [];
+                        
+                        // Check if it's already an array (proper ACF data)
+                        if (is_array($block_data['steps']) && !is_numeric($block_data['steps'])) {
+                            $steps = $block_data['steps'];
+                            
+                            // Process images in the array
+                            foreach ($steps as &$step) {
+                                if (isset($step['icon']) && $step['icon']) {
+                                    $step['icon'] = process_acf_image_field($step['icon']);
+                                }
+                            }
+                        }
+                        // Handle numeric count format
+                        elseif (is_numeric($block_data['steps'])) {
+                            $steps_count = intval($block_data['steps']);
+                            
+                            for ($i = 0; $i < $steps_count; $i++) {
+                                $step = [];
+                                $step['step_number'] = $block_data["steps_{$i}_step_number"] ?? "Step " . ($i + 1);
+                                $step['step_number_color'] = $block_data["steps_{$i}_step_number_color"] ?? '#0EA5E9';
+                                $step['title'] = $block_data["steps_{$i}_title"] ?? '';
+                                $step['title_color'] = $block_data["steps_{$i}_title_color"] ?? '#1F2937';
+                                $step['subtitle'] = $block_data["steps_{$i}_subtitle"] ?? '';
+                                $step['subtitle_color'] = $block_data["steps_{$i}_subtitle_color"] ?? '#6B7280';
+                                
+                                // Process icon
+                                $icon_id = $block_data["steps_{$i}_icon"] ?? null;
+                                if ($icon_id) {
+                                    $step['icon'] = process_acf_image_field($icon_id);
+                                }
+                                
+                                if (!empty($step['title'])) {
+                                    $steps[] = $step;
+                                }
+                            }
+                        }
+                        
+                        $processed_data['steps'] = $steps;
+                    }
+                    
+                    // Copy other fields
+                    foreach ($block_data as $key => $value) {
+                        if (!isset($processed_data[$key]) && !preg_match('/^(left_items_\d+_|right_paragraphs_\d+_|service_items_\d+_|steps_\d+_|_)/', $key)) {
+                            $processed_data[$key] = $value;
+                        }
+                    }
+                    
+                    return $processed_data;
+                };
+                
+                // Recursive function to process blocks and their inner blocks
+                $process_block_recursive = function($block) use (&$process_block_recursive, $extract_acf_data_from_attrs, $post_id) {
+                    // Process current block if it's an ACF block
+                    if (strpos($block['blockName'], 'acf/') === 0) {
+                        if (isset($block['attrs']['data'])) {
+                            // Extract and process the ACF data
+                            $block['attrs']['data'] = $extract_acf_data_from_attrs($block['attrs']['data']);
+                        }
+                        
+                        // ENHANCED: For services section, get ACF data directly from post
+                        if ($block['blockName'] === 'acf/services-section') {
+                            $direct_acf_data = [];
+                            
+                            // Get all ACF fields for this post
+                            if (function_exists('get_fields')) {
+                                $all_fields = get_fields($post_id);
+                                if ($all_fields) {
+                                    foreach ($all_fields as $field_name => $field_value) {
+                                        if ($field_name === 'service_items' && is_array($field_value)) {
+                                            // Process service items
+                                            $processed_items = [];
+                                            foreach ($field_value as $item) {
+                                                $processed_item = $item;
+                                                if (isset($item['image']) && $item['image']) {
+                                                    $processed_item['image'] = process_acf_image_field($item['image']);
                                                 }
+                                                $processed_items[] = $processed_item;
                                             }
+                                            $direct_acf_data['service_items'] = $processed_items;
+                                        } else {
+                                            $direct_acf_data[$field_name] = $field_value;
                                         }
                                     }
                                 }
-                                $block['attrs']['data'] = $acf_fields;
+                            }
+                            
+                            // Merge direct ACF data with existing block data
+                            if (!empty($direct_acf_data)) {
+                                $block['attrs']['data'] = array_merge($block['attrs']['data'] ?? [], $direct_acf_data);
+                            }
+                        }
+                        
+                        // ENHANCED: For specializations section, get ACF data directly from post
+                        if ($block['blockName'] === 'acf/specializations-section') {
+                            $direct_acf_data = [];
+                            
+                            // Get all ACF fields for this post
+                            if (function_exists('get_fields')) {
+                                $all_fields = get_fields($post_id);
+                                if ($all_fields) {
+                                    foreach ($all_fields as $field_name => $field_value) {
+                                        if ($field_name === 'left_items' && is_array($field_value)) {
+                                            // Process left items
+                                            $processed_items = [];
+                                            foreach ($field_value as $item) {
+                                                $processed_item = $item;
+                                                if (isset($item['image']) && $item['image']) {
+                                                    $processed_item['image'] = process_acf_image_field($item['image']);
+                                                }
+                                                $processed_items[] = $processed_item;
+                                            }
+                                            $direct_acf_data['left_items'] = $processed_items;
+                                        } else {
+                                            $direct_acf_data[$field_name] = $field_value;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // Merge direct ACF data with existing block data
+                            if (!empty($direct_acf_data)) {
+                                $block['attrs']['data'] = array_merge($block['attrs']['data'] ?? [], $direct_acf_data);
+                            }
+                        }
+                        
+                        // ENHANCED: For fits-together-section, get ACF data directly from post
+                        if ($block['blockName'] === 'acf/fits-together-section') {
+                            $direct_acf_data = [];
+                            
+                            // Get all ACF fields for this post
+                            if (function_exists('get_fields')) {
+                                $all_fields = get_fields($post_id);
+                                if ($all_fields) {
+                                    foreach ($all_fields as $field_name => $field_value) {
+                                        if ($field_name === 'steps' && is_array($field_value)) {
+                                            // Process steps
+                                            $processed_steps = [];
+                                            foreach ($field_value as $step) {
+                                                $processed_step = $step;
+                                                if (isset($step['icon']) && $step['icon']) {
+                                                    $processed_step['icon'] = process_acf_image_field($step['icon']);
+                                                }
+                                                $processed_steps[] = $processed_step;
+                                            }
+                                            $direct_acf_data['steps'] = $processed_steps;
+                                        } else {
+                                            $direct_acf_data[$field_name] = $field_value;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // Merge direct ACF data with existing block data
+                            if (!empty($direct_acf_data)) {
+                                $block['attrs']['data'] = array_merge($block['attrs']['data'] ?? [], $direct_acf_data);
+                            }
+                        }
+                        
+                        // ENHANCED: For faq-section, get ACF data directly from post
+                        if ($block['blockName'] === 'acf/faq-section') {
+                            $direct_acf_data = [];
+                            
+                            // Get all ACF fields for this post
+                            if (function_exists('get_fields')) {
+                                $all_fields = get_fields($post_id);
+                                if ($all_fields) {
+                                    foreach ($all_fields as $field_name => $field_value) {
+                                        if ($field_name === 'faq_items' && is_array($field_value)) {
+                                            // Process FAQ items - no special processing needed for text fields
+                                            $direct_acf_data['faq_items'] = $field_value;
+                                        } elseif ($field_name === 'background_image' && $field_value) {
+                                            // Process background image
+                                            $direct_acf_data['background_image'] = process_acf_image_field($field_value);
+                                        } else {
+                                            $direct_acf_data[$field_name] = $field_value;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // Merge direct ACF data with existing block data
+                            if (!empty($direct_acf_data)) {
+                                $block['attrs']['data'] = array_merge($block['attrs']['data'] ?? [], $direct_acf_data);
                             }
                         }
                     }
-                    $processed_blocks[] = $block;
+                    
+                    // Process inner blocks recursively
+                    if (isset($block['innerBlocks']) && is_array($block['innerBlocks'])) {
+                        $processed_inner_blocks = [];
+                        foreach ($block['innerBlocks'] as $inner_block) {
+                            $processed_inner_blocks[] = $process_block_recursive($inner_block);
+                        }
+                        $block['innerBlocks'] = $processed_inner_blocks;
+                    }
+                    
+                    return $block;
+                };
+                
+                foreach ($blocks as $block) {
+                    $processed_blocks[] = $process_block_recursive($block);
                 }
                 
                 return rest_ensure_response([
@@ -277,16 +524,9 @@ function twentytwentyfive_child_include_parent_functions() {
                 $processed_blocks = [];
                 foreach ($blocks as $block) {
                     if (strpos($block['blockName'], 'acf/') === 0) {
-                        // This is an ACF block - get the field data using the block ID
-                        $block_id = $block['attrs']['id'] ?? null;
-                        if ($block_id && function_exists('get_fields')) {
-                            // Get fields specific to this block instance
-                            $acf_fields = get_fields($block_id);
-                            
-                            // If no block-specific fields, try getting from the post
-                            if (!$acf_fields) {
-                                $acf_fields = get_fields($post_id);
-                            }
+                        // Get ACF fields directly from the post for better reliability
+                        if (function_exists('get_fields')) {
+                            $acf_fields = get_fields($post_id);
                             
                             if ($acf_fields && is_array($acf_fields)) {
                                 // Process the fields to ensure proper data types
@@ -294,9 +534,52 @@ function twentytwentyfive_child_include_parent_functions() {
                                 foreach ($acf_fields as $field_name => $value) {
                                     // Handle gallery fields specifically
                                     if ((strpos($field_name, 'gallery') !== false || strpos($field_name, 'images') !== false) && is_array($value)) {
-                                        // Use our new processing function
                                         $processed_fields[$field_name] = process_acf_gallery_field($value);
                                     } 
+                                    // Handle service_items repeater field (for services section)
+                                    elseif ($field_name === 'service_items' && is_array($value)) {
+                                        $processed_items = [];
+                                        foreach ($value as $item) {
+                                            $processed_item = $item;
+                                            if (isset($item['image']) && $item['image']) {
+                                                $processed_item['image'] = process_acf_image_field($item['image']);
+                                            }
+                                            $processed_items[] = $processed_item;
+                                        }
+                                        $processed_fields[$field_name] = $processed_items;
+                                    }
+                                    // Handle left_items repeater field (for specializations section)
+                                    elseif ($field_name === 'left_items' && is_array($value)) {
+                                        $processed_items = [];
+                                        foreach ($value as $item) {
+                                            $processed_item = $item;
+                                            if (isset($item['image']) && $item['image']) {
+                                                $processed_item['image'] = process_acf_image_field($item['image']);
+                                            }
+                                            $processed_items[] = $processed_item;
+                                        }
+                                        $processed_fields[$field_name] = $processed_items;
+                                    }
+                                    // Handle steps repeater field (for fits-together-section)
+                                    elseif ($field_name === 'steps' && is_array($value)) {
+                                        $processed_steps = [];
+                                        foreach ($value as $step) {
+                                            $processed_step = $step;
+                                            if (isset($step['icon']) && $step['icon']) {
+                                                $processed_step['icon'] = process_acf_image_field($step['icon']);
+                                            }
+                                            $processed_steps[] = $processed_step;
+                                        }
+                                        $processed_fields[$field_name] = $processed_steps;
+                                    }
+                                    // Handle right_paragraphs repeater field
+                                    elseif ($field_name === 'right_paragraphs' && is_array($value)) {
+                                        $processed_fields[$field_name] = $value; // No special processing needed
+                                    }
+                                    // Handle faq_items repeater field (for faq-section)
+                                    elseif ($field_name === 'faq_items' && is_array($value)) {
+                                        $processed_fields[$field_name] = $value; // FAQ items are just text fields, no special processing needed
+                                    }
                                     // Handle single image fields
                                     elseif ((strpos($field_name, 'image') !== false || strpos($field_name, 'hero_image') !== false) && $value) {
                                         $processed_image = process_acf_image_field($value);
@@ -306,34 +589,8 @@ function twentytwentyfive_child_include_parent_functions() {
                                             $processed_fields[$field_name] = $value;
                                         }
                                     }
-                                    elseif (is_array($value) && isset($value['ID'])) {
-                                        // This is likely an image field - convert to consistent format
-                                        $image_data = wp_get_attachment_image_src($value['ID'], 'full');
-                                        if ($image_data) {
-                                            $processed_fields[$field_name] = [
-                                                'id' => intval($value['ID']),
-                                                'url' => $image_data[0],
-                                                'width' => intval($image_data[1]),
-                                                'height' => intval($image_data[2]),
-                                                'alt' => $value['alt'] ?? ''
-                                            ];
-                                        } else {
-                                            $processed_fields[$field_name] = $value;
-                                        }
-                                    } 
-                                    // Process nested group fields
-                                    elseif (is_array($value)) {
-                                        $processed_fields[$field_name] = $value;
-                                        foreach ($value as $sub_field_name => $sub_value) {
-                                            if ((strpos($sub_field_name, 'image') !== false || strpos($sub_field_name, 'hero_image') !== false) && $sub_value) {
-                                                $processed_image = process_acf_image_field($sub_value);
-                                                if ($processed_image) {
-                                                    $processed_fields[$field_name][$sub_field_name] = $processed_image;
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        // For all other field types, use as-is
+                                    // Handle other field types
+                                    else {
                                         $processed_fields[$field_name] = $value;
                                     }
                                 }
@@ -444,6 +701,118 @@ function twentytwentyfive_child_include_parent_functions() {
                     return rest_ensure_response(get_footer_settings_data());
                 }
                 return rest_ensure_response([]);
+            },
+            'permission_callback' => '__return_true'
+        ]);
+        
+        // Simple test endpoint for services section
+        register_rest_route('wp/v2', '/test-services-data/(?P<post_id>\d+)', [
+            'methods' => 'GET',
+            'callback' => function($request) {
+                $post_id = $request['post_id'];
+                
+                if (!function_exists('get_field')) {
+                    return new WP_Error('acf_not_available', 'ACF not available', ['status' => 500]);
+                }
+                
+                // Get all ACF fields for this post
+                $all_fields = get_fields($post_id);
+                
+                // Get service items specifically
+                $service_items_raw = get_field('service_items', $post_id, false);
+                $service_items_formatted = get_field('service_items', $post_id);
+                
+                // Try to get individual service items manually
+                $manual_items = [];
+                if (is_numeric($service_items_raw)) {
+                    $count = intval($service_items_raw);
+                    for ($i = 0; $i < $count; $i++) {
+                        $manual_items[] = [
+                            'heading' => get_field("service_items_{$i}_heading", $post_id),
+                            'description' => get_field("service_items_{$i}_description", $post_id),
+                            'heading_color' => get_field("service_items_{$i}_heading_color", $post_id),
+                            'description_color' => get_field("service_items_{$i}_description_color", $post_id),
+                            'image' => get_field("service_items_{$i}_image", $post_id),
+                        ];
+                    }
+                }
+                
+                return rest_ensure_response([
+                    'post_id' => $post_id,
+                    'all_acf_fields' => $all_fields,
+                    'service_items_raw' => $service_items_raw,
+                    'service_items_formatted' => $service_items_formatted,
+                    'manual_items' => $manual_items,
+                    'main_heading' => get_field('main_heading', $post_id),
+                    'description' => get_field('description', $post_id),
+                    'debug_info' => [
+                        'service_items_type_raw' => gettype($service_items_raw),
+                        'service_items_type_formatted' => gettype($service_items_formatted),
+                        'service_items_count' => is_array($service_items_formatted) ? count($service_items_formatted) : 'not array',
+                        'has_acf_fields' => !empty($all_fields),
+                        'field_keys' => array_keys($all_fields ?: [])
+                    ]
+                ]);
+            },
+            'permission_callback' => '__return_true'
+        ]);
+        
+        // Debug endpoint for services section ACF fields
+        register_rest_route('wp/v2', '/debug-services-acf/(?P<post_id>\d+)', [
+            'methods' => 'GET',
+            'callback' => function($request) {
+                $post_id = $request['post_id'];
+                
+                if (!function_exists('get_fields')) {
+                    return new WP_Error('acf_not_available', 'ACF not available', ['status' => 500]);
+                }
+                
+                $fields = get_fields($post_id);
+                
+                return rest_ensure_response([
+                    'post_id' => $post_id,
+                    'acf_fields' => $fields,
+                    'service_items' => get_field('service_items', $post_id),
+                    'service_items_raw' => get_field('service_items', $post_id, false),
+                    'main_heading' => get_field('main_heading', $post_id),
+                    'description' => get_field('description', $post_id),
+                    'debug_info' => [
+                        'service_items_type' => gettype(get_field('service_items', $post_id)),
+                        'service_items_count' => is_array(get_field('service_items', $post_id)) ? count(get_field('service_items', $post_id)) : 'not array',
+                        'all_field_keys' => array_keys($fields ?: [])
+                    ]
+                ]);
+            },
+            'permission_callback' => '__return_true'
+        ]);
+        
+        // Debug endpoint for ACF fields
+        register_rest_route('wp/v2', '/debug-acf/(?P<post_id>\d+)', [
+            'methods' => 'GET',
+            'callback' => function($request) {
+                $post_id = $request['post_id'];
+                
+                if (!function_exists('get_fields')) {
+                    return new WP_Error('acf_not_available', 'ACF not available', ['status' => 500]);
+                }
+                
+                $fields = get_fields($post_id);
+                
+                return rest_ensure_response([
+                    'post_id' => $post_id,
+                    'acf_fields' => $fields,
+                    'left_items' => get_field('left_items', $post_id),
+                    'left_items_raw' => get_field('left_items', $post_id, false),
+                    'right_heading' => get_field('right_heading', $post_id),
+                    'right_paragraphs' => get_field('right_paragraphs', $post_id),
+                    'right_paragraphs_raw' => get_field('right_paragraphs', $post_id, false),
+                    'debug_info' => [
+                        'left_items_type' => gettype(get_field('left_items', $post_id)),
+                        'right_paragraphs_type' => gettype(get_field('right_paragraphs', $post_id)),
+                        'left_items_count' => is_array(get_field('left_items', $post_id)) ? count(get_field('left_items', $post_id)) : 'not array',
+                        'right_paragraphs_count' => is_array(get_field('right_paragraphs', $post_id)) ? count(get_field('right_paragraphs', $post_id)) : 'not array'
+                    ]
+                ]);
             },
             'permission_callback' => '__return_true'
         ]);
@@ -615,6 +984,174 @@ function add_acf_to_rest_api() {
                             error_log("REST API: Processed gallery field '{$field_name}': " . print_r($processed_gallery, true));
                         }
                     }
+                    // Handle specializations section repeater fields - ENHANCED FIX
+                    elseif ($field_name === 'left_items') {
+                        // Force get the repeater field data directly, bypassing the count issue
+                        $repeater_data = [];
+                        
+                        // First try to get it normally
+                        $direct_value = get_field('left_items', $post['id']);
+                        
+                        if (is_array($direct_value) && !empty($direct_value)) {
+                            // We got proper array data
+                            foreach ($direct_value as $item) {
+                                $processed_item = $item;
+                                if (isset($item['image']) && $item['image']) {
+                                    $processed_item['image'] = process_acf_image_field($item['image']);
+                                }
+                                $repeater_data[] = $processed_item;
+                            }
+                        } else {
+                            // If we got a count or null, try to get the data manually
+                            $count = is_numeric($direct_value) ? intval($direct_value) : get_field('left_items', $post['id'], false);
+                            
+                            if (is_numeric($count) && $count > 0) {
+                                for ($i = 0; $i < $count; $i++) {
+                                    $item = [];
+                                    $item['image'] = get_field("left_items_{$i}_image", $post['id']);
+                                    $item['heading'] = get_field("left_items_{$i}_heading", $post['id']);
+                                    $item['heading_color'] = get_field("left_items_{$i}_heading_color", $post['id']);
+                                    $item['subheading'] = get_field("left_items_{$i}_subheading", $post['id']);
+                                    $item['subheading_color'] = get_field("left_items_{$i}_subheading_color", $post['id']);
+                                    
+                                    // Process image if it exists
+                                    if ($item['image']) {
+                                        $item['image'] = process_acf_image_field($item['image']);
+                                    }
+                                    
+                                    // Only add if we have actual data
+                                    if (!empty($item['heading'])) {
+                                        $repeater_data[] = $item;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        $fields[$field_name] = $repeater_data;
+                    }
+                    // Handle right_paragraphs repeater field - ENHANCED FIX
+                    elseif ($field_name === 'right_paragraphs') {
+                        // Force get the repeater field data directly, bypassing the count issue
+                        $repeater_data = [];
+                        
+                        // First try to get it normally
+                        $direct_value = get_field('right_paragraphs', $post['id']);
+                        
+                        if (is_array($direct_value) && !empty($direct_value)) {
+                            // We got proper array data
+                            $repeater_data = $direct_value;
+                        } else {
+                            // If we got a count or null, try to get the data manually
+                            $count = is_numeric($direct_value) ? intval($direct_value) : get_field('right_paragraphs', $post['id'], false);
+                            
+                            if (is_numeric($count) && $count > 0) {
+                                for ($i = 0; $i < $count; $i++) {
+                                    $paragraph = [];
+                                    $paragraph['text'] = get_field("right_paragraphs_{$i}_text", $post['id']);
+                                    $paragraph['color'] = get_field("right_paragraphs_{$i}_color", $post['id']);
+                                    
+                                    // Only add if we have actual text
+                                    if (!empty($paragraph['text'])) {
+                                        $repeater_data[] = $paragraph;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        $fields[$field_name] = $repeater_data;
+                    }
+                    // Handle service_items repeater field (for services section) - ENHANCED FIX
+                    elseif ($field_name === 'service_items') {
+                        // Force get the repeater field data directly, bypassing the count issue
+                        $repeater_data = [];
+                        
+                        // First try to get it normally
+                        $direct_value = get_field('service_items', $post['id']);
+                        
+                        if (is_array($direct_value) && !empty($direct_value)) {
+                            // We got proper array data
+                            foreach ($direct_value as $item) {
+                                $processed_item = $item;
+                                if (isset($item['image']) && $item['image']) {
+                                    $processed_item['image'] = process_acf_image_field($item['image']);
+                                }
+                                $repeater_data[] = $processed_item;
+                            }
+                        } else {
+                            // If we got a count or null, try to get the data manually
+                            $count = is_numeric($direct_value) ? intval($direct_value) : get_field('service_items', $post['id'], false);
+                            
+                            if (is_numeric($count) && $count > 0) {
+                                for ($i = 0; $i < $count; $i++) {
+                                    $item = [];
+                                    $item['image'] = get_field("service_items_{$i}_image", $post['id']);
+                                    $item['heading'] = get_field("service_items_{$i}_heading", $post['id']);
+                                    $item['heading_color'] = get_field("service_items_{$i}_heading_color", $post['id']);
+                                    $item['description'] = get_field("service_items_{$i}_description", $post['id']);
+                                    $item['description_color'] = get_field("service_items_{$i}_description_color", $post['id']);
+                                    
+                                    // Process image if it exists
+                                    if ($item['image']) {
+                                        $item['image'] = process_acf_image_field($item['image']);
+                                    }
+                                    
+                                    // Only add if we have actual data
+                                    if (!empty($item['heading'])) {
+                                        $repeater_data[] = $item;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        $fields[$field_name] = $repeater_data;
+                    }
+                    // Handle steps repeater field (for fits-together-section) - ENHANCED FIX
+                    elseif ($field_name === 'steps') {
+                        // Force get the repeater field data directly, bypassing the count issue
+                        $repeater_data = [];
+                        
+                        // First try to get it normally
+                        $direct_value = get_field('steps', $post['id']);
+                        
+                        if (is_array($direct_value) && !empty($direct_value)) {
+                            // We got proper array data
+                            foreach ($direct_value as $step) {
+                                $processed_step = $step;
+                                if (isset($step['icon']) && $step['icon']) {
+                                    $processed_step['icon'] = process_acf_image_field($step['icon']);
+                                }
+                                $repeater_data[] = $processed_step;
+                            }
+                        } else {
+                            // If we got a count or null, try to get the data manually
+                            $count = is_numeric($direct_value) ? intval($direct_value) : get_field('steps', $post['id'], false);
+                            
+                            if (is_numeric($count) && $count > 0) {
+                                for ($i = 0; $i < $count; $i++) {
+                                    $step = [];
+                                    $step['icon'] = get_field("steps_{$i}_icon", $post['id']);
+                                    $step['step_number'] = get_field("steps_{$i}_step_number", $post['id']) ?: "Step " . ($i + 1);
+                                    $step['step_number_color'] = get_field("steps_{$i}_step_number_color", $post['id']) ?: '#0EA5E9';
+                                    $step['title'] = get_field("steps_{$i}_title", $post['id']);
+                                    $step['title_color'] = get_field("steps_{$i}_title_color", $post['id']) ?: '#1F2937';
+                                    $step['subtitle'] = get_field("steps_{$i}_subtitle", $post['id']);
+                                    $step['subtitle_color'] = get_field("steps_{$i}_subtitle_color", $post['id']) ?: '#6B7280';
+                                    
+                                    // Process icon if it exists
+                                    if ($step['icon']) {
+                                        $step['icon'] = process_acf_image_field($step['icon']);
+                                    }
+                                    
+                                    // Only add if we have actual data
+                                    if (!empty($step['title'])) {
+                                        $repeater_data[] = $step;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        $fields[$field_name] = $repeater_data;
+                    }
                     // Check if this is a single image field
                     elseif ((strpos($field_name, 'image') !== false || strpos($field_name, 'hero_image') !== false) && $value) {
                         $processed_image = process_acf_image_field($value);
@@ -622,13 +1159,42 @@ function add_acf_to_rest_api() {
                             $fields[$field_name] = $processed_image;
                         }
                     }
-                    // Process nested group fields
+                    // Process nested group fields and repeater fields
                     elseif (is_array($value)) {
-                        foreach ($value as $sub_field_name => $sub_value) {
-                            if ((strpos($sub_field_name, 'image') !== false || strpos($sub_field_name, 'hero_image') !== false) && $sub_value) {
-                                $processed_image = process_acf_image_field($sub_value);
-                                if ($processed_image) {
-                                    $fields[$field_name][$sub_field_name] = $processed_image;
+                        // Skip if this is left_items (handled above) or other specific repeater fields
+                        if ($field_name === 'left_items' || $field_name === 'right_paragraphs' || $field_name === 'service_items' || $field_name === 'steps') {
+                            // Already processed above, skip
+                        }
+                        // Check if this is a repeater field with image subfields
+                        elseif (is_numeric(array_keys($value)[0] ?? '')) {
+                            // This looks like a repeater field (numeric keys)
+                            $processed_repeater = [];
+                            foreach ($value as $repeater_item) {
+                                if (is_array($repeater_item)) {
+                                    $processed_item = $repeater_item;
+                                    foreach ($repeater_item as $sub_field_name => $sub_value) {
+                                        if ((strpos($sub_field_name, 'image') !== false) && $sub_value) {
+                                            $processed_image = process_acf_image_field($sub_value);
+                                            if ($processed_image) {
+                                                $processed_item[$sub_field_name] = $processed_image;
+                                            }
+                                        }
+                                    }
+                                    $processed_repeater[] = $processed_item;
+                                } else {
+                                    $processed_repeater[] = $repeater_item;
+                                }
+                            }
+                            $fields[$field_name] = $processed_repeater;
+                        }
+                        // Handle regular group fields
+                        else {
+                            foreach ($value as $sub_field_name => $sub_value) {
+                                if ((strpos($sub_field_name, 'image') !== false || strpos($sub_field_name, 'hero_image') !== false) && $sub_value) {
+                                    $processed_image = process_acf_image_field($sub_value);
+                                    if ($processed_image) {
+                                        $fields[$field_name][$sub_field_name] = $processed_image;
+                                    }
                                 }
                             }
                         }
@@ -1342,6 +1908,224 @@ function twentytwentyfive_child_register_acf_blocks() {
         ),
     ));
 
+    // Domain Enables Section Block
+    acf_register_block_type(array(
+        'name'              => 'domain-enables-section',
+        'title'             => __('Domain Enables Section', 'twentytwentyfive'),
+        'description'       => __('Dynamic section with background options, feature points with icons, and layout controls', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'admin-tools',
+        'keywords'          => array('domain', 'enables', 'features', 'background', 'icons', 'layout'),
+        'render_template'   => 'blocks/domain-enables-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/domain-enables-section/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading' => 'What This <span class="highlight">Domain Enables</span>',
+                    'subheading' => 'We help organizations unlock the full value of the Microsoft ecosystem by transforming individual tools into a unified business platform.',
+                    'background_type' => 'color',
+                    'background_color' => '#E0F7FA',
+                    'feature_points' => array(
+                        array('text' => 'Centralize business operations'),
+                        array('text' => 'Automate repetitive processes'),
+                        array('text' => 'Improve cross team collaboration'),
+                        array('text' => 'Scale securely with Azure')
+                    )
+                ),
+            ),
+        ),
+    ));
+
+    // Specializations Section Block
+    acf_register_block_type(array(
+        'name'              => 'specializations-section',
+        'title'             => __('Specializations Section', 'twentytwentyfive'),
+        'description'       => __('Dynamic section with left side repeater items and right side content with customizable colors and backgrounds', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'star-filled',
+        'keywords'          => array('specializations', 'services', 'features', 'repeater', 'background', 'colors'),
+        'render_template'   => 'blocks/specializations-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/specializations-section/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'right_heading' => 'Our',
+                    'right_span_text' => 'Specializations',
+                    'background_type' => 'color',
+                    'background_color' => '#E0F7FA',
+                    'left_items' => array(
+                        array(
+                            'heading' => 'Microsoft Ecosystem Architecture',
+                            'subheading' => 'Designing stable, connected enterprise environments'
+                        ),
+                        array(
+                            'heading' => 'Workflow Automation',
+                            'subheading' => 'End to end business process streamlining'
+                        )
+                    ),
+                    'right_paragraphs' => array(
+                        array('text' => 'We specialize in building Microsoft powered environments that are stable, scalable, and designed for real world usage.')
+                    )
+                ),
+            ),
+        ),
+    ));
+
+    // Services Section Block
+    acf_register_block_type(array(
+        'name'              => 'services-section',
+        'title'             => __('Services Section', 'twentytwentyfive'),
+        'description'       => __('Dynamic services section with customizable heading, description, service items with icons, and background options', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'grid-view',
+        'keywords'          => array('services', 'features', 'grid', 'icons', 'background', 'colors'),
+        'render_template'   => 'blocks/services-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/services-section/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'main_heading' => 'Our Services',
+                    'span_text' => 'Services',
+                    'description' => 'Our Microsoft Services cover the full range of business needs from operations and automation to analytics and cloud infrastructure.',
+                    'background_type' => 'gradient',
+                    'gradient_start' => '#E0F7FA',
+                    'gradient_end' => '#B2EBF2',
+                    'gradient_direction' => 'to bottom',
+                    'service_items' => array(
+                        array(
+                            'heading' => 'Dynamics 365',
+                            'description' => 'CRM and connected business applications'
+                        ),
+                        array(
+                            'heading' => 'Business Central',
+                            'description' => 'ERP for finance, operations, and growth'
+                        ),
+                        array(
+                            'heading' => 'Power BI',
+                            'description' => 'Interactive dashboards and business insights'
+                        )
+                    )
+                ),
+            ),
+        ),
+    ));
+
+    // Fits Together Section Block
+    acf_register_block_type(array(
+        'name'              => 'fits-together-section',
+        'title'             => __('Fits Together Section', 'twentytwentyfive'),
+        'description'       => __('Dynamic "How It Fits Together" section with customizable steps, colors, gradients, and automatic arrow management', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'networking',
+        'keywords'          => array('fits', 'together', 'steps', 'process', 'workflow', 'arrows', 'gradient'),
+        'render_template'   => 'blocks/fits-together-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/fits-together-section/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'span_heading' => 'How It',
+                    'main_heading' => 'Fits Together',
+                    'background_type' => 'gradient',
+                    'gradient_start_color' => '#A7F3D0',
+                    'gradient_end_color' => '#7DD3FC',
+                    'steps' => array(
+                        array(
+                            'step_number' => 'Step 1',
+                            'title' => 'Business Systems',
+                            'subtitle' => 'Unified CRM/ERP core'
+                        ),
+                        array(
+                            'step_number' => 'Step 2',
+                            'title' => 'Workflow Auto',
+                            'subtitle' => 'Process automation layer'
+                        ),
+                        array(
+                            'step_number' => 'Step 3',
+                            'title' => 'Collaboration',
+                            'subtitle' => 'Seamless team synergy'
+                        )
+                    )
+                ),
+            ),
+        ),
+    ));
+
+    // FAQ Section Block
+    acf_register_block_type(array(
+        'name'              => 'faq-section',
+        'title'             => __('FAQ Section', 'twentytwentyfive'),
+        'description'       => __('Dynamic FAQ section with expandable questions, customizable backgrounds, colors, and height options', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'editor-help',
+        'keywords'          => array('faq', 'questions', 'answers', 'accordion', 'help', 'background', 'gradient'),
+        'render_template'   => 'blocks/faq-section/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/faq-section/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'background_type' => 'gradient',
+                    'gradient_start_color' => '#e0f7fa',
+                    'gradient_end_color' => '#b2ebf2',
+                    'section_height' => 'auto',
+                    'title_part1' => 'Frequently Asked',
+                    'title_part2' => 'Questions',
+                    'title_color' => '#1a365d',
+                    'title_highlight_color' => '#0ea5e9',
+                    'title_font_size' => '2.5rem',
+                    'faq_items' => array(
+                        array(
+                            'question' => 'Can Microsoft tools be customized for our workflows?',
+                            'answer' => 'Yes, all Microsoft solutions we implement are customized based on your business processes.'
+                        ),
+                        array(
+                            'question' => 'Do you support migration from legacy systems?',
+                            'answer' => 'We provide comprehensive migration services from legacy systems to modern Microsoft solutions.'
+                        ),
+                        array(
+                            'question' => 'How secure is the Microsoft ecosystem?',
+                            'answer' => 'Microsoft provides enterprise-grade security with advanced threat protection and compliance features.'
+                        )
+                    )
+                ),
+            ),
+        ),
+    ));
+
     // Note: stories-blog-block is already registered in parent theme
     // Removed duplicate registration to prevent conflicts
 }
@@ -1506,6 +2290,20 @@ function force_acf_field_sync() {
         $json_file = get_stylesheet_directory() . '/acf-json/group_case_study_template.json';
         if (file_exists($json_file)) {
             $json_data = json_decode(file_get_contents($json_file), true);
+            if ($json_data && function_exists('acf_import_field_group')) {
+                acf_import_field_group($json_data);
+            }
+        }
+    }
+    
+    // Check if services section field group exists
+    $services_field_group = acf_get_field_group('group_services_section');
+    
+    if (!$services_field_group) {
+        // Try to sync from JSON
+        $services_json_file = get_stylesheet_directory() . '/acf-json/group_services_section.json';
+        if (file_exists($services_json_file)) {
+            $json_data = json_decode(file_get_contents($services_json_file), true);
             if ($json_data && function_exists('acf_import_field_group')) {
                 acf_import_field_group($json_data);
             }
