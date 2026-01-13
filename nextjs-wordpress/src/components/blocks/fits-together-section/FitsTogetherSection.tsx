@@ -11,11 +11,11 @@ interface StepData {
     width?: number;
     height?: number;
   };
-  step_number: string;
+  step_number?: string;
   step_number_color?: string;
-  title: string;
+  title?: string;
   title_color?: string;
-  subtitle: string;
+  subtitle?: string;
   subtitle_color?: string;
 }
 
@@ -33,7 +33,9 @@ interface FitsTogetherSectionProps {
       url: string;
       alt: string;
     };
-    steps?: StepData[] | any[] | any; // More flexible type for steps
+    steps?: StepData[] | number | any; // More flexible type for steps
+    // Index signature for dynamic property access
+    [key: string]: any;
   };
   // Also accept props directly for flexibility
   span_heading?: string;
@@ -48,7 +50,9 @@ interface FitsTogetherSectionProps {
     url: string;
     alt: string;
   };
-  steps?: StepData[] | any[] | any; // More flexible type for steps
+  steps?: StepData[] | number | any; // More flexible type for steps
+  // Index signature for dynamic property access
+  [key: string]: any;
 }
 
 const FitsTogetherSection: React.FC<FitsTogetherSectionProps> = (props) => {
@@ -65,35 +69,87 @@ const FitsTogetherSection: React.FC<FitsTogetherSectionProps> = (props) => {
     gradient_start_color = '#A7F3D0',
     gradient_end_color = '#7DD3FC',
     background_image,
-    steps = []
+    steps: rawSteps = []
   } = data;
 
   // Debug logging
   console.log('FitsTogetherSection props:', props);
   console.log('FitsTogetherSection data:', data);
-  console.log('FitsTogetherSection steps raw:', steps);
-  console.log('FitsTogetherSection steps type:', typeof steps);
-  console.log('FitsTogetherSection steps isArray:', Array.isArray(steps));
+  console.log('FitsTogetherSection rawSteps:', rawSteps);
+  console.log('FitsTogetherSection rawSteps type:', typeof rawSteps);
+  console.log('FitsTogetherSection rawSteps isArray:', Array.isArray(rawSteps));
 
-  // Handle different data formats that might come from WordPress
+  // Handle steps using the same pattern as Services Section
   let processedSteps: StepData[] = [];
   
-  if (Array.isArray(steps)) {
-    processedSteps = steps;
-  } else if (steps && typeof steps === 'object') {
+  // If steps is a number, it's the count - get individual items from data keys
+  if (typeof rawSteps === 'number' && rawSteps > 0) {
+    for (let i = 0; i < rawSteps; i++) {
+      const keysToTry = [
+        `steps_${i}_title`,
+        `steps_${i}`,
+        `step_${i}_title`,
+        `title_${i}`
+      ];
+      
+      let title: string | undefined = undefined;
+      let stepNumber: string | undefined = undefined;
+      let subtitle: string | undefined = undefined;
+      let stepNumberColor: string | undefined = undefined;
+      let titleColor: string | undefined = undefined;
+      let subtitleColor: string | undefined = undefined;
+      let icon: any = undefined;
+      
+      // Try to find the title
+      for (const key of keysToTry) {
+        if (data && data[key as keyof typeof data]) {
+          title = data[key as keyof typeof data] as string;
+          break;
+        }
+      }
+      
+      // Get other fields for this step
+      if (data) {
+        stepNumber = (data[`steps_${i}_step_number`] as string) || `Step ${i + 1}`;
+        subtitle = (data[`steps_${i}_subtitle`] as string) || undefined;
+        stepNumberColor = (data[`steps_${i}_step_number_color`] as string) || '#0EA5E9';
+        titleColor = (data[`steps_${i}_title_color`] as string) || '#1F2937';
+        subtitleColor = (data[`steps_${i}_subtitle_color`] as string) || '#6B7280';
+        icon = (data[`steps_${i}_icon`] as any) || undefined;
+      }
+      
+      if (title) {
+        processedSteps.push({
+          step_number: stepNumber,
+          step_number_color: stepNumberColor,
+          title,
+          title_color: titleColor,
+          subtitle,
+          subtitle_color: subtitleColor,
+          icon
+        });
+      }
+    }
+  } 
+  // If steps is already an array, use it directly
+  else if (rawSteps && Array.isArray(rawSteps)) {
+    processedSteps = rawSteps;
+  }
+  // Handle object format (sometimes WordPress returns objects instead of arrays)
+  else if (rawSteps && typeof rawSteps === 'object') {
     // If steps is an object, try to convert it to an array
-    processedSteps = Object.values(steps).filter((step: any) => 
-      step && typeof step === 'object' && step.title
+    processedSteps = Object.values(rawSteps).filter((step: any) => 
+      step && typeof step === 'object' && (step.title || step.step_number)
     ) as StepData[];
-  } else if (typeof steps === 'string') {
+  } else if (typeof rawSteps === 'string') {
     // If steps is a string (maybe JSON), try to parse it
     try {
-      const parsed = JSON.parse(steps);
+      const parsed = JSON.parse(rawSteps);
       if (Array.isArray(parsed)) {
         processedSteps = parsed;
       }
     } catch (e) {
-      console.warn('Failed to parse steps as JSON:', steps);
+      console.warn('Failed to parse steps as JSON:', rawSteps);
     }
   }
 
@@ -219,22 +275,22 @@ const FitsTogetherSection: React.FC<FitsTogetherSectionProps> = (props) => {
               
               return (
                 <div key={index} className="fits-together-step">
-                  <div className="step-content">
-                    <div className="step-info">
+                  <div className="fits-step-card">
+                    <div className="fits-step-info">
                       <div 
-                        className="step-number"
+                        className="fits-step-number"
                         style={{ color: step.step_number_color }}
                       >
                         {step.step_number}
                       </div>
                       <h3 
-                        className="step-title"
+                        className="fits-step-title"
                         style={{ color: step.title_color }}
                       >
                         {step.title}
                       </h3>
                       <p 
-                        className="step-subtitle"
+                        className="fits-step-subtitle"
                         style={{ color: step.subtitle_color }}
                       >
                         {step.subtitle}
@@ -243,7 +299,7 @@ const FitsTogetherSection: React.FC<FitsTogetherSectionProps> = (props) => {
                   </div>
                   
                   {!isLast && (
-                    <div className="step-arrow">
+                    <div className="fits-step-arrow">
                       <ArrowIcon />
                     </div>
                   )}
@@ -302,35 +358,35 @@ const FitsTogetherSection: React.FC<FitsTogetherSectionProps> = (props) => {
             
             return (
               <div key={index} className="fits-together-step">
-                <div className="step-content">
+                <div className="fits-step-card">
                   {safeStep.icon && safeStep.icon.url && (
-                    <div className="step-icon">
+                    <div className="fits-step-icon">
                       <Image
                         src={safeStep.icon.url}
                         alt={safeStep.icon.alt || `Step ${index + 1} icon`}
                         width={40}
                         height={40}
-                        className="step-icon-image"
+                        className="fits-step-icon-image"
                         unoptimized={true}
                       />
                     </div>
                   )}
                   
-                  <div className="step-info">
+                  <div className="fits-step-info">
                     <div 
-                      className="step-number"
+                      className="fits-step-number"
                       style={{ color: safeStep.step_number_color }}
                     >
                       {safeStep.step_number}
                     </div>
                     <h3 
-                      className="step-title"
+                      className="fits-step-title"
                       style={{ color: safeStep.title_color }}
                     >
                       {safeStep.title}
                     </h3>
                     <p 
-                      className="step-subtitle"
+                      className="fits-step-subtitle"
                       style={{ color: safeStep.subtitle_color }}
                     >
                       {safeStep.subtitle}
@@ -339,7 +395,7 @@ const FitsTogetherSection: React.FC<FitsTogetherSectionProps> = (props) => {
                 </div>
                 
                 {!isLast && (
-                  <div className="step-arrow">
+                  <div className="fits-step-arrow">
                     <ArrowIcon />
                   </div>
                 )}

@@ -1073,6 +1073,53 @@ function add_acf_to_rest_api() {
                         
                         $fields[$field_name] = $repeater_data;
                     }
+                    // Handle steps repeater field (for fits-together-section) - ENHANCED FIX
+                    elseif ($field_name === 'steps') {
+                        // Force get the repeater field data directly, bypassing the count issue
+                        $repeater_data = [];
+                        
+                        // First try to get it normally
+                        $direct_value = get_field('steps', $post['id']);
+                        
+                        if (is_array($direct_value) && !empty($direct_value)) {
+                            // We got proper array data
+                            foreach ($direct_value as $step) {
+                                $processed_step = $step;
+                                if (isset($step['icon']) && $step['icon']) {
+                                    $processed_step['icon'] = process_acf_image_field($step['icon']);
+                                }
+                                $repeater_data[] = $processed_step;
+                            }
+                        } else {
+                            // If we got a count or null, try to get the data manually
+                            $count = is_numeric($direct_value) ? intval($direct_value) : get_field('steps', $post['id'], false);
+                            
+                            if (is_numeric($count) && $count > 0) {
+                                for ($i = 0; $i < $count; $i++) {
+                                    $step = [];
+                                    $step['icon'] = get_field("steps_{$i}_icon", $post['id']);
+                                    $step['step_number'] = get_field("steps_{$i}_step_number", $post['id']) ?: "Step " . ($i + 1);
+                                    $step['step_number_color'] = get_field("steps_{$i}_step_number_color", $post['id']) ?: '#0EA5E9';
+                                    $step['title'] = get_field("steps_{$i}_title", $post['id']);
+                                    $step['title_color'] = get_field("steps_{$i}_title_color", $post['id']) ?: '#1F2937';
+                                    $step['subtitle'] = get_field("steps_{$i}_subtitle", $post['id']);
+                                    $step['subtitle_color'] = get_field("steps_{$i}_subtitle_color", $post['id']) ?: '#6B7280';
+                                    
+                                    // Process icon if it exists
+                                    if ($step['icon']) {
+                                        $step['icon'] = process_acf_image_field($step['icon']);
+                                    }
+                                    
+                                    // Only add if we have actual data
+                                    if (!empty($step['title'])) {
+                                        $repeater_data[] = $step;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        $fields[$field_name] = $repeater_data;
+                    }
                     // Check if this is a single image field
                     elseif ((strpos($field_name, 'image') !== false || strpos($field_name, 'hero_image') !== false) && $value) {
                         $processed_image = process_acf_image_field($value);
