@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    unoptimized: process.env.NODE_ENV === 'development', // Disable optimization in development
+    unoptimized: true, // Disable optimization to avoid image loading issues
     remotePatterns: [
       // Local development - specific paths
       {
