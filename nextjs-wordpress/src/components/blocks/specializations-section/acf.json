@@ -1,0 +1,137 @@
+{
+    "key": "group_specializations_section",
+    "title": "Specializations Section",
+    "fields": [
+        {
+            "key": "field_specializations_left_repeater",
+            "label": "Left Side Items",
+            "name": "left_items",
+            "type": "repeater",
+            "sub_fields": [
+                {
+                    "key": "field_specializations_item_image",
+                    "label": "Image",
+                    "name": "image",
+                    "type": "image"
+                },
+                {
+                    "key": "field_specializations_item_heading",
+                    "label": "Heading",
+                    "name": "heading",
+                    "type": "text"
+                },
+                {
+                    "key": "field_specializations_item_heading_color",
+                    "label": "Heading Color",
+                    "name": "heading_color",
+                    "type": "color_picker"
+                },
+                {
+                    "key": "field_specializations_item_subheading",
+                    "label": "Subheading",
+                    "name": "subheading",
+                    "type": "textarea"
+                },
+                {
+                    "key": "field_specializations_item_subheading_color",
+                    "label": "Subheading Color",
+                    "name": "subheading_color",
+                    "type": "color_picker"
+                }
+            ]
+        },
+        {
+            "key": "field_specializations_right_heading",
+            "label": "Right Side Heading",
+            "name": "right_heading",
+            "type": "text"
+        },
+        {
+            "key": "field_specializations_right_heading_color",
+            "label": "Right Heading Color",
+            "name": "right_heading_color",
+            "type": "color_picker"
+        },
+        {
+            "key": "field_specializations_right_span_text",
+            "label": "Right Heading Span Text",
+            "name": "right_span_text",
+            "type": "text"
+        },
+        {
+            "key": "field_specializations_right_span_color",
+            "label": "Right Span Color",
+            "name": "right_span_color",
+            "type": "color_picker"
+        },
+        {
+            "key": "field_specializations_right_paragraphs",
+            "label": "Right Side Paragraphs",
+            "name": "right_paragraphs",
+            "type": "repeater",
+            "sub_fields": [
+                {
+                    "key": "field_specializations_paragraph_text",
+                    "label": "Paragraph Text",
+                    "name": "text",
+                    "type": "textarea"
+                },
+                {
+                    "key": "field_specializations_paragraph_color",
+                    "label": "Paragraph Color",
+                    "name": "color",
+                    "type": "color_picker"
+                }
+            ]
+        },
+        {
+            "key": "field_specializations_background_type",
+            "label": "Background Type",
+            "name": "background_type",
+            "type": "select",
+            "choices": {
+                "color": "Solid Color",
+                "gradient": "Gradient",
+                "image": "Background Image"
+            }
+        },
+        {
+            "key": "field_specializations_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "type": "color_picker"
+        },
+        {
+            "key": "field_specializations_gradient_start",
+            "label": "Gradient Start Color",
+            "name": "gradient_start",
+            "type": "color_picker"
+        },
+        {
+            "key": "field_specializations_gradient_end",
+            "label": "Gradient End Color",
+            "name": "gradient_end",
+            "type": "color_picker"
+        },
+        {
+            "key": "field_specializations_gradient_direction",
+            "label": "Gradient Direction",
+            "name": "gradient_direction",
+            "type": "select",
+            "choices": {
+                "to right": "Left to Right",
+                "to left": "Right to Left",
+                "to bottom": "Top to Bottom",
+                "to top": "Bottom to Top",
+                "45deg": "Diagonal (45°)",
+                "135deg": "Diagonal (135°)"
+            }
+        },
+        {
+            "key": "field_specializations_background_image",
+            "label": "Background Image",
+            "name": "background_image",
+            "type": "image"
+        }
+    ]
+}

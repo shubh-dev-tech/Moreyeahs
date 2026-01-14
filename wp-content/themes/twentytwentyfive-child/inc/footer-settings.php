@@ -21,6 +21,66 @@ function moreyeahs_footer_customizer_settings($wp_customize) {
         'priority' => 120,
     ));
 
+    // Enable Contact Section
+    $wp_customize->add_setting('footer_enable_contact_section', array(
+        'default'           => true,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ));
+
+    $wp_customize->add_control('footer_enable_contact_section', array(
+        'label'   => __('Enable Contact Section', 'moreyeahs'),
+        'section' => 'moreyeahs_footer_settings',
+        'type'    => 'checkbox',
+    ));
+
+    // Contact Email
+    $wp_customize->add_setting('footer_contact_email', array(
+        'default'           => 'info@moreyeahs.com',
+        'sanitize_callback' => 'sanitize_email',
+    ));
+
+    $wp_customize->add_control('footer_contact_email', array(
+        'label'   => __('Contact Email', 'moreyeahs'),
+        'section' => 'moreyeahs_footer_settings',
+        'type'    => 'email',
+    ));
+
+    // Contact Phone
+    $wp_customize->add_setting('footer_contact_phone', array(
+        'default'           => '+91 7415567401 +91 9324881631',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('footer_contact_phone', array(
+        'label'   => __('Contact Phone', 'moreyeahs'),
+        'section' => 'moreyeahs_footer_settings',
+        'type'    => 'text',
+    ));
+
+    // Contact Address
+    $wp_customize->add_setting('footer_contact_address', array(
+        'default'           => 'Indore, Madhya Pradesh, 452010',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('footer_contact_address', array(
+        'label'   => __('Contact Address', 'moreyeahs'),
+        'section' => 'moreyeahs_footer_settings',
+        'type'    => 'text',
+    ));
+
+    // Contact City State
+    $wp_customize->add_setting('footer_contact_city_state', array(
+        'default'           => 'Cedar Park, TX 78613',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('footer_contact_city_state', array(
+        'label'   => __('Contact City, State', 'moreyeahs'),
+        'section' => 'moreyeahs_footer_settings',
+        'type'    => 'text',
+    ));
+
     // Logo Setting
     $wp_customize->add_setting('footer_logo', array(
         'default'           => '',
@@ -407,6 +467,13 @@ function get_footer_settings_data() {
         'background_color' => get_theme_mod('footer_background_color', '#f8f9fa'),
         'text_color' => get_theme_mod('footer_text_color', '#333333'),
         'link_color' => get_theme_mod('footer_link_color', '#666666'),
-        'link_hover_color' => get_theme_mod('footer_link_hover_color', '#000000')
+        'link_hover_color' => get_theme_mod('footer_link_hover_color', '#000000'),
+        'enable_contact_section' => get_theme_mod('footer_enable_contact_section', true),
+        'contact_info' => array(
+            'email' => get_theme_mod('footer_contact_email', 'info@moreyeahs.com'),
+            'phone' => get_theme_mod('footer_contact_phone', '+91 7415567401 +91 9324881631'),
+            'address' => get_theme_mod('footer_contact_address', 'Indore, Madhya Pradesh, 452010'),
+            'city_state' => get_theme_mod('footer_contact_city_state', 'Cedar Park, TX 78613')
+        )
     );
 }

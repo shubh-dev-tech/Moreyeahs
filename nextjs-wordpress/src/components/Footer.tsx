@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getFooterSettings } from '@/lib/wpFetch';
+import ContactSection from './ContactSection';
 
 interface FooterLink {
   label: string;
@@ -17,6 +18,13 @@ interface SocialLink {
 interface FooterColumn {
   title: string;
   links: FooterLink[];
+}
+
+interface ContactInfo {
+  email?: string;
+  phone?: string;
+  address?: string;
+  city_state?: string;
 }
 
 interface FooterData {
@@ -38,6 +46,8 @@ interface FooterData {
   text_color?: string;
   link_color?: string;
   link_hover_color?: string;
+  contact_info?: ContactInfo;
+  enable_contact_section?: boolean;
 }
 
 // Social icons mapping
@@ -115,7 +125,14 @@ export default async function Footer() {
       background_color: '#f8f9fa',
       text_color: '#333333',
       link_color: '#666666',
-      link_hover_color: '#000000'
+      link_hover_color: '#000000',
+      contact_info: {
+        email: "info@moreyeahs.com",
+        phone: "+91 7415567401 +91 9324881631",
+        address: "Indore, Madhya Pradesh, 452010",
+        city_state: "Cedar Park, TX 78613"
+      },
+      enable_contact_section: true
     };
   }
 
@@ -134,7 +151,14 @@ export default async function Footer() {
     background_color = '#f8f9fa',
     text_color = '#333333',
     link_color = '#666666',
-    link_hover_color = '#000000'
+    link_hover_color = '#000000',
+    contact_info = {
+      email: "info@moreyeahs.com",
+      phone: "+91 7415567401 +91 9324881631",
+      address: "Indore, Madhya Pradesh, 452010",
+      city_state: "Cedar Park, TX 78613"
+    },
+    enable_contact_section = true
   } = footerData;
 
   return (
@@ -147,6 +171,11 @@ export default async function Footer() {
         '--link-hover-color': link_hover_color
       } as React.CSSProperties}
     >
+      {/* Contact Section */}
+      {enable_contact_section && (
+        <ContactSection contact_info={contact_info} />
+      )}
+
       <div className="container">
         <div className="footer-content">
           {/* Logo and Description Column */}

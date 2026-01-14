@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import './styles.scss';
@@ -19,6 +19,14 @@ interface SocialLink {
 interface FooterColumn {
   title: string;
   links: FooterLink[];
+}
+
+interface ContactInfo {
+  email?: string;
+  phone?: string;
+  phone2?: string;
+  address?: string;
+  city_state?: string;
 }
 
 interface FooterSectionProps {
@@ -41,27 +49,92 @@ interface FooterSectionProps {
     text_color?: string;
     link_color?: string;
     link_hover_color?: string;
+    contact_info?: ContactInfo;
+    enable_contact_section?: boolean;
   };
 }
 
 const FooterSection: React.FC<FooterSectionProps> = ({ data }) => {
+  const [formData, setFormData] = useState({
+    email: '',
+    phone: '',
+    message: ''
+  });
+
   const {
     logo,
     company_description = "We are committed to making meaningful contributions to the environment and society. As a global technology leader, MoreYeahs aims to automate digital literacy and foster sustainable, self-sufficient communities.",
-    company_columns = [],
-    about_columns = [],
+    company_columns = [
+      {
+        title: "Company",
+        links: [
+          { label: "About Us", url: "/about" },
+          { label: "Case Study", url: "/case-studies" },
+          { label: "Blog", url: "/blog" }
+        ]
+      }
+    ],
+    about_columns = [
+      {
+        title: "About",
+        links: [
+          { label: "About Us", url: "/about" },
+          { label: "Culture", url: "/culture" },
+          { label: "Apply Now", url: "/careers" }
+        ]
+      }
+    ],
     career_columns = [],
-    services_columns = [],
-    social_links = [],
+    services_columns = [
+      {
+        title: "Services",
+        links: [
+          { label: "Data Science & AI", url: "/services/data-science" },
+          { label: "Data Engineering", url: "/services/data-engineering" },
+          { label: "DevOps", url: "/services/devops" },
+          { label: "Dynamics", url: "/services/dynamics" }
+        ]
+      }
+    ],
+    social_links = [
+      { platform: "linkedin", url: "https://linkedin.com/company/moreyeahs" },
+      { platform: "twitter", url: "https://twitter.com/moreyeahs" },
+      { platform: "facebook", url: "https://facebook.com/moreyeahs" },
+      { platform: "instagram", url: "https://instagram.com/moreyeahs" }
+    ],
     follow_us_text = "Follow Us",
     copyright_text = "© 2025 MoreYeahs. All rights reserved.",
-    privacy_policy_link,
-    terms_of_use_link,
+    privacy_policy_link = { label: "Privacy Policy", url: "/privacy-policy" },
+    terms_of_use_link = { label: "Terms of Use", url: "/terms-of-use" },
     background_color = "#f8f9fa",
     text_color = "#333333",
     link_color = "#666666",
-    link_hover_color = "#000000"
+    link_hover_color = "#000000",
+    contact_info = {
+      email: "info@moreyeahs.com",
+      phone: "+91 7415077401",
+      phone2: "+91 9329911531",
+      address: "Indore, Madhya Pradesh, 452010",
+      city_state: "Cedar Park, TX 78613"
+    },
+    enable_contact_section = true
   } = data || {};
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission here
+    console.log('Form submitted:', formData);
+    // Reset form
+    setFormData({ email: '', phone: '', message: '' });
+  };
 
   // Default social icons mapping
   const socialIcons = {
@@ -130,31 +203,145 @@ const FooterSection: React.FC<FooterSectionProps> = ({ data }) => {
         '--link-hover-color': link_hover_color
       } as React.CSSProperties}
     >
+      {/* Contact Section */}
+      {enable_contact_section && (
+        <div className="footer-contact-section">
+          <div className="container">
+            <div className="contact-card">
+              <div className="contact-content">
+                {/* Contact Information */}
+                <div className="contact-info">
+                  <h2 className="contact-title">Contact Information</h2>
+                  <div className="contact-details">
+                    {contact_info?.email && (
+                      <div className="contact-item">
+                        <div className="contact-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                          </svg>
+                        </div>
+                        <span className="contact-text">{contact_info.email}</span>
+                      </div>
+                    )}
+                    {contact_info?.phone && (
+                      <div className="contact-item">
+                        <div className="contact-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                          </svg>
+                        </div>
+                        <span className="contact-text">{contact_info.phone}</span>
+                      </div>
+                    )}
+                    {contact_info?.phone2 && (
+                      <div className="contact-item">
+                        <div className="contact-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                          </svg>
+                        </div>
+                        <span className="contact-text">{contact_info.phone2}</span>
+                      </div>
+                    )}
+                    {contact_info?.address && (
+                      <div className="contact-item">
+                        <div className="contact-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                          </svg>
+                        </div>
+                        <span className="contact-text">{contact_info.address}</span>
+                      </div>
+                    )}
+                    {contact_info?.city_state && (
+                      <div className="contact-item">
+                        <div className="contact-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                          </svg>
+                        </div>
+                        <span className="contact-text">{contact_info.city_state}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Contact Form */}
+                <div className="contact-form-wrapper">
+                  <h2 className="contact-title">Contact Us</h2>
+                  <form className="contact-form" onSubmit={handleSubmit}>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="Email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
+                          className="form-input"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="tel"
+                          name="phone"
+                          placeholder="Phone Number"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          className="form-input"
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <textarea
+                        name="message"
+                        placeholder="Write your message..."
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        required
+                        rows={4}
+                        className="form-textarea"
+                      />
+                    </div>
+                    <div className="form-submit">
+                      <button type="submit" className="submit-button">
+                        Send Message
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="container">
         <div className="footer-content">
           {/* Logo and Description Column */}
           <div className="footer-brand">
-            {logo && (
-              <div className="footer-logo">
-                <Image
-                  src={logo.url}
-                  alt={logo.alt || 'Company Logo'}
-                  width={150}
-                  height={40}
-                  style={{ objectFit: 'contain' }}
-                />
-              </div>
-            )}
+            <div className="brand-logo">
+              <span className="brand-text">
+                <span className="brand-more">more</span>
+                <span className="brand-yeahs">yeahs</span>
+              </span>
+            </div>
             {company_description && (
               <p className="footer-description">{company_description}</p>
             )}
+            <div className="footer-copyright">
+              <span>{copyright_text}</span>
+            </div>
           </div>
 
           {/* Navigation Columns */}
           <div className="footer-navigation">
             {renderColumn('Company', company_columns)}
             {renderColumn('About', about_columns)}
-            {renderColumn('Career', career_columns)}
             {renderColumn('Services', services_columns)}
           </div>
 
@@ -182,9 +369,6 @@ const FooterSection: React.FC<FooterSectionProps> = ({ data }) => {
 
         {/* Footer Bottom */}
         <div className="footer-bottom">
-          <div className="footer-copyright">
-            <span>{copyright_text}</span>
-          </div>
           <div className="footer-legal">
             {privacy_policy_link && (
               <Link 

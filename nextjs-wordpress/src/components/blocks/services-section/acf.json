@@ -1,0 +1,249 @@
+{
+  "key": "group_services_section",
+  "title": "Services Section",
+  "fields": [
+    {
+      "key": "field_services_main_heading",
+      "label": "Main Heading",
+      "name": "main_heading",
+      "type": "text",
+      "instructions": "Enter the main heading (e.g., 'Our Services')",
+      "required": 1,
+      "default_value": "Our Services"
+    },
+    {
+      "key": "field_services_main_heading_color",
+      "label": "Main Heading Color",
+      "name": "main_heading_color",
+      "type": "color_picker",
+      "instructions": "Select main heading color",
+      "default_value": "#333333",
+      "enable_opacity": 1,
+      "return_format": "string"
+    },
+    {
+      "key": "field_services_span_text",
+      "label": "Span Text (Highlighted Part)",
+      "name": "span_text",
+      "type": "text",
+      "instructions": "Enter the highlighted part of the heading (e.g., 'Services')",
+      "default_value": "Services"
+    },
+    {
+      "key": "field_services_span_color",
+      "label": "Span Color",
+      "name": "span_color",
+      "type": "color_picker",
+      "instructions": "Select span text color",
+      "default_value": "#007acc",
+      "enable_opacity": 1,
+      "return_format": "string"
+    },
+    {
+      "key": "field_services_description",
+      "label": "Description",
+      "name": "description",
+      "type": "textarea",
+      "instructions": "Enter the description text below the heading",
+      "rows": 3
+    },
+    {
+      "key": "field_services_description_color",
+      "label": "Description Color",
+      "name": "description_color",
+      "type": "color_picker",
+      "instructions": "Select description text color",
+      "default_value": "#666666",
+      "enable_opacity": 1,
+      "return_format": "string"
+    },
+    {
+      "key": "field_services_items",
+      "label": "Service Items",
+      "name": "service_items",
+      "type": "repeater",
+      "instructions": "Add service items with icon, heading and description",
+      "layout": "table",
+      "button_label": "Add Service",
+      "sub_fields": [
+        {
+          "key": "field_services_item_image",
+          "label": "Service Icon/Image",
+          "name": "image",
+          "type": "image",
+          "instructions": "Upload icon or image for this service",
+          "return_format": "array",
+          "preview_size": "thumbnail"
+        },
+        {
+          "key": "field_services_item_heading",
+          "label": "Service Heading",
+          "name": "heading",
+          "type": "text",
+          "instructions": "Enter the service name/heading",
+          "required": 1
+        },
+        {
+          "key": "field_services_item_heading_color",
+          "label": "Service Heading Color",
+          "name": "heading_color",
+          "type": "color_picker",
+          "instructions": "Select service heading color",
+          "default_value": "#333333",
+          "enable_opacity": 1,
+          "return_format": "string"
+        },
+        {
+          "key": "field_services_item_description",
+          "label": "Service Description",
+          "name": "description",
+          "type": "textarea",
+          "instructions": "Enter the service description",
+          "rows": 3
+        },
+        {
+          "key": "field_services_item_description_color",
+          "label": "Service Description Color",
+          "name": "description_color",
+          "type": "color_picker",
+          "instructions": "Select service description color",
+          "default_value": "#666666",
+          "enable_opacity": 1,
+          "return_format": "string"
+        },
+        {
+          "key": "field_services_item_url",
+          "label": "Service URL",
+          "name": "url",
+          "type": "url",
+          "instructions": "Enter the URL to link to when this service is clicked (optional)",
+          "default_value": "",
+          "placeholder": "https://example.com"
+        }
+      ]
+    },
+    {
+      "key": "field_services_background_type",
+      "label": "Background Type",
+      "name": "background_type",
+      "type": "select",
+      "instructions": "Choose the background type",
+      "required": 1,
+      "choices": {
+        "color": "Solid Color",
+        "gradient": "Gradient",
+        "image": "Background Image"
+      },
+      "default_value": "gradient"
+    },
+    {
+      "key": "field_services_background_color",
+      "label": "Background Color",
+      "name": "background_color",
+      "type": "color_picker",
+      "instructions": "Select background color",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_services_background_type",
+            "operator": "==",
+            "value": "color"
+          }
+        ]
+      ],
+      "default_value": "#E0F7FA",
+      "enable_opacity": 1,
+      "return_format": "string"
+    },
+    {
+      "key": "field_services_gradient_start",
+      "label": "Gradient Start Color",
+      "name": "gradient_start",
+      "type": "color_picker",
+      "instructions": "Select gradient start color",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_services_background_type",
+            "operator": "==",
+            "value": "gradient"
+          }
+        ]
+      ],
+      "default_value": "#E0F7FA",
+      "enable_opacity": 1,
+      "return_format": "string"
+    },
+    {
+      "key": "field_services_gradient_end",
+      "label": "Gradient End Color",
+      "name": "gradient_end",
+      "type": "color_picker",
+      "instructions": "Select gradient end color",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_services_background_type",
+            "operator": "==",
+            "value": "gradient"
+          }
+        ]
+      ],
+      "default_value": "#B2EBF2",
+      "enable_opacity": 1,
+      "return_format": "string"
+    },
+    {
+      "key": "field_services_gradient_direction",
+      "label": "Gradient Direction",
+      "name": "gradient_direction",
+      "type": "select",
+      "instructions": "Select gradient direction",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_services_background_type",
+            "operator": "==",
+            "value": "gradient"
+          }
+        ]
+      ],
+      "choices": {
+        "to right": "Left to Right",
+        "to left": "Right to Left",
+        "to bottom": "Top to Bottom",
+        "to top": "Bottom to Top",
+        "45deg": "Diagonal (45°)",
+        "135deg": "Diagonal (135°)"
+      },
+      "default_value": "to bottom"
+    },
+    {
+      "key": "field_services_background_image",
+      "label": "Background Image",
+      "name": "background_image",
+      "type": "image",
+      "instructions": "Upload background image",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_services_background_type",
+            "operator": "==",
+            "value": "image"
+          }
+        ]
+      ],
+      "return_format": "array",
+      "preview_size": "medium"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/services-section"
+      }
+    ]
+  ]
+}

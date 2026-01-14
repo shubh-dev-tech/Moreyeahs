@@ -3,6 +3,60 @@
   "title": "Footer Section",
   "fields": [
     {
+      "key": "field_footer_enable_contact_section",
+      "label": "Enable Contact Section",
+      "name": "enable_contact_section",
+      "type": "true_false",
+      "instructions": "Enable the contact information and form section at the top of the footer",
+      "default_value": 1
+    },
+    {
+      "key": "field_footer_contact_info",
+      "label": "Contact Information",
+      "name": "contact_info",
+      "type": "group",
+      "instructions": "Contact information displayed in the contact section",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_footer_enable_contact_section",
+            "operator": "==",
+            "value": "1"
+          }
+        ]
+      ],
+      "sub_fields": [
+        {
+          "key": "field_footer_contact_email",
+          "label": "Email",
+          "name": "email",
+          "type": "email",
+          "default_value": "info@moreyeahs.com"
+        },
+        {
+          "key": "field_footer_contact_phone",
+          "label": "Phone",
+          "name": "phone",
+          "type": "text",
+          "default_value": "+91 7415567401 +91 9324881631"
+        },
+        {
+          "key": "field_footer_contact_address",
+          "label": "Address",
+          "name": "address",
+          "type": "text",
+          "default_value": "Indore, Madhya Pradesh, 452010"
+        },
+        {
+          "key": "field_footer_contact_city_state",
+          "label": "City, State",
+          "name": "city_state",
+          "type": "text",
+          "default_value": "Cedar Park, TX 78613"
+        }
+      ]
+    },
+    {
       "key": "field_footer_logo",
       "label": "Logo",
       "name": "logo",

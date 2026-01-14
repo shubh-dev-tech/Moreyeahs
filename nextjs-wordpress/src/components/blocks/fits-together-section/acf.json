@@ -1,0 +1,132 @@
+{
+  "key": "group_fits_together_section",
+  "title": "Fits Together Section",
+  "fields": [
+    {
+      "key": "field_fits_together_span_heading",
+      "label": "Span Heading",
+      "name": "span_heading",
+      "type": "text",
+      "default_value": "How It"
+    },
+    {
+      "key": "field_fits_together_span_color",
+      "label": "Span Heading Color",
+      "name": "span_heading_color",
+      "type": "color_picker",
+      "default_value": "#6B7280"
+    },
+    {
+      "key": "field_fits_together_main_heading",
+      "label": "Main Heading",
+      "name": "main_heading",
+      "type": "text",
+      "default_value": "Fits Together"
+    },
+    {
+      "key": "field_fits_together_heading_color",
+      "label": "Main Heading Color",
+      "name": "main_heading_color",
+      "type": "color_picker",
+      "default_value": "#0EA5E9"
+    },
+    {
+      "key": "field_fits_together_bg_type",
+      "label": "Background Type",
+      "name": "background_type",
+      "type": "select",
+      "choices": {
+        "color": "Solid Color",
+        "gradient": "Gradient",
+        "image": "Background Image"
+      },
+      "default_value": "gradient"
+    },
+    {
+      "key": "field_fits_together_bg_color",
+      "label": "Background Color",
+      "name": "background_color",
+      "type": "color_picker",
+      "default_value": "#A7F3D0"
+    },
+    {
+      "key": "field_fits_together_gradient_start",
+      "label": "Gradient Start Color",
+      "name": "gradient_start_color",
+      "type": "color_picker",
+      "default_value": "#A7F3D0"
+    },
+    {
+      "key": "field_fits_together_gradient_end",
+      "label": "Gradient End Color",
+      "name": "gradient_end_color",
+      "type": "color_picker",
+      "default_value": "#7DD3FC"
+    },
+    {
+      "key": "field_fits_together_bg_image",
+      "label": "Background Image",
+      "name": "background_image",
+      "type": "image"
+    },
+    {
+      "key": "field_fits_together_steps",
+      "label": "Steps",
+      "name": "steps",
+      "type": "repeater",
+      "min": 1,
+      "max": 10,
+      "layout": "table",
+      "button_label": "Add Step",
+      "sub_fields": [
+        {
+          "key": "field_step_icon",
+          "label": "Step Icon",
+          "name": "icon",
+          "type": "image",
+          "return_format": "array"
+        },
+        {
+          "key": "field_step_number",
+          "label": "Step Number",
+          "name": "step_number",
+          "type": "text",
+          "default_value": "Step 1"
+        },
+        {
+          "key": "field_step_number_color",
+          "label": "Step Number Color",
+          "name": "step_number_color",
+          "type": "color_picker",
+          "default_value": "#0EA5E9"
+        },
+        {
+          "key": "field_step_title",
+          "label": "Step Title",
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "key": "field_step_title_color",
+          "label": "Step Title Color",
+          "name": "title_color",
+          "type": "color_picker",
+          "default_value": "#1F2937"
+        },
+        {
+          "key": "field_step_subtitle",
+          "label": "Step Subtitle",
+          "name": "subtitle",
+          "type": "text"
+        },
+        {
+          "key": "field_step_subtitle_color",
+          "label": "Step Subtitle Color",
+          "name": "subtitle_color",
+          "type": "color_picker",
+          "default_value": "#6B7280"
+        }
+      ]
+    }
+  ]
+}
