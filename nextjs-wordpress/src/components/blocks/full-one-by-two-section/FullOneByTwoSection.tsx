@@ -168,10 +168,15 @@ const FullOneByTwoSection: React.FC<FullOneByTwoSectionProps> = ({
               <Image
                 src={safeMainImage.url}
                 alt={safeMainImage.alt || heading || 'Section image'}
-                fill
+                width={safeMainImage.width || 600}
+                height={safeMainImage.height || 400}
                 className="main-image"
-                style={{ objectFit: 'cover', objectPosition: 'center' }}
-                sizes="50vw"
+                style={{ 
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'contain'
+                }}
+                sizes="(max-width: 768px) 100vw, 50vw"
                 priority
               />
             </div>
