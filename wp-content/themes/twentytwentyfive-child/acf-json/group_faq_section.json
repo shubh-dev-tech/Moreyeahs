@@ -119,6 +119,46 @@
             "show_color_wheel": true
         },
         {
+            "key": "field_faq_gradient_direction",
+            "label": "Gradient Direction",
+            "name": "gradient_direction",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Select gradient direction",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_faq_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "33.33",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "to right": "Left to Right",
+                "to left": "Right to Left",
+                "to bottom": "Top to Bottom",
+                "to top": "Bottom to Top",
+                "45deg": "Diagonal (45°)",
+                "135deg": "Diagonal (135°)"
+            },
+            "default_value": "to bottom",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
             "key": "field_faq_background_image",
             "label": "Background Image",
             "name": "background_image",
@@ -358,5 +398,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1768303030
+    "modified": 1768384853
 }

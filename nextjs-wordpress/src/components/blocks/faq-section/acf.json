@@ -104,6 +104,37 @@
       "return_format": "string"
     },
     {
+      "key": "field_faq_gradient_direction",
+      "label": "Gradient Direction",
+      "name": "gradient_direction",
+      "type": "select",
+      "instructions": "Select gradient direction",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_faq_background_type",
+            "operator": "==",
+            "value": "gradient"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "33.33",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "to right": "Left to Right",
+        "to left": "Right to Left",
+        "to bottom": "Top to Bottom",
+        "to top": "Bottom to Top",
+        "45deg": "Diagonal (45°)",
+        "135deg": "Diagonal (135°)"
+      },
+      "default_value": "to bottom"
+    },
+    {
       "key": "field_faq_background_image",
       "label": "Background Image",
       "name": "background_image",

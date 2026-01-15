@@ -43,6 +43,11 @@
     margin-bottom: 20px;
     color: white; // Default fallback color
 
+    span {
+      font-weight: 700;
+      transition: color 0.3s ease;
+    }
+
     @media (max-width: 768px) {
       font-size: 2.5rem;
     }
