@@ -29,10 +29,12 @@ interface FitsTogetherSectionProps {
     background_color?: string;
     gradient_start_color?: string;
     gradient_end_color?: string;
+    gradient_direction?: string;
     background_image?: {
       url: string;
       alt: string;
     };
+    section_height?: string;
     steps?: StepData[] | number | any; // More flexible type for steps
     // Index signature for dynamic property access
     [key: string]: any;
@@ -46,10 +48,12 @@ interface FitsTogetherSectionProps {
   background_color?: string;
   gradient_start_color?: string;
   gradient_end_color?: string;
+  gradient_direction?: string;
   background_image?: {
     url: string;
     alt: string;
   };
+  section_height?: string;
   steps?: StepData[] | number | any; // More flexible type for steps
   // Index signature for dynamic property access
   [key: string]: any;
@@ -68,7 +72,9 @@ const FitsTogetherSection: React.FC<FitsTogetherSectionProps> = (props) => {
     background_color = '#A7F3D0',
     gradient_start_color = '#A7F3D0',
     gradient_end_color = '#7DD3FC',
+    gradient_direction = 'to bottom',
     background_image,
+    section_height = 'auto',
     steps: rawSteps = []
   } = data;
 
@@ -157,23 +163,31 @@ const FitsTogetherSection: React.FC<FitsTogetherSectionProps> = (props) => {
 
   // Generate background style
   const getBackgroundStyle = (): React.CSSProperties => {
+    const baseStyle: React.CSSProperties = {
+      minHeight: section_height === 'auto' ? 'auto' : section_height,
+      height: section_height === 'auto' ? 'auto' : section_height,
+    };
+
     switch (background_type) {
       case 'color':
-        return { backgroundColor: background_color };
+        return { ...baseStyle, backgroundColor: background_color };
       case 'gradient':
         return {
-          background: `linear-gradient(135deg, ${gradient_start_color} 0%, ${gradient_end_color} 100%)`
+          ...baseStyle,
+          background: `linear-gradient(${gradient_direction}, ${gradient_start_color}, ${gradient_end_color})`
         };
       case 'image':
         return background_image ? {
+          ...baseStyle,
           backgroundImage: `url(${background_image.url})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
-        } : {};
+        } : baseStyle;
       default:
         return {
-          background: `linear-gradient(135deg, ${gradient_start_color} 0%, ${gradient_end_color} 100%)`
+          ...baseStyle,
+          background: `linear-gradient(${gradient_direction}, ${gradient_start_color}, ${gradient_end_color})`
         };
     }
   };

@@ -478,6 +478,31 @@ function twentytwentyfive_child_include_parent_functions() {
                                 $block['attrs']['data'] = array_merge($block['attrs']['data'] ?? [], $direct_acf_data);
                             }
                         }
+                        
+                        // ENHANCED: For partnership-gallery, get ACF data directly from post
+                        if ($block['blockName'] === 'acf/partnership-gallery') {
+                            $direct_acf_data = [];
+                            
+                            // Get all ACF fields for this post
+                            if (function_exists('get_fields')) {
+                                $all_fields = get_fields($post_id);
+                                if ($all_fields) {
+                                    foreach ($all_fields as $field_name => $field_value) {
+                                        if ($field_name === 'gallery_images' && is_array($field_value)) {
+                                            // Process gallery images using the dedicated function
+                                            $direct_acf_data['gallery_images'] = process_acf_gallery_field($field_value);
+                                        } else {
+                                            $direct_acf_data[$field_name] = $field_value;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // Merge direct ACF data with existing block data
+                            if (!empty($direct_acf_data)) {
+                                $block['attrs']['data'] = array_merge($block['attrs']['data'] ?? [], $direct_acf_data);
+                            }
+                        }
                     }
                     
                     // Process inner blocks recursively

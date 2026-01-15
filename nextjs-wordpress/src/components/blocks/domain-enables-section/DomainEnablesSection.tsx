@@ -22,6 +22,7 @@ interface DomainEnablesSectionData {
   gradient_end?: string;
   gradient_direction?: string;
   background_image?: ImageData;
+  section_height?: string;
   icon_image?: ImageData;
   feature_points?: FeaturePoint[];
   main_image?: ImageData;
@@ -45,6 +46,7 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
     gradient_end = '#B2EBF2',
     gradient_direction = 'to right',
     background_image,
+    section_height = 'auto',
     icon_image,
     feature_points = [],
     main_image,
@@ -52,24 +54,31 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
 
   // Generate background style
   const getBackgroundStyle = (): React.CSSProperties => {
+    const baseStyle: React.CSSProperties = {
+      minHeight: section_height === 'auto' ? 'auto' : section_height,
+      height: section_height === 'auto' ? 'auto' : section_height,
+    };
+
     switch (background_type) {
       case 'color':
-        return { backgroundColor: background_color };
+        return { ...baseStyle, backgroundColor: background_color };
       case 'gradient':
         return {
+          ...baseStyle,
           background: `linear-gradient(${gradient_direction}, ${gradient_start}, ${gradient_end})`,
         };
       case 'image':
         return background_image
           ? {
+              ...baseStyle,
               backgroundImage: `url(${background_image.url})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
             }
-          : {};
+          : baseStyle;
       default:
-        return { backgroundColor: background_color };
+        return { ...baseStyle, backgroundColor: background_color };
     }
   };
 

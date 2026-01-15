@@ -6,6 +6,7 @@
             "key": "field_domain_enables_heading",
             "label": "Heading",
             "name": "heading",
+            "aria-label": "",
             "type": "wysiwyg",
             "instructions": "Enter the main heading for the section",
             "required": 1,
@@ -25,6 +26,7 @@
             "key": "field_domain_enables_subheading",
             "label": "Subheading",
             "name": "subheading",
+            "aria-label": "",
             "type": "wysiwyg",
             "instructions": "Enter the subheading content",
             "required": 0,
@@ -44,6 +46,7 @@
             "key": "field_domain_enables_background_type",
             "label": "Background Type",
             "name": "background_type",
+            "aria-label": "",
             "type": "select",
             "instructions": "Choose the background type",
             "required": 1,
@@ -64,12 +67,15 @@
             "ui": 0,
             "return_format": "value",
             "ajax": 0,
-            "placeholder": ""
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
         },
         {
             "key": "field_domain_enables_background_color",
             "label": "Background Color",
             "name": "background_color",
+            "aria-label": "",
             "type": "color_picker",
             "instructions": "Select background color",
             "required": 0,
@@ -89,12 +95,16 @@
             },
             "default_value": "#E0F7FA",
             "enable_opacity": 1,
-            "return_format": "string"
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
         },
         {
             "key": "field_domain_enables_gradient_start",
             "label": "Gradient Start Color",
             "name": "gradient_start",
+            "aria-label": "",
             "type": "color_picker",
             "instructions": "Select gradient start color",
             "required": 0,
@@ -114,12 +124,16 @@
             },
             "default_value": "#E0F7FA",
             "enable_opacity": 1,
-            "return_format": "string"
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
         },
         {
             "key": "field_domain_enables_gradient_end",
             "label": "Gradient End Color",
             "name": "gradient_end",
+            "aria-label": "",
             "type": "color_picker",
             "instructions": "Select gradient end color",
             "required": 0,
@@ -139,12 +153,16 @@
             },
             "default_value": "#B2EBF2",
             "enable_opacity": 1,
-            "return_format": "string"
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
         },
         {
             "key": "field_domain_enables_gradient_direction",
             "label": "Gradient Direction",
             "name": "gradient_direction",
+            "aria-label": "",
             "type": "select",
             "instructions": "Select gradient direction",
             "required": 0,
@@ -176,12 +194,15 @@
             "ui": 0,
             "return_format": "value",
             "ajax": 0,
-            "placeholder": ""
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
         },
         {
             "key": "field_domain_enables_background_image",
             "label": "Background Image",
             "name": "background_image",
+            "aria-label": "",
             "type": "image",
             "instructions": "Upload background image",
             "required": 0,
@@ -211,9 +232,30 @@
             "mime_types": ""
         },
         {
+            "key": "field_domain_enables_section_height",
+            "label": "Section Height",
+            "name": "section_height",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Set custom height (e.g., 100vh, 800px, auto)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "auto",
+            "placeholder": "auto, 100vh, 800px",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
             "key": "field_domain_enables_icon_image",
             "label": "Icon Image",
             "name": "icon_image",
+            "aria-label": "",
             "type": "image",
             "instructions": "Upload the icon image that will be used for all points",
             "required": 0,
@@ -238,6 +280,7 @@
             "key": "field_domain_enables_points",
             "label": "Feature Points",
             "name": "feature_points",
+            "aria-label": "",
             "type": "repeater",
             "instructions": "Add feature points (icon will be applied automatically)",
             "required": 0,
@@ -252,11 +295,13 @@
             "max": 0,
             "layout": "table",
             "button_label": "Add Point",
+            "rows_per_page": 20,
             "sub_fields": [
                 {
                     "key": "field_domain_enables_point_text",
                     "label": "Point Text",
                     "name": "text",
+                    "aria-label": "",
                     "type": "text",
                     "instructions": "Enter the feature point text",
                     "required": 1,
@@ -270,7 +315,8 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
-                    "maxlength": ""
+                    "maxlength": "",
+                    "parent_repeater": "field_domain_enables_points"
                 }
             ]
         },
@@ -278,6 +324,7 @@
             "key": "field_domain_enables_main_image",
             "label": "Main Image",
             "name": "main_image",
+            "aria-label": "",
             "type": "image",
             "instructions": "Upload the main illustration image",
             "required": 0,
@@ -304,7 +351,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf/domain-enables-section"
+                "value": "acf\/domain-enables-section"
             }
         ]
     ],
@@ -316,5 +363,7 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "show_in_rest": 0
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1768384832
 }

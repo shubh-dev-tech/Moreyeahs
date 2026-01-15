@@ -64,6 +64,15 @@
             "type": "image"
         },
         {
+            "key": "field_domain_enables_section_height",
+            "label": "Section Height",
+            "name": "section_height",
+            "type": "text",
+            "instructions": "Set custom height (e.g., 100vh, 800px, auto)",
+            "default_value": "auto",
+            "placeholder": "auto, 100vh, 800px"
+        },
+        {
             "key": "field_domain_enables_icon_image",
             "label": "Icon Image",
             "name": "icon_image",
