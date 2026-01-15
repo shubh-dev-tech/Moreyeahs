@@ -43,6 +43,7 @@ import PartnershipGallery from './partnership-gallery/PartnershipGallery';
 import HeroSection from './hero-section/HeroSection';
 import Hero2Service from './hero-2-service/Hero2Service';
 import ServiceTestimonial from './service-testimonial/ServiceTestimonial';
+import DiceTestimonial from './dice-testimonial/DiceTestimonial';
 import MultiCloudServices from './multi-cloud-services/MultiCloudServices';
 import VideoHeroSection from './video-hero-section/VideoHeroSection';
 import DomainEnablesSection from './domain-enables-section/DomainEnablesSection';
@@ -96,6 +97,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/hero-section': HeroSection,
   'acf/hero-2-service': Hero2Service,
   'acf/service-testimonial': ServiceTestimonial,
+  'acf/dice-testimonial': DiceTestimonial,
   'acf/multi-cloud-services': MultiCloudServices,
   'acf/video-hero-section': VideoHeroSection,
   'acf/domain-enables-section': DomainEnablesSection,
@@ -132,6 +134,7 @@ const BLOCK_SECTION_IDS: Record<string, string> = {
   'acf/hero-section': 'hero-section',
   'acf/hero-2-service': 'hero-2-service',
   'acf/service-testimonial': 'service-testimonial',
+  'acf/dice-testimonial': 'dice-testimonial',
   'acf/multi-cloud-services': 'multi-cloud-services',
   'acf/video-hero-section': 'video-hero-section',
   'acf/domain-enables-section': 'domain-enables-section',

@@ -8,11 +8,11 @@
             "name": "title",
             "aria-label": "",
             "type": "text",
-            "instructions": "",
+            "instructions": "Enter the main title (e.g., 'What is Data')",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -21,6 +21,235 @@
             "placeholder": "Enter main title",
             "prepend": "",
             "append": ""
+        },
+        {
+            "key": "field_hero2_title_span_text",
+            "label": "Title Span Text",
+            "name": "title_span_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Optional: Additional text to display after the title in a different color (e.g., 'Engineering?')",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_hero2_title_span_color",
+            "label": "Title Span Color",
+            "name": "title_span_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the color for the span text",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_title_span_text",
+                        "operator": "!=empty"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#6366f1",
+            "enable_opacity": false,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_hero2_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose a background color",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_background_type",
+                        "operator": "==",
+                        "value": "color"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffffff",
+            "enable_opacity": true,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_hero2_gradient_color_1",
+            "label": "Gradient Color 1",
+            "name": "gradient_color_1",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the first gradient color",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffffff",
+            "enable_opacity": true,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_hero2_gradient_color_2",
+            "label": "Gradient Color 2",
+            "name": "gradient_color_2",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the second gradient color",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#f3f4f6",
+            "enable_opacity": true,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_hero2_background_image",
+            "label": "Background Image",
+            "name": "background_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Upload a background image",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_background_type",
+                        "operator": "==",
+                        "value": "image"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_hero2_section_height",
+            "label": "Section Height",
+            "name": "section_height",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose the section height",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "auto": "Auto Height",
+                "small": "Small (60vh)",
+                "medium": "Medium (80vh)",
+                "large": "Large (100vh)",
+                "custom": "Custom Height"
+            },
+            "default_value": "auto",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_hero2_custom_height",
+            "label": "Custom Height (px)",
+            "name": "custom_height",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Enter custom height in pixels",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_section_height",
+                        "operator": "==",
+                        "value": "custom"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 600,
+            "min": 200,
+            "max": 2000,
+            "step": 10,
+            "placeholder": "",
+            "prepend": "",
+            "append": "px"
         },
         {
             "key": "field_hero2_subtitle",
@@ -753,5 +982,5 @@
     "description": "Hero section with left image and right service blocks",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1768206827
+    "modified": 1768466629
 }

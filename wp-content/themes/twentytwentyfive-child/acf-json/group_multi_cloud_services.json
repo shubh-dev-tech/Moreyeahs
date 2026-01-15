@@ -1,1062 +1,1378 @@
 {
-    "key": "group_multi_cloud_services",
-    "title": "Multi Cloud Services Block",
-    "fields": [
-        {
-            "key": "field_mcs_main_heading",
-            "label": "Main Heading",
-            "name": "main_heading",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "",
-            "required": false,
-            "conditional_logic": false,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "Delivering Seamless Services Across Multi-Cloud Platforms",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_mcs_description",
-            "label": "Description",
-            "name": "description",
-            "aria-label": "",
-            "type": "textarea",
-            "instructions": "",
-            "required": false,
-            "conditional_logic": false,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "We enable enterprises to design, deploy, and manage secure, scalable, and high-performance solutions across leading cloud providers.",
-            "new_lines": "",
-            "maxlength": "",
-            "placeholder": "",
-            "rows": ""
-        },
-        {
-            "key": "field_mcs_cloud_platforms",
-            "label": "Cloud Platforms",
-            "name": "cloud_platforms",
-            "aria-label": "",
-            "type": "repeater",
-            "instructions": "",
-            "required": false,
-            "conditional_logic": false,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "min": 1,
-            "max": 10,
-            "layout": "table",
-            "button_label": "Add Platform",
-            "rows_per_page": 20,
-            "collapsed": "",
-            "sub_fields": [
-                {
-                    "key": "field_mcs_platform_name",
-                    "label": "Platform Name",
-                    "name": "platform_name",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "parent_repeater": "field_mcs_cloud_platforms"
-                },
-                {
-                    "key": "field_mcs_platform_color",
-                    "label": "Platform Color",
-                    "name": "platform_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#6366f1",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string",
-                    "parent_repeater": "field_mcs_cloud_platforms"
-                }
-            ]
-        },
-        {
-            "key": "field_mcs_services_sections",
-            "label": "Services Sections",
-            "name": "services_sections",
-            "aria-label": "",
-            "type": "repeater",
-            "instructions": "",
-            "required": false,
-            "conditional_logic": false,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "min": 1,
-            "layout": "row",
-            "button_label": "Add Section",
-            "max": 0,
-            "rows_per_page": 20,
-            "collapsed": "",
-            "sub_fields": [
-                {
-                    "key": "field_mcs_section_icon",
-                    "label": "Section Icon",
-                    "name": "section_icon",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "Font Awesome icon class (e.g., fas fa-shield-alt). Leave empty if using image.",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "50",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "parent_repeater": "field_mcs_services_sections"
-                },
-                {
-                    "key": "field_mcs_section_image",
-                    "label": "Section Image",
-                    "name": "section_image",
-                    "aria-label": "",
-                    "type": "image",
-                    "instructions": "Upload an image to use instead of icon. This will override the icon if both are provided.",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "50",
-                        "class": "",
-                        "id": ""
-                    },
-                    "return_format": "array",
-                    "preview_size": "thumbnail",
-                    "library": "all",
-                    "min_width": "",
-                    "min_height": "",
-                    "min_size": "",
-                    "max_width": "",
-                    "max_height": "",
-                    "max_size": "",
-                    "mime_types": "",
-                    "parent_repeater": "field_mcs_services_sections"
-                },
-                {
-                    "key": "field_mcs_section_title",
-                    "label": "Section Title",
-                    "name": "section_title",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "parent_repeater": "field_mcs_services_sections"
-                },
-                {
-                    "key": "field_mcs_section_items",
-                    "label": "Section Items",
-                    "name": "section_items",
-                    "aria-label": "",
-                    "type": "repeater",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "min": 1,
-                    "layout": "table",
-                    "button_label": "Add Item",
-                    "max": 0,
-                    "rows_per_page": 20,
-                    "collapsed": "",
-                    "parent_repeater": "field_mcs_services_sections",
-                    "sub_fields": [
-                        {
-                            "key": "field_mcs_item_text",
-                            "label": "Item Text",
-                            "name": "item_text",
-                            "aria-label": "",
-                            "type": "text",
-                            "instructions": "",
-                            "required": false,
-                            "conditional_logic": false,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": "",
-                            "parent_repeater": "field_mcs_section_items"
-                        }
-                    ]
-                },
-                {
-                    "key": "field_mcs_section_bg_color",
-                    "label": "Section Background Color",
-                    "name": "section_bg_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "25",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#ffffff",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string",
-                    "parent_repeater": "field_mcs_services_sections"
-                },
-                {
-                    "key": "field_mcs_section_text_color",
-                    "label": "Section Text Color",
-                    "name": "section_text_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "25",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#374151",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string",
-                    "parent_repeater": "field_mcs_services_sections"
-                },
-                {
-                    "key": "field_mcs_section_border_color",
-                    "label": "Section Border Color",
-                    "name": "section_border_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "25",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#e5e7eb",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string",
-                    "parent_repeater": "field_mcs_services_sections"
-                },
-                {
-                    "key": "field_mcs_section_arrow_color",
-                    "label": "Arrow Color",
-                    "name": "arrow_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "Color for the arrow bullets in this section's list items",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "25",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#6366f1",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string",
-                    "parent_repeater": "field_mcs_services_sections"
-                }
-            ]
-        },
-        {
-            "key": "field_mcs_credentials_section",
-            "label": "Credentials Section",
-            "name": "credentials_section",
-            "aria-label": "",
-            "type": "group",
-            "instructions": "",
-            "required": false,
-            "conditional_logic": false,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "layout": "block",
-            "sub_fields": [
-                {
-                    "key": "field_mcs_cred_title",
-                    "label": "Credentials Title",
-                    "name": "title",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "Credentials",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": ""
-                },
-                {
-                    "key": "field_mcs_cred_image",
-                    "label": "Credentials Image",
-                    "name": "credential_image",
-                    "aria-label": "",
-                    "type": "image",
-                    "instructions": "Upload an image to display in the credentials section header",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "return_format": "array",
-                    "preview_size": "thumbnail",
-                    "library": "all",
-                    "min_width": "",
-                    "min_height": "",
-                    "min_size": "",
-                    "max_width": "",
-                    "max_height": "",
-                    "max_size": "",
-                    "mime_types": ""
-                },
-                {
-                    "key": "field_mcs_cred_items",
-                    "label": "Credential Items",
-                    "name": "items",
-                    "aria-label": "",
-                    "type": "repeater",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "min": 1,
-                    "layout": "table",
-                    "button_label": "Add Credential",
-                    "max": 0,
-                    "rows_per_page": 20,
-                    "collapsed": "",
-                    "sub_fields": [
-                        {
-                            "key": "field_mcs_cred_text",
-                            "label": "Credential Text",
-                            "name": "text",
-                            "aria-label": "",
-                            "type": "text",
-                            "instructions": "",
-                            "required": false,
-                            "conditional_logic": false,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": "",
-                            "parent_repeater": "field_mcs_cred_items"
-                        }
-                    ]
-                },
-                {
-                    "key": "field_mcs_cred_bg_color",
-                    "label": "Credentials Background Color",
-                    "name": "bg_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "25",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#6366f1",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                },
-                {
-                    "key": "field_mcs_cred_text_color",
-                    "label": "Credentials Text Color",
-                    "name": "text_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "25",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#ffffff",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                },
-                {
-                    "key": "field_mcs_cred_border_color",
-                    "label": "Credentials Border Color",
-                    "name": "border_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "25",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#4f46e5",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                },
-                {
-                    "key": "field_mcs_cred_arrow_color",
-                    "label": "Arrow Color",
-                    "name": "arrow_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "Color for the arrow bullets in the credentials list",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "25",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "rgba(255, 255, 255, 0.7)",
-                    "enable_opacity": true,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                }
-            ]
-        },
-        {
-            "key": "field_mcs_implementations_section",
-            "label": "Implementations & Tech Section",
-            "name": "implementations_section",
-            "aria-label": "",
-            "type": "group",
-            "instructions": "",
-            "required": false,
-            "conditional_logic": false,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "layout": "block",
-            "sub_fields": [
-                {
-                    "key": "field_mcs_impl_show_section",
-                    "label": "Show Section",
-                    "name": "show_section",
-                    "aria-label": "",
-                    "type": "true_false",
-                    "instructions": "Toggle to show or hide the Implementations & Tech section",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "message": "",
-                    "default_value": 1,
-                    "ui": 1,
-                    "ui_on_text": "",
-                    "ui_off_text": ""
-                },
-                {
-                    "key": "field_mcs_impl_section_image",
-                    "label": "Section Image",
-                    "name": "section_image",
-                    "aria-label": "",
-                    "type": "image",
-                    "instructions": "Upload an image to display next to the section title",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "return_format": "array",
-                    "preview_size": "thumbnail",
-                    "library": "all",
-                    "min_width": "",
-                    "min_height": "",
-                    "min_size": "",
-                    "max_width": "",
-                    "max_height": "",
-                    "max_size": "",
-                    "mime_types": ""
-                },
-                {
-                    "key": "field_mcs_impl_title",
-                    "label": "Section Title",
-                    "name": "title",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "Implementations & Tech",
-                    "maxlength": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": ""
-                },
-                {
-                    "key": "field_mcs_tech_badges",
-                    "label": "Technology Badges",
-                    "name": "tech_badges",
-                    "aria-label": "",
-                    "type": "repeater",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "min": 1,
-                    "layout": "table",
-                    "button_label": "Add Badge",
-                    "max": 0,
-                    "rows_per_page": 20,
-                    "collapsed": "",
-                    "sub_fields": [
-                        {
-                            "key": "field_mcs_badge_text",
-                            "label": "Badge Text",
-                            "name": "text",
-                            "aria-label": "",
-                            "type": "text",
-                            "instructions": "",
-                            "required": false,
-                            "conditional_logic": false,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": "",
-                            "parent_repeater": "field_mcs_tech_badges"
-                        },
-                        {
-                            "key": "field_mcs_badge_color",
-                            "label": "Badge Color",
-                            "name": "color",
-                            "aria-label": "",
-                            "type": "color_picker",
-                            "instructions": "",
-                            "required": false,
-                            "conditional_logic": false,
-                            "wrapper": {
-                                "width": "25",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "#ef4444",
-                            "enable_opacity": false,
-                            "custom_palette_source": "",
-                            "palette_colors": "",
-                            "show_color_wheel": true,
-                            "return_format": "string",
-                            "parent_repeater": "field_mcs_tech_badges"
-                        },
-                        {
-                            "key": "field_mcs_badge_text_color",
-                            "label": "Badge Text Color",
-                            "name": "text_color",
-                            "aria-label": "",
-                            "type": "color_picker",
-                            "instructions": "",
-                            "required": false,
-                            "conditional_logic": false,
-                            "wrapper": {
-                                "width": "25",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "#ffffff",
-                            "enable_opacity": false,
-                            "custom_palette_source": "",
-                            "palette_colors": "",
-                            "show_color_wheel": true,
-                            "return_format": "string",
-                            "parent_repeater": "field_mcs_tech_badges"
-                        },
-                        {
-                            "key": "field_mcs_badge_border_color",
-                            "label": "Badge Border Color",
-                            "name": "border_color",
-                            "aria-label": "",
-                            "type": "color_picker",
-                            "instructions": "",
-                            "required": false,
-                            "conditional_logic": false,
-                            "wrapper": {
-                                "width": "25",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "#ef4444",
-                            "enable_opacity": false,
-                            "custom_palette_source": "",
-                            "palette_colors": "",
-                            "show_color_wheel": true,
-                            "return_format": "string",
-                            "parent_repeater": "field_mcs_tech_badges"
-                        },
-                        {
-                            "key": "field_mcs_badge_style",
-                            "label": "Badge Style",
-                            "name": "badge_style",
-                            "aria-label": "",
-                            "type": "select",
-                            "instructions": "",
-                            "required": false,
-                            "conditional_logic": false,
-                            "wrapper": {
-                                "width": "25",
-                                "class": "",
-                                "id": ""
-                            },
-                            "choices": {
-                                "filled": "Filled",
-                                "outlined": "Outlined"
-                            },
-                            "default_value": "filled",
-                            "multiple": 0,
-                            "allow_null": 0,
-                            "ui": 0,
-                            "ajax": 0,
-                            "placeholder": "",
-                            "return_format": "value",
-                            "create_options": 0,
-                            "save_options": 0,
-                            "parent_repeater": "field_mcs_tech_badges"
-                        }
-                    ]
-                },
-                {
-                    "key": "field_mcs_impl_bg_color",
-                    "label": "Implementation Section Background Color",
-                    "name": "section_bg_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "33.33",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#ffffff",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                },
-                {
-                    "key": "field_mcs_impl_text_color",
-                    "label": "Implementation Section Text Color",
-                    "name": "section_text_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "33.33",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#374151",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                },
-                {
-                    "key": "field_mcs_impl_border_color",
-                    "label": "Implementation Section Border Color",
-                    "name": "section_border_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "33.33",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#e5e7eb",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                }
-            ]
-        },
-        {
-            "key": "field_mcs_styling_options",
-            "label": "Styling Options",
-            "name": "styling_options",
-            "aria-label": "",
-            "type": "group",
-            "instructions": "",
-            "required": false,
-            "conditional_logic": false,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "layout": "block",
-            "sub_fields": [
-                {
-                    "key": "field_mcs_background_type",
-                    "label": "Background Type",
-                    "name": "background_type",
-                    "aria-label": "",
-                    "type": "select",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "choices": {
-                        "color": "Solid Color",
-                        "gradient": "Gradient",
-                        "image": "Background Image"
-                    },
-                    "default_value": "gradient",
-                    "multiple": 0,
-                    "allow_null": 0,
-                    "ui": 0,
-                    "ajax": 0,
-                    "placeholder": "",
-                    "return_format": "value",
-                    "create_options": 0,
-                    "save_options": 0
-                },
-                {
-                    "key": "field_mcs_bg_color",
-                    "label": "Background Color",
-                    "name": "bg_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": [
-                        [
-                            {
-                                "field": "field_mcs_background_type",
-                                "operator": "==",
-                                "value": "color"
-                            }
-                        ]
-                    ],
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#c4b5fd",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                },
-                {
-                    "key": "field_mcs_gradient_start",
-                    "label": "Gradient Start Color",
-                    "name": "gradient_start",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": [
-                        [
-                            {
-                                "field": "field_mcs_background_type",
-                                "operator": "==",
-                                "value": "gradient"
-                            }
-                        ]
-                    ],
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#c4b5fd",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                },
-                {
-                    "key": "field_mcs_gradient_end",
-                    "label": "Gradient End Color",
-                    "name": "gradient_end",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": [
-                        [
-                            {
-                                "field": "field_mcs_background_type",
-                                "operator": "==",
-                                "value": "gradient"
-                            }
-                        ]
-                    ],
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#a78bfa",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                },
-                {
-                    "key": "field_mcs_bg_image",
-                    "label": "Background Image",
-                    "name": "bg_image",
-                    "aria-label": "",
-                    "type": "image",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": [
-                        [
-                            {
-                                "field": "field_mcs_background_type",
-                                "operator": "==",
-                                "value": "image"
-                            }
-                        ]
-                    ],
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "return_format": "array",
-                    "preview_size": "medium",
-                    "library": "all",
-                    "min_width": "",
-                    "min_height": "",
-                    "min_size": "",
-                    "max_width": "",
-                    "max_height": "",
-                    "max_size": "",
-                    "mime_types": ""
-                },
-                {
-                    "key": "field_mcs_text_color",
-                    "label": "Text Color",
-                    "name": "text_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#374151",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                },
-                {
-                    "key": "field_mcs_heading_color",
-                    "label": "Heading Color",
-                    "name": "heading_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#1f2937",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                },
-                {
-                    "key": "field_mcs_card_bg_color",
-                    "label": "Card Background Color",
-                    "name": "card_bg_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": false,
-                    "conditional_logic": false,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#ffffff",
-                    "enable_opacity": false,
-                    "custom_palette_source": "",
-                    "palette_colors": "",
-                    "show_color_wheel": true,
-                    "return_format": "string"
-                }
-            ]
-        }
-    ],
-    "location": [
-        [
-            {
-                "param": "block",
-                "operator": "==",
-                "value": "acf\/multi-cloud-services"
-            }
-        ]
-    ],
-    "menu_order": 0,
-    "position": "normal",
-    "style": "default",
-    "label_placement": "top",
-    "instruction_placement": "label",
-    "hide_on_screen": "",
-    "active": true,
-    "description": "",
-    "show_in_rest": 0,
-    "display_title": "",
-    "modified": 1767948189
+    "key":  "group_multi_cloud_services",
+    "title":  "Multi Cloud Services Block",
+    "fields":  [
+                   {
+                       "key":  "field_mcs_main_heading",
+                       "label":  "Main Heading",
+                       "name":  "main_heading",
+                       "aria-label":  "",
+                       "type":  "text",
+                       "instructions":  "Enter the main heading (e.g., \u0027Delivering Seamless Services\u0027)",
+                       "required":  false,
+                       "conditional_logic":  false,
+                       "wrapper":  {
+                                       "width":  "50",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "default_value":  "Delivering Seamless Services Across Multi-Cloud Platforms",
+                       "maxlength":  "",
+                       "placeholder":  "",
+                       "prepend":  "",
+                       "append":  ""
+                   },
+                   {
+                       "wrapper":  {
+                                       "width":  "33",
+                                       "id":  "",
+                                       "class":  ""
+                                   },
+                       "enable_opacity":  false,
+                       "default_value":  "#1f2937",
+                       "type":  "color_picker",
+                       "key":  "field_mcs_heading_color_root",
+                       "label":  "Heading Color",
+                       "instructions":  "Choose the color for the main heading",
+                       "name":  "heading_color",
+                       "conditional_logic":  false,
+                       "return_format":  "string",
+                       "aria-label":  "",
+                       "required":  false
+                   },
+                   {
+                       "key":  "field_mcs_heading_span_text",
+                       "label":  "Heading Span Text",
+                       "name":  "heading_span_text",
+                       "aria-label":  "",
+                       "type":  "text",
+                       "instructions":  "Optional: Additional text to display after the heading in a different color",
+                       "required":  false,
+                       "conditional_logic":  false,
+                       "wrapper":  {
+                                       "width":  "50",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "default_value":  "",
+                       "maxlength":  "",
+                       "placeholder":  "",
+                       "prepend":  "",
+                       "append":  ""
+                   },
+                   {
+                       "key":  "field_mcs_heading_span_color",
+                       "label":  "Heading Span Color",
+                       "name":  "heading_span_color",
+                       "aria-label":  "",
+                       "type":  "color_picker",
+                       "instructions":  "Choose the color for the span text",
+                       "required":  false,
+                       "conditional_logic":  [
+                                                 [
+                                                     {
+                                                         "field":  "field_mcs_heading_span_text",
+                                                         "operator":  "!=empty"
+                                                     }
+                                                 ]
+                                             ],
+                       "wrapper":  {
+                                       "width":  "34",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "default_value":  "#6366f1",
+                       "enable_opacity":  false,
+                       "custom_palette_source":  "",
+                       "palette_colors":  "",
+                       "show_color_wheel":  true,
+                       "return_format":  "string"
+                   },
+                   {
+                       "choices":  {
+                                       "color":  "Solid Color",
+                                       "gradient":  "Gradient",
+                                       "image":  "Image"
+                                   },
+                       "wrapper":  {
+                                       "width":  "33",
+                                       "id":  "",
+                                       "class":  ""
+                                   },
+                       "type":  "select",
+                       "aria-label":  "",
+                       "ajax":  0,
+                       "label":  "Background Type",
+                       "save_options":  0,
+                       "key":  "field_mcs_background_type",
+                       "required":  false,
+                       "instructions":  "Choose the background type",
+                       "default_value":  "gradient",
+                       "allow_null":  0,
+                       "conditional_logic":  false,
+                       "create_options":  0,
+                       "placeholder":  "",
+                       "return_format":  "value",
+                       "name":  "background_type",
+                       "multiple":  0,
+                       "ui":  1
+                   },
+                   {
+                       "key":  "field_mcs_background_color",
+                       "label":  "Background Color",
+                       "name":  "background_color",
+                       "aria-label":  "",
+                       "type":  "color_picker",
+                       "instructions":  "Choose a background color",
+                       "required":  false,
+                       "conditional_logic":  [
+                                                 [
+                                                     {
+                                                         "field":  "field_mcs_background_type",
+                                                         "operator":  "==",
+                                                         "value":  "color"
+                                                     }
+                                                 ]
+                                             ],
+                       "wrapper":  {
+                                       "width":  "50",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "default_value":  "#f9fafb",
+                       "enable_opacity":  true,
+                       "custom_palette_source":  "",
+                       "palette_colors":  "",
+                       "show_color_wheel":  true,
+                       "return_format":  "string"
+                   },
+                   {
+                       "key":  "field_mcs_gradient_color_1",
+                       "label":  "Gradient Color 1",
+                       "name":  "gradient_color_1",
+                       "aria-label":  "",
+                       "type":  "color_picker",
+                       "instructions":  "Choose the first gradient color",
+                       "required":  false,
+                       "conditional_logic":  [
+                                                 [
+                                                     {
+                                                         "field":  "field_mcs_background_type",
+                                                         "operator":  "==",
+                                                         "value":  "gradient"
+                                                     }
+                                                 ]
+                                             ],
+                       "wrapper":  {
+                                       "width":  "33",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "default_value":  "#f9fafb",
+                       "enable_opacity":  true,
+                       "custom_palette_source":  "",
+                       "palette_colors":  "",
+                       "show_color_wheel":  true,
+                       "return_format":  "string"
+                   },
+                   {
+                       "key":  "field_mcs_gradient_color_2",
+                       "label":  "Gradient Color 2",
+                       "name":  "gradient_color_2",
+                       "aria-label":  "",
+                       "type":  "color_picker",
+                       "instructions":  "Choose the second gradient color",
+                       "required":  false,
+                       "conditional_logic":  [
+                                                 [
+                                                     {
+                                                         "field":  "field_mcs_background_type",
+                                                         "operator":  "==",
+                                                         "value":  "gradient"
+                                                     }
+                                                 ]
+                                             ],
+                       "wrapper":  {
+                                       "width":  "33",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "default_value":  "#e0e7ff",
+                       "enable_opacity":  true,
+                       "custom_palette_source":  "",
+                       "palette_colors":  "",
+                       "show_color_wheel":  true,
+                       "return_format":  "string"
+                   },
+                   {
+                       "key":  "field_mcs_gradient_direction",
+                       "label":  "Gradient Direction",
+                       "name":  "gradient_direction",
+                       "aria-label":  "",
+                       "type":  "select",
+                       "instructions":  "Choose the gradient direction",
+                       "required":  false,
+                       "conditional_logic":  [
+                                                 [
+                                                     {
+                                                         "field":  "field_mcs_background_type",
+                                                         "operator":  "==",
+                                                         "value":  "gradient"
+                                                     }
+                                                 ]
+                                             ],
+                       "wrapper":  {
+                                       "width":  "34",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "choices":  {
+                                       "to right":  "Left to Right",
+                                       "to left":  "Right to Left",
+                                       "to bottom":  "Top to Bottom",
+                                       "to top":  "Bottom to Top",
+                                       "to bottom right":  "Top Left to Bottom Right",
+                                       "to bottom left":  "Top Right to Bottom Left"
+                                   },
+                       "default_value":  "to bottom right",
+                       "return_format":  "value",
+                       "multiple":  0,
+                       "allow_null":  0,
+                       "ui":  1,
+                       "ajax":  0,
+                       "placeholder":  "",
+                       "create_options":  0,
+                       "save_options":  0
+                   },
+                   {
+                       "key":  "field_mcs_background_image",
+                       "label":  "Background Image",
+                       "name":  "background_image",
+                       "aria-label":  "",
+                       "type":  "image",
+                       "instructions":  "Upload a background image",
+                       "required":  false,
+                       "conditional_logic":  [
+                                                 [
+                                                     {
+                                                         "field":  "field_mcs_background_type",
+                                                         "operator":  "==",
+                                                         "value":  "image"
+                                                     }
+                                                 ]
+                                             ],
+                       "wrapper":  {
+                                       "width":  "50",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "return_format":  "array",
+                       "preview_size":  "medium",
+                       "library":  "all",
+                       "min_width":  "",
+                       "min_height":  "",
+                       "min_size":  "",
+                       "max_width":  "",
+                       "max_height":  "",
+                       "max_size":  "",
+                       "mime_types":  ""
+                   },
+                   {
+                       "key":  "field_mcs_section_height",
+                       "label":  "Section Height",
+                       "name":  "section_height",
+                       "aria-label":  "",
+                       "type":  "select",
+                       "instructions":  "Choose the section height",
+                       "required":  false,
+                       "conditional_logic":  false,
+                       "wrapper":  {
+                                       "width":  "50",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "choices":  {
+                                       "auto":  "Auto Height",
+                                       "small":  "Small (60vh)",
+                                       "medium":  "Medium (80vh)",
+                                       "large":  "Large (100vh)",
+                                       "custom":  "Custom Height"
+                                   },
+                       "default_value":  "auto",
+                       "return_format":  "value",
+                       "multiple":  0,
+                       "allow_null":  0,
+                       "ui":  1,
+                       "ajax":  0,
+                       "placeholder":  "",
+                       "create_options":  0,
+                       "save_options":  0
+                   },
+                   {
+                       "key":  "field_mcs_custom_height",
+                       "label":  "Custom Height (px)",
+                       "name":  "custom_height",
+                       "aria-label":  "",
+                       "type":  "number",
+                       "instructions":  "Enter custom height in pixels",
+                       "required":  false,
+                       "conditional_logic":  [
+                                                 [
+                                                     {
+                                                         "field":  "field_mcs_section_height",
+                                                         "operator":  "==",
+                                                         "value":  "custom"
+                                                     }
+                                                 ]
+                                             ],
+                       "wrapper":  {
+                                       "width":  "50",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "default_value":  600,
+                       "min":  200,
+                       "max":  2000,
+                       "step":  10,
+                       "placeholder":  "",
+                       "prepend":  "",
+                       "append":  "px"
+                   },
+                   {
+                       "key":  "field_mcs_description",
+                       "label":  "Description",
+                       "name":  "description",
+                       "aria-label":  "",
+                       "type":  "textarea",
+                       "instructions":  "",
+                       "required":  false,
+                       "conditional_logic":  false,
+                       "wrapper":  {
+                                       "width":  "",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "default_value":  "",
+                       "new_lines":  "",
+                       "maxlength":  "",
+                       "placeholder":  "",
+                       "rows":  ""
+                   },
+                   {
+                       "key":  "field_mcs_cloud_platforms",
+                       "label":  "Cloud Platforms",
+                       "name":  "cloud_platforms",
+                       "aria-label":  "",
+                       "type":  "repeater",
+                       "instructions":  "",
+                       "required":  false,
+                       "conditional_logic":  false,
+                       "wrapper":  {
+                                       "width":  "",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "min":  1,
+                       "max":  10,
+                       "layout":  "table",
+                       "button_label":  "Add Platform",
+                       "rows_per_page":  20,
+                       "collapsed":  "",
+                       "sub_fields":  [
+                                          {
+                                              "key":  "field_mcs_platform_name",
+                                              "label":  "Platform Name",
+                                              "name":  "platform_name",
+                                              "aria-label":  "",
+                                              "type":  "text",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "",
+                                              "maxlength":  "",
+                                              "placeholder":  "",
+                                              "prepend":  "",
+                                              "append":  "",
+                                              "parent_repeater":  "field_mcs_cloud_platforms"
+                                          },
+                                          {
+                                              "key":  "field_mcs_platform_color",
+                                              "label":  "Platform Color",
+                                              "name":  "platform_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#6366f1",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string",
+                                              "parent_repeater":  "field_mcs_cloud_platforms"
+                                          }
+                                      ]
+                   },
+                   {
+                       "key":  "field_mcs_services_sections",
+                       "label":  "Services Sections",
+                       "name":  "services_sections",
+                       "aria-label":  "",
+                       "type":  "repeater",
+                       "instructions":  "",
+                       "required":  false,
+                       "conditional_logic":  false,
+                       "wrapper":  {
+                                       "width":  "",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "min":  1,
+                       "layout":  "row",
+                       "button_label":  "Add Section",
+                       "max":  0,
+                       "rows_per_page":  20,
+                       "collapsed":  "",
+                       "sub_fields":  [
+                                          {
+                                              "key":  "field_mcs_section_icon",
+                                              "label":  "Section Icon",
+                                              "name":  "section_icon",
+                                              "aria-label":  "",
+                                              "type":  "text",
+                                              "instructions":  "Font Awesome icon class (e.g., fas fa-shield-alt). Leave empty if using image.",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "50",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "",
+                                              "maxlength":  "",
+                                              "placeholder":  "",
+                                              "prepend":  "",
+                                              "append":  "",
+                                              "parent_repeater":  "field_mcs_services_sections"
+                                          },
+                                          {
+                                              "key":  "field_mcs_section_image",
+                                              "label":  "Section Image",
+                                              "name":  "section_image",
+                                              "aria-label":  "",
+                                              "type":  "image",
+                                              "instructions":  "Upload an image to use instead of icon. This will override the icon if both are provided.",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "50",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "return_format":  "array",
+                                              "preview_size":  "thumbnail",
+                                              "library":  "all",
+                                              "min_width":  "",
+                                              "min_height":  "",
+                                              "min_size":  "",
+                                              "max_width":  "",
+                                              "max_height":  "",
+                                              "max_size":  "",
+                                              "mime_types":  "",
+                                              "parent_repeater":  "field_mcs_services_sections"
+                                          },
+                                          {
+                                              "key":  "field_mcs_section_title",
+                                              "label":  "Section Title",
+                                              "name":  "section_title",
+                                              "aria-label":  "",
+                                              "type":  "text",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "",
+                                              "maxlength":  "",
+                                              "placeholder":  "",
+                                              "prepend":  "",
+                                              "append":  "",
+                                              "parent_repeater":  "field_mcs_services_sections"
+                                          },
+                                          {
+                                              "key":  "field_mcs_section_items",
+                                              "label":  "Section Items",
+                                              "name":  "section_items",
+                                              "aria-label":  "",
+                                              "type":  "repeater",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "min":  1,
+                                              "layout":  "table",
+                                              "button_label":  "Add Item",
+                                              "max":  0,
+                                              "rows_per_page":  20,
+                                              "collapsed":  "",
+                                              "parent_repeater":  "field_mcs_services_sections",
+                                              "sub_fields":  [
+                                                                 {
+                                                                     "key":  "field_mcs_item_text",
+                                                                     "label":  "Item Text",
+                                                                     "name":  "item_text",
+                                                                     "aria-label":  "",
+                                                                     "type":  "text",
+                                                                     "instructions":  "",
+                                                                     "required":  false,
+                                                                     "conditional_logic":  false,
+                                                                     "wrapper":  {
+                                                                                     "width":  "",
+                                                                                     "class":  "",
+                                                                                     "id":  ""
+                                                                                 },
+                                                                     "default_value":  "",
+                                                                     "maxlength":  "",
+                                                                     "placeholder":  "",
+                                                                     "prepend":  "",
+                                                                     "append":  "",
+                                                                     "parent_repeater":  "field_mcs_section_items"
+                                                                 }
+                                                             ]
+                                          },
+                                          {
+                                              "key":  "field_mcs_section_bg_color",
+                                              "label":  "Section Background Color",
+                                              "name":  "section_bg_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "25",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#ffffff",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string",
+                                              "parent_repeater":  "field_mcs_services_sections"
+                                          },
+                                          {
+                                              "key":  "field_mcs_section_text_color",
+                                              "label":  "Section Text Color",
+                                              "name":  "section_text_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "25",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#374151",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string",
+                                              "parent_repeater":  "field_mcs_services_sections"
+                                          },
+                                          {
+                                              "key":  "field_mcs_section_border_color",
+                                              "label":  "Section Border Color",
+                                              "name":  "section_border_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "25",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#e5e7eb",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string",
+                                              "parent_repeater":  "field_mcs_services_sections"
+                                          },
+                                          {
+                                              "key":  "field_mcs_section_arrow_color",
+                                              "label":  "Arrow Color",
+                                              "name":  "arrow_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "Color for the arrow bullets in this section\u0027s list items",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "25",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#6366f1",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string",
+                                              "parent_repeater":  "field_mcs_services_sections"
+                                          }
+                                      ]
+                   },
+                   {
+                       "key":  "field_mcs_credentials_section",
+                       "label":  "Credentials Section",
+                       "name":  "credentials_section",
+                       "aria-label":  "",
+                       "type":  "group",
+                       "instructions":  "",
+                       "required":  false,
+                       "conditional_logic":  false,
+                       "wrapper":  {
+                                       "width":  "",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "layout":  "block",
+                       "sub_fields":  [
+                                          {
+                                              "key":  "field_mcs_cred_title",
+                                              "label":  "Credentials Title",
+                                              "name":  "title",
+                                              "aria-label":  "",
+                                              "type":  "text",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "Credentials",
+                                              "maxlength":  "",
+                                              "placeholder":  "",
+                                              "prepend":  "",
+                                              "append":  ""
+                                          },
+                                          {
+                                              "key":  "field_mcs_cred_image",
+                                              "label":  "Credentials Image",
+                                              "name":  "credential_image",
+                                              "aria-label":  "",
+                                              "type":  "image",
+                                              "instructions":  "Upload an image to display in the credentials section header",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "return_format":  "array",
+                                              "preview_size":  "thumbnail",
+                                              "library":  "all",
+                                              "min_width":  "",
+                                              "min_height":  "",
+                                              "min_size":  "",
+                                              "max_width":  "",
+                                              "max_height":  "",
+                                              "max_size":  "",
+                                              "mime_types":  ""
+                                          },
+                                          {
+                                              "key":  "field_mcs_cred_items",
+                                              "label":  "Credential Items",
+                                              "name":  "items",
+                                              "aria-label":  "",
+                                              "type":  "repeater",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "min":  1,
+                                              "layout":  "table",
+                                              "button_label":  "Add Credential",
+                                              "max":  0,
+                                              "rows_per_page":  20,
+                                              "collapsed":  "",
+                                              "sub_fields":  [
+                                                                 {
+                                                                     "key":  "field_mcs_cred_text",
+                                                                     "label":  "Credential Text",
+                                                                     "name":  "text",
+                                                                     "aria-label":  "",
+                                                                     "type":  "text",
+                                                                     "instructions":  "",
+                                                                     "required":  false,
+                                                                     "conditional_logic":  false,
+                                                                     "wrapper":  {
+                                                                                     "width":  "",
+                                                                                     "class":  "",
+                                                                                     "id":  ""
+                                                                                 },
+                                                                     "default_value":  "",
+                                                                     "maxlength":  "",
+                                                                     "placeholder":  "",
+                                                                     "prepend":  "",
+                                                                     "append":  "",
+                                                                     "parent_repeater":  "field_mcs_cred_items"
+                                                                 }
+                                                             ]
+                                          },
+                                          {
+                                              "key":  "field_mcs_cred_bg_color",
+                                              "label":  "Credentials Background Color",
+                                              "name":  "bg_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "25",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#6366f1",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          },
+                                          {
+                                              "key":  "field_mcs_cred_text_color",
+                                              "label":  "Credentials Text Color",
+                                              "name":  "text_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "25",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#ffffff",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          },
+                                          {
+                                              "key":  "field_mcs_cred_border_color",
+                                              "label":  "Credentials Border Color",
+                                              "name":  "border_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "25",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#4f46e5",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          },
+                                          {
+                                              "key":  "field_mcs_cred_arrow_color",
+                                              "label":  "Arrow Color",
+                                              "name":  "arrow_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "Color for the arrow bullets in the credentials list",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "25",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "rgba(255, 255, 255, 0.7)",
+                                              "enable_opacity":  true,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          }
+                                      ]
+                   },
+                   {
+                       "key":  "field_mcs_implementations_section",
+                       "label":  "Implementations \u0026 Tech Section",
+                       "name":  "implementations_section",
+                       "aria-label":  "",
+                       "type":  "group",
+                       "instructions":  "",
+                       "required":  false,
+                       "conditional_logic":  false,
+                       "wrapper":  {
+                                       "width":  "",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "layout":  "block",
+                       "sub_fields":  [
+                                          {
+                                              "key":  "field_mcs_impl_show_section",
+                                              "label":  "Show Section",
+                                              "name":  "show_section",
+                                              "aria-label":  "",
+                                              "type":  "true_false",
+                                              "instructions":  "Toggle to show or hide the Implementations \u0026 Tech section",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "message":  "",
+                                              "default_value":  1,
+                                              "ui":  1,
+                                              "ui_on_text":  "",
+                                              "ui_off_text":  ""
+                                          },
+                                          {
+                                              "key":  "field_mcs_impl_section_image",
+                                              "label":  "Section Image",
+                                              "name":  "section_image",
+                                              "aria-label":  "",
+                                              "type":  "image",
+                                              "instructions":  "Upload an image to display next to the section title",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "return_format":  "array",
+                                              "preview_size":  "thumbnail",
+                                              "library":  "all",
+                                              "min_width":  "",
+                                              "min_height":  "",
+                                              "min_size":  "",
+                                              "max_width":  "",
+                                              "max_height":  "",
+                                              "max_size":  "",
+                                              "mime_types":  ""
+                                          },
+                                          {
+                                              "key":  "field_mcs_impl_title",
+                                              "label":  "Section Title",
+                                              "name":  "title",
+                                              "aria-label":  "",
+                                              "type":  "text",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "Implementations \u0026 Tech",
+                                              "maxlength":  "",
+                                              "placeholder":  "",
+                                              "prepend":  "",
+                                              "append":  ""
+                                          },
+                                          {
+                                              "key":  "field_mcs_tech_badges",
+                                              "label":  "Technology Badges",
+                                              "name":  "tech_badges",
+                                              "aria-label":  "",
+                                              "type":  "repeater",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "min":  1,
+                                              "layout":  "table",
+                                              "button_label":  "Add Badge",
+                                              "max":  0,
+                                              "rows_per_page":  20,
+                                              "collapsed":  "",
+                                              "sub_fields":  [
+                                                                 {
+                                                                     "key":  "field_mcs_badge_text",
+                                                                     "label":  "Badge Text",
+                                                                     "name":  "text",
+                                                                     "aria-label":  "",
+                                                                     "type":  "text",
+                                                                     "instructions":  "",
+                                                                     "required":  false,
+                                                                     "conditional_logic":  false,
+                                                                     "wrapper":  {
+                                                                                     "width":  "",
+                                                                                     "class":  "",
+                                                                                     "id":  ""
+                                                                                 },
+                                                                     "default_value":  "",
+                                                                     "maxlength":  "",
+                                                                     "placeholder":  "",
+                                                                     "prepend":  "",
+                                                                     "append":  "",
+                                                                     "parent_repeater":  "field_mcs_tech_badges"
+                                                                 },
+                                                                 {
+                                                                     "key":  "field_mcs_badge_color",
+                                                                     "label":  "Badge Color",
+                                                                     "name":  "color",
+                                                                     "aria-label":  "",
+                                                                     "type":  "color_picker",
+                                                                     "instructions":  "",
+                                                                     "required":  false,
+                                                                     "conditional_logic":  false,
+                                                                     "wrapper":  {
+                                                                                     "width":  "25",
+                                                                                     "class":  "",
+                                                                                     "id":  ""
+                                                                                 },
+                                                                     "default_value":  "#ef4444",
+                                                                     "enable_opacity":  false,
+                                                                     "custom_palette_source":  "",
+                                                                     "palette_colors":  "",
+                                                                     "show_color_wheel":  true,
+                                                                     "return_format":  "string",
+                                                                     "parent_repeater":  "field_mcs_tech_badges"
+                                                                 },
+                                                                 {
+                                                                     "key":  "field_mcs_badge_text_color",
+                                                                     "label":  "Badge Text Color",
+                                                                     "name":  "text_color",
+                                                                     "aria-label":  "",
+                                                                     "type":  "color_picker",
+                                                                     "instructions":  "",
+                                                                     "required":  false,
+                                                                     "conditional_logic":  false,
+                                                                     "wrapper":  {
+                                                                                     "width":  "25",
+                                                                                     "class":  "",
+                                                                                     "id":  ""
+                                                                                 },
+                                                                     "default_value":  "#ffffff",
+                                                                     "enable_opacity":  false,
+                                                                     "custom_palette_source":  "",
+                                                                     "palette_colors":  "",
+                                                                     "show_color_wheel":  true,
+                                                                     "return_format":  "string",
+                                                                     "parent_repeater":  "field_mcs_tech_badges"
+                                                                 },
+                                                                 {
+                                                                     "key":  "field_mcs_badge_border_color",
+                                                                     "label":  "Badge Border Color",
+                                                                     "name":  "border_color",
+                                                                     "aria-label":  "",
+                                                                     "type":  "color_picker",
+                                                                     "instructions":  "",
+                                                                     "required":  false,
+                                                                     "conditional_logic":  false,
+                                                                     "wrapper":  {
+                                                                                     "width":  "25",
+                                                                                     "class":  "",
+                                                                                     "id":  ""
+                                                                                 },
+                                                                     "default_value":  "#ef4444",
+                                                                     "enable_opacity":  false,
+                                                                     "custom_palette_source":  "",
+                                                                     "palette_colors":  "",
+                                                                     "show_color_wheel":  true,
+                                                                     "return_format":  "string",
+                                                                     "parent_repeater":  "field_mcs_tech_badges"
+                                                                 },
+                                                                 {
+                                                                     "key":  "field_mcs_badge_style",
+                                                                     "label":  "Badge Style",
+                                                                     "name":  "badge_style",
+                                                                     "aria-label":  "",
+                                                                     "type":  "select",
+                                                                     "instructions":  "",
+                                                                     "required":  false,
+                                                                     "conditional_logic":  false,
+                                                                     "wrapper":  {
+                                                                                     "width":  "25",
+                                                                                     "class":  "",
+                                                                                     "id":  ""
+                                                                                 },
+                                                                     "choices":  {
+                                                                                     "filled":  "Filled",
+                                                                                     "outlined":  "Outlined"
+                                                                                 },
+                                                                     "default_value":  "filled",
+                                                                     "multiple":  0,
+                                                                     "allow_null":  0,
+                                                                     "ui":  0,
+                                                                     "ajax":  0,
+                                                                     "placeholder":  "",
+                                                                     "return_format":  "value",
+                                                                     "create_options":  0,
+                                                                     "save_options":  0,
+                                                                     "parent_repeater":  "field_mcs_tech_badges"
+                                                                 }
+                                                             ]
+                                          },
+                                          {
+                                              "key":  "field_mcs_impl_bg_color",
+                                              "label":  "Implementation Section Background Color",
+                                              "name":  "section_bg_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "33.33",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#ffffff",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          },
+                                          {
+                                              "key":  "field_mcs_impl_text_color",
+                                              "label":  "Implementation Section Text Color",
+                                              "name":  "section_text_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "33.33",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#374151",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          },
+                                          {
+                                              "key":  "field_mcs_impl_border_color",
+                                              "label":  "Implementation Section Border Color",
+                                              "name":  "section_border_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "33.33",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#e5e7eb",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          }
+                                      ]
+                   },
+                   {
+                       "key":  "field_mcs_styling_options",
+                       "label":  "Styling Options",
+                       "name":  "styling_options",
+                       "aria-label":  "",
+                       "type":  "group",
+                       "instructions":  "",
+                       "required":  false,
+                       "conditional_logic":  false,
+                       "wrapper":  {
+                                       "width":  "",
+                                       "class":  "",
+                                       "id":  ""
+                                   },
+                       "layout":  "block",
+                       "sub_fields":  [
+                                          {
+                                              "key":  "field_mcs_background_type",
+                                              "label":  "Background Type",
+                                              "name":  "background_type",
+                                              "aria-label":  "",
+                                              "type":  "select",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "choices":  {
+                                                              "color":  "Solid Color",
+                                                              "gradient":  "Gradient",
+                                                              "image":  "Background Image"
+                                                          },
+                                              "default_value":  "gradient",
+                                              "multiple":  0,
+                                              "allow_null":  0,
+                                              "ui":  0,
+                                              "ajax":  0,
+                                              "placeholder":  "",
+                                              "return_format":  "value",
+                                              "create_options":  0,
+                                              "save_options":  0
+                                          },
+                                          {
+                                              "key":  "field_mcs_bg_color",
+                                              "label":  "Background Color",
+                                              "name":  "bg_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  [
+                                                                        [
+                                                                            {
+                                                                                "field":  "field_mcs_background_type",
+                                                                                "operator":  "==",
+                                                                                "value":  "color"
+                                                                            }
+                                                                        ]
+                                                                    ],
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#c4b5fd",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          },
+                                          {
+                                              "key":  "field_mcs_gradient_start",
+                                              "label":  "Gradient Start Color",
+                                              "name":  "gradient_start",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  [
+                                                                        [
+                                                                            {
+                                                                                "field":  "field_mcs_background_type",
+                                                                                "operator":  "==",
+                                                                                "value":  "gradient"
+                                                                            }
+                                                                        ]
+                                                                    ],
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#c4b5fd",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          },
+                                          {
+                                              "key":  "field_mcs_gradient_end",
+                                              "label":  "Gradient End Color",
+                                              "name":  "gradient_end",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  [
+                                                                        [
+                                                                            {
+                                                                                "field":  "field_mcs_background_type",
+                                                                                "operator":  "==",
+                                                                                "value":  "gradient"
+                                                                            }
+                                                                        ]
+                                                                    ],
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#a78bfa",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          },
+                                          {
+                                              "key":  "field_mcs_bg_image",
+                                              "label":  "Background Image",
+                                              "name":  "bg_image",
+                                              "aria-label":  "",
+                                              "type":  "image",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  [
+                                                                        [
+                                                                            {
+                                                                                "field":  "field_mcs_background_type",
+                                                                                "operator":  "==",
+                                                                                "value":  "image"
+                                                                            }
+                                                                        ]
+                                                                    ],
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "return_format":  "array",
+                                              "preview_size":  "medium",
+                                              "library":  "all",
+                                              "min_width":  "",
+                                              "min_height":  "",
+                                              "min_size":  "",
+                                              "max_width":  "",
+                                              "max_height":  "",
+                                              "max_size":  "",
+                                              "mime_types":  ""
+                                          },
+                                          {
+                                              "key":  "field_mcs_text_color",
+                                              "label":  "Text Color",
+                                              "name":  "text_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#374151",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          },
+                                          {
+                                              "key":  "field_mcs_heading_color",
+                                              "label":  "Heading Color",
+                                              "name":  "heading_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#1f2937",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          },
+                                          {
+                                              "key":  "field_mcs_card_bg_color",
+                                              "label":  "Card Background Color",
+                                              "name":  "card_bg_color",
+                                              "aria-label":  "",
+                                              "type":  "color_picker",
+                                              "instructions":  "",
+                                              "required":  false,
+                                              "conditional_logic":  false,
+                                              "wrapper":  {
+                                                              "width":  "",
+                                                              "class":  "",
+                                                              "id":  ""
+                                                          },
+                                              "default_value":  "#ffffff",
+                                              "enable_opacity":  false,
+                                              "custom_palette_source":  "",
+                                              "palette_colors":  "",
+                                              "show_color_wheel":  true,
+                                              "return_format":  "string"
+                                          }
+                                      ]
+                   }
+               ],
+    "location":  [
+                     [
+                         {
+                             "param":  "block",
+                             "operator":  "==",
+                             "value":  "acf/multi-cloud-services"
+                         }
+                     ]
+                 ],
+    "menu_order":  0,
+    "position":  "normal",
+    "style":  "default",
+    "label_placement":  "top",
+    "instruction_placement":  "label",
+    "hide_on_screen":  "",
+    "active":  true,
+    "description":  "",
+    "show_in_rest":  0,
+    "display_title":  "",
+    "modified":  1768480639
 }

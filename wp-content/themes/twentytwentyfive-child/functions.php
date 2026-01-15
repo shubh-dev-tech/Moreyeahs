@@ -1933,6 +1933,46 @@ function twentytwentyfive_child_register_acf_blocks() {
         ),
     ));
 
+    // Dice Testimonial Block
+    acf_register_block_type(array(
+        'name'              => 'dice-testimonial',
+        'title'             => __('Dice Testimonial', 'twentytwentyfive'),
+        'description'       => __('Dynamic testimonial slider with CPT testimonials, customizable backgrounds (color/gradient/image), and heading colors', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'testimonial',
+        'keywords'          => array('dice', 'testimonial', 'slider', 'client', 'review', 'cpt', 'dynamic', 'gradient'),
+        'render_template'   => 'blocks/dice-testimonial/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/dice-testimonial/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading' => 'What Our Clients Say',
+                    'heading_color' => '#ffffff',
+                    'heading_span_text' => 'Clients',
+                    'heading_span_color' => '#ffd700',
+                    'sub_heading' => 'Discover how our services have transformed businesses',
+                    'autoplay_slider' => true,
+                    'slider_speed' => 4,
+                    'show_navigation' => true,
+                    'show_dots' => true,
+                    'background_type' => 'gradient',
+                    'gradient_color_1' => '#0a0f1c',
+                    'gradient_color_2' => '#1a1f3c',
+                    'gradient_direction' => 'to bottom right',
+                    'text_color' => '#ffffff',
+                    'accent_color' => '#ffd700',
+                ),
+            ),
+        ),
+    ));
+
     // Domain Enables Section Block
     acf_register_block_type(array(
         'name'              => 'domain-enables-section',
@@ -2676,3 +2716,12 @@ add_action('rest_api_init', function() {
     ]);
 });
 
+
+
+/**
+ * Include Testimonials Custom Post Type
+ */
+$testimonials_cpt = get_stylesheet_directory() . '/inc/cpt-testimonials.php';
+if (file_exists($testimonials_cpt)) {
+    require_once $testimonials_cpt;
+}

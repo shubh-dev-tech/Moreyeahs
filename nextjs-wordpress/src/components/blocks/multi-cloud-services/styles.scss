@@ -21,6 +21,10 @@
     color: var(--heading-color, #1f2937);
     margin-bottom: 20px;
     line-height: 1.2;
+
+    span {
+      color: inherit;
+    }
   }
 
   .mcs-description {
