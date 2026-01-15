@@ -199,6 +199,7 @@ function twentytwentyfive_child_include_parent_functions() {
                     return new WP_Error('page_not_found', 'Page not found', ['status' => 404]);
                 }
                 
+                $post_id = $page->ID; // Add this line for ACF field retrieval
                 $blocks = parse_blocks($page->post_content);
                 
                 // Process ACF blocks to include field data - ENHANCED FOR NESTED BLOCKS
@@ -298,7 +299,7 @@ function twentytwentyfive_child_include_parent_functions() {
                         if (is_array($block_data['steps']) && !is_numeric($block_data['steps'])) {
                             $steps = $block_data['steps'];
                             
-                            // Process images in the array
+                            // Process images in the array if this is fits-together-section
                             foreach ($steps as &$step) {
                                 if (isset($step['icon']) && $step['icon']) {
                                     $step['icon'] = process_acf_image_field($step['icon']);
@@ -311,20 +312,29 @@ function twentytwentyfive_child_include_parent_functions() {
                             
                             for ($i = 0; $i < $steps_count; $i++) {
                                 $step = [];
-                                $step['step_number'] = $block_data["steps_{$i}_step_number"] ?? "Step " . ($i + 1);
-                                $step['step_number_color'] = $block_data["steps_{$i}_step_number_color"] ?? '#0EA5E9';
-                                $step['title'] = $block_data["steps_{$i}_title"] ?? '';
-                                $step['title_color'] = $block_data["steps_{$i}_title_color"] ?? '#1F2937';
-                                $step['subtitle'] = $block_data["steps_{$i}_subtitle"] ?? '';
-                                $step['subtitle_color'] = $block_data["steps_{$i}_subtitle_color"] ?? '#6B7280';
                                 
-                                // Process icon
-                                $icon_id = $block_data["steps_{$i}_icon"] ?? null;
-                                if ($icon_id) {
-                                    $step['icon'] = process_acf_image_field($icon_id);
+                                // Check if this is new-stepper block (has label and section_id)
+                                if (isset($block_data["steps_{$i}_label"])) {
+                                    $step['label'] = $block_data["steps_{$i}_label"] ?? '';
+                                    $step['section_id'] = $block_data["steps_{$i}_section_id"] ?? '';
+                                } else {
+                                    // This is fits-together-section (has step_number, title, etc.)
+                                    $step['step_number'] = $block_data["steps_{$i}_step_number"] ?? "Step " . ($i + 1);
+                                    $step['step_number_color'] = $block_data["steps_{$i}_step_number_color"] ?? '#0EA5E9';
+                                    $step['title'] = $block_data["steps_{$i}_title"] ?? '';
+                                    $step['title_color'] = $block_data["steps_{$i}_title_color"] ?? '#1F2937';
+                                    $step['subtitle'] = $block_data["steps_{$i}_subtitle"] ?? '';
+                                    $step['subtitle_color'] = $block_data["steps_{$i}_subtitle_color"] ?? '#6B7280';
+                                    
+                                    // Process icon
+                                    $icon_id = $block_data["steps_{$i}_icon"] ?? null;
+                                    if ($icon_id) {
+                                        $step['icon'] = process_acf_image_field($icon_id);
+                                    }
                                 }
                                 
-                                if (!empty($step['title'])) {
+                                // Add step if it has required data
+                                if (!empty($step['label']) || !empty($step['title'])) {
                                     $steps[] = $step;
                                 }
                             }
@@ -495,6 +505,24 @@ function twentytwentyfive_child_include_parent_functions() {
                                             $direct_acf_data[$field_name] = $field_value;
                                         }
                                     }
+                                }
+                            }
+                            
+                            // Merge direct ACF data with existing block data
+                            if (!empty($direct_acf_data)) {
+                                $block['attrs']['data'] = array_merge($block['attrs']['data'] ?? [], $direct_acf_data);
+                            }
+                        }
+                        
+                        // ENHANCED: For new-stepper, get ACF data directly from post
+                        if ($block['blockName'] === 'acf/new-stepper') {
+                            $direct_acf_data = [];
+                            
+                            // Get all ACF fields for this block
+                            if (function_exists('get_fields')) {
+                                $all_fields = get_fields($post_id);
+                                if ($all_fields && isset($all_fields['steps']) && is_array($all_fields['steps'])) {
+                                    $direct_acf_data['steps'] = $all_fields['steps'];
                                 }
                             }
                             
@@ -2193,6 +2221,37 @@ function twentytwentyfive_child_register_acf_blocks() {
 
     // Note: stories-blog-block is already registered in parent theme
     // Removed duplicate registration to prevent conflicts
+
+    // New Stepper Block
+    acf_register_block_type(array(
+        'name'              => 'new-stepper',
+        'title'             => __('New Stepper', 'twentytwentyfive'),
+        'description'       => __('A vertical stepper navigation similar to Infosys style that shows which section is currently visible', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'menu-alt',
+        'keywords'          => array('stepper', 'navigation', 'scroll', 'anchor', 'infosys', 'vertical'),
+        'render_template'   => 'blocks/new-stepper/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/new-stepper/style.css',
+        'supports'          => array(
+            'align'  => false,
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'stepper_mode' => 'auto',
+                    'steps' => array(
+                        array('label' => 'Banner', 'section_id' => 'banner'),
+                        array('label' => 'Services', 'section_id' => 'services'),
+                        array('label' => 'About Us', 'section_id' => 'about'),
+                    ),
+                ),
+            ),
+        ),
+    ));
 }
 add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
 

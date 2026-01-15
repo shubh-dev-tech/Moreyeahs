@@ -1,0 +1,92 @@
+{
+    "key": "group_new_stepper",
+    "title": "New Stepper",
+    "fields": [
+        {
+            "key": "field_new_stepper_steps",
+            "label": "Steps",
+            "name": "steps",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add your navigation steps. Each step will link to a section with the specified HTML anchor.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 1,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Add Step",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_new_step_label",
+                    "label": "Step Label",
+                    "name": "label",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "The text that will appear when this section is active",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "e.g., Banner Section",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_new_stepper_steps"
+                },
+                {
+                    "key": "field_new_step_section_id",
+                    "label": "Section HTML Anchor",
+                    "name": "section_id",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "The HTML anchor ID of the section (without #). Set this in the block's Advanced > HTML Anchor field.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "e.g., banner",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_new_stepper_steps"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/new-stepper"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "A vertical stepper navigation that shows which section is currently visible",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1768478985
+}

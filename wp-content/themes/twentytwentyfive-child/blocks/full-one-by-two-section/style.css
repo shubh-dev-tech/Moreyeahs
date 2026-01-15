@@ -205,6 +205,13 @@
         height: auto;
         min-height: 300px;
         order: 2;
+        display: flex !important;
+        width: 100%;
+    }
+    
+    .image-container {
+        width: 100%;
+        display: block;
     }
     
     .main-heading {
@@ -220,13 +227,16 @@
         font-size: 1rem;
     }
     
-    /* Reverse layout on mobile - keep content first */
+    /* Reverse layout on mobile - keep content first and ensure image displays */
     .full-one-by-two-section.reverse-layout .content-half {
         order: 1;
     }
     
     .full-one-by-two-section.reverse-layout .image-half {
         order: 2;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 }
 
