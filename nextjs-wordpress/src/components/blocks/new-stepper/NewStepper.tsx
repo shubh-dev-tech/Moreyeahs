@@ -172,7 +172,7 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
 
   return (
     <nav className="new-stepper">
-      <div className="new-stepper__title">Navigate<br />your next</div>
+      <div className="new-stepper__title">Welcome to<br /><b>More</b>Yeahs</div>
       <ul className="new-stepper__list">
         {safeSteps.map((step, index) => (
           <li 
