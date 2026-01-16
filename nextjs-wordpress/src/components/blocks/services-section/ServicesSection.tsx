@@ -40,6 +40,7 @@ interface ServicesSectionData {
   gradient_end?: string;
   gradient_direction?: string;
   background_image?: ImageData;
+  section_height?: string;
   // Index signature for dynamic property access
   [key: string]: any;
 }
@@ -63,7 +64,8 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ data }) => {
     gradient_start = '#E0F7FA',
     gradient_end = '#B2EBF2',
     gradient_direction = 'to bottom',
-    background_image
+    background_image,
+    section_height = 'auto'
   } = data || {};
   
   // Handle service_items using the same pattern as Full One by Two Section
@@ -121,24 +123,33 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ data }) => {
   }
   // Generate background styles
   const getBackgroundStyle = (): React.CSSProperties => {
+    const baseStyle: React.CSSProperties = {
+      minHeight: section_height === 'auto' ? 'auto' : section_height,
+      height: section_height === 'auto' ? 'auto' : section_height,
+    };
+
     switch (background_type) {
       case 'color':
         return {
+          ...baseStyle,
           backgroundColor: background_color
         };
       case 'gradient':
         return {
+          ...baseStyle,
           background: `linear-gradient(${gradient_direction}, ${gradient_start}, ${gradient_end})`
         };
       case 'image':
         return background_image?.url ? {
+          ...baseStyle,
           backgroundImage: `url(${background_image.url})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
-        } : {};
+        } : baseStyle;
       default:
         return {
+          ...baseStyle,
           background: `linear-gradient(${gradient_direction}, ${gradient_start}, ${gradient_end})`
         };
     }

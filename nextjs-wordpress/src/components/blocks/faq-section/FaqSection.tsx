@@ -13,6 +13,7 @@ interface FaqSectionData {
   background_color?: string;
   gradient_start_color?: string;
   gradient_end_color?: string;
+  gradient_direction?: string;
   background_image?: {
     id: number;
     url: string;
@@ -44,6 +45,7 @@ const FaqSection: React.FC<FaqSectionProps> = ({ data }) => {
     background_color = '#e0f7fa',
     gradient_start_color = '#e0f7fa',
     gradient_end_color = '#b2ebf2',
+    gradient_direction = 'to bottom',
     background_image,
     section_height = 'auto',
     title_part1 = 'Frequently Asked',
@@ -102,7 +104,7 @@ const FaqSection: React.FC<FaqSectionProps> = ({ data }) => {
       case 'gradient':
         return {
           ...baseStyle,
-          background: `linear-gradient(135deg, ${gradient_start_color} 0%, ${gradient_end_color} 100%)`,
+          background: `linear-gradient(${gradient_direction}, ${gradient_start_color}, ${gradient_end_color})`,
         };
       case 'image':
         return {
@@ -115,7 +117,7 @@ const FaqSection: React.FC<FaqSectionProps> = ({ data }) => {
       default:
         return {
           ...baseStyle,
-          background: `linear-gradient(135deg, ${gradient_start_color} 0%, ${gradient_end_color} 100%)`,
+          background: `linear-gradient(${gradient_direction}, ${gradient_start_color}, ${gradient_end_color})`,
         };
     }
   };

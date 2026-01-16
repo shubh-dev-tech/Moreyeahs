@@ -17,12 +17,21 @@
   // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   @include transition(all 0.3s ease);
 
-  @include mobile {
-    position: relative;
+  // Default: dark text for light backgrounds
+  --header-text-color: #1a1a1a;
+  --header-text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+
+  // Light text for dark backgrounds
+  &.header--dark {
+    --header-text-color: #ffffff;
+    --header-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 
-  &:hover {
-    // Remove all hover effects - keep header styling consistent
+  @include mobile {
+    position: relative;
+    background: #000000ab;
+    --header-text-color: #ffffff;
+    --header-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 
   &__nav {
@@ -41,10 +50,10 @@
   &__logo {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--header-text-color);
     letter-spacing: -0.5px;
     @include transition(color 0.2s ease);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: var(--header-text-shadow);
     display: flex;
     align-items: center;
 
@@ -106,17 +115,17 @@
     }
 
     a {
-      color: #ffffff;
+      color: var(--header-text-color);
       padding: 0.75rem 0;
       display: block;
       position: relative;
       @include transition(color 0.2s ease);
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      text-shadow: var(--header-text-shadow);
 
       &:hover {
         color: #6391C6;
         opacity: 1;
-            font-weight: 700;
+        font-weight: 700;
       }
     }
 
@@ -165,7 +174,7 @@
     border: 1px solid $color-border;
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    min-width: 220px;
+    min-width: 250px;
     list-style: none;
     padding: 0.75rem 0;
     margin: 0;
@@ -251,13 +260,13 @@
     border: none;
     cursor: pointer;
     padding: 0.5rem;
-    color: #ffffff;
+    color: var(--header-text-color);
     border-radius: 50%;
     width: 44px;
     height: 44px;
     @include flex-center;
     @include transition(all 0.2s ease);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    text-shadow: var(--header-text-shadow);
 
     @include mobile {
       display: none;

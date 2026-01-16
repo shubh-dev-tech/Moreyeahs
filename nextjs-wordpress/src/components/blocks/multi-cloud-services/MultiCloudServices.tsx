@@ -71,7 +71,21 @@ interface StylingOptions {
 
 interface MultiCloudServicesProps {
   main_heading?: string;
+  heading_span_text?: string;
+  heading_color?: string;
+  heading_span_color?: string;
   description?: string;
+  background_type?: 'color' | 'gradient' | 'image';
+  background_color?: string;
+  gradient_color_1?: string;
+  gradient_color_2?: string;
+  gradient_direction?: string;
+  background_image?: {
+    url: string;
+    alt?: string;
+  };
+  section_height?: string;
+  custom_height?: number;
   cloud_platforms?: CloudPlatform[];
   services_sections?: ServiceSection[];
   credentials_section?: CredentialsSection;
@@ -81,7 +95,18 @@ interface MultiCloudServicesProps {
 
 const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
   main_heading = 'Delivering Seamless Services Across Multi-Cloud Platforms',
-  description = 'We enable enterprises to design, deploy, and manage secure, scalable, and high-performance solutions across leading cloud providers.',
+  heading_span_text = '',
+  heading_color = '#1f2937',
+  heading_span_color = '#6366f1',
+  description: descriptionProp = '',
+  background_type = 'gradient',
+  background_color = '#f9fafb',
+  gradient_color_1 = '#f9fafb',
+  gradient_color_2 = '#e0e7ff',
+  gradient_direction = 'to bottom right',
+  background_image,
+  section_height = 'auto',
+  custom_height = 600,
   cloud_platforms = [],
   services_sections = [],
   credentials_section,
@@ -95,8 +120,42 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
     card_bg_color: '#ffffff'
   }
 }) => {
-  // Generate background styles
+  // Remove old default description if it matches
+  const oldDefault = 'We enable enterprises to design, deploy, and manage secure, scalable, and high-performance solutions across leading cloud providers.';
+  const description = descriptionProp.trim() === oldDefault.trim() ? '' : descriptionProp;
+  // Helper function to get section height
+  const getSectionHeight = (): string => {
+    switch (section_height) {
+      case 'small': return '60vh';
+      case 'medium': return '80vh';
+      case 'large': return '100vh';
+      case 'custom': return `${custom_height}px`;
+      default: return 'auto';
+    }
+  };
+
+  // Generate background styles - prioritize new fields over old styling_options
   const getBackgroundStyle = (): React.CSSProperties => {
+    // Use new background fields if background_type is set
+    if (background_type === 'gradient') {
+      return {
+        background: `linear-gradient(${gradient_direction}, ${gradient_color_1}, ${gradient_color_2})`
+      };
+    } else if (background_type === 'image' && background_image?.url) {
+      return {
+        backgroundImage: `url(${background_image.url})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: background_color
+      };
+    } else if (background_type === 'color') {
+      return {
+        backgroundColor: background_color
+      };
+    }
+    
+    // Fallback to old styling_options if new fields not used
     if (!styling_options) return {};
 
     switch (styling_options.background_type) {
@@ -124,7 +183,7 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
   // Generate CSS custom properties
   const getCSSVariables = (): React.CSSProperties => ({
     '--text-color': styling_options?.text_color || '#374151',
-    '--heading-color': styling_options?.heading_color || '#1f2937',
+    '--heading-color': heading_color || styling_options?.heading_color || '#1f2937',
     '--card-bg-color': styling_options?.card_bg_color || '#ffffff'
   } as React.CSSProperties);
 
@@ -165,19 +224,35 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
     return fallback || '';
   };
 
+  // Render heading with optional span
+  const renderHeading = () => {
+    if (!heading_span_text || heading_span_text.trim() === '') {
+      return <span style={{ color: heading_color }}>{main_heading}</span>;
+    }
+    
+    return (
+      <span style={{ color: heading_color }}>
+        {main_heading} <span style={{ color: heading_span_color }}>{heading_span_text}</span>
+      </span>
+    );
+  };
+
   return (
     <div 
       className="multi-cloud-services-block"
       style={{
         ...getBackgroundStyle(),
-        ...getCSSVariables()
+        ...getCSSVariables(),
+        minHeight: getSectionHeight()
       }}
     >
       <div className="container">
         {/* Header Section */}
         <div className="mcs-header">
-          <h2 className="mcs-main-heading">{main_heading}</h2>
-          <p className="mcs-description">{description}</p>
+          <h2 className="mcs-main-heading">{renderHeading()}</h2>
+          {description && description.trim() !== '' && (
+            <p className="mcs-description">{description}</p>
+          )}
           
           {/* Cloud Platforms */}
           {cloud_platforms && cloud_platforms.length > 0 && (

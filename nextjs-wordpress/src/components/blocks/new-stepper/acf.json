@@ -1,0 +1,76 @@
+{
+  "key": "group_new_stepper",
+  "title": "New Stepper",
+  "fields": [
+    {
+      "key": "field_new_stepper_mode",
+      "label": "Stepper Mode",
+      "name": "stepper_mode",
+      "type": "radio",
+      "instructions": "Choose how to populate the stepper",
+      "required": 1,
+      "choices": {
+        "auto": "Auto-detect sections from page",
+        "manual": "Manual entry"
+      },
+      "default_value": "auto",
+      "return_format": "value",
+      "layout": "horizontal"
+    },
+    {
+      "key": "field_new_stepper_steps",
+      "label": "Steps",
+      "name": "steps",
+      "type": "repeater",
+      "instructions": "Add your navigation steps manually. Each step will link to a section with the specified HTML anchor.",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_new_stepper_mode",
+            "operator": "==",
+            "value": "manual"
+          }
+        ]
+      ],
+      "layout": "block",
+      "button_label": "Add Step",
+      "sub_fields": [
+        {
+          "key": "field_new_step_label",
+          "label": "Step Label",
+          "name": "label",
+          "type": "text",
+          "instructions": "The text that will appear when this section is active",
+          "required": 1,
+          "placeholder": "e.g., Banner Section"
+        },
+        {
+          "key": "field_new_step_section_id",
+          "label": "Section HTML Anchor",
+          "name": "section_id",
+          "type": "text",
+          "instructions": "The HTML anchor ID of the section (without #). Set this in the block's Advanced > HTML Anchor field.",
+          "required": 1,
+          "placeholder": "e.g., banner"
+        }
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/new-stepper"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true,
+  "description": "A vertical stepper navigation similar to Infosys style that shows which section is currently visible"
+}

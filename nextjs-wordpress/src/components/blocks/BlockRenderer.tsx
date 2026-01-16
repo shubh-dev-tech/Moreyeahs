@@ -25,6 +25,7 @@ import { InvestorBlock } from './investor-block';
 import TestimonialBlock from './testimonial-block';
 import NavigationNextBlock from './navigation-next-block';
 import StepperBlock from './stepper-block/StepperBlock';
+import NewStepper from './new-stepper/NewStepper';
 import MoreyeahsServiceBlock from './moreyeahs-service-block';
 import MoreyeahsContentBlock from './moreyeahs-content-block';
 import StoriesBlogBlockWrapper from './stories-blog-block/StoriesBlogBlockWrapper';
@@ -43,6 +44,7 @@ import PartnershipGallery from './partnership-gallery/PartnershipGallery';
 import HeroSection from './hero-section/HeroSection';
 import Hero2Service from './hero-2-service/Hero2Service';
 import ServiceTestimonial from './service-testimonial/ServiceTestimonial';
+import DiceTestimonial from './dice-testimonial/DiceTestimonial';
 import MultiCloudServices from './multi-cloud-services/MultiCloudServices';
 import VideoHeroSection from './video-hero-section/VideoHeroSection';
 import DomainEnablesSection from './domain-enables-section/DomainEnablesSection';
@@ -78,6 +80,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/testimonial-block': TestimonialBlock,
   'acf/navigation-next-block': NavigationNextBlock,
   'acf/stepper-block': StepperBlock,
+  'acf/new-stepper': NewStepper,
   'acf/moreyeahs-service-block': MoreyeahsServiceBlock,
   'acf/moreyeahs-content-block': MoreyeahsContentBlock,
   'acf/stories-blog-block': StoriesBlogBlockWrapper,
@@ -96,6 +99,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/hero-section': HeroSection,
   'acf/hero-2-service': Hero2Service,
   'acf/service-testimonial': ServiceTestimonial,
+  'acf/dice-testimonial': DiceTestimonial,
   'acf/multi-cloud-services': MultiCloudServices,
   'acf/video-hero-section': VideoHeroSection,
   'acf/domain-enables-section': DomainEnablesSection,
@@ -132,6 +136,7 @@ const BLOCK_SECTION_IDS: Record<string, string> = {
   'acf/hero-section': 'hero-section',
   'acf/hero-2-service': 'hero-2-service',
   'acf/service-testimonial': 'service-testimonial',
+  'acf/dice-testimonial': 'dice-testimonial',
   'acf/multi-cloud-services': 'multi-cloud-services',
   'acf/video-hero-section': 'video-hero-section',
   'acf/domain-enables-section': 'domain-enables-section',
@@ -149,12 +154,54 @@ export function BlockRenderer({ blocks }: BlockRendererProps) {
   const renderBlock = (block: Block, index: number) => {
     if (!block.blockName) return null;
 
+    // Debug logging - check block structure
+    console.log(`[BlockRenderer] Block ${index}:`, {
+      blockName: block.blockName,
+      hasInnerBlocks: !!block.innerBlocks,
+      innerBlocksLength: block.innerBlocks?.length || 0,
+      innerBlockNames: block.innerBlocks?.map(b => b.blockName) || [],
+      hasAttrs: !!block.attrs,
+      anchor: block.attrs?.anchor
+    });
+
+    // Check if this is a core/group block wrapping ACF blocks FIRST (before checking for component)
+    // If so, skip the wrapper and render inner blocks directly to preserve their section IDs
+    if (block.blockName === 'core/group' && block.innerBlocks && block.innerBlocks.length > 0) {
+      const hasACFInnerBlocks = block.innerBlocks.some(inner => inner.blockName?.startsWith('acf/'));
+      
+      if (hasACFInnerBlocks) {
+        console.log(`[BlockRenderer] ✓ Skipping core/group wrapper, rendering ${block.innerBlocks.length} inner blocks directly`);
+        // Render inner blocks directly without wrapping section
+        return (
+          <React.Fragment key={`${block.blockName}-${index}`}>
+            {block.innerBlocks.map((inner, i) => renderBlock(inner, i))}
+          </React.Fragment>
+        );
+      }
+    }
+
     const BlockComponent = BLOCK_COMPONENTS[block.blockName];
-    const sectionId = block.attrs?.anchor || BLOCK_SECTION_IDS[block.blockName];
+    const sectionId = block.attrs?.anchor || BLOCK_SECTION_IDS[block.blockName] || `block-${index}`;
     const blockData = isACFBlock(block) ? (block.attrs as any).data : block.attrs;
+
+    // Special handling for stepper blocks - don't wrap in section
+    const isStepperBlock = block.blockName === 'acf/stepper-block' || block.blockName === 'acf/new-stepper';
 
     // If we have a mapped component, render it
     if (BlockComponent) {
+      if (isStepperBlock) {
+        // Render stepper without section wrapper (it's fixed position)
+        return (
+          <BlockComponent 
+            key={`${block.blockName}-${index}`} 
+            data={blockData} 
+            innerHTML={block.innerHTML} 
+            {...block.attrs} 
+          />
+        );
+      }
+      
+      console.log(`[BlockRenderer] ✓ Rendering ${block.blockName} with section ID: ${sectionId}`);
       return (
         <section key={`${block.blockName}-${index}`} id={sectionId}>
           <BlockComponent data={blockData} innerHTML={block.innerHTML} {...block.attrs} />

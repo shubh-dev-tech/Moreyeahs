@@ -24,6 +24,8 @@ interface BulletPoint {
 
 interface Hero2ServiceProps {
   title?: string;
+  titleSpanText?: string;
+  titleSpanColor?: string;
   subtitle?: string;
   description?: string;
   leftImage?: {
@@ -55,6 +57,8 @@ interface Hero2ServiceProps {
 
 const Hero2Service: React.FC<Hero2ServiceProps> = ({
   title,
+  titleSpanText,
+  titleSpanColor = "#6366f1",
   subtitle,
   description,
   leftImage = {
@@ -144,6 +148,8 @@ const Hero2Service: React.FC<Hero2ServiceProps> = ({
   // Use data from props if available, otherwise use direct props
   const finalProps = {
     title: data.title || title,
+    titleSpanText: data.title_span_text || titleSpanText,
+    titleSpanColor: data.title_span_color || titleSpanColor,
     subtitle: data.subtitle || subtitle,
     description: data.description || description,
     leftImage: data.left_image || leftImage,
@@ -251,6 +257,11 @@ const Hero2Service: React.FC<Hero2ServiceProps> = ({
                   style={{ color: finalProps.titleColor }}
                 >
                   {finalProps.title}
+                  {finalProps.titleSpanText && finalProps.titleSpanText.trim() && (
+                    <span style={{ color: finalProps.titleSpanColor }}>
+                      {' '}{finalProps.titleSpanText}
+                    </span>
+                  )}
                 </h2>
               )}
               {finalProps.subtitle && finalProps.subtitle.trim() && (

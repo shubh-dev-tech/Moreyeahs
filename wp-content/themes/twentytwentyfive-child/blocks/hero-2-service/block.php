@@ -5,6 +5,8 @@
 
 // Get ACF fields
 $title = get_field('title') ?: 'What is Data Engineering?';
+$title_span_text = get_field('title_span_text') ?: '';
+$title_span_color = get_field('title_span_color') ?: '#6366f1';
 $subtitle = get_field('subtitle') ?: 'Integrating Development and Operations.';
 $description = get_field('description') ?: 'DevOps is a set of practices that unifies software development and IT operations. Its goal is to shorten development cycles, increase deployment frequency, and deliver reliable software through automation, collaboration, and continuous improvement.';
 $left_image = get_field('left_image');
@@ -90,6 +92,11 @@ if ($image_full_width) {
                     <?php if (!empty(trim($title))): ?>
                         <h2 class="hero-2-service__title" style="color: <?php echo esc_attr($title_color); ?>;">
                             <?php echo esc_html($title); ?>
+                            <?php if (!empty(trim($title_span_text))): ?>
+                                <span style="color: <?php echo esc_attr($title_span_color); ?>;">
+                                    <?php echo esc_html($title_span_text); ?>
+                                </span>
+                            <?php endif; ?>
                         </h2>
                     <?php endif; ?>
                     <?php if (!empty(trim($subtitle))): ?>

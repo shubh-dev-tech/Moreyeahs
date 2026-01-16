@@ -8,11 +8,11 @@
             "name": "heading",
             "aria-label": "",
             "type": "text",
-            "instructions": "Enter the main heading for the section",
+            "instructions": "Enter the main heading for the section (e.g., 'Success')",
             "required": 1,
             "conditional_logic": false,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -23,6 +23,58 @@
             "maxlength": "",
             "prepend": "",
             "append": ""
+        },
+        {
+            "key": "field_stories_heading_span_text",
+            "label": "Heading Span Text",
+            "name": "heading_span_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Optional: Additional text to display after the heading in a different color (e.g., 'Stories')",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "show_in_graphql": 1,
+            "graphql_field_name": "headingSpanText",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_stories_heading_span_color",
+            "label": "Heading Span Color",
+            "name": "heading_span_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the color for the span text",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_stories_heading_span_text",
+                        "operator": "!=empty"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffd700",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "show_in_graphql": 1,
+            "graphql_field_name": "headingSpanColor",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
         },
         {
             "key": "field_stories_subheading",
@@ -79,7 +131,7 @@
             "required": 0,
             "conditional_logic": false,
             "wrapper": {
-                "width": "50",
+                "width": "34",
                 "class": "",
                 "id": ""
             },
@@ -132,6 +184,7 @@
                 "post": "Posts",
                 "page": "Pages",
                 "case_study": "Case Studies",
+                "testimonial": "Testimonials",
                 "mega_menu": "Mega Menus"
             },
             "default_value": "post",
@@ -224,6 +277,102 @@
             "graphql_field_name": "buttonUrl"
         },
         {
+            "key": "field_stories_background_type",
+            "label": "Background Type",
+            "name": "background_type",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose the background type",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "color": "Solid Color",
+                "gradient": "Gradient",
+                "image": "Image"
+            },
+            "default_value": "color",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": "",
+            "show_in_graphql": 1,
+            "graphql_field_name": "backgroundType",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_stories_section_height",
+            "label": "Section Height",
+            "name": "section_height",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose the section height",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "auto": "Auto Height",
+                "small": "Small (60vh)",
+                "medium": "Medium (80vh)",
+                "large": "Large (100vh)",
+                "custom": "Custom Height"
+            },
+            "default_value": "auto",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": "",
+            "show_in_graphql": 1,
+            "graphql_field_name": "sectionHeight",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_stories_custom_height",
+            "label": "Custom Height (px)",
+            "name": "custom_height",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Enter custom height in pixels",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_stories_section_height",
+                        "operator": "==",
+                        "value": "custom"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 600,
+            "min": 200,
+            "max": 2000,
+            "step": 10,
+            "placeholder": "",
+            "prepend": "",
+            "append": "px",
+            "show_in_graphql": 1,
+            "graphql_field_name": "customHeight"
+        },
+        {
             "key": "field_stories_bg_color",
             "label": "Background Color",
             "name": "background_color",
@@ -231,7 +380,15 @@
             "type": "color_picker",
             "instructions": "Choose a background color for the section",
             "required": 0,
-            "conditional_logic": false,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_stories_background_type",
+                        "operator": "==",
+                        "value": "color"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "50",
                 "class": "",
@@ -247,14 +404,126 @@
             "show_color_wheel": true
         },
         {
+            "key": "field_stories_gradient_color_1",
+            "label": "Gradient Color 1",
+            "name": "gradient_color_1",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the first gradient color",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_stories_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#4a148c",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "show_in_graphql": 1,
+            "graphql_field_name": "gradientColor1",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_stories_gradient_color_2",
+            "label": "Gradient Color 2",
+            "name": "gradient_color_2",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the second gradient color",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_stories_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#7b1fa2",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "show_in_graphql": 1,
+            "graphql_field_name": "gradientColor2",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_stories_gradient_direction",
+            "label": "Gradient Direction",
+            "name": "gradient_direction",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose the gradient direction",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_stories_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "to right": "Left to Right",
+                "to left": "Right to Left",
+                "to bottom": "Top to Bottom",
+                "to top": "Bottom to Top",
+                "to bottom right": "Top Left to Bottom Right",
+                "to bottom left": "Top Right to Bottom Left"
+            },
+            "default_value": "to bottom right",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": "",
+            "show_in_graphql": 1,
+            "graphql_field_name": "gradientDirection",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
             "key": "field_stories_bg_image",
             "label": "Background Image",
             "name": "background_image",
             "aria-label": "",
             "type": "image",
-            "instructions": "Upload a background image (optional). This will overlay the background color.",
+            "instructions": "Upload a background image (optional)",
             "required": 0,
-            "conditional_logic": false,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_stories_background_type",
+                        "operator": "==",
+                        "value": "image"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "50",
                 "class": "",
@@ -293,5 +562,5 @@
     "description": "Dynamic content block that displays latest 4 posts from a configured post type and category with customizable background and heading colors",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1767854999
+    "modified": 1768459468
 }

@@ -5,39 +5,102 @@
 
 // Get field values
 $main_heading = get_field('main_heading') ?: 'Delivering Seamless Services Across Multi-Cloud Platforms';
-$description = get_field('description') ?: 'We enable enterprises to design, deploy, and manage secure, scalable, and high-performance solutions across leading cloud providers.';
+$heading_color = get_field('heading_color') ?: '#1f2937';
+$heading_span_text = get_field('heading_span_text') ?: '';
+$heading_span_color = get_field('heading_span_color') ?: '#6366f1';
+$description = get_field('description') ?: '';
+
+// Remove old default description if it matches
+$old_default = 'We enable enterprises to design, deploy, and manage secure, scalable, and high-performance solutions across leading cloud providers.';
+if (trim($description) === trim($old_default)) {
+    $description = '';
+}
+
 $cloud_platforms = get_field('cloud_platforms') ?: [];
 $services_sections = get_field('services_sections') ?: [];
 $credentials_section = get_field('credentials_section') ?: [];
 $implementations_section = get_field('implementations_section') ?: [];
 $styling_options = get_field('styling_options') ?: [];
 
+// New background and height fields
+$background_type = get_field('background_type') ?: 'color';
+$background_color = get_field('background_color') ?: '#f9fafb';
+$gradient_color_1 = get_field('gradient_color_1') ?: '#f9fafb';
+$gradient_color_2 = get_field('gradient_color_2') ?: '#e0e7ff';
+$gradient_direction = get_field('gradient_direction') ?: 'to bottom right';
+$background_image = get_field('background_image');
+$section_height = get_field('section_height') ?: 'auto';
+$custom_height = get_field('custom_height') ?: 600;
+
 // Generate unique ID for this block
 $block_id = 'multi-cloud-services-' . $block['id'];
 
-// Build background styles
-$background_style = '';
-if (!empty($styling_options)) {
-    $bg_type = $styling_options['background_type'] ?? 'gradient';
-    
-    switch ($bg_type) {
-        case 'color':
-            $bg_color = $styling_options['bg_color'] ?? '#c4b5fd';
-            $background_style = "background-color: {$bg_color};";
-            break;
-        case 'gradient':
-            $gradient_start = $styling_options['gradient_start'] ?? '#c4b5fd';
-            $gradient_end = $styling_options['gradient_end'] ?? '#a78bfa';
-            $background_style = "background: linear-gradient(135deg, {$gradient_start} 0%, {$gradient_end} 100%);";
-            break;
-        case 'image':
-            if (!empty($styling_options['bg_image'])) {
-                $bg_image_url = wp_get_attachment_image_url($styling_options['bg_image'], 'full');
-                $background_style = "background-image: url('{$bg_image_url}'); background-size: cover; background-position: center;";
-            }
-            break;
+// Helper function to get section height
+if (!function_exists('get_mcs_section_height')) {
+    function get_mcs_section_height($section_height, $custom_height) {
+        switch ($section_height) {
+            case 'small': return '60vh';
+            case 'medium': return '80vh';
+            case 'large': return '100vh';
+            case 'custom': return $custom_height . 'px';
+            default: return 'auto';
+        }
     }
 }
+
+// Helper function to get background styles (new fields take priority)
+if (!function_exists('get_mcs_background_styles')) {
+    function get_mcs_background_styles($background_type, $background_color, $gradient_color_1, $gradient_color_2, $gradient_direction, $background_image, $section_height, $custom_height, $styling_options) {
+        $styles = "min-height: " . get_mcs_section_height($section_height, $custom_height) . ";";
+        
+        // Use new background fields if background_type is set
+        if ($background_type === 'gradient') {
+            $styles .= " background: linear-gradient({$gradient_direction}, {$gradient_color_1}, {$gradient_color_2});";
+        } elseif ($background_type === 'image' && $background_image && !empty($background_image['url'])) {
+            $styles .= " background-image: url('{$background_image['url']}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-color: {$background_color};";
+        } elseif ($background_type === 'color') {
+            $styles .= " background-color: {$background_color};";
+        }
+        // Fallback to old styling_options if new fields not used
+        elseif (!empty($styling_options)) {
+            $bg_type = $styling_options['background_type'] ?? 'gradient';
+            
+            switch ($bg_type) {
+                case 'color':
+                    $bg_color = $styling_options['bg_color'] ?? '#c4b5fd';
+                    $styles .= " background-color: {$bg_color};";
+                    break;
+                case 'gradient':
+                    $gradient_start = $styling_options['gradient_start'] ?? '#c4b5fd';
+                    $gradient_end = $styling_options['gradient_end'] ?? '#a78bfa';
+                    $styles .= " background: linear-gradient(135deg, {$gradient_start} 0%, {$gradient_end} 100%);";
+                    break;
+                case 'image':
+                    if (!empty($styling_options['bg_image'])) {
+                        $bg_image_url = wp_get_attachment_image_url($styling_options['bg_image'], 'full');
+                        $styles .= " background-image: url('{$bg_image_url}'); background-size: cover; background-position: center;";
+                    }
+                    break;
+            }
+        }
+        
+        return $styles;
+    }
+}
+
+// Render heading with span
+$render_heading = function() use ($main_heading, $heading_span_text, $heading_color, $heading_span_color) {
+    if (empty($heading_span_text) || trim($heading_span_text) === '') {
+        return '<span style="color: ' . esc_attr($heading_color) . ';">' . esc_html($main_heading) . '</span>';
+    }
+    
+    return '<span style="color: ' . esc_attr($heading_color) . ';">' . esc_html($main_heading) . ' <span style="color: ' . esc_attr($heading_span_color) . ';">' . esc_html($heading_span_text) . '</span></span>';
+};
+
+$processed_heading = $render_heading();
+
+// Build background styles using new function
+$background_style = get_mcs_background_styles($background_type, $background_color, $gradient_color_1, $gradient_color_2, $gradient_direction, $background_image, $section_height, $custom_height, $styling_options);
 
 // Custom CSS variables
 $custom_css = '';
@@ -64,8 +127,10 @@ echo $custom_css;
     <div class="container">
         <!-- Header Section -->
         <div class="mcs-header">
-            <h2 class="mcs-main-heading"><?php echo esc_html($main_heading); ?></h2>
-            <p class="mcs-description"><?php echo esc_html($description); ?></p>
+            <h2 class="mcs-main-heading"><?php echo wp_kses_post($processed_heading); ?></h2>
+            <?php if (!empty($description) && trim($description) !== ''): ?>
+                <p class="mcs-description"><?php echo esc_html($description); ?></p>
+            <?php endif; ?>
             
             <!-- Cloud Platforms -->
             <?php if (!empty($cloud_platforms)): ?>

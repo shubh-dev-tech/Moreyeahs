@@ -211,14 +211,27 @@
     .image-half {
       height: auto;
       min-height: 300px;
+      display: flex !important;
+      width: 100%;
+      
+      .image-container {
+        width: 100%;
+        display: block;
+      }
     }
 
-    /* Reverse layout on mobile - keep content first */
+    /* Reverse layout on mobile - keep content first and ensure image displays */
     &.reverse-layout {
       .full-one-by-two-container {
         grid-template-areas: 
           "content"
-          "image";
+          "image" !important;
+      }
+      
+      .image-half {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
       }
     }
   }

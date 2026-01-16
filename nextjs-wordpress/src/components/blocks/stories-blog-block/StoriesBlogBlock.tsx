@@ -31,16 +31,24 @@ interface Post {
 interface StoriesBlogBlockProps {
   data: {
     heading?: string;
-    subheading?: string;
+    heading_span_text?: string;
     heading_color?: string;
+    heading_span_color?: string;
+    subheading?: string;
     subheading_color?: string;
     card_label?: string;
     post_type?: string;
     category?: string;
     button_text?: string;
     button_url?: string;
+    background_type?: 'color' | 'gradient' | 'image';
     background_color?: string;
+    gradient_color_1?: string;
+    gradient_color_2?: string;
+    gradient_direction?: string;
     background_image?: string;
+    section_height?: string;
+    custom_height?: number;
   };
 }
 
@@ -52,16 +60,24 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
       if (element) {
         return {
           heading: element.getAttribute('data-heading') || 'Success Stories',
-          subheading: element.getAttribute('data-subheading') || 'Your partner through complexities of Agile and DevOps transformation',
+          heading_span_text: element.getAttribute('data-heading-span-text') || '',
           heading_color: element.getAttribute('data-heading-color') || '#ffffff',
+          heading_span_color: element.getAttribute('data-heading-span-color') || '#ffd700',
+          subheading: element.getAttribute('data-subheading') || 'Your partner through complexities of Agile and DevOps transformation',
           subheading_color: element.getAttribute('data-subheading-color') || '#ffffff',
           card_label: element.getAttribute('data-card-label') || '',
           post_type: element.getAttribute('data-post-type') || 'post',
           category: element.getAttribute('data-category') || '',
           button_text: element.getAttribute('data-button-text') || 'Show More',
           button_url: element.getAttribute('data-button-url') || '#',
+          background_type: (element.getAttribute('data-background-type') as 'color' | 'gradient' | 'image') || 'color',
           background_color: element.getAttribute('data-background-color') || '#4a148c',
-          background_image: element.getAttribute('data-background-image') || ''
+          gradient_color_1: element.getAttribute('data-gradient-color-1') || '#4a148c',
+          gradient_color_2: element.getAttribute('data-gradient-color-2') || '#7b1fa2',
+          gradient_direction: element.getAttribute('data-gradient-direction') || 'to bottom right',
+          background_image: element.getAttribute('data-background-image') || '',
+          section_height: element.getAttribute('data-section-height') || 'auto',
+          custom_height: parseInt(element.getAttribute('data-custom-height') || '600')
         };
       }
     }
@@ -72,16 +88,24 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
   
   const {
     heading = 'Success Stories',
-    subheading = 'Your partner through complexities of Agile and DevOps transformation',
+    heading_span_text = '',
     heading_color = '#ffffff',
+    heading_span_color = '#ffd700',
+    subheading = 'Your partner through complexities of Agile and DevOps transformation',
     subheading_color = '#ffffff',
     card_label = '',
     post_type = 'post',
     category = '',
     button_text = 'Show More',
     button_url = '#',
+    background_type = 'color',
     background_color = '#4a148c',
-    background_image = ''
+    gradient_color_1 = '#4a148c',
+    gradient_color_2 = '#7b1fa2',
+    gradient_direction = 'to bottom right',
+    background_image = '',
+    section_height = 'auto',
+    custom_height = 600
   } = elementData || data || {};
 
   const [posts, setPosts] = useState<Post[]>([]);
@@ -260,6 +284,59 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
     fetchPosts();
   }, [post_type, category]);
 
+  // Helper function to get section height
+  const getSectionHeight = () => {
+    switch (section_height) {
+      case 'small':
+        return '60vh';
+      case 'medium':
+        return '80vh';
+      case 'large':
+        return '100vh';
+      case 'custom':
+        return `${custom_height}px`;
+      default:
+        return 'auto';
+    }
+  };
+
+  // Helper function to get background styles
+  const getBackgroundStyles = (): React.CSSProperties => {
+    const styles: React.CSSProperties = {
+      minHeight: getSectionHeight()
+    };
+
+    if (background_type === 'gradient') {
+      styles.background = `linear-gradient(${gradient_direction}, ${gradient_color_1}, ${gradient_color_2})`;
+    } else if (background_type === 'image' && background_image) {
+      styles.backgroundImage = `url(${background_image})`;
+      styles.backgroundSize = 'cover';
+      styles.backgroundPosition = 'center';
+      styles.backgroundRepeat = 'no-repeat';
+      styles.backgroundColor = background_color;
+    } else {
+      styles.backgroundColor = background_color;
+    }
+
+    return styles;
+  };
+
+  // Helper function to render heading with span
+  const renderHeading = () => {
+    if (!heading_span_text || heading_span_text.trim() === '') {
+      return heading;
+    }
+    
+    return (
+      <>
+        {heading}{' '}
+        <span style={{ color: heading_span_color }}>
+          {heading_span_text}
+        </span>
+      </>
+    );
+  };
+
   const getPostTypeLabel = () => {
     // If custom card label is provided, use it
     if (card_label && card_label.trim()) {
@@ -330,19 +407,8 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
     return post.link;
   };
 
-  // Create background styles
-  const backgroundStyles: React.CSSProperties = {
-    backgroundColor: background_color,
-    ...(background_image && {
-      backgroundImage: `url(${background_image})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat'
-    })
-  };
-
   return (
-    <section className="stories-blog-block" style={backgroundStyles}>
+    <section className="stories-blog-block" style={getBackgroundStyles()}>
       <div className="stories-blog-block__container">
         {/* Header Section */}
         <div className="stories-blog-block__header">
@@ -350,7 +416,7 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
             className="stories-blog-block__heading"
             style={{ color: heading_color }}
           >
-            {heading}
+            {renderHeading()}
           </h2>
           <p 
             className="stories-blog-block__subheading"

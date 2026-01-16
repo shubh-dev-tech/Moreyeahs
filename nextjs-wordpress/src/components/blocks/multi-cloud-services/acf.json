@@ -10,11 +10,108 @@
       "default_value": "Delivering Seamless Services Across Multi-Cloud Platforms"
     },
     {
+      "key": "field_mcs_heading_span_text",
+      "label": "Heading Span Text",
+      "name": "heading_span_text",
+      "type": "text",
+      "default_value": ""
+    },
+    {
+      "key": "field_mcs_heading_color",
+      "label": "Heading Color",
+      "name": "heading_color",
+      "type": "color_picker",
+      "default_value": "#1f2937"
+    },
+    {
+      "key": "field_mcs_heading_span_color",
+      "label": "Heading Span Color",
+      "name": "heading_span_color",
+      "type": "color_picker",
+      "default_value": "#6366f1"
+    },
+    {
+      "key": "field_mcs_background_type",
+      "label": "Background Type",
+      "name": "background_type",
+      "type": "select",
+      "choices": {
+        "color": "Solid Color",
+        "gradient": "Gradient",
+        "image": "Image"
+      },
+      "default_value": "gradient"
+    },
+    {
+      "key": "field_mcs_background_color",
+      "label": "Background Color",
+      "name": "background_color",
+      "type": "color_picker",
+      "default_value": "#f9fafb"
+    },
+    {
+      "key": "field_mcs_gradient_color_1",
+      "label": "Gradient Color 1",
+      "name": "gradient_color_1",
+      "type": "color_picker",
+      "default_value": "#f9fafb"
+    },
+    {
+      "key": "field_mcs_gradient_color_2",
+      "label": "Gradient Color 2",
+      "name": "gradient_color_2",
+      "type": "color_picker",
+      "default_value": "#e0e7ff"
+    },
+    {
+      "key": "field_mcs_gradient_direction",
+      "label": "Gradient Direction",
+      "name": "gradient_direction",
+      "type": "select",
+      "choices": {
+        "to right": "Left to Right",
+        "to left": "Right to Left",
+        "to bottom": "Top to Bottom",
+        "to top": "Bottom to Top",
+        "to bottom right": "Top Left to Bottom Right",
+        "to bottom left": "Top Right to Bottom Left"
+      },
+      "default_value": "to bottom right"
+    },
+    {
+      "key": "field_mcs_background_image",
+      "label": "Background Image",
+      "name": "background_image",
+      "type": "image",
+      "return_format": "array"
+    },
+    {
+      "key": "field_mcs_section_height",
+      "label": "Section Height",
+      "name": "section_height",
+      "type": "select",
+      "choices": {
+        "auto": "Auto Height",
+        "small": "Small (60vh)",
+        "medium": "Medium (80vh)",
+        "large": "Large (100vh)",
+        "custom": "Custom Height"
+      },
+      "default_value": "auto"
+    },
+    {
+      "key": "field_mcs_custom_height",
+      "label": "Custom Height (px)",
+      "name": "custom_height",
+      "type": "number",
+      "default_value": 600
+    },
+    {
       "key": "field_mcs_description",
       "label": "Description",
       "name": "description",
       "type": "textarea",
-      "default_value": "We enable enterprises to design, deploy, and manage secure, scalable, and high-performance solutions across leading cloud providers."
+      "default_value": ""
     },
     {
       "key": "field_mcs_cloud_platforms",

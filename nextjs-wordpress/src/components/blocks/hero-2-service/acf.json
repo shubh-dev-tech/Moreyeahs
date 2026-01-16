@@ -11,6 +11,22 @@
       "placeholder": "Enter main title"
     },
     {
+      "key": "field_hero2_title_span_text",
+      "label": "Title Span Text",
+      "name": "title_span_text",
+      "type": "text",
+      "instructions": "Optional: Additional text to display after the title in a different color (e.g., 'Engineering?')",
+      "placeholder": "Enter span text"
+    },
+    {
+      "key": "field_hero2_title_span_color",
+      "label": "Title Span Color",
+      "name": "title_span_color",
+      "type": "color_picker",
+      "default_value": "#6366f1",
+      "instructions": "Choose the color for the span text"
+    },
+    {
       "key": "field_hero2_subtitle",
       "label": "Subtitle",
       "name": "subtitle",
