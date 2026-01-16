@@ -8,6 +8,7 @@ import { transformMediaUrl } from '@/lib/wpFetch';
 export interface MegaMenuItem {
   title: string;
   url: string;
+  items?: MegaMenuItem[]; // Support nested items
 }
 
 export interface MegaMenuCategory {
@@ -110,13 +111,25 @@ export default function MegaMenu({ trigger, menuData }: MegaMenuProps) {
               {activeCategory !== null && menuData.categories[activeCategory] && (
                 <div className="mega-menu-items-grid">
                   {menuData.categories[activeCategory].items.map((item, index) => (
-                    <Link
-                      key={index}
-                      href={item.url}
-                      className="mega-menu-item"
-                    >
-                      {item.title}
-                    </Link>
+                    <div key={index} className="mega-menu-item-wrapper">
+                      <Link
+                        href={item.url}
+                        className="mega-menu-item"
+                      >
+                        {item.title}
+                      </Link>
+                      {item.items && item.items.length > 0 && (
+                        <ul className="mega-menu-subitems">
+                          {item.items.map((subItem, subIndex) => (
+                            <li key={subIndex}>
+                              <Link href={subItem.url} className="mega-menu-subitem">
+                                {subItem.title}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
                   ))}
                 </div>
               )}

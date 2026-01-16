@@ -1,0 +1,203 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import './styles.scss';
+
+interface Step {
+  label?: string;
+  section_id?: string;
+  point_text?: string;
+  [key: string]: any;
+}
+
+interface NewStepperProps {
+  data?: {
+    steps?: (Step | string)[];
+    [key: string]: any;
+  };
+  steps?: (Step | string)[];
+  [key: string]: any;
+}
+
+const NewStepper: React.FC<NewStepperProps> = (props) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const { data } = props || {};
+
+  // Extract steps - following the Full One by Two Section pattern
+  const rawSteps = props?.steps || data?.steps || [];
+  
+  // Handle WordPress ACF data - convert false to empty array
+  const safeSteps = React.useMemo(() => {
+    let steps: { label: string; section_id: string }[] = [];
+    
+    // If steps is a number, it might be the count - try to get the actual data from a different property
+    if (typeof rawSteps === 'number' && rawSteps > 0) {
+      // Check if there are individual step properties in the data object
+      const stepsFromData: { label: string; section_id: string }[] = [];
+      
+      for (let i = 0; i < rawSteps; i++) {
+        let foundStep: { label: string; section_id: string } | null = null;
+        
+        // Try various key patterns
+        const keysToTry = [
+          `steps_${i}_label`,
+          `steps_${i}`,
+          `step_${i}`,
+          `label_${i}`
+        ];
+        
+        for (const key of keysToTry) {
+          if (data && data[key]) {
+            foundStep = {
+              label: data[key],
+              section_id: data[`steps_${i}_section_id`] || data[`section_id_${i}`] || ''
+            };
+            break;
+          }
+        }
+        
+        if (foundStep && foundStep.label) {
+          stepsFromData.push(foundStep);
+        }
+      }
+      
+      if (stepsFromData.length > 0) {
+        steps = stepsFromData;
+      }
+    } else if (rawSteps && Array.isArray(rawSteps)) {
+      const mappedSteps = rawSteps
+        .map(step => {
+          // Handle both string arrays and object arrays
+          if (typeof step === 'string') {
+            return { label: step.trim(), section_id: '' };
+          }
+          if (typeof step === 'object' && step) {
+            const label = step.label || step.point_text || '';
+            const section_id = step.section_id || step.section_html_anchor || step.sectionId || '';
+            if (label && section_id) {
+              return { label, section_id };
+            }
+          }
+          return null;
+        })
+        .filter((step): step is { label: string; section_id: string } => 
+          step !== null && step.label !== '' && step.section_id !== ''
+        );
+      
+      steps = mappedSteps;
+    }
+    
+    return steps;
+  }, [rawSteps, data]);
+
+  // Debug logging - following Full One by Two Section pattern
+  useEffect(() => {
+    console.log('[NewStepper] === DEBUG INFO ===');
+    console.log('[NewStepper] All props:', props);
+    console.log('[NewStepper] props.data:', data);
+    console.log('[NewStepper] props.steps:', props?.steps);
+    console.log('[NewStepper] data?.steps:', data?.steps);
+    console.log('[NewStepper] rawSteps:', rawSteps);
+    console.log('[NewStepper] safeSteps:', safeSteps);
+    console.log('[NewStepper] Steps count:', safeSteps.length);
+    
+    // Debug: List all sections on the page
+    const allSections = document.querySelectorAll('section[id]');
+    console.log('[NewStepper] === AVAILABLE SECTIONS ON PAGE ===');
+    allSections.forEach(section => {
+      console.log(`  - ID: "${section.id}"`);
+    });
+    console.log('[NewStepper] === STEPPER IS LOOKING FOR ===');
+    safeSteps.forEach((step, i) => {
+      const exists = document.getElementById(step.section_id);
+      console.log(`  - Step ${i + 1}: "${step.label}" → section_id: "${step.section_id}" ${exists ? '✓ FOUND' : '✗ NOT FOUND'}`);
+    });
+  }, [props, data, rawSteps, safeSteps]);
+
+  // Scroll tracking
+  useEffect(() => {
+    if (safeSteps.length === 0) return;
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 200;
+      
+      console.log('[NewStepper] Scroll event fired');
+      console.log('[NewStepper] Current scroll position:', scrollPosition);
+
+      // Find which section is currently in view
+      for (let i = safeSteps.length - 1; i >= 0; i--) {
+        const section = document.getElementById(safeSteps[i].section_id);
+        if (section) {
+          console.log(`[NewStepper] Checking section "${safeSteps[i].section_id}": offsetTop=${section.offsetTop}, inView=${section.offsetTop <= scrollPosition}`);
+          if (section.offsetTop <= scrollPosition) {
+            console.log(`[NewStepper] Setting active index to ${i} (${safeSteps[i].label})`);
+            setActiveIndex(i);
+            break;
+          }
+        } else {
+          console.warn(`[NewStepper] Section "${safeSteps[i].section_id}" not found in DOM`);
+        }
+      }
+    };
+
+    console.log('[NewStepper] Adding scroll event listener');
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial position
+
+    return () => {
+      console.log('[NewStepper] Removing scroll event listener');
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [safeSteps]);
+
+  // Don't render if no valid steps - following Full One by Two Section pattern
+  if (!props || safeSteps.length === 0) {
+    if (!props) {
+      console.warn('[NewStepper] No props provided');
+    } else {
+      console.warn('[NewStepper] Not rendering - no valid steps found');
+      console.warn('[NewStepper] Props received:', props);
+      console.warn('[NewStepper] Data received:', data);
+    }
+    return null;
+  }
+
+  const handleClick = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <nav className="new-stepper">
+      <div className="new-stepper__title">Welcome to<br /><b>More</b>Yeahs</div>
+      <ul className="new-stepper__list">
+        {safeSteps.map((step, index) => (
+          <li 
+            key={index}
+            className={`new-stepper__item ${activeIndex === index ? 'new-stepper__item--active' : ''}`}
+            data-section={step.section_id}
+          >
+            <a 
+              href={`#${step.section_id}`}
+              className="new-stepper__link"
+              onClick={(e) => {
+                e.preventDefault();
+                handleClick(step.section_id);
+              }}
+            >
+              <div className="new-stepper__line"></div>
+              <div className="new-stepper__label">
+                {step.label}
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+export default NewStepper;

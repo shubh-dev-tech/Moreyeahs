@@ -180,7 +180,7 @@ function get_menu_by_location_rest($request) {
 }
 
 /**
- * Format menu items with hierarchy
+ * Format menu items with hierarchy (supports unlimited nesting levels)
  */
 function get_menu_items_formatted($menu_id) {
     $items = wp_get_nav_menu_items($menu_id);
@@ -189,13 +189,10 @@ function get_menu_items_formatted($menu_id) {
         return [];
     }
 
-    // Build a hierarchical structure
-    $menu_items = [];
-    $child_items = [];
-
-    // First pass: separate parents and children
+    // Build a flat array indexed by ID
+    $indexed_items = [];
     foreach ($items as $item) {
-        $menu_item = [
+        $indexed_items[$item->ID] = [
             'id' => $item->ID,
             'title' => $item->title,
             'url' => $item->url,
@@ -204,20 +201,25 @@ function get_menu_items_formatted($menu_id) {
             'parent' => $item->menu_item_parent,
             'children' => []
         ];
+    }
 
-        if ($item->menu_item_parent == 0) {
-            $menu_items[$item->ID] = $menu_item;
+    // Build the hierarchical structure recursively
+    $menu_items = [];
+    foreach ($indexed_items as $id => $item) {
+        if ($item['parent'] == 0) {
+            // Top-level item
+            $menu_items[$id] = $item;
         } else {
-            $child_items[$item->ID] = $menu_item;
+            // Child item - attach to parent
+            if (isset($indexed_items[$item['parent']])) {
+                $indexed_items[$item['parent']]['children'][] = &$indexed_items[$id];
+            }
         }
     }
 
-    // Second pass: attach children to parents
-    foreach ($child_items as $child_id => $child) {
-        $parent_id = $child['parent'];
-        if (isset($menu_items[$parent_id])) {
-            $menu_items[$parent_id]['children'][] = $child;
-        }
+    // Update the top-level items with their nested children
+    foreach ($menu_items as $id => $item) {
+        $menu_items[$id] = $indexed_items[$id];
     }
 
     return array_values($menu_items);

@@ -1,0 +1,248 @@
+// Flash animation keyframes
+@keyframes flash-gradient {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    filter: brightness(1) drop-shadow(0 0 3px currentColor);
+  }
+  50% {
+    filter: brightness(1.4) drop-shadow(0 0 10px currentColor);
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.new-stepper {
+  position: fixed;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  padding: 20px 0;
+
+  &__title {
+    color: #1a1a1a;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 30px;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    
+    // Dark mode support
+    @media (prefers-color-scheme: dark) {
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  &__item {
+    position: relative;
+    margin-bottom: 40px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    // Active state with gradient and flash effect
+    &--active {
+      .new-stepper__line {
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(90deg, #00d4ff 0%, #0099ff 50%, #00d4ff 100%);
+        background-size: 200% 100%;
+        animation: 
+          flash-gradient 2s ease-in-out infinite,
+          pulse-glow 2s ease-in-out infinite,
+          gradient-shift 3s ease-in-out infinite;
+        box-shadow: 
+          0 0 15px rgba(0, 212, 255, 0.6),
+          0 0 30px rgba(0, 212, 255, 0.3);
+        opacity: 1;
+        
+        // Dark mode - brighter gradient
+        @media (prefers-color-scheme: dark) {
+          background: linear-gradient(90deg, #00ffff 0%, #00ccff 50%, #00ffff 100%);
+          box-shadow: 
+            0 0 20px rgba(0, 255, 255, 0.7),
+            0 0 40px rgba(0, 255, 255, 0.4);
+        }
+      }
+
+      .new-stepper__label {
+        opacity: 1;
+        visibility: visible;
+        color: #00a8cc;
+        font-weight: 600;
+        text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        
+        // Dark mode
+        @media (prefers-color-scheme: dark) {
+          color: #00ffff;
+          text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+      }
+    }
+
+    // Hover state for non-active items
+    &:hover:not(&--active) {
+      .new-stepper__line {
+        width: 70px;
+        background: linear-gradient(90deg, #00d4ff, #0099ff);
+        opacity: 1;
+        box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+        
+        // Dark mode
+        @media (prefers-color-scheme: dark) {
+          background: linear-gradient(90deg, #00ffff, #00ccff);
+          box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+        }
+      }
+
+      .new-stepper__label {
+        opacity: 0.8;
+        visibility: visible;
+        color: #00a8cc;
+        
+        // Dark mode
+        @media (prefers-color-scheme: dark) {
+          color: #00ccff;
+        }
+      }
+    }
+  }
+
+  &__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+  }
+
+  &__line {
+    height: 3px;
+    width: 40px;
+    background: linear-gradient(90deg, #4a4a4a, #2a2a2a);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: 8px;
+    border-radius: 2px;
+    position: relative;
+    opacity: 1;
+    
+    // Dark mode - lighter inactive lines
+    @media (prefers-color-scheme: dark) {
+      background: linear-gradient(90deg, #b0b0b0, #888888);
+    }
+  }
+
+  &__label {
+    color: #4a4a4a;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.3;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding-left: 0;
+    
+    // Dark mode
+    @media (prefers-color-scheme: dark) {
+      color: #b0b0b0;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .new-stepper {
+    display: none;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .new-stepper {
+    left: 20px;
+
+    &__title {
+      font-size: 18px;
+    }
+
+    &__item--active {
+      .new-stepper__line {
+        width: 80px;
+      }
+    }
+
+    &__label {
+      font-size: 14px;
+    }
+  }
+}
+
+// Additional dark mode class support (if using class-based dark mode)
+.dark {
+  .new-stepper {
+    &__title {
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    &__line {
+      background: linear-gradient(90deg, #b0b0b0, #888888);
+    }
+
+    &__label {
+      color: #b0b0b0;
+    }
+
+    &__item--active {
+      .new-stepper__line {
+        background: linear-gradient(90deg, #00ffff 0%, #00ccff 50%, #00ffff 100%);
+        box-shadow: 
+          0 0 20px rgba(0, 255, 255, 0.7),
+          0 0 40px rgba(0, 255, 255, 0.4);
+        opacity: 1;
+      }
+
+      .new-stepper__label {
+        color: #00ffff;
+        text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+      }
+    }
+
+    &__item:hover:not(&__item--active) {
+      .new-stepper__line {
+        background: linear-gradient(90deg, #00ffff, #00ccff);
+        box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+      }
+      
+      .new-stepper__label {
+        color: #00ccff;
+      }
+    }
+  }
+}

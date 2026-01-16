@@ -61,7 +61,7 @@ export default async function SalesforceServicesPage() {
         <div className="hero-section mb-12">
           <h1 className="text-4xl font-bold mb-6">Salesforce Services</h1>
           <p className="text-xl text-gray-600 mb-8">
-            Transform your customer relationships with the world's #1 CRM platform. 
+            Transform your customer relationships with the world&apos;s #1 CRM platform. 
             We deliver end-to-end Salesforce solutions that drive growth and customer success.
           </p>
         </div>
@@ -219,7 +219,7 @@ export default async function SalesforceServicesPage() {
         <div className="cta-section text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Unlock the Power of Salesforce?</h2>
           <p className="text-xl text-gray-600 mb-8">
-            Let's discuss how Salesforce can transform your customer relationships and drive growth.
+            Let&apos;s discuss how Salesforce can transform your customer relationships and drive growth.
           </p>
           <a 
             href="/contact" 

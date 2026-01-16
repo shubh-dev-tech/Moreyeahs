@@ -54,30 +54,31 @@ $block_id = 'fits-together-' . $block['id'];
                 $is_last = ($index === count($steps) - 1);
             ?>
             <div class="fits-together-step">
-                <div class="step-content">
+                <div class="fits-step-card">
                     <?php if (!empty($step['icon'])): ?>
-                    <div class="step-icon">
+                    <div class="fits-step-icon">
                         <img src="<?php echo esc_url($step['icon']['url']); ?>" 
-                             alt="<?php echo esc_attr($step['icon']['alt']); ?>" />
+                             alt="<?php echo esc_attr($step['icon']['alt']); ?>"
+                             class="fits-step-icon-image" />
                     </div>
                     <?php endif; ?>
                     
-                    <div class="step-info">
-                        <div class="step-number" style="color: <?php echo esc_attr($step['step_number_color'] ?: '#0EA5E9'); ?>">
+                    <div class="fits-step-info">
+                        <div class="fits-step-number" style="color: <?php echo esc_attr($step['step_number_color'] ?: '#0EA5E9'); ?>">
                             <?php echo esc_html($step['step_number']); ?>
                         </div>
-                        <h3 class="step-title" style="color: <?php echo esc_attr($step['title_color'] ?: '#1F2937'); ?>">
+                        <h3 class="fits-step-title" style="color: <?php echo esc_attr($step['title_color'] ?: '#1F2937'); ?>">
                             <?php echo esc_html($step['title']); ?>
                         </h3>
-                        <p class="step-subtitle" style="color: <?php echo esc_attr($step['subtitle_color'] ?: '#6B7280'); ?>">
+                        <p class="fits-step-subtitle" style="color: <?php echo esc_attr($step['subtitle_color'] ?: '#6B7280'); ?>">
                             <?php echo esc_html($step['subtitle']); ?>
                         </p>
                     </div>
                 </div>
                 
                 <?php if (!$is_last): ?>
-                <div class="step-arrow">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div class="fits-step-arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="step-arrow-icon">
                         <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>

@@ -197,7 +197,7 @@ export default async function MicrosoftDynamics365Page() {
         <div className="cta-section text-center bg-gray-50 p-12 rounded-lg">
           <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Business Operations?</h2>
           <p className="text-xl text-gray-600 mb-8">
-            Let's discuss how Dynamics 365 can streamline your workflows and drive growth.
+            Let&apos;s discuss how Dynamics 365 can streamline your workflows and drive growth.
           </p>
           <a 
             href="/contact" 
