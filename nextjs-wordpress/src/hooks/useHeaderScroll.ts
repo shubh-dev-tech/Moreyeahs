@@ -5,10 +5,9 @@ export function useHeaderScroll() {
   const ticking = useRef(false);
 
   useEffect(() => {
-    const header = document.querySelector('.header');
-    const headerMenu = document.querySelector('.header__menu') as HTMLElement;
+    const header = document.querySelector('.header') as HTMLElement;
     
-    if (!header || !headerMenu) return;
+    if (!header) return;
 
     function updateHeader() {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -22,15 +21,15 @@ export function useHeaderScroll() {
 
       if (scrollTop > 100) { // Start hiding after 100px scroll
         if (scrollDelta > 0) {
-          // Scrolling down - hide menu
-          headerMenu.classList.add('header__menu--hidden');
+          // Scrolling down - hide entire header
+          header.classList.add('header--hidden');
         } else {
-          // Scrolling up - show menu
-          headerMenu.classList.remove('header__menu--hidden');
+          // Scrolling up - show entire header
+          header.classList.remove('header--hidden');
         }
       } else {
-        // At top - always show menu
-        headerMenu.classList.remove('header__menu--hidden');
+        // At top - always show header
+        header.classList.remove('header--hidden');
       }
 
       lastScrollTop.current = scrollTop <= 0 ? 0 : scrollTop;

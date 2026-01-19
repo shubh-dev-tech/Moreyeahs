@@ -57,6 +57,8 @@
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      background: #ffffff;
+
     }
 
     &.clickable {
@@ -79,7 +81,7 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #007acc, #00a8e6);
+      // background: linear-gradient(90deg, #007acc, #00a8e6);
       opacity: 0;
       transition: opacity 0.3s ease;
     }

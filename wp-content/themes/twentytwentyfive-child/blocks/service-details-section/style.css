@@ -137,7 +137,7 @@
 
 .service-description li:before {
     content: "•";
-    color: #007cba;
+    color: #797979;
     font-weight: bold;
     position: absolute;
     left: 0;
