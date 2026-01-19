@@ -380,14 +380,6 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
             <div className="mcs-credentials-column">
               <div 
                 className="mcs-credentials-card" 
-                style={{ 
-                  backgroundColor: credentials_section.bg_color || '#6366f1',
-                  borderColor: credentials_section.border_color || '#4f46e5',
-                  borderWidth: '2px',
-                  borderStyle: 'solid',
-                  color: credentials_section.text_color || '#ffffff',
-                  ...getArrowColorVariable(credentials_section.arrow_color)
-                }}
               >
                 <div className="credentials-header">
                   {getImageUrl(credentials_section.credential_image) && (

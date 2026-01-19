@@ -21,6 +21,7 @@ interface NewStepperProps {
 
 const NewStepper: React.FC<NewStepperProps> = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isDarkBackground, setIsDarkBackground] = useState(false);
 
   const { data } = props || {};
 
@@ -91,6 +92,49 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
     return steps;
   }, [rawSteps, data]);
 
+  // Function to detect if background is dark - using the same method as header
+  const checkBackgroundColor = () => {
+    if (safeSteps.length === 0) return;
+
+    // Get the stepper element
+    const stepperElement = document.querySelector('.new-stepper') as HTMLElement;
+    if (!stepperElement) return;
+
+    const stepperRect = stepperElement.getBoundingClientRect();
+    const centerX = stepperRect.left + stepperRect.width / 2;
+    const centerY = stepperRect.top + stepperRect.height / 2;
+
+    // Temporarily hide stepper to check what's behind it
+    stepperElement.style.pointerEvents = 'none';
+    const elementBehind = document.elementFromPoint(centerX, centerY);
+    stepperElement.style.pointerEvents = '';
+
+    if (elementBehind) {
+      const bgColor = window.getComputedStyle(elementBehind).backgroundColor;
+      
+      console.log(`[NewStepper] Element behind stepper:`, elementBehind);
+      console.log(`[NewStepper] Background color:`, bgColor);
+      
+      // Parse RGB values
+      const rgb = bgColor.match(/\d+/g);
+      if (rgb && rgb.length >= 3) {
+        const r = parseInt(rgb[0]);
+        const g = parseInt(rgb[1]);
+        const b = parseInt(rgb[2]);
+        
+        // Calculate relative luminance
+        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        
+        console.log(`[NewStepper] RGB: ${r}, ${g}, ${b} - Luminance: ${luminance}`);
+        
+        // If background is dark (luminance < 0.5), use light text
+        const isDark = luminance < 0.5;
+        console.log(`[NewStepper] Background is ${isDark ? 'DARK' : 'LIGHT'}`);
+        setIsDarkBackground(isDark);
+      }
+    }
+  };
+
   // Debug logging - following Full One by Two Section pattern
   useEffect(() => {
     console.log('[NewStepper] === DEBUG INFO ===');
@@ -115,7 +159,7 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
     });
   }, [props, data, rawSteps, safeSteps]);
 
-  // Scroll tracking
+  // Scroll tracking with background detection - using header's method
   useEffect(() => {
     if (safeSteps.length === 0) return;
 
@@ -139,15 +183,22 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
           console.warn(`[NewStepper] Section "${safeSteps[i].section_id}" not found in DOM`);
         }
       }
+      
+      // Check background color after scroll
+      checkBackgroundColor();
     };
 
     console.log('[NewStepper] Adding scroll event listener');
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check initial position
+    window.addEventListener('resize', checkBackgroundColor);
+    
+    // Check initial position and background
+    handleScroll();
 
     return () => {
       console.log('[NewStepper] Removing scroll event listener');
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', checkBackgroundColor);
     };
   }, [safeSteps]);
 
@@ -171,7 +222,7 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
   };
 
   return (
-    <nav className="new-stepper">
+    <nav className={`new-stepper ${isDarkBackground ? 'new-stepper--dark' : ''}`}>
       <div className="new-stepper__title">Welcome to<br /><b>More</b>Yeahs</div>
       <ul className="new-stepper__list">
         {safeSteps.map((step, index) => (

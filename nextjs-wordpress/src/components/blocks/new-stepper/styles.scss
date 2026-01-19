@@ -34,20 +34,40 @@
   z-index: 100;
   padding: 20px 0;
 
+  // Default: dark colors for light backgrounds
+  --stepper-text-color: #1a1a1a;
+  --stepper-text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --stepper-line-color-start: #1a1a1a;
+  --stepper-line-color-mid: #4a4a4a;
+  --stepper-line-color-end: #1a1a1a;
+  --stepper-glow-color: rgba(26, 26, 26, 0.6);
+  --stepper-glow-color-light: rgba(26, 26, 26, 0.3);
+  --stepper-inactive-line-start: #4a4a4a;
+  --stepper-inactive-line-end: #2a2a2a;
+  --stepper-inactive-text: #4a4a4a;
+
+  // Light colors for dark backgrounds
+  &.new-stepper--dark {
+    --stepper-text-color: #ffffff !important;
+    --stepper-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+    --stepper-line-color-start: #ffffff !important;
+    --stepper-line-color-mid: #cccccc !important;
+    --stepper-line-color-end: #ffffff !important;
+    --stepper-glow-color: rgba(255, 255, 255, 0.7) !important;
+    --stepper-glow-color-light: rgba(255, 255, 255, 0.4) !important;
+    --stepper-inactive-line-start: #b0b0b0 !important;
+    --stepper-inactive-line-end: #888888 !important;
+    --stepper-inactive-text: #b0b0b0 !important;
+  }
+
   &__title {
-    color: #1a1a1a;
+    color: var(--stepper-text-color);
     font-size: 20px;
     font-weight: 700;
     line-height: 1.3;
     margin-bottom: 30px;
     white-space: nowrap;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    
-    // Dark mode support
-    @media (prefers-color-scheme: dark) {
-      color: #ffffff;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    }
+    text-shadow: var(--stepper-text-shadow);
   }
 
   &__list {
@@ -68,67 +88,42 @@
     // Active state with gradient and flash effect
     &--active {
       .new-stepper__line {
-        width: 100px;
-        height: 4px;
-        background: linear-gradient(90deg, #00d4ff 0%, #0099ff 50%, #00d4ff 100%);
-        background-size: 200% 100%;
+        width: 100px !important;
+        height: 4px !important;
+        background: linear-gradient(90deg, var(--stepper-line-color-start) 0%, var(--stepper-line-color-mid) 50%, var(--stepper-line-color-end) 100%) !important;
+        background-size: 200% 100% !important;
         animation: 
           flash-gradient 2s ease-in-out infinite,
           pulse-glow 2s ease-in-out infinite,
           gradient-shift 3s ease-in-out infinite;
         box-shadow: 
-          0 0 15px rgba(0, 212, 255, 0.6),
-          0 0 30px rgba(0, 212, 255, 0.3);
-        opacity: 1;
-        
-        // Dark mode - brighter gradient
-        @media (prefers-color-scheme: dark) {
-          background: linear-gradient(90deg, #00ffff 0%, #00ccff 50%, #00ffff 100%);
-          box-shadow: 
-            0 0 20px rgba(0, 255, 255, 0.7),
-            0 0 40px rgba(0, 255, 255, 0.4);
-        }
+          0 0 -2 var(--stepper-glow-color),
+          0 0 30px var(--stepper-glow-color-light) !important;
+        opacity: 1 !important;
       }
 
       .new-stepper__label {
-        opacity: 1;
-        visibility: visible;
-        color: #00a8cc;
-        font-weight: 600;
-        text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
-        
-        // Dark mode
-        @media (prefers-color-scheme: dark) {
-          color: #00ffff;
-          text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-        }
+        opacity: 1 !important;
+        visibility: visible !important;
+        color: var(--stepper-text-color) !important;
+        font-weight: 600 !important;
+        text-shadow: var(--stepper-text-shadow) !important;
       }
     }
 
     // Hover state for non-active items
     &:hover:not(&--active) {
       .new-stepper__line {
-        width: 70px;
-        background: linear-gradient(90deg, #00d4ff, #0099ff);
-        opacity: 1;
-        box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
-        
-        // Dark mode
-        @media (prefers-color-scheme: dark) {
-          background: linear-gradient(90deg, #00ffff, #00ccff);
-          box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
-        }
+        width: 70px !important;
+        background: linear-gradient(90deg, var(--stepper-line-color-start), var(--stepper-line-color-mid)) !important;
+        opacity: 1 !important;
+        box-shadow: 0 0 10px var(--stepper-glow-color) !important;
       }
 
       .new-stepper__label {
-        opacity: 0.8;
-        visibility: visible;
-        color: #00a8cc;
-        
-        // Dark mode
-        @media (prefers-color-scheme: dark) {
-          color: #00ccff;
-        }
+        opacity: 0.8 !important;
+        visibility: visible !important;
+        color: var(--stepper-text-color) !important;
       }
     }
   }
@@ -145,21 +140,16 @@
   &__line {
     height: 3px;
     width: 40px;
-    background: linear-gradient(90deg, #4a4a4a, #2a2a2a);
+    background: linear-gradient(90deg, var(--stepper-inactive-line-start), var(--stepper-inactive-line-end));
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     margin-bottom: 8px;
     border-radius: 2px;
     position: relative;
     opacity: 1;
-    
-    // Dark mode - lighter inactive lines
-    @media (prefers-color-scheme: dark) {
-      background: linear-gradient(90deg, #b0b0b0, #888888);
-    }
   }
 
   &__label {
-    color: #4a4a4a;
+    color: var(--stepper-inactive-text);
     font-size: 16px;
     font-weight: 500;
     line-height: 1.3;
@@ -168,11 +158,6 @@
     visibility: hidden;
     transition: all 0.3s ease;
     padding-left: 0;
-    
-    // Dark mode
-    @media (prefers-color-scheme: dark) {
-      color: #b0b0b0;
-    }
   }
 }
 
@@ -203,46 +188,43 @@
   }
 }
 
-// Additional dark mode class support (if using class-based dark mode)
-.dark {
-  .new-stepper {
-    &__title {
-      color: #ffffff;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+// Force dark mode styles with higher specificity
+.new-stepper.new-stepper--dark {
+  .new-stepper__title {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .new-stepper__line {
+    background: linear-gradient(90deg, #b0b0b0, #888888) !important;
+  }
+
+  .new-stepper__label {
+    color: #b0b0b0 !important;
+  }
+
+  .new-stepper__item--active {
+    .new-stepper__line {
+      background: linear-gradient(90deg, #ffffff 0%, #cccccc 50%, #ffffff 100%) !important;
+      box-shadow: 
+        0 0 15px rgba(255, 255, 255, 0.7),
+        0 0 30px rgba(255, 255, 255, 0.4) !important;
     }
 
-    &__line {
-      background: linear-gradient(90deg, #b0b0b0, #888888);
+    .new-stepper__label {
+      color: #ffffff !important;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
     }
+  }
 
-    &__label {
-      color: #b0b0b0;
+  .new-stepper__item:hover:not(.new-stepper__item--active) {
+    .new-stepper__line {
+      background: linear-gradient(90deg, #ffffff, #cccccc) !important;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.7) !important;
     }
-
-    &__item--active {
-      .new-stepper__line {
-        background: linear-gradient(90deg, #00ffff 0%, #00ccff 50%, #00ffff 100%);
-        box-shadow: 
-          0 0 20px rgba(0, 255, 255, 0.7),
-          0 0 40px rgba(0, 255, 255, 0.4);
-        opacity: 1;
-      }
-
-      .new-stepper__label {
-        color: #00ffff;
-        text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-      }
-    }
-
-    &__item:hover:not(&__item--active) {
-      .new-stepper__line {
-        background: linear-gradient(90deg, #00ffff, #00ccff);
-        box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
-      }
-      
-      .new-stepper__label {
-        color: #00ccff;
-      }
+    
+    .new-stepper__label {
+      color: #cccccc !important;
     }
   }
 }
