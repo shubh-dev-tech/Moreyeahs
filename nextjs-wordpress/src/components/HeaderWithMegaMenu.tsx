@@ -37,13 +37,23 @@ function MenuItems({ items, megaMenuMap, disableMegaMenu = false }: { items: Men
               <MegaMenu trigger={item.title} menuData={hasMegaMenu} />
             ) : (
               <>
-                <Link 
-                  href={wpUrlToPath(item.url)} 
-                  target={item.target}
-                  className={item.classes}
-                >
-                  {item.title}
-                </Link>
+                {wpUrlToPath(item.url).startsWith('#') ? (
+                  <a 
+                    href={wpUrlToPath(item.url)} 
+                    target={item.target}
+                    className={item.classes}
+                  >
+                    {item.title}
+                  </a>
+                ) : (
+                  <Link 
+                    href={wpUrlToPath(item.url)} 
+                    target={item.target}
+                    className={item.classes}
+                  >
+                    {item.title}
+                  </Link>
+                )}
                 
                 {hasChildren && (
                   <ul className="header__submenu">

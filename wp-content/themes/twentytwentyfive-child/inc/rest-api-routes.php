@@ -553,8 +553,17 @@ function twentytwentyfive_child_categories_data_callback($request) {
 }
 
 function twentytwentyfive_child_footer_settings_callback($request) {
-    // Implementation in functions.php - to be migrated
-    return new WP_Error('not_implemented', 'This endpoint is still in functions.php', ['status' => 501]);
+    // Check if footer settings function exists
+    if (!function_exists('get_footer_settings_data')) {
+        return new WP_Error('function_not_found', 'Footer settings function not found', ['status' => 500]);
+    }
+    
+    try {
+        $footer_data = get_footer_settings_data();
+        return rest_ensure_response($footer_data);
+    } catch (Exception $e) {
+        return new WP_Error('footer_settings_error', 'Error retrieving footer settings: ' . $e->getMessage(), ['status' => 500]);
+    }
 }
 
 function twentytwentyfive_child_test_services_data_callback($request) {

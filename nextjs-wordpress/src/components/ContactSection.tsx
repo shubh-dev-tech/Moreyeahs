@@ -121,7 +121,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
                   value={formData.message}
                   onChange={handleInputChange}
                   required
-                  rows={4}
+                  rows={2}
                   className="form-textarea"
                 />
               </div>

@@ -62,10 +62,10 @@ STEP 3: Verify WordPress Frontend
 STEP 4: Test REST API
 ---------------------
 1. Open browser and go to:
-   http://localhost/wp-json/wp/v2/case-studies
+   http://localhost/wp-json/wp/v2/case_study
 2. Should see JSON array of case studies
 3. Test single:
-   http://localhost/wp-json/wp/v2/case-studies/[your-slug]
+   http://localhost/wp-json/wp/v2/case_study?slug=[your-slug]
 
 STEP 5: Next.js Setup
 ---------------------

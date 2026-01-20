@@ -16,7 +16,7 @@
   // backdrop-filter: blur(10px);
   // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transform: translateY(0);
-  background: #000000c2;
+  background: #FFFFFFCC;
   opacity: 1;
   @include transition(transform var(--header-animation-duration, 0.3s) ease, opacity var(--header-animation-duration, 0.3s) ease);
 
@@ -47,10 +47,10 @@
   &__logo {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #ffffff;
+    color: #000;
     letter-spacing: -0.5px;
     @include transition(color 0.2s ease);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
 
@@ -103,15 +103,16 @@
     }
 
     a {
-      color: #ffffff;
+      color: #000000;
       padding: 0.75rem 0;
       display: block;
+          font-weight: 700;
       position: relative;
       @include transition(color 0.2s ease);
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 
       &:hover {
-        color: #6391C6;
+        color: #000000;
         opacity: 1;
         font-weight: 700;
       }
@@ -127,7 +128,7 @@
         left: 0;
         width: 0;
         height: 2px;
-        background-color: #6391C6;
+        background-color: #000000;
         @include transition(width 0.3s ease);
       }
 
@@ -158,13 +159,14 @@
     position: absolute;
     top: calc(100% + 0.5rem);
     left: 0;
-    background-color: #6391C6;
+    background-color: #FFFFFFCC;
     border: 1px solid $color-border;
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     min-width: 250px;
     list-style: none;
     padding: 0.75rem 0;
+    font-weight: 700;
     margin: 0;
     opacity: 0;
     visibility: hidden;
@@ -248,13 +250,13 @@
     border: none;
     cursor: pointer;
     padding: 0.5rem;
-    color: #ffffff;
+    color: #000;
     border-radius: 50%;
     width: 44px;
     height: 44px;
     @include flex-center;
     @include transition(all 0.2s ease);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 
     @include mobile {
       display: none;
