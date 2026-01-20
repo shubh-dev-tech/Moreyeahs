@@ -48,6 +48,8 @@
   background: #ffffff;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   z-index: 9999;
+  padding-top: 0.5rem; // Bridge gap between trigger and dropdown
+  margin-top: -0.5rem; // Overlap with header area
   animation: slideDown 0.3s ease-out;
 
   @keyframes slideDown {
