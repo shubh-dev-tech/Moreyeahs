@@ -85,7 +85,6 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
 
   // Process gallery images to ensure they have proper URLs
   const [processedImages, setProcessedImages] = React.useState<GalleryImage[]>([]);
-  const [isProcessing, setIsProcessing] = React.useState(false);
 
   // Function to process gallery images via WordPress REST API
   const processGalleryImages = React.useCallback(async (imageIds: number[]): Promise<GalleryImage[]> => {
@@ -218,7 +217,6 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
       if (!gallery_images || gallery_images.length === 0) {
         console.log('No gallery images provided');
         setProcessedImages([]);
-        setIsProcessing(false);
         return;
       }
 
@@ -227,8 +225,6 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
         firstImage: gallery_images[0],
         allImages: gallery_images
       });
-
-      setIsProcessing(true);
 
       // Check if all images are just IDs - if so, try batch processing first
       const allImageIds = gallery_images.every(img => 
@@ -245,7 +241,6 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
         if (batchProcessed.length > 0) {
           console.log('✅ Batch processing successful!');
           setProcessedImages(batchProcessed);
-          setIsProcessing(false);
           return;
         }
         
@@ -324,7 +319,6 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
       });
 
       setProcessedImages(processed);
-      setIsProcessing(false);
     };
 
     processImages();
@@ -424,28 +418,33 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
     setIsPaused(false);
   };
 
-  if (isProcessing) {
-    return (
-      <div className="acf-block-placeholder">
-        <div className="acf-block-placeholder-icon">🤝</div>
-        <div className="acf-block-placeholder-text">Partnership Gallery</div>
-        <div className="acf-block-placeholder-instructions">Loading gallery images...</div>
-      </div>
-    );
-  }
+  // Removed loading state - show content immediately
 
-  if (processedImages.length === 0) {
-    return (
-      <div className="acf-block-placeholder">
-        <div className="acf-block-placeholder-icon">🤝</div>
-        <div className="acf-block-placeholder-text">Partnership Gallery</div>
-        <div className="acf-block-placeholder-instructions">Add images to display the partnership gallery</div>
-      </div>
-    );
-  }
+  // Always render the gallery, even if no images are processed yet
 
-  // Use processed images for rendering
-  const imagesToRender = processedImages;
+  // Use processed images for rendering, fallback to original if still processing
+  const imagesToRender = processedImages.length > 0 ? processedImages : 
+    (gallery_images && gallery_images.length > 0) ? gallery_images.map((img, index) => {
+      // If it's already a complete image object, use it
+      if (img && typeof img === 'object' && img.url) {
+        return img as GalleryImage;
+      }
+      
+      // Create a temporary image object for immediate display
+      const imageId = typeof img === 'number' ? img : (typeof img === 'string' ? parseInt(img) : index);
+      return {
+        id: imageId,
+        url: getImageUrl(img, 'medium'),
+        alt: `Partnership ${index + 1}`,
+        title: `Partnership ${index + 1}`,
+        sizes: {
+          thumbnail: getImageUrl(img, 'thumbnail'),
+          medium: getImageUrl(img, 'medium'),
+          large: getImageUrl(img, 'large'),
+          full: getImageUrl(img, 'full')
+        }
+      };
+    }) : [];
 
   // Duplicate images for infinite loop in slider
   const sliderImages = (layout_type === 'slider' && enable_slider) ? [...imagesToRender, ...imagesToRender] : imagesToRender;

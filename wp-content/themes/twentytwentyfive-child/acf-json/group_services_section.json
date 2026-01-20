@@ -275,6 +275,28 @@
                     "default_value": "",
                     "placeholder": "https:\/\/example.com",
                     "parent_repeater": "field_services_items"
+                },
+                {
+                    "key": "field_services_item_circle_color",
+                    "label": "Hover Circle Color",
+                    "name": "circle_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Select the color for the hover circle effect",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#007acc",
+                    "enable_opacity": 1,
+                    "return_format": "string",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true,
+                    "parent_repeater": "field_services_items"
                 }
             ]
         },
@@ -507,5 +529,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1768384844
+    "modified": 1768899595
 }

@@ -86,7 +86,8 @@ switch ($background_type) {
                     ?>
                     
                     <?php echo $tag_open; ?>
-                    <div class="services-section__item<?php echo $has_url ? ' clickable' : ''; ?>">
+                    <div class="services-section__item<?php echo $has_url ? ' clickable' : ''; ?>" 
+                         style="--circle-color: <?php echo esc_attr($item['circle_color'] ?: '#007acc'); ?>;">
                         <?php if (!empty($item['image'])): ?>
                             <div class="services-section__item-icon">
                                 <img src="<?php echo esc_url($item['image']['url']); ?>" 

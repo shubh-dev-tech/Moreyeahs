@@ -119,6 +119,16 @@
           "instructions": "Enter the URL to link to when this service is clicked (optional)",
           "default_value": "",
           "placeholder": "https://example.com"
+        },
+        {
+          "key": "field_services_item_circle_color",
+          "label": "Hover Circle Color",
+          "name": "circle_color",
+          "type": "color_picker",
+          "instructions": "Select the color for the hover circle effect",
+          "default_value": "#007acc",
+          "enable_opacity": 1,
+          "return_format": "string"
         }
       ]
     },

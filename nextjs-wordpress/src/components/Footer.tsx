@@ -163,6 +163,7 @@ export default async function Footer() {
 
   return (
     <footer 
+      id="contact-us"
       className="footer-section"
       style={{
         backgroundColor: background_color,
