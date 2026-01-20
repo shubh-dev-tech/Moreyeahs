@@ -16,6 +16,7 @@ interface ServiceItem {
   description?: string;
   description_color?: string;
   url?: string;
+  circle_color?: string;
 }
 
 interface ImageData {
@@ -112,7 +113,8 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ data }) => {
           heading_color: headingColor,
           description_color: descriptionColor,
           image,
-          url
+          url,
+          circle_color: (data && data[`service_items_${i}_circle_color`] as string) || '#007acc'
         });
       }
     }
@@ -214,7 +216,10 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ data }) => {
               
               return (
                 <ItemWrapper key={index} {...wrapperProps}>
-                  <div className={`services-section__item${item.url ? ' clickable' : ''}`}>
+                  <div 
+                    className={`services-section__item${item.url ? ' clickable' : ''}`}
+                    style={{ '--circle-color': item.circle_color || '#007acc' } as React.CSSProperties}
+                  >
                     {item.image && (
                       <div className="services-section__item-icon">
                         <img 

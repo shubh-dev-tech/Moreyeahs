@@ -83,14 +83,25 @@ function MobileMenuItems({
             {item.children.length > 0 ? (
               <>
                 <div className="mobile-menu__item-wrapper">
-                  <Link 
-                    href={wpUrlToPath(item.url)} 
-                    target={item.target}
-                    className={`mobile-menu__link ${item.classes}`}
-                    onClick={onLinkClick}
-                  >
-                    {item.title}
-                  </Link>
+                  {wpUrlToPath(item.url).startsWith('#') ? (
+                    <a 
+                      href={wpUrlToPath(item.url)} 
+                      target={item.target}
+                      className={`mobile-menu__link ${item.classes}`}
+                      onClick={onLinkClick}
+                    >
+                      {item.title}
+                    </a>
+                  ) : (
+                    <Link 
+                      href={wpUrlToPath(item.url)} 
+                      target={item.target}
+                      className={`mobile-menu__link ${item.classes}`}
+                      onClick={onLinkClick}
+                    >
+                      {item.title}
+                    </Link>
+                  )}
                   <button
                     className="mobile-menu__toggle"
                     onClick={() => toggleItem(item.id)}
@@ -114,14 +125,25 @@ function MobileMenuItems({
               </>
             ) : (
               <div className="mobile-menu__item-wrapper">
-                <Link 
-                  href={wpUrlToPath(item.url)} 
-                  target={item.target}
-                  className={`mobile-menu__link ${item.classes}`}
-                  onClick={onLinkClick}
-                >
-                  {item.title}
-                </Link>
+                {wpUrlToPath(item.url).startsWith('#') ? (
+                  <a 
+                    href={wpUrlToPath(item.url)} 
+                    target={item.target}
+                    className={`mobile-menu__link ${item.classes}`}
+                    onClick={onLinkClick}
+                  >
+                    {item.title}
+                  </a>
+                ) : (
+                  <Link 
+                    href={wpUrlToPath(item.url)} 
+                    target={item.target}
+                    className={`mobile-menu__link ${item.classes}`}
+                    onClick={onLinkClick}
+                  >
+                    {item.title}
+                  </Link>
+                )}
               </div>
             )}
           </li>
