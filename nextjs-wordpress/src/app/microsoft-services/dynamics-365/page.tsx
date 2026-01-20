@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
+import WordPressTestimonialFix from '@/components/WordPressTestimonialFix';
 
 export const metadata: Metadata = {
   title: 'Dynamics 365 | Microsoft Services | MoreYeahs',
@@ -63,6 +64,7 @@ export default async function MicrosoftDynamics365Page() {
             <BlockRenderer blocks={pageData.acf.blocks} />
           )}
         </div>
+        <WordPressTestimonialFix />
       </div>
     );
   }
