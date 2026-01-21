@@ -20,12 +20,6 @@
   opacity: 1;
   @include transition(transform var(--header-animation-duration, 0.3s) ease, opacity var(--header-animation-duration, 0.3s) ease);
 
-  &--hidden {
-    transform: translateY(-100%);
-    opacity: 0;
-    pointer-events: none;
-  }
-
   @include mobile {
     position: relative;
     background: #000000ab;
@@ -157,7 +151,7 @@
 
   &__submenu {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    top: calc(100% - 0.25rem); // Reduce gap for easier hover
     left: 0;
     background-color: #FFFFFFCC;
     border: 1px solid $color-border;
@@ -166,13 +160,16 @@
     min-width: 250px;
     list-style: none;
     padding: 0.75rem 0;
+    padding-top: 1rem; // Add extra padding at top for hover bridge
     font-weight: 700;
     margin: 0;
-    opacity: 0;
-    visibility: hidden;
+    opacity: 0 !important; // Force hidden on load
+    visibility: hidden !important; // Force hidden on load
     transform: translateY(-10px);
     @include transition(opacity 0.25s ease, transform 0.25s ease, visibility 0.25s);
+    transition-delay: 0s, 0s, 0s; // Instant hide
     z-index: $z-index-dropdown;
+    pointer-events: none; // Prevent interaction when hidden
 
     li {
       padding: 0;
@@ -232,11 +229,22 @@
     }
   }
 
-  &__menu .has-children:hover > &__submenu,
-  &__menu .has-children:focus-within > &__submenu {
-    opacity: 1;
-    visibility: visible;
+  // Only show submenu on hover, not on focus-within (to prevent auto-show on page load)
+  &__menu .has-children:hover > &__submenu {
+    opacity: 1 !important;
+    visibility: visible !important;
     transform: translateY(0);
+    pointer-events: auto; // Re-enable interaction on hover
+    transition-delay: 0.15s, 0.15s, 0.15s; // Small delay before showing
+  }
+  
+  // Optional: Enable keyboard navigation with focus
+  &__menu .has-children > a:focus + &__submenu,
+  &__menu .has-children > a:focus-within + &__submenu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0);
+    pointer-events: auto; // Re-enable interaction on focus
   }
 
   &__actions {
