@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
+import { parseBlocks } from '@/lib/blocks';
+import { WordPressContent } from '@/components/WordPressContent';
 
 export const metadata: Metadata = {
   title: 'Salesforce Services | MoreYeahs',
@@ -34,29 +36,56 @@ export default async function SalesforceServicesPage() {
   const pageData = await getSalesforceServicesPageData();
 
   if (pageData) {
-    // Render WordPress page with blocks
-    return (
-      <div className="salesforce-services-page">
-        <div className="mx-auto">
-          {pageData.content?.rendered && (
-            <div 
-              className="content"
-              dangerouslySetInnerHTML={{ 
-                __html: sanitizeWordPressContent(pageData.content.rendered)
-              }}
-            />
-          )}
-          {pageData.acf?.blocks && Array.isArray(pageData.acf.blocks) && (
-            <BlockRenderer blocks={pageData.acf.blocks} />
-          )}
-        </div>
-      </div>
-    );
+    // First check if we have blocks from the custom endpoint
+    if (pageData.blocks && Array.isArray(pageData.blocks) && pageData.blocks.length > 0) {
+      return (
+        <main className="min-h-screen">
+          <BlockRenderer blocks={pageData.blocks} />
+        </main>
+      );
+    }
+
+    // Parse blocks from content if available
+    const blocks = parseBlocks(pageData.content?.rendered || '') || [];
+
+    // If we have parsed blocks, render them with BlockRenderer
+    if (blocks && blocks.length > 0) {
+      return (
+        <main className="min-h-screen">
+          <BlockRenderer blocks={blocks} />
+        </main>
+      );
+    }
+
+    // If no blocks but we have content, render with WordPressContent
+    if (pageData.content?.rendered) {
+      return (
+        <main className="min-h-screen">
+          <WordPressContent content={pageData.content.rendered} />
+        </main>
+      );
+    }
+
+    // If WordPress page exists but has no content, render with ACF blocks if available
+    if (pageData.acf && pageData.acf.blocks) {
+      return (
+        <main className="min-h-screen">
+          <div className="salesforce-services-page">
+            <div className="mx-auto px-4 py-8">
+              <div className="blocks">
+                <BlockRenderer blocks={pageData.acf.blocks} />
+              </div>
+            </div>
+          </div>
+        </main>
+      );
+    }
   }
 
   // Default content if no WordPress page exists
   return (
-    <div className="salesforce-services-page">
+    <main className="min-h-screen">
+      <div className="salesforce-services-page">
       <div className="mx-auto px-4 py-8">
         <div className="hero-section mb-12">
           <h1 className="text-4xl font-bold mb-6">Salesforce Services</h1>
@@ -230,5 +259,9 @@ export default async function SalesforceServicesPage() {
         </div>
       </div>
     </div>
+    </main>
   );
 }
+
+// Build-safe: ISR with 60s revalidation
+export const revalidate = 60;

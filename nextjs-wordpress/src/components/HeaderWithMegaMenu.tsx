@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MenuItem } from '@/types/menu';
@@ -8,7 +8,6 @@ import { wpUrlToPath } from '@/lib/url-utils';
 import MegaMenu, { MegaMenuData } from './MegaMenu';
 import MobileMenu from './MobileMenu';
 import { transformMediaUrl } from '@/lib/wpFetch';
-import { useHeaderScroll } from '@/hooks/useHeaderScroll';
 
 interface HeaderWithMegaMenuProps {
   siteName: string;
@@ -70,9 +69,6 @@ function MenuItems({ items, megaMenuMap, disableMegaMenu = false }: { items: Men
 }
 
 export default function HeaderWithMegaMenu({ siteName, logo, primaryMenuItems, secondMenuItems, megaMenus }: HeaderWithMegaMenuProps) {
-  // Initialize header scroll behavior
-  useHeaderScroll();
-  
   // Create a flexible mega menu mapping that handles variations
   const megaMenuMap: Record<string, MegaMenuData> = megaMenus.reduce((acc, menu) => {
     const key = menu.title.toLowerCase().trim();
