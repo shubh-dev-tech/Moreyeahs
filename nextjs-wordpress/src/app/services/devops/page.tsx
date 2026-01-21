@@ -1,11 +1,11 @@
 import { Metadata } from 'next';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WORDPRESS_API_URL } from '@/lib/env';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'DevOps Services | MoreYeahs',
-  description: 'Professional DevOps services to streamline your development and deployment processes.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('devops');
+}
 
 async function getDevOpsPageData() {
   try {

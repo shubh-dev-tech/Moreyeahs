@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getPostBySlug, getPosts, transformMediaUrl } from '@/lib/wpFetch';
 import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
+import { generatePostMetadata } from '@/lib/seo';
 
 export const revalidate = parseInt(process.env.REVALIDATE_TIME || '3600');
 
@@ -39,19 +40,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  // Build-safe: use wpFetch instead of fetchWordPressAPI
-  const post = await getPostBySlug(params.slug);
-  
-  if (!post) {
-    return {
-      title: 'Post Not Found',
-    };
-  }
-
-  return {
-    title: post.title?.rendered || post.title || 'Post',
-    description: (post.excerpt?.rendered || post.excerpt || '').replace(/<[^>]*>/g, '').substring(0, 160),
-  };
+  return generatePostMetadata(params.slug);
 }
 
 export default async function PostPage({ params }: { params: { slug: string } }) {

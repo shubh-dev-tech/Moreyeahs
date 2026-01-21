@@ -3,11 +3,11 @@ import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import ServiceTestimonial from '@/components/blocks/service-testimonial/ServiceTestimonial';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Data Engineering Services | MoreYeahs',
-  description: 'Professional data engineering services to build scalable data pipelines, ETL processes, and data infrastructure for your business.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('data-engineering');
+}
 
 async function getDataEngineeringPageData() {
   try {

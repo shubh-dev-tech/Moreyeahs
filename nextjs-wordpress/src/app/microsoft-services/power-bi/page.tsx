@@ -4,11 +4,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Power BI | Microsoft Services | MoreYeahs',
-  description: 'Transform data into actionable insights with Microsoft Power BI. Create stunning visualizations and interactive reports for data-driven decision making.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('power-bi');
+}
 
 async function getPowerBIPageData() {
   try {

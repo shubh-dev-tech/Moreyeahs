@@ -3,11 +3,11 @@ import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WORDPRESS_API_URL } from '@/lib/env';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Application Support & Management | Salesforce Services | MoreYeahs',
-  description: 'Comprehensive Salesforce application support and management services to keep your CRM running smoothly with proactive monitoring, maintenance, and optimization.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('application-support-management');
+}
 
 async function getApplicationSupportPageData() {
   try {

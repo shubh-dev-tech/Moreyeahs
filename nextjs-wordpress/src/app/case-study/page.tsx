@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CaseStudyCard from '@/components/case-study/CaseStudyCard';
+import { generatePageMetadata } from '@/lib/seo';
 
 // Interface for processed case study data (strings only)
 interface ProcessedCaseStudyData {
@@ -15,10 +16,9 @@ interface ProcessedCaseStudyData {
   acf_fields: any;
 }
 
-export const metadata: Metadata = {
-  title: 'Case Studies - Our Success Stories',
-  description: 'Explore our case studies and success stories of transforming businesses.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('case-study');
+}
 
 // Fetch all case studies from WordPress API
 async function getCaseStudies(): Promise<ProcessedCaseStudyData[]> {

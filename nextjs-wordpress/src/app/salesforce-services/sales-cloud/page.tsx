@@ -4,11 +4,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Sales Cloud | Salesforce Services | MoreYeahs',
-  description: 'AI-powered CRM solutions that automate decisions, enhance human capabilities, and continuously learn from data to help organizations move beyond manual processes.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('sales-cloud');
+}
 
 async function getSalesCloudPageData() {
   try {

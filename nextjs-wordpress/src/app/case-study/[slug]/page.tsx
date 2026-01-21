@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import CaseStudyTemplatePage from '@/components/case-study/CaseStudyTemplatePage';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { generatePostMetadata } from '@/lib/seo';
 
 interface CaseStudyPageProps {
   params: {
@@ -108,47 +109,7 @@ async function getCaseStudy(slug: string): Promise<CaseStudyData | null> {
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
-  const caseStudy = await getCaseStudy(params.slug);
-
-  if (!caseStudy) {
-    return {
-      title: 'Case Study Not Found',
-      description: 'The requested case study could not be found.'
-    };
-  }
-
-  const title = caseStudy.acf_fields?.header_section?.title || 
-               caseStudy.title?.rendered || 
-               'Case Study';
-  const description = caseStudy.acf_fields?.header_section?.subtitle || 
-                     caseStudy.excerpt?.rendered?.replace(/<[^>]*>/g, '') || 
-                     `Read our case study about ${title}`;
-  
-  return {
-    title: `${title} - Case Study`,
-    description,
-    openGraph: {
-      title: `${title} - Case Study`,
-      description,
-      type: 'article',
-      publishedTime: caseStudy.date,
-      images: caseStudy._embedded?.['wp:featuredmedia']?.[0]?.source_url ? [
-        {
-          url: caseStudy._embedded['wp:featuredmedia'][0].source_url,
-          width: 1200,
-          height: 630,
-          alt: title
-        }
-      ] : []
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${title} - Case Study`,
-      description,
-      images: caseStudy._embedded?.['wp:featuredmedia']?.[0]?.source_url ? 
-              [caseStudy._embedded['wp:featuredmedia'][0].source_url] : []
-    }
-  };
+  return generatePostMetadata(params.slug, 'case_study');
 }
 
 // Generate static params for static generation (optional)

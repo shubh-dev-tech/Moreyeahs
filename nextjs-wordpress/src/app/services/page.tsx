@@ -3,11 +3,11 @@ import Link from 'next/link';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Our Services | MoreYeahs',
-  description: 'Explore our comprehensive range of professional services designed to help your business grow.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('services');
+}
 
 async function getServicesPageData() {
   try {
