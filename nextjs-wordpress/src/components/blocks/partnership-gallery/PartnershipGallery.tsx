@@ -108,7 +108,6 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
       const result = await response.json();
       
       if (result.success && result.images) {
-        console.log('✅ Successfully processed gallery images via REST API:', result.images);
         return result.images;
       }
       
@@ -172,7 +171,7 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
     // If image is just a number (ID), try to construct the WordPress media URL
     if (typeof image === 'number' || (typeof image === 'string' && /^\d+$/.test(image))) {
       const imageId = typeof image === 'string' ? parseInt(image) : image;
-      console.warn('⚠️ Image is still just an ID:', imageId, 'constructing direct URL');
+      // Silently handle image ID - construct direct URL
       
       // Try to construct a direct WordPress media URL
       const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://dev.moreyeahs.com';
@@ -215,16 +214,9 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
   React.useEffect(() => {
     const processImages = async () => {
       if (!gallery_images || gallery_images.length === 0) {
-        console.log('No gallery images provided');
         setProcessedImages([]);
         return;
       }
-
-      console.log('🔍 Starting image processing with:', {
-        count: gallery_images.length,
-        firstImage: gallery_images[0],
-        allImages: gallery_images
-      });
 
       // Check if all images are just IDs - if so, try batch processing first
       const allImageIds = gallery_images.every(img => 
@@ -232,19 +224,15 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
       );
 
       if (allImageIds) {
-        console.log('🔄 All images are IDs, trying batch processing...');
         const imageIds = gallery_images.map(img => 
           typeof img === 'string' ? parseInt(img) : img
         );
         
         const batchProcessed = await processGalleryImages(imageIds);
         if (batchProcessed.length > 0) {
-          console.log('✅ Batch processing successful!');
           setProcessedImages(batchProcessed);
           return;
         }
-        
-        console.log('⚠️ Batch processing failed, falling back to individual processing...');
       }
 
       // Fallback to individual processing
@@ -253,18 +241,8 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
       for (let i = 0; i < gallery_images.length; i++) {
         const img = gallery_images[i];
         
-        console.log(`Processing image ${i}:`, {
-          type: typeof img,
-          value: img,
-          isNumeric: typeof img === 'number' || (typeof img === 'string' && /^\d+$/.test(img)),
-          hasUrl: img?.url ? 'YES' : 'NO',
-          hasSizes: img?.sizes ? 'YES' : 'NO',
-          keys: typeof img === 'object' ? Object.keys(img) : 'not object'
-        });
-
         // If image is already a complete object with URL and sizes, use it
         if (img && typeof img === 'object' && img.url && img.sizes) {
-          console.log(`✅ Image ${i} already processed, using as-is`);
           processed.push(img as GalleryImage);
           continue;
         }
@@ -272,14 +250,11 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
         // If image is just an ID, try to fetch the full data
         if (typeof img === 'number' || (typeof img === 'string' && /^\d+$/.test(img))) {
           const imageId = typeof img === 'string' ? parseInt(img) : img;
-          console.log(`🔄 Fetching data for image ID: ${imageId}`);
           
           const imageData = await fetchImageData(imageId);
           if (imageData) {
-            console.log(`✅ Successfully fetched data for image ID ${imageId}:`, imageData);
             processed.push(imageData);
           } else {
-            console.log(`❌ Failed to fetch data for image ID ${imageId}, creating fallback`);
             // Create a fallback image object
             processed.push({
               id: imageId,
@@ -303,20 +278,13 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
           console.log(`🔄 Processing image with ID property: ${imageId}`);
           const imageData = await fetchImageData(imageId);
           if (imageData) {
-            console.log(`✅ Successfully processed image with ID ${imageId}`);
             processed.push(imageData);
           }
           continue;
         }
 
-        console.warn('⚠️ Unrecognized image format:', img);
+        // Silently handle unrecognized image format
       }
-
-      console.log('🏁 Image processing complete:', {
-        originalCount: gallery_images.length,
-        processedCount: processed.length,
-        processed: processed
-      });
 
       setProcessedImages(processed);
     };

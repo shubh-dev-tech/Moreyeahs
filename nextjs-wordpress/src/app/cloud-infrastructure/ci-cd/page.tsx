@@ -4,11 +4,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'CI/CD | Cloud Infrastructure | MoreYeahs',
-  description: 'Continuous Integration and Continuous Deployment services to automate your software delivery pipeline and accelerate development cycles.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('ci-cd');
+}
 
 async function getCICDPageData() {
   try {

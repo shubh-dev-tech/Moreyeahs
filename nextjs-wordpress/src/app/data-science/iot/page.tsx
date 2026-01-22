@@ -4,11 +4,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Internet of Things (IoT) | Data Science | MoreYeahs',
-  description: 'Connect, monitor, and optimize your physical devices with intelligent IoT solutions that transform real-world data into actionable insights.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('iot');
+}
 
 async function getIoTPageData() {
   try {

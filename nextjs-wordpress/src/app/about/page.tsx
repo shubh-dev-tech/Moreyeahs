@@ -1,10 +1,10 @@
 import React from 'react';
 import { Metadata } from 'next';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'About Us',
-  description: 'Learn more about our site and mission',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('about');
+}
 
 export default function AboutPage() {
   return (

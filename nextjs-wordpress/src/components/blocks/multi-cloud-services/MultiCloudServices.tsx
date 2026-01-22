@@ -332,11 +332,6 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
                 <div className="service-header">
                   {(() => {
                     const imageUrl = getImageUrl(implementations_section.section_image);
-                    console.log('Implementations section image debug:', {
-                      section_image: implementations_section.section_image,
-                      imageUrl: imageUrl,
-                      hasImage: !!imageUrl
-                    });
                     return imageUrl ? (
                       <img 
                         src={imageUrl} 

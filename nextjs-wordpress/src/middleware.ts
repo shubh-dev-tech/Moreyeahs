@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { sanitizeSlug, isMalformedSlug, isValidSlug } from './utils/slugUtils';
 
 // AUTHENTICATION MIDDLEWARE - CURRENTLY DISABLED
 // To enable authentication protection, set ENABLE_AUTH_MIDDLEWARE=true in your .env file
@@ -20,6 +21,27 @@ const authRoutes = [
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  
+  // Handle malformed case study URLs
+  if (pathname.startsWith('/case-study/')) {
+    const slug = pathname.replace('/case-study/', '');
+    
+    // Check if slug is malformed
+    if (isMalformedSlug(slug)) {
+      // Sanitize the slug
+      const sanitizedSlug = sanitizeSlug(slug);
+      
+      // If sanitized slug is invalid, redirect to case studies list
+      if (!isValidSlug(sanitizedSlug)) {
+        return NextResponse.redirect(new URL('/case-study', request.url));
+      }
+      
+      // Redirect to sanitized URL if it's different
+      if (sanitizedSlug !== slug) {
+        return NextResponse.redirect(new URL(`/case-study/${sanitizedSlug}`, request.url));
+      }
+    }
+  }
   
   // Check if auth middleware is enabled
   const authEnabled = process.env.ENABLE_AUTH_MIDDLEWARE === 'true';

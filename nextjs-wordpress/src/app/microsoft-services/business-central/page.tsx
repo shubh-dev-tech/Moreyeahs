@@ -4,11 +4,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Business Central | Microsoft Services | MoreYeahs',
-  description: 'Streamline your business operations with Microsoft Dynamics 365 Business Central - an all-in-one solution for financials, sales, service, and operations.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('business-central');
+}
 
 async function getBusinessCentralPageData() {
   try {

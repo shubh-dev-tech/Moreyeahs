@@ -4,11 +4,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Microsoft Azure | Microsoft Services | MoreYeahs',
-  description: 'Build, deploy, and manage applications on Microsoft Azure cloud platform with our expert Azure consulting and implementation services.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('azure');
+}
 
 async function getAzurePageData() {
   try {

@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import { WORDPRESS_API_URL } from '@/lib/env';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Data Science Services | MoreYeahs',
-  description: 'Professional data science services to extract insights from your data through machine learning, analytics, and predictive modeling.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('data-science');
+}
 
 async function getDataSciencePageData() {
   try {

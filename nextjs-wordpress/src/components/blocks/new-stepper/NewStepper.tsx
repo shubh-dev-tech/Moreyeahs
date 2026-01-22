@@ -112,9 +112,6 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
     if (elementBehind) {
       const bgColor = window.getComputedStyle(elementBehind).backgroundColor;
       
-      console.log(`[NewStepper] Element behind stepper:`, elementBehind);
-      console.log(`[NewStepper] Background color:`, bgColor);
-      
       // Parse RGB values
       const rgb = bgColor.match(/\d+/g);
       if (rgb && rgb.length >= 3) {
@@ -125,11 +122,8 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
         // Calculate relative luminance
         const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
         
-        console.log(`[NewStepper] RGB: ${r}, ${g}, ${b} - Luminance: ${luminance}`);
-        
         // If background is dark (luminance < 0.5), use light text
         const isDark = luminance < 0.5;
-        console.log(`[NewStepper] Background is ${isDark ? 'DARK' : 'LIGHT'}`);
         setIsDarkBackground(isDark);
       }
     }
@@ -137,26 +131,7 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
 
   // Debug logging - following Full One by Two Section pattern
   useEffect(() => {
-    console.log('[NewStepper] === DEBUG INFO ===');
-    console.log('[NewStepper] All props:', props);
-    console.log('[NewStepper] props.data:', data);
-    console.log('[NewStepper] props.steps:', props?.steps);
-    console.log('[NewStepper] data?.steps:', data?.steps);
-    console.log('[NewStepper] rawSteps:', rawSteps);
-    console.log('[NewStepper] safeSteps:', safeSteps);
-    console.log('[NewStepper] Steps count:', safeSteps.length);
-    
-    // Debug: List all sections on the page
-    const allSections = document.querySelectorAll('section[id]');
-    console.log('[NewStepper] === AVAILABLE SECTIONS ON PAGE ===');
-    allSections.forEach(section => {
-      console.log(`  - ID: "${section.id}"`);
-    });
-    console.log('[NewStepper] === STEPPER IS LOOKING FOR ===');
-    safeSteps.forEach((step, i) => {
-      const exists = document.getElementById(step.section_id);
-      console.log(`  - Step ${i + 1}: "${step.label}" → section_id: "${step.section_id}" ${exists ? '✓ FOUND' : '✗ NOT FOUND'}`);
-    });
+    // Debug info removed for production
   }, [props, data, rawSteps, safeSteps]);
 
   // Scroll tracking with background detection - using header's method
@@ -166,21 +141,16 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 200;
       
-      console.log('[NewStepper] Scroll event fired');
-      console.log('[NewStepper] Current scroll position:', scrollPosition);
-
       // Find which section is currently in view
       for (let i = safeSteps.length - 1; i >= 0; i--) {
         const section = document.getElementById(safeSteps[i].section_id);
         if (section) {
-          console.log(`[NewStepper] Checking section "${safeSteps[i].section_id}": offsetTop=${section.offsetTop}, inView=${section.offsetTop <= scrollPosition}`);
           if (section.offsetTop <= scrollPosition) {
-            console.log(`[NewStepper] Setting active index to ${i} (${safeSteps[i].label})`);
             setActiveIndex(i);
             break;
           }
         } else {
-          console.warn(`[NewStepper] Section "${safeSteps[i].section_id}" not found in DOM`);
+          // Section not found in DOM
         }
       }
       
@@ -205,11 +175,9 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
   // Don't render if no valid steps - following Full One by Two Section pattern
   if (!props || safeSteps.length === 0) {
     if (!props) {
-      console.warn('[NewStepper] No props provided');
+      // No props provided
     } else {
-      console.warn('[NewStepper] Not rendering - no valid steps found');
-      console.warn('[NewStepper] Props received:', props);
-      console.warn('[NewStepper] Data received:', data);
+      // Not rendering - no valid steps found
     }
     return null;
   }

@@ -4,11 +4,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Data Engineering | Data Science | MoreYeahs',
-  description: 'Build robust data pipelines and infrastructure that transform raw data into analytics-ready assets for data-driven decision making.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('data-engineering');
+}
 
 async function getDataEngineeringPageData() {
   try {
