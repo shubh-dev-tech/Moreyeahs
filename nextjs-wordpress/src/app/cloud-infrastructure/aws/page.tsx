@@ -4,11 +4,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Amazon Web Services (AWS) | Cloud Infrastructure | MoreYeahs',
-  description: 'Comprehensive AWS services to help you build, deploy, and manage applications on the world\'s most comprehensive cloud platform.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('aws');
+}
 
 async function getAWSPageData() {
   try {

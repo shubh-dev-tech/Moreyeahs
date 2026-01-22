@@ -78,12 +78,7 @@ const FitsTogetherSection: React.FC<FitsTogetherSectionProps> = (props) => {
     steps: rawSteps = []
   } = data;
 
-  // Debug logging
-  console.log('FitsTogetherSection props:', props);
-  console.log('FitsTogetherSection data:', data);
-  console.log('FitsTogetherSection rawSteps:', rawSteps);
-  console.log('FitsTogetherSection rawSteps type:', typeof rawSteps);
-  console.log('FitsTogetherSection rawSteps isArray:', Array.isArray(rawSteps));
+  // Debug logging removed for production
 
   // Handle steps using the same pattern as Services Section
   let processedSteps: StepData[] = [];
@@ -158,8 +153,6 @@ const FitsTogetherSection: React.FC<FitsTogetherSectionProps> = (props) => {
       console.warn('Failed to parse steps as JSON:', rawSteps);
     }
   }
-
-  console.log('FitsTogetherSection processedSteps:', processedSteps);
 
   // Generate background style
   const getBackgroundStyle = (): React.CSSProperties => {
@@ -365,10 +358,7 @@ const FitsTogetherSection: React.FC<FitsTogetherSectionProps> = (props) => {
               icon: step?.icon || null
             };
             
-            // Debug icon data
-            if (safeStep.icon) {
-              console.log(`Step ${index + 1} icon data:`, safeStep.icon);
-            }
+            // Debug icon data removed for production
             
             return (
               <div key={index} className="fits-together-step">

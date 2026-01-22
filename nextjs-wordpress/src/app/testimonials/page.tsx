@@ -1,11 +1,11 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { getPageWithBlocks } from '@/lib/wpFetch';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Testimonials',
-  description: 'What our customers say about us',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('testimonials');
+}
 
 // Build-safe: force dynamic for testimonials page
 // This ensures fresh data on each request

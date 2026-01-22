@@ -3,11 +3,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Cloud Infrastructure DevOps | MoreYeahs',
-  description: 'Expert DevOps services for cloud infrastructure management and automation.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('devops');
+}
 
 async function getCloudDevOpsPageData() {
   try {

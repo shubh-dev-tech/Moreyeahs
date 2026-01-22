@@ -5,11 +5,12 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Salesforce Services | MoreYeahs',
-  description: 'Comprehensive Salesforce solutions including Sales Cloud, Service Cloud, Marketing Cloud, and custom implementations.',
-};
+// Dynamic metadata from Yoast SEO
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('salesforce-services');
+}
 
 async function getSalesforceServicesPageData() {
   try {

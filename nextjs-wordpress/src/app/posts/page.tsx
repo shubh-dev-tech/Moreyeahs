@@ -1,11 +1,11 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { getPosts } from '@/lib/wpFetch';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'All Posts',
-  description: 'Browse all blog posts',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('posts');
+}
 
 // Build-safe: ISR with 60s revalidation, never fails during build
 export const revalidate = 60;

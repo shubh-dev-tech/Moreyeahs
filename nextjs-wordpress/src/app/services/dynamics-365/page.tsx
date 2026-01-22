@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Microsoft Dynamics 365 Services | MoreYeahs',
-  description: 'Professional Microsoft Dynamics 365 implementation, customization, and support services to streamline your business operations.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('dynamics-365');
+}
 
 async function getDynamics365PageData() {
   try {

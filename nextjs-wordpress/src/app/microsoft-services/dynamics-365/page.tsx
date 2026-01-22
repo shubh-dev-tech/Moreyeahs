@@ -4,11 +4,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Dynamics 365 | Microsoft Services | MoreYeahs',
-  description: 'We design and implement Dynamics 365 solutions that unify your sales, service, finance, operations, and marketing workflows into a single connected system.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('dynamics-365');
+}
 
 async function getDynamics365PageData() {
   try {

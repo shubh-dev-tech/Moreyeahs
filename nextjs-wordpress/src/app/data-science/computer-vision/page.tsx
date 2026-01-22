@@ -4,11 +4,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Computer Vision | Data Science | MoreYeahs',
-  description: 'Enable machines to see and understand the visual world with advanced computer vision solutions for image recognition, object detection, and visual analytics.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('computer-vision');
+}
 
 async function getComputerVisionPageData() {
   try {

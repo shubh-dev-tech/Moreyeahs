@@ -4,11 +4,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'SharePoint | Microsoft Services | MoreYeahs',
-  description: 'Transform collaboration and content management with Microsoft SharePoint. Build intranets, manage documents, and connect teams with powerful SharePoint solutions.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('sharepoint');
+}
 
 async function getSharePointPageData() {
   try {

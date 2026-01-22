@@ -5,11 +5,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Microsoft Services | MoreYeahs',
-  description: 'Comprehensive Microsoft solutions including Dynamics 365, Azure, Microsoft 365, and Power Platform services.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('microsoft-services');
+}
 
 async function getMicrosoftServicesPageData() {
   try {

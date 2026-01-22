@@ -4,11 +4,11 @@ import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Google Cloud Platform (GCP) | Cloud Infrastructure | MoreYeahs',
-  description: 'Expert Google Cloud Platform services to help you build, deploy, and scale applications on GCP infrastructure.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('gcp');
+}
 
 async function getGCPPageData() {
   try {
