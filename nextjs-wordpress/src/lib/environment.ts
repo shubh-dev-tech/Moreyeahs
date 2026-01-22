@@ -31,8 +31,25 @@ export function detectEnvironment(): Environment {
     // Check if running on Vercel
     const isVercel = process.env.VERCEL === '1';
     
-    // If on Vercel, use development environment (points to dev.moreyeahs.com)
-    if (isVercel) {
+    // Check URLs for environment indicators first
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
+    const wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || '';
+    
+    // If site URL contains moreyeahs.in, use production
+    if (siteUrl.includes('moreyeahs.in')) {
+      return 'production';
+    }
+    
+    if (siteUrl.includes('localhost') || wordpressUrl.includes('localhost')) {
+      return 'local';
+    }
+    
+    // If on Vercel, check the VERCEL_URL for domain detection
+    if (isVercel && process.env.VERCEL_URL) {
+      if (process.env.VERCEL_URL.includes('moreyeahs.in')) {
+        return 'production';
+      }
+      // Otherwise use development environment (points to dev.moreyeahs.com)
       return 'development';
     }
     
@@ -49,16 +66,12 @@ export function detectEnvironment(): Environment {
         case 'preview':
           return 'development'; // Use dev server for preview deployments too
         case 'production':
-          return 'development'; // Use dev server for production deployments too
+          // For production deployments, check if it's the actual production domain
+          if (process.env.VERCEL_URL && process.env.VERCEL_URL.includes('moreyeahs.in')) {
+            return 'production';
+          }
+          return 'development'; // Use dev server for other production deployments
       }
-    }
-    
-    // Check URLs for environment indicators
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
-    const wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || '';
-    
-    if (siteUrl.includes('localhost') || wordpressUrl.includes('localhost')) {
-      return 'local';
     }
     
     // Default to development for server-side (Vercel)
@@ -75,6 +88,11 @@ export function detectEnvironment(): Environment {
   // If running on Vercel (any .vercel.app domain), use development
   if (hostname.endsWith('.vercel.app')) {
     return 'development';
+  }
+  
+  // If running on moreyeahs.in, use production
+  if (hostname === 'moreyeahs.in' || hostname === 'www.moreyeahs.in') {
+    return 'production';
   }
   
   // Default to development for any other domain (points to dev.moreyeahs.com)
@@ -115,7 +133,7 @@ export function getEnvironmentConfig(): EnvironmentConfig {
       case 'production':
         wordpressUrl = process.env.WORDPRESS_PROD_API_URL
           ? process.env.WORDPRESS_PROD_API_URL.replace(/\/wp-json\/?$/i, '')
-          : (process.env.NEXT_PUBLIC_WORDPRESS_PROD_URL || process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://moreyeahs.com');
+          : (process.env.NEXT_PUBLIC_WORDPRESS_PROD_URL || process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://dev.moreyeahs.com');
         break;
     }
   } else {
@@ -138,7 +156,7 @@ export function getEnvironmentConfig(): EnvironmentConfig {
       case 'production':
         wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_PROD_URL || 
                       process.env.NEXT_PUBLIC_WORDPRESS_URL || 
-                      'https://moreyeahs.com';
+                      'https://dev.moreyeahs.com';
         break;
     }
   }
@@ -150,7 +168,7 @@ export function getEnvironmentConfig(): EnvironmentConfig {
     if (prodCandidate && !prodCandidate.includes('localhost')) {
       wordpressUrl = prodCandidate;
     } else {
-      wordpressUrl = 'https://moreyeahs.com';
+      wordpressUrl = 'https://dev.moreyeahs.com';
     }
   }
 

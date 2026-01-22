@@ -27,28 +27,31 @@ async function getCaseStudies(): Promise<ProcessedCaseStudyData[]> {
     const { getWordPressApiUrl } = await import('@/lib/environment');
     const apiUrl = getWordPressApiUrl();
     
-
-    
     const response = await fetch(`${apiUrl}/wp/v2/case_study?per_page=100&_embed`, {
       next: { revalidate: 60 },
       // Add timeout for build process
-      signal: AbortSignal.timeout(10000), // 10 second timeout
+      signal: AbortSignal.timeout(15000), // 15 second timeout
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'User-Agent': 'NextJS-App/1.0'
       }
     });
 
     if (!response.ok) {
-      console.error('Failed to fetch case studies:', response.status);
-      return [];
+      console.error('Failed to fetch case studies:', response.status, response.statusText);
+      const errorText = await response.text();
+      console.error('Error response body:', errorText);
+      
+      // Try fallback to regular posts with case-study category
+      return await getCaseStudiesFromPosts(apiUrl);
     }
 
     const caseStudies = await response.json();
     
     if (!Array.isArray(caseStudies)) {
-      console.error('Invalid case studies response format');
-      return [];
+      console.error('Invalid case studies response format:', typeof caseStudies);
+      return await getCaseStudiesFromPosts(apiUrl);
     }
     
     // Extract rendered content helper
@@ -95,6 +98,55 @@ async function getCaseStudies(): Promise<ProcessedCaseStudyData[]> {
     return processedData;
   } catch (error) {
     console.error('Error fetching case studies:', error);
+    // Try fallback to regular posts
+    try {
+      const { getWordPressApiUrl } = await import('@/lib/environment');
+      const apiUrl = getWordPressApiUrl();
+      return await getCaseStudiesFromPosts(apiUrl);
+    } catch (fallbackError) {
+      console.error('Fallback also failed:', fallbackError);
+      return [];
+    }
+  }
+}
+
+// Fallback function to get case studies from regular posts with case-study category
+async function getCaseStudiesFromPosts(apiUrl: string): Promise<ProcessedCaseStudyData[]> {
+  try {
+    
+    const response = await fetch(`${apiUrl}/wp/v2/posts?categories=case-study&per_page=100&_embed`, {
+      next: { revalidate: 60 },
+      signal: AbortSignal.timeout(15000),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      console.error('Fallback posts fetch failed:', response.status);
+      return [];
+    }
+
+    const posts = await response.json();
+    
+    if (!Array.isArray(posts)) {
+      return [];
+    }
+    
+    return posts.map((post: any) => ({
+      id: post.id,
+      title: post.title?.rendered || 'Untitled Case Study',
+      slug: post.slug,
+      content: post.content?.rendered || '',
+      excerpt: post.excerpt?.rendered || '',
+      date: post.date,
+      featured_image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url ?? null,
+      blocks: [],
+      acf_fields: {}
+    }));
+  } catch (error) {
+    console.error('Fallback posts fetch error:', error);
     return [];
   }
 }

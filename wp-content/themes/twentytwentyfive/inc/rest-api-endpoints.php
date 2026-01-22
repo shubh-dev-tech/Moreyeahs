@@ -56,14 +56,14 @@ add_action('rest_api_init', function () {
     ]);
 
     // Pages with ACF blocks endpoint
-    register_rest_route('wp/v2', '/pages-with-blocks/(?P<slug>[a-zA-Z0-9-_]+)', [
+    register_rest_route('wp/v2', '/pages-with-blocks/(?P<slug>.+)', [
         'methods' => 'POST',
         'callback' => 'get_page_with_acf_blocks_rest',
         'permission_callback' => '__return_true'
     ]);
 
     // Debug endpoint for ACF blocks
-    register_rest_route('wp/v2', '/debug-acf/(?P<slug>[a-zA-Z0-9-_]+)', [
+    register_rest_route('wp/v2', '/debug-acf/(?P<slug>.+)', [
         'methods' => 'POST',
         'callback' => 'debug_acf_blocks_rest',
         'permission_callback' => '__return_true'
