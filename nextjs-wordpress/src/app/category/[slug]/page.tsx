@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { getPosts } from '@/lib/wpFetch';
 import PostCard from '@/components/PostCard';
+import { generateCategoryMetadata } from '@/lib/seo';
 
 interface CategoryPageProps {
   params: { slug: string };
@@ -11,10 +12,7 @@ interface CategoryPageProps {
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  return {
-    title: `${params.slug} - Category`,
-    description: `Posts in ${params.slug} category`,
-  };
+  return generateCategoryMetadata(params.slug);
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {

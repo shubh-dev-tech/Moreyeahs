@@ -6,6 +6,11 @@
 export function wpUrlToPath(url: string): string {
   if (!url) return '/';
   
+  // Handle anchor links (hash fragments)
+  if (url.startsWith('#')) {
+    return url;
+  }
+  
   // If it's already a relative path, return as is
   if (url.startsWith('/') && !url.startsWith('//')) {
     return url;

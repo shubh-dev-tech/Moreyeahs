@@ -105,17 +105,8 @@ if (defined('WP_DEBUG') && WP_DEBUG) {
     error_log('Processed gallery images count: ' . count($gallery_images));
 }
 
-// If no images, show placeholder in admin
-if (empty($gallery_images)) {
-    if ($is_preview) {
-        echo '<div class="acf-block-placeholder">
-                <div class="acf-block-placeholder-icon">🤝</div>
-                <div class="acf-block-placeholder-text">Partnership Gallery</div>
-                <div class="acf-block-placeholder-instructions">Add images to display the partnership gallery</div>
-              </div>';
-    }
-    return;
-}
+// Always render the gallery structure, even if no images
+// Removed placeholder logic to show content immediately
 
 // Generate unique ID for slider
 $slider_id = 'partnership-slider-' . uniqid();
@@ -151,9 +142,11 @@ $slider_id = 'partnership-slider-' . uniqid();
                 <div class="partnership-slider" id="<?php echo esc_attr($slider_id); ?>">
                     <div class="partnership-slider-track">
                         <?php 
-                        // Duplicate images for infinite loop
-                        $images_to_show = array_merge($gallery_images, $gallery_images);
-                        foreach ($images_to_show as $image): 
+                        // Only show images if they exist
+                        if (!empty($gallery_images)) {
+                            // Duplicate images for infinite loop
+                            $images_to_show = array_merge($gallery_images, $gallery_images);
+                            foreach ($images_to_show as $image): 
                         ?>
                             <div class="partnership-slide">
                                 <div class="partnership-image-wrapper" data-style="<?php echo esc_attr($image_style); ?>" data-hover="<?php echo esc_attr($image_hover_effect); ?>">
@@ -164,13 +157,21 @@ $slider_id = 'partnership-slider-' . uniqid();
                                     />
                                 </div>
                             </div>
-                        <?php endforeach; ?>
+                        <?php 
+                            endforeach;
+                        } else {
+                            echo '<div class="partnership-slide"><div class="partnership-image-wrapper"><p>No images available</p></div></div>';
+                        }
+                        ?>
                     </div>
                 </div>
             <?php else: ?>
                 <!-- Grid Layout -->
                 <div class="partnership-grid partnership-grid-<?php echo esc_attr($columns_count); ?>">
-                    <?php foreach ($gallery_images as $image): ?>
+                    <?php 
+                    if (!empty($gallery_images)) {
+                        foreach ($gallery_images as $image): 
+                    ?>
                         <div class="partnership-item">
                             <div class="partnership-image-wrapper" data-style="<?php echo esc_attr($image_style); ?>" data-hover="<?php echo esc_attr($image_hover_effect); ?>">
                                 <img 
@@ -180,7 +181,12 @@ $slider_id = 'partnership-slider-' . uniqid();
                                 />
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    <?php 
+                        endforeach;
+                    } else {
+                        echo '<div class="partnership-item"><div class="partnership-image-wrapper"><p>No images available</p></div></div>';
+                    }
+                    ?>
                 </div>
             <?php endif; ?>
         </div>

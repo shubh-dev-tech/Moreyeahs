@@ -83,8 +83,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 2rem;
+    padding: 20px 2rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.8);
   }
 
   &__logo {
@@ -107,10 +108,10 @@
 
   &__close {
     background: none;
-    border: 2px solid #0066cc;
+    border: 2px solid #000;
     cursor: pointer;
     padding: 0.5rem;
-    color: #0066cc;
+    color: #000;
     border-radius: 50%;
     width: 48px;
     height: 48px;
@@ -118,7 +119,7 @@
     @include transition(all 0.2s ease);
 
     &:hover {
-      background-color: #0066cc;
+      background-color: #000;
       color: white;
     }
   }
@@ -459,7 +460,7 @@
 .hamburger-line {
   width: 24px;
   height: 2px;
-  background-color: #ffffff;
+  background-color: #000000;
   @include transition(transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease);
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);

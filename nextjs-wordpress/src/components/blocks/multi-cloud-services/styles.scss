@@ -58,23 +58,24 @@
   .mcs-services-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 40px;
-        background-color: #ffffff66;
-    padding: 40px;
+    grid-gap: 40px;
+    gap: 20px;
+    background-color: rgba(255, 255, 255, 0.4);
+    padding: 30px;
     border-radius: 30px;
-    align-items: stretch; /* Changed from 'start' to 'stretch' for equal heights */
+    align-items: stretch;
   }
 
   .mcs-services-column {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    gap: 15px;
   }
 
   /* Service Cards */
   .mcs-service-card {
     background-color: #ffffff80!important;
-    padding: 30px;
+    padding: 12px 20px;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -176,14 +177,14 @@
 
   .mcs-credentials-card {
     background-color: #ffffff80!important;
-    padding: 40px 30px;
+    padding: 30px 20px;
     border-radius: 20px;
     color: white;
     box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
     flex: 1; /* Allow the card to grow and fill available space */
     display: flex;
     flex-direction: column;
-    border: 2px solid transparent; /* Default transparent border */
+    border: 2px solid transparent!important; /* Default transparent border */
 
     // Ensure arrow color CSS variable is applied
     .credentials-list li:before {

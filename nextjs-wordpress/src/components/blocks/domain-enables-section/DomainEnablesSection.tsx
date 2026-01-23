@@ -33,9 +33,6 @@ interface DomainEnablesSectionProps {
 }
 
 const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => {
-  // Debug logging
-  console.log('DomainEnablesSection received data:', data);
-
   // Destructure data with defaults
   const {
     heading,

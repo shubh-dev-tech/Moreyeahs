@@ -4,16 +4,11 @@ import Image from 'next/image';
 import { CaseStudyData, getRenderedTitle, getRenderedExcerpt } from '@/components/case-study';
 import styles from './page.module.css';
 import { formatDate } from '@/utils/dateUtils';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Case Studies - Our Success Stories',
-  description: 'Explore our case studies and learn how we help businesses transform and grow through innovative solutions.',
-  openGraph: {
-    title: 'Case Studies - Our Success Stories',
-    description: 'Explore our case studies and learn how we help businesses transform and grow through innovative solutions.',
-    type: 'website'
-  }
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('case-studies');
+}
 
 // Fetch case studies from WordPress API
 async function getCaseStudies(): Promise<CaseStudyData[]> {

@@ -3,6 +3,7 @@ import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WordPressContent } from '@/components/WordPressContent';
 import { notFound } from 'next/navigation';
+import { generatePageMetadata } from '@/lib/seo';
 
 interface PageData {
   id: number;
@@ -18,17 +19,7 @@ async function getPageData(slug: string): Promise<PageData | null> {
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const page = await getPageData(params.slug);
-  
-  if (!page) {
-    return {
-      title: 'Page Not Found',
-    };
-  }
-
-  return {
-    title: page.title,
-  };
+  return generatePageMetadata(params.slug);
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {

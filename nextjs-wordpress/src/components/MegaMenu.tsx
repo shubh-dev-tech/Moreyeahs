@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { transformMediaUrl } from '@/lib/wpFetch';
 
 export interface MegaMenuItem {
@@ -47,8 +48,21 @@ interface MegaMenuProps {
 export default function MegaMenu({ trigger, menuData }: MegaMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+
+  // Prevent showing menu on initial mount
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Close menu when route changes
+  useEffect(() => {
+    setIsOpen(false);
+    setActiveCategory(null);
+  }, [pathname]);
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) {
@@ -64,7 +78,7 @@ export default function MegaMenu({ trigger, menuData }: MegaMenuProps) {
     timeoutRef.current = setTimeout(() => {
       setIsOpen(false);
       setActiveCategory(null);
-    }, 200);
+    }, 500);
   };
 
   const handleCategoryHover = (index: number) => {
@@ -87,7 +101,7 @@ export default function MegaMenu({ trigger, menuData }: MegaMenuProps) {
     >
       <span className="mega-menu-trigger">{trigger}</span>
       
-      {isOpen && (
+      {isMounted && isOpen && (
         <div className="mega-menu-dropdown" ref={menuRef}>
           <div className="mega-menu-container">
             <div className="mega-menu-sidebar">

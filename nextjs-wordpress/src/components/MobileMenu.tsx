@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { MenuItem } from '@/types/menu';
 import { MegaMenuData } from './MegaMenu';
 import { wpUrlToPath } from '@/lib/url-utils';
@@ -83,14 +84,25 @@ function MobileMenuItems({
             {item.children.length > 0 ? (
               <>
                 <div className="mobile-menu__item-wrapper">
-                  <Link 
-                    href={wpUrlToPath(item.url)} 
-                    target={item.target}
-                    className={`mobile-menu__link ${item.classes}`}
-                    onClick={onLinkClick}
-                  >
-                    {item.title}
-                  </Link>
+                  {wpUrlToPath(item.url).startsWith('#') ? (
+                    <a 
+                      href={wpUrlToPath(item.url)} 
+                      target={item.target}
+                      className={`mobile-menu__link ${item.classes}`}
+                      onClick={onLinkClick}
+                    >
+                      {item.title}
+                    </a>
+                  ) : (
+                    <Link 
+                      href={wpUrlToPath(item.url)} 
+                      target={item.target}
+                      className={`mobile-menu__link ${item.classes}`}
+                      onClick={onLinkClick}
+                    >
+                      {item.title}
+                    </Link>
+                  )}
                   <button
                     className="mobile-menu__toggle"
                     onClick={() => toggleItem(item.id)}
@@ -114,14 +126,25 @@ function MobileMenuItems({
               </>
             ) : (
               <div className="mobile-menu__item-wrapper">
-                <Link 
-                  href={wpUrlToPath(item.url)} 
-                  target={item.target}
-                  className={`mobile-menu__link ${item.classes}`}
-                  onClick={onLinkClick}
-                >
-                  {item.title}
-                </Link>
+                {wpUrlToPath(item.url).startsWith('#') ? (
+                  <a 
+                    href={wpUrlToPath(item.url)} 
+                    target={item.target}
+                    className={`mobile-menu__link ${item.classes}`}
+                    onClick={onLinkClick}
+                  >
+                    {item.title}
+                  </a>
+                ) : (
+                  <Link 
+                    href={wpUrlToPath(item.url)} 
+                    target={item.target}
+                    className={`mobile-menu__link ${item.classes}`}
+                    onClick={onLinkClick}
+                  >
+                    {item.title}
+                  </Link>
+                )}
               </div>
             )}
           </li>
@@ -135,6 +158,7 @@ export default function MobileMenu({ items, logo, siteName, megaMenus = [] }: Mo
   const [isOpen, setIsOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<MegaMenuData | null>(null);
   const megaMenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const pathname = usePathname();
 
   const megaMenuMap: Record<string, MegaMenuData> = megaMenus.reduce((acc, menu) => {
     const key = menu.title.toLowerCase().trim();
@@ -151,6 +175,12 @@ export default function MobileMenu({ items, logo, siteName, megaMenus = [] }: Mo
     
     return acc;
   }, {} as Record<string, MegaMenuData>);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsOpen(false);
+    setActiveMegaMenu(null);
+  }, [pathname]);
 
   useEffect(() => {
     if (isOpen) {

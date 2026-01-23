@@ -52,7 +52,7 @@ function safeJsonParse<T>(text: string): T | null {
  * Main WordPress fetch function - NEVER throws errors
  * Returns null on any failure (network, 404, 500, timeout, etc.)
  */
-export async function wpFetch<T = any>(endpoint: string, data?: any): Promise<T | null> {
+export async function wpFetch<T = any>(endpoint: string, data?: any, method: 'GET' | 'POST' = 'POST'): Promise<T | null> {
   // Ensure endpoint starts with /
   if (!endpoint.startsWith('/')) {
     endpoint = `/${endpoint}`;
@@ -60,10 +60,19 @@ export async function wpFetch<T = any>(endpoint: string, data?: any): Promise<T 
   
   const url = `${WORDPRESS_API_URL}${endpoint}`;
   
-  const options = {
-    ...FETCH_OPTIONS,
-    body: JSON.stringify(data || {}),
+  const options: RequestInit = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    next: { revalidate: 60 } as const,
   };
+  
+  // Only add body for POST requests
+  if (method === 'POST' && data) {
+    options.body = JSON.stringify(data);
+  }
   
   const response = await fetchWithTimeout(url, options);
   
@@ -119,12 +128,33 @@ export async function getPages(params: Record<string, string | number> = {}): Pr
 
 // Get single page by slug with safe fallback
 export async function getPageBySlug(slug: string): Promise<any | null> {
-  return await wpFetch<any>('/wp/v2/page-by-slug', { slug });
+  return await wpFetch<any>(`/wp/v2/pages?slug=${slug}`, undefined, 'GET').then(pages => {
+    return pages && Array.isArray(pages) && pages.length > 0 ? pages[0] : null;
+  });
 }
 
 // Get page with blocks (custom endpoint) with safe fallback
 export async function getPageWithBlocks(slug: string): Promise<any | null> {
-  return await wpFetch<any>(`/wp/v2/pages-with-blocks/${slug}`, {});
+  // Try the custom endpoint first
+  const result = await wpFetch<any>(`/wp/v2/pages-with-blocks/${slug}`, {});
+  
+  if (result) {
+    return result;
+  }
+  
+  // If custom endpoint fails, try standard endpoint and transform
+  const standardPage = await getPageBySlug(slug);
+  if (standardPage) {
+    return {
+      id: standardPage.id,
+      title: standardPage.title?.rendered || '',
+      content: standardPage.content?.rendered || '',
+      slug: standardPage.slug,
+      blocks: [] // No blocks from standard endpoint
+    };
+  }
+  
+  return null;
 }
 
 // Get menus with safe fallback

@@ -130,7 +130,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     // If image is just a number (ID), try to construct the WordPress media URL
     if (typeof image === 'number' || (typeof image === 'string' && /^\d+$/.test(image))) {
       const imageId = typeof image === 'string' ? parseInt(image) : image;
-      console.warn('⚠️ Image is still just an ID:', imageId, 'this should have been processed by WordPress');
+      // Silently handle image ID - construct direct URL
       
       // For now, return a placeholder that shows the ID for debugging
       return `https://via.placeholder.com/800x400/ff6b6b/ffffff?text=ID+${imageId}`;
@@ -211,7 +211,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               setProcessedImage(imageData);
             }
           } else {
-            console.warn('⚠️ Unrecognized hero image format:', hero_image);
+            // Silently handle unrecognized hero image format
             setProcessedImage(null);
           }
         }
@@ -254,7 +254,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               setProcessedBackgroundImage(imageData);
             }
           } else {
-            console.warn('⚠️ Unrecognized background image format:', background_image);
+            // Silently handle unrecognized background image format
             setProcessedBackgroundImage(null);
           }
         }

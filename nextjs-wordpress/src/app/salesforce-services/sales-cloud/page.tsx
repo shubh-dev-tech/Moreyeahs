@@ -2,11 +2,13 @@ import { Metadata } from 'next';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { WORDPRESS_API_URL } from '@/lib/env';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
+import { parseBlocks } from '@/lib/blocks';
+import { WordPressContent } from '@/components/WordPressContent';
+import { generatePageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Sales Cloud | Salesforce Services | MoreYeahs',
-  description: 'AI-powered CRM solutions that automate decisions, enhance human capabilities, and continuously learn from data to help organizations move beyond manual processes.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata('sales-cloud');
+}
 
 async function getSalesCloudPageData() {
   try {
@@ -47,29 +49,56 @@ export default async function SalesCloudPage() {
   const pageData = await getSalesCloudPageData();
 
   if (pageData) {
-    // Render WordPress page with blocks
-    return (
-      <div className="sales-cloud-page">
-        <div className="mx-auto">
-          {pageData.content?.rendered && (
-            <div 
-              className="content"
-              dangerouslySetInnerHTML={{ 
-                __html: sanitizeWordPressContent(pageData.content.rendered)
-              }}
-            />
-          )}
-          {pageData.acf?.blocks && Array.isArray(pageData.acf.blocks) && (
-            <BlockRenderer blocks={pageData.acf.blocks} />
-          )}
-        </div>
-      </div>
-    );
+    // First check if we have blocks from the custom endpoint
+    if (pageData.blocks && Array.isArray(pageData.blocks) && pageData.blocks.length > 0) {
+      return (
+        <main className="min-h-screen">
+          <BlockRenderer blocks={pageData.blocks} />
+        </main>
+      );
+    }
+
+    // Parse blocks from content if available
+    const blocks = parseBlocks(pageData.content?.rendered || '') || [];
+
+    // If we have parsed blocks, render them with BlockRenderer
+    if (blocks && blocks.length > 0) {
+      return (
+        <main className="min-h-screen">
+          <BlockRenderer blocks={blocks} />
+        </main>
+      );
+    }
+
+    // If no blocks but we have content, render with WordPressContent
+    if (pageData.content?.rendered) {
+      return (
+        <main className="min-h-screen">
+          <WordPressContent content={pageData.content.rendered} />
+        </main>
+      );
+    }
+
+    // If WordPress page exists but has no content, render with ACF blocks if available
+    if (pageData.acf && pageData.acf.blocks) {
+      return (
+        <main className="min-h-screen">
+          <div className="sales-cloud-page">
+            <div className="mx-auto px-4 py-8">
+              <div className="blocks">
+                <BlockRenderer blocks={pageData.acf.blocks} />
+              </div>
+            </div>
+          </div>
+        </main>
+      );
+    }
   }
 
   // Default content if no WordPress page exists
   return (
-    <div className="sales-cloud-page">
+    <main className="min-h-screen">
+      <div className="sales-cloud-page">
       <div className="mx-auto px-4 py-8">
         <div className="hero-section mb-12">
           <h1 className="text-4xl font-bold mb-6">Sales Cloud</h1>
@@ -252,5 +281,9 @@ export default async function SalesCloudPage() {
         </div>
       </div>
     </div>
+    </main>
   );
 }
+
+// Build-safe: ISR with 60s revalidation
+export const revalidate = 60;
