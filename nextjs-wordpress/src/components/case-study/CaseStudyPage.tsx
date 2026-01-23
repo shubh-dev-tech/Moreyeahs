@@ -202,7 +202,7 @@ const CaseStudyPage: React.FC<CaseStudyPageProps> = ({
           }
         >
           <div className={styles.caseStudyContent}>
-            <div dangerouslySetInnerHTML={{ __html: caseStudy.content }} />
+            <div dangerouslySetInnerHTML={{ __html: typeof caseStudy.content === 'string' ? caseStudy.content : caseStudy.content.rendered }} />
           </div>
         </CaseStudyLayout>
       </>

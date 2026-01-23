@@ -1,0 +1,119 @@
+/* PDF Download Button Styles */
+
+.sidebarDownloadBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  margin-top: 20px;
+}
+
+.sidebarDownloadBtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sidebarDownloadBtn:active {
+  transform: translateY(0);
+}
+
+.sidebarDownloadBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.sidebarDownloadBtn:disabled:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: none;
+  box-shadow: none;
+}
+
+.inlineDownloadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #516FC2;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.inlineDownloadBtn:hover {
+  background: #4158a6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(81, 111, 194, 0.3);
+}
+
+.inlineDownloadBtn:active {
+  transform: translateY(0);
+}
+
+.inlineDownloadBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.inlineDownloadBtn:disabled:hover {
+  background: #516FC2;
+  transform: none;
+  box-shadow: none;
+}
+
+.downloadIcon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+/* Loading animation */
+.sidebarDownloadBtn:disabled .downloadIcon,
+.inlineDownloadBtn:disabled .downloadIcon {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sidebarDownloadBtn {
+    font-size: 0.85rem;
+    padding: 10px 14px;
+  }
+  
+  .inlineDownloadBtn {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
+}
