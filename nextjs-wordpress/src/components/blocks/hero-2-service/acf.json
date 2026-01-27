@@ -1,0 +1,394 @@
+{
+  "key": "group_hero_2_service",
+  "title": "Hero 2 Service Block",
+  "fields": [
+    {
+      "key": "field_hero2_title",
+      "label": "Title",
+      "name": "title",
+      "type": "text",
+      "default_value": "What is Data Engineering?",
+      "placeholder": "Enter main title"
+    },
+    {
+      "key": "field_hero2_title_span_text",
+      "label": "Title Span Text",
+      "name": "title_span_text",
+      "type": "text",
+      "instructions": "Optional: Additional text to display after the title in a different color (e.g., 'Engineering?')",
+      "placeholder": "Enter span text"
+    },
+    {
+      "key": "field_hero2_title_span_color",
+      "label": "Title Span Color",
+      "name": "title_span_color",
+      "type": "color_picker",
+      "default_value": "#6366f1",
+      "instructions": "Choose the color for the span text"
+    },
+    {
+      "key": "field_hero2_subtitle",
+      "label": "Subtitle",
+      "name": "subtitle",
+      "type": "text",
+      "default_value": "Integrating Development and Operations.",
+      "placeholder": "Enter subtitle"
+    },
+    {
+      "key": "field_hero2_description",
+      "label": "Description",
+      "name": "description",
+      "type": "textarea",
+      "default_value": "DevOps is a set of practices that unifies software development and IT operations. Its goal is to shorten development cycles, increase deployment frequency, and deliver reliable software through automation, collaboration, and continuous improvement.",
+      "placeholder": "Enter description text"
+    },
+    {
+      "key": "field_hero2_left_image",
+      "label": "Left Side Image",
+      "name": "left_image",
+      "type": "image",
+      "return_format": "array",
+      "preview_size": "medium",
+      "library": "all"
+    },
+    {
+      "key": "field_hero2_image_full_width",
+      "label": "Full Width Image",
+      "name": "image_full_width",
+      "type": "true_false",
+      "instructions": "Make the image cover the entire left section (or right section when layout is reversed)",
+      "message": "Enable full width image",
+      "default_value": false,
+      "ui": true
+    },
+    {
+      "key": "field_hero2_background_type",
+      "label": "Background Type",
+      "name": "background_type",
+      "type": "select",
+      "choices": {
+        "color": "Solid Color",
+        "gradient": "Gradient",
+        "image": "Background Image"
+      },
+      "default_value": "color"
+    },
+    {
+      "key": "field_hero2_background_color",
+      "label": "Background Color",
+      "name": "background_color",
+      "type": "color_picker",
+      "default_value": "#7ED4AD",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hero2_background_type",
+            "operator": "==",
+            "value": "color"
+          }
+        ]
+      ]
+    },
+    {
+      "key": "field_hero2_gradient_color1",
+      "label": "Gradient Color 1",
+      "name": "gradient_color1",
+      "type": "color_picker",
+      "default_value": "#7ED4AD",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hero2_background_type",
+            "operator": "==",
+            "value": "gradient"
+          }
+        ]
+      ]
+    },
+    {
+      "key": "field_hero2_gradient_color2",
+      "label": "Gradient Color 2",
+      "name": "gradient_color2",
+      "type": "color_picker",
+      "default_value": "#4ECDC4",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hero2_background_type",
+            "operator": "==",
+            "value": "gradient"
+          }
+        ]
+      ]
+    },
+    {
+      "key": "field_hero2_gradient_direction",
+      "label": "Gradient Direction",
+      "name": "gradient_direction",
+      "type": "select",
+      "choices": {
+        "to right": "Left to Right",
+        "to left": "Right to Left",
+        "to bottom": "Top to Bottom",
+        "to top": "Bottom to Top",
+        "45deg": "Diagonal (45°)",
+        "135deg": "Diagonal (135°)"
+      },
+      "default_value": "to right",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hero2_background_type",
+            "operator": "==",
+            "value": "gradient"
+          }
+        ]
+      ]
+    },
+    {
+      "key": "field_hero2_background_image",
+      "label": "Background Image",
+      "name": "background_image",
+      "type": "image",
+      "return_format": "array",
+      "preview_size": "medium",
+      "library": "all",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hero2_background_type",
+            "operator": "==",
+            "value": "image"
+          }
+        ]
+      ]
+    },
+    {
+      "key": "field_hero2_bg_overlay",
+      "label": "Background Overlay Color",
+      "name": "background_overlay",
+      "type": "color_picker",
+      "instructions": "Optional overlay color for background image",
+      "enable_opacity": true,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hero2_background_type",
+            "operator": "==",
+            "value": "image"
+          }
+        ]
+      ]
+    },
+    {
+      "key": "field_hero2_title_color",
+      "label": "Title Color",
+      "name": "title_color",
+      "type": "color_picker",
+      "default_value": "#333333"
+    },
+    {
+      "key": "field_hero2_subtitle_color",
+      "label": "Subtitle Color",
+      "name": "subtitle_color",
+      "type": "color_picker",
+      "default_value": "#666666"
+    },
+    {
+      "key": "field_hero2_description_color",
+      "label": "Description Color",
+      "name": "description_color",
+      "type": "color_picker",
+      "default_value": "#333333"
+    },
+    {
+      "key": "field_hero2_service_layout",
+      "label": "Service Blocks Layout",
+      "name": "service_layout",
+      "type": "select",
+      "instructions": "Choose how service blocks are arranged",
+      "choices": {
+        "1x1": "1×1 (Single block)",
+        "1x2": "1×2 (Two blocks vertically)",
+        "1x3": "1×3 (Three blocks vertically)",
+        "2x1": "2×1 (Two blocks horizontally)",
+        "2x2": "2×2 (Four blocks in grid)",
+        "2x3": "2×3 (Six blocks in grid)",
+        "3x1": "3×1 (Three blocks horizontally)",
+        "3x2": "3×2 (Six blocks in grid)"
+      },
+      "default_value": "1x3"
+    },
+    {
+      "key": "field_hero2_reverse_layout",
+      "label": "Reverse Layout",
+      "name": "reverse_layout",
+      "type": "true_false",
+      "instructions": "Flip image and content positions (image on right, content on left)",
+      "message": "Enable reverse layout",
+      "default_value": false,
+      "ui": true
+    },
+    {
+      "key": "field_hero2_content_type",
+      "label": "Content Type",
+      "name": "content_type",
+      "type": "select",
+      "instructions": "Choose between service blocks or bullet points",
+      "choices": {
+        "service_blocks": "Service Blocks",
+        "bullet_points": "Bullet Points"
+      },
+      "default_value": "service_blocks"
+    },
+    {
+      "key": "field_hero2_service_blocks",
+      "label": "Service Blocks",
+      "name": "service_blocks",
+      "type": "repeater",
+      "layout": "table",
+      "button_label": "Add Service Block",
+      "min": 1,
+      "max": 6,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hero2_content_type",
+            "operator": "==",
+            "value": "service_blocks"
+          }
+        ]
+      ],
+      "sub_fields": [
+        {
+          "key": "field_hero2_block_title",
+          "label": "Block Title",
+          "name": "title",
+          "type": "text",
+          "placeholder": "Enter block title"
+        },
+        {
+          "key": "field_hero2_block_description",
+          "label": "Block Description",
+          "name": "description",
+          "type": "textarea",
+          "placeholder": "Enter block description"
+        },
+        {
+          "key": "field_hero2_block_bg_color",
+          "label": "Background Color",
+          "name": "background_color",
+          "type": "color_picker",
+          "default_value": "#ffffff"
+        },
+        {
+          "key": "field_hero2_block_title_color",
+          "label": "Title Color",
+          "name": "title_color",
+          "type": "color_picker",
+          "default_value": "#333333",
+          "instructions": "Color of the block title text"
+        },
+        {
+          "key": "field_hero2_block_description_color",
+          "label": "Description Color",
+          "name": "description_color",
+          "type": "color_picker",
+          "default_value": "#666666",
+          "instructions": "Color of the block description text"
+        }
+      ]
+    },
+    {
+      "key": "field_hero2_bullet_points",
+      "label": "Bullet Points",
+      "name": "bullet_points",
+      "type": "repeater",
+      "layout": "table",
+      "button_label": "Add Bullet Point",
+      "min": 1,
+      "max": 10,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_hero2_content_type",
+            "operator": "==",
+            "value": "bullet_points"
+          }
+        ]
+      ],
+      "sub_fields": [
+        {
+          "key": "field_hero2_bullet_heading",
+          "label": "Heading",
+          "name": "heading",
+          "type": "text",
+          "placeholder": "Enter bullet point heading"
+        },
+        {
+          "key": "field_hero2_bullet_subheading",
+          "label": "Sub-heading",
+          "name": "subheading",
+          "type": "text",
+          "placeholder": "Enter bullet point sub-heading (optional)"
+        },
+        {
+          "key": "field_hero2_bullet_description",
+          "label": "Description",
+          "name": "description",
+          "type": "textarea",
+          "placeholder": "Enter bullet point description"
+        },
+        {
+          "key": "field_hero2_bullet_color",
+          "label": "Bullet Color",
+          "name": "bullet_color",
+          "type": "color_picker",
+          "default_value": "#7ED4AD",
+          "instructions": "Color of the bullet point"
+        },
+        {
+          "key": "field_hero2_bullet_heading_color",
+          "label": "Heading Color",
+          "name": "heading_color",
+          "type": "color_picker",
+          "default_value": "#333333",
+          "instructions": "Color of the heading text"
+        },
+        {
+          "key": "field_hero2_bullet_subheading_color",
+          "label": "Sub-heading Color",
+          "name": "subheading_color",
+          "type": "color_picker",
+          "default_value": "#666666",
+          "instructions": "Color of the sub-heading text"
+        },
+        {
+          "key": "field_hero2_bullet_description_color",
+          "label": "Description Color",
+          "name": "description_color",
+          "type": "color_picker",
+          "default_value": "#333333",
+          "instructions": "Color of the description text"
+        }
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/hero-2-service"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "Hero section with left image and right service blocks"
+}

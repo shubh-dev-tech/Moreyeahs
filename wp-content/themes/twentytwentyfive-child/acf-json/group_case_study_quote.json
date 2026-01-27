@@ -1,0 +1,177 @@
+{
+    "key": "group_case_study_quote",
+    "title": "Case Study Quote",
+    "fields": [
+        {
+            "key": "field_csq_quote_text",
+            "label": "Quote Text",
+            "name": "quote_text",
+            "type": "textarea",
+            "instructions": "The main quote text",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "100",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "I wanted employees to concentrate on clients, not waste time creating file structures.",
+            "placeholder": "Enter quote text",
+            "maxlength": "",
+            "rows": 4,
+            "new_lines": ""
+        },
+        {
+            "key": "field_csq_quote_author",
+            "label": "Quote Author",
+            "name": "quote_author",
+            "type": "text",
+            "instructions": "Name of the person who said this quote",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "Enter author name",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_csq_quote_position",
+            "label": "Quote Author Position",
+            "name": "quote_position",
+            "type": "text",
+            "instructions": "Job title or position of the quote author",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "Enter position",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_csq_quote_company",
+            "label": "Quote Author Company",
+            "name": "quote_company",
+            "type": "text",
+            "instructions": "Company of the quote author",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "Enter company",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_csq_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "type": "color_picker",
+            "instructions": "Background color for the quote",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#e91e63",
+            "enable_opacity": 0,
+            "return_format": "string"
+        },
+        {
+            "key": "field_csq_text_color",
+            "label": "Text Color",
+            "name": "text_color",
+            "type": "color_picker",
+            "instructions": "Text color for the quote",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffffff",
+            "enable_opacity": 0,
+            "return_format": "string"
+        },
+        {
+            "key": "field_csq_quote_style",
+            "label": "Quote Style",
+            "name": "quote_style",
+            "type": "select",
+            "instructions": "Choose the visual style for the quote",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "gradient": "Gradient Background",
+                "solid": "Solid Background"
+            },
+            "default_value": "gradient",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_csq_show_quotation_marks",
+            "label": "Show Quotation Marks",
+            "name": "show_quotation_marks",
+            "type": "true_false",
+            "instructions": "Show decorative quotation marks",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Yes",
+            "ui_off_text": "No"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/case-study-quote"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Fields for the Case Study Quote block"
+}

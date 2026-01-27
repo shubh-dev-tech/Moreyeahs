@@ -1,0 +1,195 @@
+.case-study-cta {
+    margin: 60px 0;
+    padding: 40px 30px;
+    border-radius: 15px;
+    position: relative;
+}
+
+.case-study-cta__divider {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #e91e63, #ad1457);
+    border-radius: 2px;
+}
+
+.case-study-cta__content {
+    padding-top: 20px;
+}
+
+.case-study-cta__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.case-study-cta__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.case-study-cta__button:hover {
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button__icon {
+    flex-shrink: 0;
+}
+
+/* Button Styles */
+.cta-button--primary {
+    background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%);
+    color: white;
+    border-color: #e91e63;
+}
+
+.cta-button--primary:hover {
+    background: linear-gradient(135deg, #ad1457 0%, #880e4f 100%);
+    color: white;
+}
+
+.cta-button--secondary {
+    background: transparent;
+    color: #e91e63;
+    border-color: #e91e63;
+}
+
+.cta-button--secondary:hover {
+    background: #e91e63;
+    color: white;
+}
+
+.cta-button--outline {
+    background: transparent;
+    color: #333333;
+    border-color: #cccccc;
+}
+
+.cta-button--outline:hover {
+    background: #333333;
+    color: white;
+    border-color: #333333;
+}
+
+.cta-button--ghost {
+    background: transparent;
+    color: #e91e63;
+    border: none;
+    text-decoration: underline;
+}
+
+.cta-button--ghost:hover {
+    color: #ad1457;
+    text-decoration: none;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Button Sizes */
+.cta-button--small {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+}
+
+.cta-button--medium {
+    padding: 12px 24px;
+    font-size: 1rem;
+}
+
+.cta-button--large {
+    padding: 16px 32px;
+    font-size: 1.1rem;
+}
+
+/* Alignment Classes */
+.case-study-cta[style*="text-align: left"] .case-study-cta__buttons {
+    justify-content: flex-start;
+}
+
+.case-study-cta[style*="text-align: right"] .case-study-cta__buttons {
+    justify-content: flex-end;
+}
+
+.case-study-cta[style*="text-align: center"] .case-study-cta__buttons {
+    justify-content: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .case-study-cta {
+        margin: 40px 0;
+        padding: 30px 20px;
+    }
+    
+    .case-study-cta__buttons {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .case-study-cta__button {
+        justify-content: center;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    
+    .cta-button--large {
+        padding: 14px 28px;
+        font-size: 1rem;
+    }
+    
+    .cta-button--medium {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+    
+    .cta-button--small {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .case-study-cta {
+        margin: 30px 0;
+        padding: 25px 15px;
+        border-radius: 12px;
+    }
+    
+    .case-study-cta__content {
+        padding-top: 15px;
+    }
+    
+    .case-study-cta__buttons {
+        gap: 10px;
+    }
+    
+    .case-study-cta__button {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        gap: 6px;
+    }
+    
+    .cta-button__icon {
+        width: 16px;
+        height: 16px;
+    }
+}

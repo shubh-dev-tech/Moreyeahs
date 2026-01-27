@@ -1,0 +1,273 @@
+.contai-new {
+      padding-left: 40px;
+    padding-right: 40px;
+}
+                                
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding-left: 40px!important;
+  padding-right: 40px!important;
+  z-index: $z-index-header;
+  padding: 1.25rem 0;
+  // background-color: #ffffff40;
+  // backdrop-filter: blur(10px);
+  // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transform: translateY(0);
+  background: #FFFFFFCC;
+  opacity: 1;
+  @include transition(transform var(--header-animation-duration, 0.3s) ease, opacity var(--header-animation-duration, 0.3s) ease);
+
+  @include mobile {
+    position: relative;
+    background: #000000ab;
+  }
+
+  &__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    @include mobile {
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+
+  &__logo {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: -0.5px;
+    @include transition(color 0.2s ease);
+    // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: $color-primary;
+      opacity: 1;
+    }
+  }
+
+  &__logo-image {
+    max-height: 60px;
+    width: 130px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    @include transition(filter 0.3s ease);
+  }
+
+  &__logo-text {
+    display: inline-block;
+  }
+
+  &__menu {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+
+    > li {
+      position: relative;
+
+      &.has-mega-menu {
+        position: static; // Allow mega menu to span full width
+        
+        .mega-menu-trigger::after {
+          content: ' ▾';
+          font-size: 0.75em;
+          margin-left: 0.35rem;
+          opacity: 0.6;
+          transition: transform 0.2s ease;
+          display: inline-block;
+        }
+
+        &:hover .mega-menu-trigger::after {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    a {
+      color: #000000;
+      padding: 0.75rem 0;
+      display: block;
+          font-weight: 700;
+      position: relative;
+      @include transition(color 0.2s ease);
+      // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+      &:hover {
+        color: #000000;
+        opacity: 1;
+        font-weight: 700;
+      }
+    }
+
+    > li > a {
+      font-size: 1rem;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #000000;
+        @include transition(width 0.3s ease);
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+    }
+
+    .has-children > a::before {
+      content: ' ▾';
+      font-size: 0.75em;
+      margin-left: 0.35rem;
+      opacity: 0.6;
+      @include transition(transform 0.2s ease);
+      display: inline-block;
+    }
+
+    .has-children:hover > a::before {
+      transform: rotate(180deg);
+    }
+
+    @include mobile {
+      display: none;
+    }
+  }
+
+  &__submenu {
+    position: absolute;
+    top: calc(100% - 0.25rem); // Reduce gap for easier hover
+    left: 0;
+    background-color: #FFFFFFCC;
+    border: 1px solid $color-border;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    min-width: 250px;
+    list-style: none;
+    padding: 0.75rem 0;
+    padding-top: 1rem; // Add extra padding at top for hover bridge
+    font-weight: 700;
+    margin: 0;
+    opacity: 0 !important; // Force hidden on load
+    visibility: hidden !important; // Force hidden on load
+    transform: translateY(-10px);
+    @include transition(opacity 0.25s ease, transform 0.25s ease, visibility 0.25s);
+    transition-delay: 0s, 0s, 0s; // Instant hide
+    z-index: $z-index-dropdown;
+    pointer-events: none; // Prevent interaction when hidden
+
+    li {
+      padding: 0;
+      margin: 0;
+    }
+
+    a {
+      padding: 0.875rem 1.5rem;
+      white-space: nowrap;
+      font-size: 0.95rem;
+      border-left: 3px solid transparent;
+      @include transition(all 0.2s ease);
+
+      &::after {
+        display: none;
+      }
+
+      &:hover {
+        background-color: $color-bg-alt;
+        border-left-color: $color-primary;
+        padding-left: 1.75rem;
+      }
+    }
+
+    .has-children {
+      position: relative;
+
+      > a::before {
+        content: ' ▸';
+        float: right;
+        margin-left: 1.5rem;
+        opacity: 0.6;
+      }
+    }
+
+    .header__submenu {
+      top: 0;
+      left: 100%;
+      margin-left: 0.5rem;
+      margin-top: -0.75rem;
+    }
+
+    @include mobile {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      box-shadow: none;
+      border: none;
+      border-left: 2px solid $color-border;
+      margin-left: 1rem;
+      margin-top: 0.5rem;
+
+      a {
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
+
+  // Only show submenu on hover, not on focus-within (to prevent auto-show on page load)
+  &__menu .has-children:hover > &__submenu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0);
+    pointer-events: auto; // Re-enable interaction on hover
+    transition-delay: 0.15s, 0.15s, 0.15s; // Small delay before showing
+  }
+  
+  // Optional: Enable keyboard navigation with focus
+  &__menu .has-children > a:focus + &__submenu,
+  &__menu .has-children > a:focus-within + &__submenu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0);
+    pointer-events: auto; // Re-enable interaction on focus
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: #000;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    @include flex-center;
+    @include transition(all 0.2s ease);
+    // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+    @include mobile {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,205 @@
+/*
+Theme Name: Twenty Twenty-Five Child
+Description: Child theme of Twenty Twenty-Five with all custom blocks and functionality preserved
+Author: Your Name
+Template: twentytwentyfive
+Version: 1.0.0
+*/
+
+/* Import parent theme styles */
+@import url("../twentytwentyfive/style.css");
+
+/* Add your custom styles below this line */
+/* Case Study Specific Styles */
+.case-study-main {
+    background: #ffffff;
+}
+
+.case-study-article {
+    margin: 0;
+    padding: 0;
+}
+
+.case-study-content {
+    margin: 0;
+    padding: 0;
+}
+
+/* Global Case Study Block Styles */
+.wp-block-acf-case-study-header,
+.wp-block-acf-case-study-layout,
+.wp-block-acf-case-study-left-sidebar,
+.wp-block-acf-meet-the-client,
+.wp-block-acf-case-study-content-section,
+.wp-block-acf-case-study-quote,
+.wp-block-acf-case-study-cta {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Remove default block margins for case study blocks */
+.case-study-main .wp-block {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Ensure full width for case study header */
+.wp-block-acf-case-study-header.alignfull {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    width: 100vw;
+    max-width: 100vw;
+}
+
+/* Ensure proper spacing for layout block */
+.wp-block-acf-case-study-layout.alignfull {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    width: 100vw;
+    max-width: 100vw;
+}
+
+/* Admin Editor Styles */
+.block-editor-page .wp-block-acf-case-study-header,
+.block-editor-page .wp-block-acf-case-study-layout {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Case Study Typography */
+.case-study-main h1,
+.case-study-main h2,
+.case-study-main h3,
+.case-study-main h4,
+.case-study-main h5,
+.case-study-main h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.case-study-main p {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.7;
+}
+
+/* Fix ul elements breaking out of sections */
+.case-study-main ul,
+.case-study-main ol {
+    margin: 0 0 20px 0;
+    padding-left: 30px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+.case-study-main ul li,
+.case-study-main ol li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Ensure content sections contain their ul elements */
+.content-section__content ul,
+.content-section__content ol {
+    margin: 0 0 20px 0;
+    padding-left: 25px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.content-section__content ul li,
+.content-section__content ol li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+    color: #555555;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Specific styling for case study blocks */
+.wp-block-acf-case-study-content-section ul,
+.wp-block-acf-case-study-content-section ol,
+.wp-block-acf-case-study-left-sidebar ul,
+.wp-block-acf-case-study-left-sidebar ol,
+.wp-block-acf-meet-the-client ul,
+.wp-block-acf-meet-the-client ol {
+    margin: 0 0 20px 0;
+    padding-left: 25px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.wp-block-acf-case-study-content-section ul li,
+.wp-block-acf-case-study-content-section ol li,
+.wp-block-acf-case-study-left-sidebar ul li,
+.wp-block-acf-case-study-left-sidebar ol li,
+.wp-block-acf-meet-the-client ul li,
+.wp-block-acf-meet-the-client ol li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .wp-block-acf-case-study-header.alignfull,
+    .wp-block-acf-case-study-layout.alignfull {
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+    }
+    
+    /* Mobile fixes for ul elements */
+    .case-study-main ul,
+    .case-study-main ol {
+        padding-left: 20px;
+        margin: 0 0 15px 0;
+    }
+    
+    .content-section__content ul,
+    .content-section__content ol {
+        padding-left: 20px;
+    }
+}
+
+/* General container overflow prevention */
+.case-study-main,
+.case-study-layout,
+.case-study-layout__content,
+.content-section__content {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Prevent any element from breaking out of containers */
+.case-study-main *,
+.case-study-layout *,
+.wp-block-acf-case-study-content-section *,
+.wp-block-acf-case-study-left-sidebar *,
+.wp-block-acf-meet-the-client * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Print styles for case studies */
+@media print {
+    .case-study-header__gradient {
+        background: #f0f0f0 !important;
+    }
+    
+    .case-study-left-sidebar {
+        background: #f8f9fa !important;
+        color: #333 !important;
+    }
+    
+    .case-study-quote__content {
+        background: #f0f0f0 !important;
+        color: #333 !important;
+    }
+}

@@ -1,0 +1,131 @@
+{
+    "key": "group_purpose_block",
+    "title": "Purpose Block",
+    "fields": [
+        {
+            "key": "field_purpose_heading",
+            "label": "Heading",
+            "name": "heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the main heading text",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Our Purpose:",
+            "placeholder": "Our Purpose:",
+            "show_in_graphql": 1,
+            "graphql_field_name": "heading",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_purpose_sub_heading",
+            "label": "Sub Heading",
+            "name": "sub_heading",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Enter the sub heading text",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "To amplify human potential and create the next opportunity for people, businesses and communities",
+            "placeholder": "To amplify human potential and create the next opportunity for people, businesses and communities",
+            "show_in_graphql": 1,
+            "graphql_field_name": "subHeading",
+            "maxlength": "",
+            "rows": 3,
+            "new_lines": ""
+        },
+        {
+            "key": "field_purpose_button_text",
+            "label": "Button Text",
+            "name": "button_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the button text (optional)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "LEARN MORE",
+            "show_in_graphql": 1,
+            "graphql_field_name": "buttonText",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_purpose_button_link",
+            "label": "Button Link",
+            "name": "button_link",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "Enter the button URL (optional)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "https://example.com",
+            "show_in_graphql": 1,
+            "graphql_field_name": "buttonLink"
+        },
+        {
+            "key": "field_purpose_border_color",
+            "label": "Border Color",
+            "name": "border_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Select the border color for the block",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#00A3E0",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "show_in_graphql": 1,
+            "graphql_field_name": "borderColor"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf/purpose-block"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "A block to display your organization's purpose with customizable border color",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1733428800
+}

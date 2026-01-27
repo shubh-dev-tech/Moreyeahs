@@ -1,0 +1,193 @@
+.meet-the-client {
+    margin-bottom: 50px;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #e91e63;
+}
+
+.meet-client__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.meet-client__icon {
+    flex-shrink: 0;
+}
+
+.meet-client__icon img {
+    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+}
+
+.meet-client__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: #333333;
+}
+
+.meet-client__content {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.meet-client__description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555555;
+}
+
+.meet-client__description p {
+    margin: 0 0 15px 0;
+}
+
+.meet-client__description p:last-child {
+    margin-bottom: 0;
+}
+
+.meet-client__profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.meet-client__image {
+    flex-shrink: 0;
+}
+
+.meet-client__image img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.meet-client__info {
+    flex: 1;
+}
+
+.meet-client__name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #e91e63;
+}
+
+.meet-client__position {
+    font-size: 0.95rem;
+    color: #666666;
+    font-weight: 500;
+}
+
+.meet-client__designation,
+.meet-client__company {
+    font-weight: 600;
+}
+
+.meet-client__quote {
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%);
+    color: white;
+    border-radius: 8px;
+    position: relative;
+    font-style: italic;
+}
+
+.meet-client__quote::before {
+    content: '"';
+    font-size: 3rem;
+    font-weight: bold;
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    opacity: 0.3;
+}
+
+.meet-client__quote p {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .meet-the-client {
+        padding: 25px 20px;
+        margin-bottom: 40px;
+    }
+    
+    .meet-client__header {
+        margin-bottom: 20px;
+    }
+    
+    .meet-client__title {
+        font-size: 1.3rem;
+    }
+    
+    .meet-client__profile {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+        padding: 20px 15px;
+    }
+    
+    .meet-client__image img {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .meet-client__name {
+        font-size: 1.1rem;
+    }
+    
+    .meet-client__quote {
+        padding: 15px;
+    }
+    
+    .meet-client__quote p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .meet-the-client {
+        padding: 20px 15px;
+        margin-bottom: 30px;
+    }
+    
+    .meet-client__header {
+        gap: 10px;
+    }
+    
+    .meet-client__title {
+        font-size: 1.2rem;
+    }
+    
+    .meet-client__content {
+        gap: 20px;
+    }
+    
+    .meet-client__profile {
+        padding: 15px;
+    }
+    
+    .meet-client__image img {
+        width: 60px;
+        height: 60px;
+    }
+}

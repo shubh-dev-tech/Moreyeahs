@@ -1,0 +1,164 @@
+.navigation-next-block {
+  // Background now set dynamically via inline styles
+  padding: 60px 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__container {
+    max-width: 1200px;
+    width: 100%;
+    height: 380px;
+    margin: 0 auto;
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+
+    @media (max-width: 968px) {
+      flex-direction: column;
+      height: auto;
+    }
+  }
+
+  &__grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
+    @media (max-width: 968px) {
+      height: 380px;
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+  }
+
+  &__region {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // Background now set dynamically via inline styles
+    text-decoration: none;
+    color: white;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+    &:nth-child(2n) {
+      border-right: none;
+    }
+
+    &:nth-child(n + 3) {
+      border-bottom: none;
+    }
+
+    &:hover {
+      // Hover background now handled by JavaScript
+      color: #fff;
+
+      .navigation-next-block__region-name {
+        color: #fff;
+      }
+    }
+
+    @media (max-width: 768px) {
+      min-height: 120px;
+      border-right: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3)!important;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &__region-name {
+    position: relative;
+    z-index: 1;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    padding: 20px;
+    transition: all 0.3s ease;
+    color: white;
+
+    @media (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__cta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 60px 80px;
+    background: transparent; // Remove background, let parent background show through
+    // Or use a different background color:
+    // background: rgba(255, 255, 255, 0.1); // Semi-transparent white overlay
+
+    @media (max-width: 968px) {
+      align-items: center;
+      text-align: center;
+      padding: 60px 40px;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      padding: 40px 20px;
+    }
+  }
+
+  &__heading {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin: 0 0 40px 0;
+    line-height: 1.1;
+    max-width: 600px;
+
+    @media (max-width: 968px) {
+      font-size: 2.8rem;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 24px;
+      margin-bottom: 25px;
+    }
+  }
+
+  &__button {
+    display: inline-block;
+    padding: 16px 45px;
+    background: #000;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border: 2px solid #000;
+
+    &:hover {
+      background: white;
+      color: #9b4d96;
+      border-color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 768px) {
+         padding: 6px 18px;
+        font-size: 10px;
+    }
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "key": "group_service_testimonial",
+  "title": "Service Testimonial",
+  "fields": [
+    {
+      "key": "field_testimonial_heading",
+      "label": "Heading",
+      "name": "heading",
+      "type": "text",
+      "default_value": "What Our Clients Say"
+    },
+    {
+      "key": "field_testimonial_sub_heading",
+      "label": "Sub Heading",
+      "name": "sub_heading",
+      "type": "textarea",
+      "default_value": "Discover how our services have transformed businesses"
+    },
+    {
+      "key": "field_testimonial_items",
+      "label": "Testimonials",
+      "name": "testimonial_items",
+      "type": "repeater",
+      "layout": "table",
+      "button_label": "Add Testimonial",
+      "sub_fields": [
+        {
+          "key": "field_testimonial_quote",
+          "label": "Quote",
+          "name": "quote",
+          "type": "textarea",
+          "required": 1
+        },
+        {
+          "key": "field_testimonial_client_name",
+          "label": "Client Name",
+          "name": "client_name",
+          "type": "text",
+          "required": 1
+        },
+        {
+          "key": "field_testimonial_client_position",
+          "label": "Client Position",
+          "name": "client_position",
+          "type": "text"
+        },
+        {
+          "key": "field_testimonial_client_company",
+          "label": "Client Company",
+          "name": "client_company",
+          "type": "text"
+        },
+        {
+          "key": "field_testimonial_client_avatar",
+          "label": "Client Avatar",
+          "name": "client_avatar",
+          "type": "image",
+          "return_format": "array"
+        },
+
+        {
+          "key": "field_testimonial_rating",
+          "label": "Rating (1-5)",
+          "name": "rating",
+          "type": "number",
+          "min": 1,
+          "max": 5,
+          "default_value": 5
+        }
+      ]
+    },
+    {
+      "key": "field_testimonial_autoplay",
+      "label": "Autoplay Slider",
+      "name": "autoplay_slider",
+      "type": "true_false",
+      "default_value": 1
+    },
+    {
+      "key": "field_testimonial_slider_speed",
+      "label": "Slider Speed (seconds)",
+      "name": "slider_speed",
+      "type": "number",
+      "default_value": 4,
+      "min": 2,
+      "max": 10
+    },
+    {
+      "key": "field_testimonial_show_navigation",
+      "label": "Show Navigation Arrows",
+      "name": "show_navigation",
+      "type": "true_false",
+      "default_value": 1
+    },
+    {
+      "key": "field_testimonial_show_dots",
+      "label": "Show Dots Indicator",
+      "name": "show_dots",
+      "type": "true_false",
+      "default_value": 1
+    },
+    {
+      "key": "field_testimonial_background_image",
+      "label": "Background Image",
+      "name": "background_image",
+      "type": "image",
+      "return_format": "array"
+    },
+    {
+      "key": "field_testimonial_background_color",
+      "label": "Background Color",
+      "name": "background_color",
+      "type": "color_picker",
+      "default_value": "#0a0f1c"
+    },
+    {
+      "key": "field_testimonial_background_height",
+      "label": "Background Height",
+      "name": "background_height",
+      "type": "select",
+      "choices": {
+        "auto": "Auto Height",
+        "small": "Small (60vh)",
+        "medium": "Medium (80vh)",
+        "large": "Large (100vh)",
+        "custom": "Custom Height"
+      },
+      "default_value": "large"
+    },
+    {
+      "key": "field_testimonial_custom_height",
+      "label": "Custom Height (px)",
+      "name": "custom_height",
+      "type": "number",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_testimonial_background_height",
+            "operator": "==",
+            "value": "custom"
+          }
+        ]
+      ],
+      "default_value": 600
+    },
+    {
+      "key": "field_testimonial_text_color",
+      "label": "Text Color",
+      "name": "text_color",
+      "type": "color_picker",
+      "default_value": "#ffffff"
+    },
+    {
+      "key": "field_testimonial_accent_color",
+      "label": "Accent Color",
+      "name": "accent_color",
+      "type": "color_picker",
+      "default_value": "#ffd700"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/service-testimonial"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,240 @@
+/**
+ * Block Renderer Component
+ * Dynamically renders WordPress blocks based on their type
+ */
+
+import React from 'react';
+import { Block, isACFBlock, getBlockType } from '@/lib/blocks';
+import { sanitizeWordPressContent } from '@/lib/wordpress-content';
+
+// Import block components
+import { HeroBlock } from './hero-block';
+import { ContentBlock } from './content-block';
+import { ImageTextBlock } from './image-text-block';
+import { CTABlock } from './cta-block';
+import { MoreyeahsHeadingTestBlock } from './moreyeahs-heading-test-block';
+import { MoreyeahsSliderBlock } from './moreyeahs-slider-block';
+import { FullWidthLeftTextSection } from './FullWidthLeftTextSection';
+import ImageGridHover from './ImageGridHover';
+import IconTextGrid from './IconTextGrid';
+import PromoBlock from './promo-block';
+import PurposeBlock from './purpose-block/PurposeBlock';
+import CounterBlock from './counter-block';
+import NewsBlock from './news-block/NewsBlock';
+import { InvestorBlock } from './investor-block';
+import TestimonialBlock from './testimonial-block';
+import NavigationNextBlock from './navigation-next-block';
+import StepperBlock from './stepper-block/StepperBlock';
+import NewStepper from './new-stepper/NewStepper';
+import MoreyeahsServiceBlock from './moreyeahs-service-block';
+import MoreyeahsContentBlock from './moreyeahs-content-block';
+import StoriesBlogBlockWrapper from './stories-blog-block/StoriesBlogBlockWrapper';
+import FullImgContentBlock from './full-img-content-block/FullImgContentBlock';
+import RoadmapBlock from './roadmap-block/RoadmapBlock';
+import ServiceRoadmapsBlock from './service-roadmaps-block/ServiceRoadmapsBlock';
+import ServiceAcrossMultiBlock from './service-across-multi-block/ServiceAcrossMultiBlock';
+import InfinityTestimonialBothSideBlock from './infinity-testimonial-both-side/InfinityTestimonialBothSideBlock';
+import VideoSectionBlock from './video-section/VideoSectionBlock';
+import CredentialsAcquiredBlock from './credentials-acquired-block/CredentialsAcquiredBlock';
+import TextImageAlternatingBlock from './text-image-alternating-block';
+import ServiceDetailsSection from './service-details-section/ServiceDetailsSection';
+import CallToActionSection from './call-to-action-section/CallToActionSection';
+import FullOneByTwoSection from './full-one-by-two-section/FullOneByTwoSection';
+import PartnershipGallery from './partnership-gallery/PartnershipGallery';
+import HeroSection from './hero-section/HeroSection';
+import Hero2Service from './hero-2-service/Hero2Service';
+import ServiceTestimonial from './service-testimonial/ServiceTestimonial';
+import DiceTestimonial from './dice-testimonial/DiceTestimonial';
+import MultiCloudServices from './multi-cloud-services/MultiCloudServices';
+import VideoHeroSection from './video-hero-section/VideoHeroSection';
+import DomainEnablesSection from './domain-enables-section/DomainEnablesSection';
+import SpecializationsSection from './specializations-section/SpecializationsSection';
+import ServicesSection from './services-section/ServicesSection';
+import FitsTogetherSection from './fits-together-section/FitsTogetherSection';
+import FaqSection from './faq-section/FaqSection';
+import { FooterSection } from './footer-section';
+import { CoreParagraph } from './core/Paragraph';
+import { CoreHeading } from './core/Heading';
+import { CoreImage } from './core/Image';
+
+interface BlockRendererProps {
+  blocks: Block[];
+}
+
+// Map block names to components
+const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
+  // ACF Blocks
+  'acf/hero': HeroBlock,
+  'acf/content': ContentBlock,
+  'acf/image-text': ImageTextBlock,
+  'acf/cta': CTABlock,
+  'acf/moreyeahs-heading-test': MoreyeahsHeadingTestBlock,
+  'acf/full-width-left-text-section': FullWidthLeftTextSection,
+  'acf/image-grid-hover': ImageGridHover,
+  'acf/icon-text-grid': IconTextGrid,
+  'acf/promo-block': PromoBlock,
+  'acf/purpose-block': PurposeBlock,
+  'acf/counter-block': CounterBlock,
+  'acf/news-block': NewsBlock,
+  'acf/investor-block': InvestorBlock,
+  'acf/testimonial-block': TestimonialBlock,
+  'acf/navigation-next-block': NavigationNextBlock,
+  'acf/stepper-block': StepperBlock,
+  'acf/new-stepper': NewStepper,
+  'acf/moreyeahs-service-block': MoreyeahsServiceBlock,
+  'acf/moreyeahs-content-block': MoreyeahsContentBlock,
+  'acf/stories-blog-block': StoriesBlogBlockWrapper,
+  'acf/full-img-content-block': FullImgContentBlock,
+  'acf/roadmap-block': RoadmapBlock,
+  'acf/service-roadmaps-block': ServiceRoadmapsBlock,
+  'acf/service-across-multi-block': ServiceAcrossMultiBlock,
+  'acf/infinity-testimonial-both-side': InfinityTestimonialBothSideBlock,
+  'acf/video-section': VideoSectionBlock,
+  'acf/credentials-acquired-block': CredentialsAcquiredBlock,
+  'acf/text-image-alternating-block': TextImageAlternatingBlock,
+  'acf/service-details-section': ServiceDetailsSection,
+  'acf/call-to-action-section': CallToActionSection,
+  'acf/full-one-by-two-section': FullOneByTwoSection,
+  'acf/partnership-gallery': PartnershipGallery,
+  'acf/hero-section': HeroSection,
+  'acf/hero-2-service': Hero2Service,
+  'acf/service-testimonial': ServiceTestimonial,
+  'acf/dice-testimonial': DiceTestimonial,
+  'acf/multi-cloud-services': MultiCloudServices,
+  'acf/video-hero-section': VideoHeroSection,
+  'acf/domain-enables-section': DomainEnablesSection,
+  'acf/specializations-section': SpecializationsSection,
+  'acf/services-section': ServicesSection,
+  'acf/fits-together-section': FitsTogetherSection,
+  'acf/faq-section': FaqSection,
+  'acf/footer-section': FooterSection,
+  
+  // Custom Blocks (without ACF)
+  'moreyeahs/slider': MoreyeahsSliderBlock,
+  
+  // Core Gutenberg Blocks
+  'core/paragraph': CoreParagraph,
+  'core/heading': CoreHeading,
+  'core/image': CoreImage,
+};
+
+// Map block names to section IDs for stepper navigation
+const BLOCK_SECTION_IDS: Record<string, string> = {
+  'acf/hero': 'hero',
+  'acf/purpose-block': 'purpose',
+  'acf/promo-block': 'operating-models',
+  'acf/counter-block': 'counter',
+  'acf/testimonial-block': 'testimonials',
+  'acf/news-block': 'news',
+  'acf/investor-block': 'investors',
+  'acf/navigation-next-block': 'navigation-next',
+  'acf/infinity-testimonial-both-side': 'infinity-testimonials',
+  'acf/text-image-alternating-block': 'text-image-alternating',
+  'acf/service-details-section': 'service-details',
+  'acf/call-to-action-section': 'call-to-action',
+  'acf/full-one-by-two-section': 'full-one-by-two',
+  'acf/hero-section': 'hero-section',
+  'acf/hero-2-service': 'hero-2-service',
+  'acf/service-testimonial': 'service-testimonial',
+  'acf/dice-testimonial': 'dice-testimonial',
+  'acf/multi-cloud-services': 'multi-cloud-services',
+  'acf/video-hero-section': 'video-hero-section',
+  'acf/domain-enables-section': 'domain-enables-section',
+  'acf/specializations-section': 'specializations-section',
+  'acf/services-section': 'services-section',
+  'acf/fits-together-section': 'fits-together-section',
+  'acf/faq-section': 'faq-section',
+};
+
+export function BlockRenderer({ blocks }: BlockRendererProps) {
+  if (!blocks || !Array.isArray(blocks) || blocks.length === 0) {
+    return null;
+  }
+  // Recursive renderer for a single block
+  const renderBlock = (block: Block, index: number) => {
+    if (!block.blockName) return null;
+
+    // Debug logging - check block structure
+    console.log(`[BlockRenderer] Block ${index}:`, {
+      blockName: block.blockName,
+      hasInnerBlocks: !!block.innerBlocks,
+      innerBlocksLength: block.innerBlocks?.length || 0,
+      innerBlockNames: block.innerBlocks?.map(b => b.blockName) || [],
+      hasAttrs: !!block.attrs,
+      anchor: block.attrs?.anchor
+    });
+
+    // Check if this is a core/group block wrapping ACF blocks FIRST (before checking for component)
+    // If so, skip the wrapper and render inner blocks directly to preserve their section IDs
+    if (block.blockName === 'core/group' && block.innerBlocks && block.innerBlocks.length > 0) {
+      const hasACFInnerBlocks = block.innerBlocks.some(inner => inner.blockName?.startsWith('acf/'));
+      
+      if (hasACFInnerBlocks) {
+        console.log(`[BlockRenderer] ✓ Skipping core/group wrapper, rendering ${block.innerBlocks.length} inner blocks directly`);
+        // Render inner blocks directly without wrapping section
+        return (
+          <React.Fragment key={`${block.blockName}-${index}`}>
+            {block.innerBlocks.map((inner, i) => renderBlock(inner, i))}
+          </React.Fragment>
+        );
+      }
+    }
+
+    const BlockComponent = BLOCK_COMPONENTS[block.blockName];
+    const sectionId = block.attrs?.anchor || BLOCK_SECTION_IDS[block.blockName] || `block-${index}`;
+    const blockData = isACFBlock(block) ? (block.attrs as any).data : block.attrs;
+
+    // Special handling for stepper blocks - don't wrap in section
+    const isStepperBlock = block.blockName === 'acf/stepper-block' || block.blockName === 'acf/new-stepper';
+
+    // If we have a mapped component, render it
+    if (BlockComponent) {
+      if (isStepperBlock) {
+        // Render stepper without section wrapper (it's fixed position)
+        return (
+          <BlockComponent 
+            key={`${block.blockName}-${index}`} 
+            data={blockData} 
+            innerHTML={block.innerHTML} 
+            {...block.attrs} 
+          />
+        );
+      }
+      
+      console.log(`[BlockRenderer] ✓ Rendering ${block.blockName} with section ID: ${sectionId}`);
+      return (
+        <section key={`${block.blockName}-${index}`} id={sectionId}>
+          <BlockComponent data={blockData} innerHTML={block.innerHTML} {...block.attrs} />
+        </section>
+      );
+    }
+
+    // If no component mapped, but there are innerBlocks from REST, render them recursively
+    if (block.innerBlocks && block.innerBlocks.length > 0) {
+      return (
+        <section key={`${block.blockName}-${index}`} id={sectionId}>
+          <div className="block-fallback-container">
+            {block.innerBlocks.map((inner, i) => renderBlock(inner, i))}
+          </div>
+        </section>
+      );
+    }
+
+    // Final fallback: render innerHTML if present
+    if (block.innerHTML) {
+      return (
+        <section key={`${block.blockName}-${index}`} id={sectionId}>
+          <div
+            className="prose max-w-none"
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{ __html: sanitizeWordPressContent(block.innerHTML) }}
+          />
+        </section>
+      );
+    }
+
+    return null;
+  };
+
+  return <div className="blocks-container">{blocks.map((b, i) => renderBlock(b, i))}</div>;
+}

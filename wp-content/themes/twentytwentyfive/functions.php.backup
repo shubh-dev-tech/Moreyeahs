@@ -1,0 +1,1975 @@
+<?php
+/**
+ * Twenty Twenty-Five functions and definitions.
+ *
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ *
+ * @package WordPress
+ * @subpackage Twenty_Twenty_Five
+ * @since Twenty Twenty-Five 1.0
+ */
+
+// Adds theme support for post formats.
+if ( ! function_exists( 'twentytwentyfive_post_format_setup' ) ) :
+	/**
+	 * Adds theme support for post formats.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_post_format_setup() {
+		add_theme_support( 'post-formats', array( 'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video' ) );
+	}
+endif;
+add_action( 'after_setup_theme', 'twentytwentyfive_post_format_setup' );
+
+// Enable WebP support for uploads and responsive images
+if ( ! function_exists( 'twentytwentyfive_enable_webp_support' ) ) :
+	/**
+	 * Enables WebP image format support.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param array $mimes Existing MIME types.
+	 * @return array Modified MIME types.
+	 */
+	function twentytwentyfive_enable_webp_support( $mimes ) {
+		$mimes['webp'] = 'image/webp';
+		return $mimes;
+	}
+endif;
+add_filter( 'upload_mimes', 'twentytwentyfive_enable_webp_support' );
+
+// Add WebP to allowed file extensions
+if ( ! function_exists( 'twentytwentyfive_webp_file_ext' ) ) :
+	/**
+	 * Adds WebP to allowed file extensions.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param array  $data    File data.
+	 * @param string $file    File path.
+	 * @param string $filename File name.
+	 * @param array  $mimes   MIME types.
+	 * @return array Modified file data.
+	 */
+	function twentytwentyfive_webp_file_ext( $data, $file, $filename, $mimes ) {
+		$ext = isset( $data['ext'] ) ? $data['ext'] : '';
+		if ( empty( $ext ) ) {
+			$exploded = explode( '.', $filename );
+			$ext      = strtolower( end( $exploded ) );
+		}
+		if ( 'webp' === $ext ) {
+			$data['ext']  = 'webp';
+			$data['type'] = 'image/webp';
+		}
+		return $data;
+	}
+endif;
+add_filter( 'wp_check_filetype_and_ext', 'twentytwentyfive_webp_file_ext', 10, 4 );
+
+// Enable responsive image sizes for WebP
+if ( ! function_exists( 'twentytwentyfive_webp_responsive_images' ) ) :
+	/**
+	 * Enables responsive image generation for WebP.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param array $sizes Image sizes.
+	 * @return array Modified image sizes.
+	 */
+	function twentytwentyfive_webp_responsive_images( $sizes ) {
+		return $sizes;
+	}
+endif;
+add_filter( 'intermediate_image_sizes_advanced', 'twentytwentyfive_webp_responsive_images' );
+
+// Fix WebP display in media library
+if ( ! function_exists( 'twentytwentyfive_webp_display' ) ) :
+	/**
+	 * Fixes WebP image display in media library.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param string $result  HTML img element or empty string on failure.
+	 * @param int    $post_id Attachment ID.
+	 * @param array  $size    Image size.
+	 * @return string Modified HTML img element.
+	 */
+	function twentytwentyfive_webp_display( $result, $post_id, $size ) {
+		$mime = get_post_mime_type( $post_id );
+		if ( 'image/webp' === $mime ) {
+			$image = wp_get_attachment_image_src( $post_id, $size );
+			if ( $image ) {
+				$result = '<img src="' . esc_url( $image[0] ) . '" alt="" />';
+			}
+		}
+		return $result;
+	}
+endif;
+add_filter( 'wp_get_attachment_image', 'twentytwentyfive_webp_display', 10, 3 );
+
+// Enqueues editor-style.css in the editors.
+if ( ! function_exists( 'twentytwentyfive_editor_style' ) ) :
+	/**
+	 * Enqueues editor-style.css in the editors.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_editor_style() {
+		add_editor_style( 'assets/css/editor-style.css' );
+	}
+endif;
+add_action( 'after_setup_theme', 'twentytwentyfive_editor_style' );
+
+// Enqueues style.css on the front.
+if ( ! function_exists( 'twentytwentyfive_enqueue_styles' ) ) :
+	/**
+	 * Enqueues style.css on the front.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_enqueue_styles() {
+		wp_enqueue_style(
+			'twentytwentyfive-style',
+			get_parent_theme_file_uri( 'style.css' ),
+			array(),
+			wp_get_theme()->get( 'Version' )
+		);
+	}
+endif;
+add_action( 'wp_enqueue_scripts', 'twentytwentyfive_enqueue_styles' );
+
+// Registers custom block styles.
+if ( ! function_exists( 'twentytwentyfive_block_styles' ) ) :
+	/**
+	 * Registers custom block styles.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_block_styles() {
+		register_block_style(
+			'core/list',
+			array(
+				'name'         => 'checkmark-list',
+				'label'        => __( 'Checkmark', 'twentytwentyfive' ),
+				'inline_style' => '
+				ul.is-style-checkmark-list {
+					list-style-type: "\2713";
+				}
+
+				ul.is-style-checkmark-list li {
+					padding-inline-start: 1ch;
+				}',
+			)
+		);
+	}
+endif;
+add_action( 'init', 'twentytwentyfive_block_styles' );
+
+// Registers pattern categories.
+if ( ! function_exists( 'twentytwentyfive_pattern_categories' ) ) :
+	/**
+	 * Registers pattern categories.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_pattern_categories() {
+
+		register_block_pattern_category(
+			'twentytwentyfive_page',
+			array(
+				'label'       => __( 'Pages', 'twentytwentyfive' ),
+				'description' => __( 'A collection of full page layouts.', 'twentytwentyfive' ),
+			)
+		);
+
+		register_block_pattern_category(
+			'twentytwentyfive_post-format',
+			array(
+				'label'       => __( 'Post formats', 'twentytwentyfive' ),
+				'description' => __( 'A collection of post format patterns.', 'twentytwentyfive' ),
+			)
+		);
+	}
+endif;
+add_action( 'init', 'twentytwentyfive_pattern_categories' );
+
+// Registers block binding sources.
+if ( ! function_exists( 'twentytwentyfive_register_block_bindings' ) ) :
+	/**
+	 * Registers the post format block binding source.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_block_bindings() {
+		register_block_bindings_source(
+			'twentytwentyfive/format',
+			array(
+				'label'              => _x( 'Post format name', 'Label for the block binding placeholder in the editor', 'twentytwentyfive' ),
+				'get_value_callback' => 'twentytwentyfive_format_binding',
+			)
+		);
+	}
+endif;
+add_action( 'init', 'twentytwentyfive_register_block_bindings' );
+
+// Registers block binding callback function for the post format name.
+if ( ! function_exists( 'twentytwentyfive_format_binding' ) ) :
+	/**
+	 * Callback function for the post format name block binding source.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return string|void Post format name, or nothing if the format is 'standard'.
+	 */
+	function twentytwentyfive_format_binding() {
+		$post_format_slug = get_post_format();
+
+		if ( $post_format_slug && 'standard' !== $post_format_slug ) {
+			return get_post_format_string( $post_format_slug );
+		}
+	}
+endif;
+
+// Register Navigation Menus
+if ( ! function_exists( 'twentytwentyfive_register_menus' ) ) :
+	/**
+	 * Registers navigation menus.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_menus() {
+		register_nav_menus(
+			array(
+				'primary'     => __( 'Primary Menu', 'twentytwentyfive' ),
+				'second-menu' => __( 'Second Menu (Side Burger Menu)', 'twentytwentyfive' ),
+				'footer'      => __( 'Footer Menu', 'twentytwentyfive' ),
+			)
+		);
+	}
+endif;
+add_action( 'after_setup_theme', 'twentytwentyfive_register_menus' );
+
+// Add menus to REST API
+if ( ! function_exists( 'twentytwentyfive_register_menu_routes' ) ) :
+	/**
+	 * Registers REST API routes for menus.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_menu_routes() {
+		register_rest_route(
+			'wp/v2',
+			'/menus',
+			array(
+				'methods'             => 'GET',
+				'callback'            => 'twentytwentyfive_get_all_menus',
+				'permission_callback' => '__return_true',
+			)
+		);
+
+		register_rest_route(
+			'wp/v2',
+			'/menus/(?P<location>[a-zA-Z0-9_-]+)',
+			array(
+				'methods'             => 'GET',
+				'callback'            => 'twentytwentyfive_get_menu_by_location',
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+endif;
+add_action( 'rest_api_init', 'twentytwentyfive_register_menu_routes' );
+
+// Get all menus
+if ( ! function_exists( 'twentytwentyfive_get_all_menus' ) ) :
+	/**
+	 * Returns all registered menus.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return WP_REST_Response Menu data.
+	 */
+	function twentytwentyfive_get_all_menus() {
+		$menus     = wp_get_nav_menus();
+		$menu_data = array();
+
+		foreach ( $menus as $menu ) {
+			$menu_items   = wp_get_nav_menu_items( $menu->term_id );
+			$menu_data[] = array(
+				'id'    => $menu->term_id,
+				'name'  => $menu->name,
+				'slug'  => $menu->slug,
+				'items' => twentytwentyfive_format_menu_items( $menu_items ),
+			);
+		}
+
+		return rest_ensure_response( $menu_data );
+	}
+endif;
+
+// Get menu by location
+if ( ! function_exists( 'twentytwentyfive_get_menu_by_location' ) ) :
+	/**
+	 * Returns menu for a specific location.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param WP_REST_Request $request REST request object.
+	 * @return WP_REST_Response|WP_Error Menu data or error.
+	 */
+	function twentytwentyfive_get_menu_by_location( $request ) {
+		$location  = $request['location'];
+		$locations = get_nav_menu_locations();
+
+		if ( ! isset( $locations[ $location ] ) ) {
+			return new WP_Error( 'no_menu', 'No menu found at this location', array( 'status' => 404 ) );
+		}
+
+		$menu_id    = $locations[ $location ];
+		$menu_items = wp_get_nav_menu_items( $menu_id );
+		$menu       = wp_get_nav_menu_object( $menu_id );
+
+		return rest_ensure_response(
+			array(
+				'id'       => $menu->term_id,
+				'name'     => $menu->name,
+				'slug'     => $menu->slug,
+				'location' => $location,
+				'items'    => twentytwentyfive_format_menu_items( $menu_items ),
+			)
+		);
+	}
+endif;
+
+// Format menu items
+if ( ! function_exists( 'twentytwentyfive_format_menu_items' ) ) :
+	/**
+	 * Formats menu items into hierarchical structure.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param array $menu_items Array of menu items.
+	 * @return array Formatted menu items.
+	 */
+	function twentytwentyfive_format_menu_items( $menu_items ) {
+		if ( ! $menu_items || empty( $menu_items ) ) {
+			return array();
+		}
+
+		$formatted_items = array();
+		$item_children   = array();
+
+		// First pass: format all items and track children.
+		foreach ( $menu_items as $item ) {
+			$parent_id = (int) $item->menu_item_parent;
+
+			$formatted_item = array(
+				'id'       => (int) $item->ID,
+				'title'    => $item->title,
+				'url'      => $item->url,
+				'target'   => $item->target ? $item->target : '_self',
+				'parent'   => $parent_id,
+				'order'    => (int) $item->menu_order,
+				'classes'  => is_array( $item->classes ) ? implode( ' ', $item->classes ) : '',
+				'children' => array(),
+			);
+
+			$formatted_items[ $item->ID ] = $formatted_item;
+
+			// Track children by parent ID.
+			if ( $parent_id > 0 ) {
+				if ( ! isset( $item_children[ $parent_id ] ) ) {
+					$item_children[ $parent_id ] = array();
+				}
+				$item_children[ $parent_id ][] = $item->ID;
+			}
+		}
+
+		// Second pass: build hierarchical structure.
+		$hierarchical_items = array();
+		foreach ( $formatted_items as $item_id => $item ) {
+			// Add children to this item if it has any.
+			if ( isset( $item_children[ $item_id ] ) ) {
+				foreach ( $item_children[ $item_id ] as $child_id ) {
+					if ( isset( $formatted_items[ $child_id ] ) ) {
+						$formatted_items[ $item_id ]['children'][] = $formatted_items[ $child_id ];
+					}
+				}
+			}
+
+			// If this is a top-level item (no parent), add to result.
+			if ( 0 === $item['parent'] ) {
+				$hierarchical_items[] = $formatted_items[ $item_id ];
+			}
+		}
+
+		return $hierarchical_items;
+	}
+endif;
+
+// Register Moreyeahs Slider Block (without ACF)
+if ( ! function_exists( 'twentytwentyfive_register_moreyeahs_slider' ) ) :
+	/**
+	 * Registers the Moreyeahs Slider block.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_moreyeahs_slider() {
+		// Register the editor script first
+		$block_js_path = get_template_directory() . '/blocks/moreyeahs-slider-block.js';
+		
+		if ( file_exists( $block_js_path ) ) {
+			wp_register_script(
+				'moreyeahs-slider-block-editor',
+				get_template_directory_uri() . '/blocks/moreyeahs-slider-block.js',
+				array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-data' ),
+				filemtime( $block_js_path ),
+				false
+			);
+		}
+		
+		register_block_type(
+			'moreyeahs/slider',
+			array(
+				'api_version'     => 2,
+				'title'           => __( 'Moreyeahs Slider', 'twentytwentyfive' ),
+				'description'     => __( 'A dynamic slider with image, heading, and CTA', 'twentytwentyfive' ),
+				'category'        => 'media',
+				'icon'            => 'slides',
+				'keywords'        => array( 'slider', 'carousel', 'moreyeahs', 'hero' ),
+				'supports'        => array(
+					'align' => true,
+				),
+				'attributes'      => array(
+					'slides' => array(
+						'type'    => 'array',
+						'default' => array(),
+					),
+				),
+				'editor_script'   => 'moreyeahs-slider-block-editor',
+				'render_callback' => 'twentytwentyfive_render_moreyeahs_slider',
+			)
+		);
+	}
+endif;
+add_action( 'init', 'twentytwentyfive_register_moreyeahs_slider' );
+
+// Render Moreyeahs Slider Block
+if ( ! function_exists( 'twentytwentyfive_render_moreyeahs_slider' ) ) :
+	/**
+	 * Renders the Moreyeahs Slider block.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $content    Block content.
+	 * @param object $block      Block object.
+	 * @return string Block HTML.
+	 */
+	function twentytwentyfive_render_moreyeahs_slider( $attributes, $content, $block ) {
+		$slides = isset( $attributes['slides'] ) ? $attributes['slides'] : array();
+
+		if ( empty( $slides ) ) {
+			return '<div class="moreyeahs-slider-placeholder" style="padding: 40px; background: #f0f0f0; text-align: center; border: 2px dashed #ccc;"><p style="margin: 0; color: #666;">Add slides to your slider</p></div>';
+		}
+
+		$block_id = 'moreyeahs-slider-' . uniqid();
+
+		ob_start();
+		?>
+		<div id="<?php echo esc_attr( $block_id ); ?>" class="moreyeahs-slider">
+			<div class="slider-container">
+				<?php foreach ( $slides as $index => $slide ) : ?>
+					<div class="slide <?php echo 0 === $index ? 'active' : ''; ?>">
+						<?php if ( ! empty( $slide['image'] ) ) : ?>
+							<img src="<?php echo esc_url( $slide['image'] ); ?>" alt="<?php echo esc_attr( $slide['heading'] ); ?>" class="slide-image" />
+						<?php endif; ?>
+
+						<div class="slide-overlay"></div>
+
+						<div class="slide-caption">
+							<div class="slide-caption-container">
+								<div class="slide-content">
+									<?php if ( ! empty( $slide['heading'] ) ) : ?>
+										<h2 class="slide-heading"><?php echo esc_html( $slide['heading'] ); ?></h2>
+									<?php endif; ?>
+
+									<?php if ( ! empty( $slide['subheading'] ) ) : ?>
+										<p class="slide-subheading"><?php echo esc_html( $slide['subheading'] ); ?></p>
+									<?php endif; ?>
+
+									<?php if ( ! empty( $slide['cta_text'] ) && ! empty( $slide['cta_url'] ) ) : ?>
+										<a href="<?php echo esc_url( $slide['cta_url'] ); ?>" class="slide-cta">
+											<?php echo esc_html( $slide['cta_text'] ); ?>
+										</a>
+									<?php endif; ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			</div>
+
+			<div class="slider-dots">
+				<?php foreach ( $slides as $index => $slide ) : ?>
+					<button class="dot <?php echo 0 === $index ? 'active' : ''; ?>" data-slide="<?php echo esc_attr( $index ); ?>">
+						<span></span>
+					</button>
+				<?php endforeach; ?>
+			</div>
+		</div>
+
+		<style>
+		.moreyeahs-slider {
+			position: relative;
+			width: 100%;
+			overflow: hidden;
+		}
+
+		.slider-container {
+			position: relative;
+			width: 100%;
+			height: 100vh;
+		}
+
+		.slide {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+			transition: opacity 0.5s ease-in-out;
+		}
+
+		.slide.active {
+			opacity: 1;
+		}
+
+		.slide-image {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.slide-overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.4);
+		}
+
+		.slide-caption {
+			position: absolute;
+			top: 50%;
+			left: 0;
+			right: 0;
+			transform: translateY(-50%);
+			z-index: 10;
+		}
+
+		.slide-caption-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 0 20px;
+		}
+
+		.slide-content {
+			width: 100%;
+			padding: 0;
+		}
+
+		/* Desktop and Tablet: 58.33% width (7/12 columns) */
+		@media (min-width: 640px) {
+			.slide-content {
+				width: 58.333333%;
+			}
+		}
+
+		.slide-heading {
+			color: white;
+			font-size: 48px;
+			font-weight: bold;
+			margin-bottom: 15px;
+			line-height: 1.2;
+		}
+
+		.slide-subheading {
+			color: white;
+			font-size: 18px;
+			font-weight: 400;
+			margin-bottom: 30px;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			opacity: 0.9;
+		}
+
+		.slide-cta {
+			    display: inline-block;
+    padding: 10px 40px;
+    background: transparent;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: transform 0.3s ease, color 0.4s ease;
+    border: 1px solid white;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+		}
+
+		.slide-cta::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 0;
+			height: 100%;
+			background: #000;
+			transition: width 0.4s ease;
+			z-index: -1;
+		}
+
+		.slide-cta:hover {
+			border:1px solid #000;
+		}
+
+		.slide-cta:hover::before {
+			width: 100%;
+		}
+
+		.slider-dots {
+			position: absolute;
+			bottom: 30px;
+			left: 50%;
+			transform: translateX(-50%);
+			display: flex;
+			gap: 10px;
+			z-index: 20;
+		}
+
+		.dot {
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.5);
+			border: none;
+			cursor: pointer;
+			padding: 0;
+			transition: all 0.3s ease;
+		}
+
+		.dot.active {
+			background: white;
+			width: 40px;
+			border-radius: 6px;
+		}
+
+		@media (max-width: 768px) {
+			.slider-container {
+				height: 400px;
+			}
+
+			.slide-heading {
+				font-size: 28px;
+				margin-bottom: 10px;
+			}
+
+			.slide-subheading {
+				font-size: 14px;
+				margin-bottom: 20px;
+			}
+
+			.slide-cta {
+				padding: 12px 30px;
+				font-size: 14px;
+			}
+		}
+		</style>
+
+		<script>
+		(function() {
+			const slider = document.getElementById('<?php echo esc_js( $block_id ); ?>');
+			if (!slider) return;
+
+			const slides = slider.querySelectorAll('.slide');
+			const dots = slider.querySelectorAll('.dot');
+			let currentSlide = 0;
+			let autoplayInterval;
+
+			function showSlide(index) {
+				slides.forEach(s => s.classList.remove('active'));
+				dots.forEach(d => d.classList.remove('active'));
+
+				slides[index].classList.add('active');
+				dots[index].classList.add('active');
+				currentSlide = index;
+			}
+
+			function nextSlide() {
+				const next = (currentSlide + 1) % slides.length;
+				showSlide(next);
+			}
+
+			function startAutoplay() {
+				autoplayInterval = setInterval(nextSlide, 5000);
+			}
+
+			function stopAutoplay() {
+				clearInterval(autoplayInterval);
+			}
+
+			dots.forEach((dot, index) => {
+				dot.addEventListener('click', () => {
+					showSlide(index);
+					stopAutoplay();
+					startAutoplay();
+				});
+			});
+
+			startAutoplay();
+
+			slider.addEventListener('mouseenter', stopAutoplay);
+			slider.addEventListener('mouseleave', startAutoplay);
+		})();
+		</script>
+		<?php
+		return ob_get_clean();
+	}
+endif;
+
+// Script is registered in the block registration function above
+
+// Expose Moreyeahs Slider to GraphQL
+if ( ! function_exists( 'twentytwentyfive_expose_slider_to_graphql' ) ) :
+	/**
+	 * Exposes Moreyeahs Slider block to GraphQL.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param array $allowed_blocks Array of allowed block types.
+	 * @return array Modified array of allowed block types.
+	 */
+	function twentytwentyfive_expose_slider_to_graphql( $allowed_blocks ) {
+		$allowed_blocks[] = 'moreyeahs/slider';
+		return $allowed_blocks;
+	}
+endif;
+add_filter( 'graphql_blocks_allowed_block_types', 'twentytwentyfive_expose_slider_to_graphql' );
+
+// Add theme support for custom logo and site icon (favicon)
+if ( ! function_exists( 'twentytwentyfive_setup_appearance' ) ) :
+	/**
+	 * Sets up theme support for custom logo and site icon.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_setup_appearance() {
+		// Add custom logo support
+		add_theme_support(
+			'custom-logo',
+			array(
+				'height'      => 100,
+				'width'       => 400,
+				'flex-height' => true,
+				'flex-width'  => true,
+			)
+		);
+
+		// Add site icon (favicon) support
+		add_theme_support( 'site-icon' );
+
+		// Ensure Customizer is enabled
+		add_theme_support( 'customize-selective-refresh-widgets' );
+	}
+endif;
+add_action( 'after_setup_theme', 'twentytwentyfive_setup_appearance' );
+
+// Add custom admin page for appearance settings (alternative to Customizer)
+if ( ! function_exists( 'twentytwentyfive_add_appearance_menu' ) ) :
+	/**
+	 * Adds custom appearance settings page to admin menu.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_add_appearance_menu() {
+		$page_hook = add_theme_page(
+			'Site Appearance Settings',
+			'Site Appearance',
+			'manage_options',
+			'site-appearance-settings',
+			'twentytwentyfive_render_appearance_page'
+		);
+		
+		// Enqueue media uploader scripts on this page
+		add_action( 'admin_print_scripts-' . $page_hook, 'twentytwentyfive_enqueue_appearance_scripts' );
+	}
+endif;
+add_action( 'admin_menu', 'twentytwentyfive_add_appearance_menu' );
+
+// Enqueue scripts for appearance page
+if ( ! function_exists( 'twentytwentyfive_enqueue_appearance_scripts' ) ) :
+	/**
+	 * Enqueues scripts for the appearance settings page.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_enqueue_appearance_scripts() {
+		// Enqueue WordPress media uploader
+		wp_enqueue_media();
+		
+		// Enqueue jQuery (should already be loaded, but just in case)
+		wp_enqueue_script( 'jquery' );
+	}
+endif;
+
+// Render custom appearance settings page
+if ( ! function_exists( 'twentytwentyfive_render_appearance_page' ) ) :
+	/**
+	 * Renders the custom appearance settings page.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_render_appearance_page() {
+		// Check user capabilities
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// Handle form submission
+		if ( isset( $_POST['appearance_settings_nonce'] ) && wp_verify_nonce( $_POST['appearance_settings_nonce'], 'save_appearance_settings' ) ) {
+			// Save site title
+			if ( isset( $_POST['blogname'] ) ) {
+				update_option( 'blogname', sanitize_text_field( $_POST['blogname'] ) );
+			}
+
+			// Save site description
+			if ( isset( $_POST['blogdescription'] ) ) {
+				update_option( 'blogdescription', sanitize_text_field( $_POST['blogdescription'] ) );
+			}
+
+			// Handle logo upload
+			if ( isset( $_POST['custom_logo'] ) ) {
+				set_theme_mod( 'custom_logo', absint( $_POST['custom_logo'] ) );
+			}
+
+			// Handle site icon upload
+			if ( isset( $_POST['site_icon'] ) ) {
+				update_option( 'site_icon', absint( $_POST['site_icon'] ) );
+			}
+
+			echo '<div class="notice notice-success is-dismissible"><p>Settings saved successfully!</p></div>';
+		}
+
+		// Get current values
+		$site_title       = get_option( 'blogname' );
+		$site_description = get_option( 'blogdescription' );
+		$custom_logo_id   = get_theme_mod( 'custom_logo' );
+		$site_icon_id     = get_option( 'site_icon' );
+
+		?>
+		<div class="wrap">
+			<h1>Site Appearance Settings</h1>
+			<p>Manage your site's logo, favicon, title, and description. These settings will automatically sync to your Next.js frontend.</p>
+
+			<form method="post" action="">
+				<?php wp_nonce_field( 'save_appearance_settings', 'appearance_settings_nonce' ); ?>
+
+				<table class="form-table" role="presentation">
+					<tbody>
+						<!-- Site Title -->
+						<tr>
+							<th scope="row">
+								<label for="blogname">Site Title</label>
+							</th>
+							<td>
+								<input type="text" id="blogname" name="blogname" value="<?php echo esc_attr( $site_title ); ?>" class="regular-text" />
+								<p class="description">Your site name (appears in header and SEO)</p>
+							</td>
+						</tr>
+
+						<!-- Site Description -->
+						<tr>
+							<th scope="row">
+								<label for="blogdescription">Site Description</label>
+							</th>
+							<td>
+								<input type="text" id="blogdescription" name="blogdescription" value="<?php echo esc_attr( $site_description ); ?>" class="regular-text" />
+								<p class="description">Brief description (used in SEO meta tags)</p>
+							</td>
+						</tr>
+
+						<!-- Logo -->
+						<tr>
+							<th scope="row">
+								<label>Site Logo</label>
+							</th>
+							<td>
+								<div class="logo-upload-wrapper">
+									<?php if ( $custom_logo_id ) : ?>
+										<?php $logo_image = wp_get_attachment_image_src( $custom_logo_id, 'full' ); ?>
+										<div class="logo-preview" style="margin-bottom: 10px;">
+											<img src="<?php echo esc_url( $logo_image[0] ); ?>" alt="Logo" style="max-width: 400px; max-height: 100px; border: 1px solid #ddd; padding: 10px; background: #f9f9f9;" />
+										</div>
+									<?php endif; ?>
+									<input type="hidden" id="custom_logo" name="custom_logo" value="<?php echo esc_attr( $custom_logo_id ); ?>" />
+									<button type="button" class="button button-secondary upload-logo-button">
+										<?php echo $custom_logo_id ? 'Change Logo' : 'Upload Logo'; ?>
+									</button>
+									<?php if ( $custom_logo_id ) : ?>
+										<button type="button" class="button button-secondary remove-logo-button">Remove Logo</button>
+									<?php endif; ?>
+									<p class="description">Recommended: PNG with transparent background, max 400×100px</p>
+								</div>
+							</td>
+						</tr>
+
+						<!-- Site Icon (Favicon) -->
+						<tr>
+							<th scope="row">
+								<label>Site Icon (Favicon)</label>
+							</th>
+							<td>
+								<div class="site-icon-upload-wrapper">
+									<?php if ( $site_icon_id ) : ?>
+										<?php $icon_image = wp_get_attachment_image_src( $site_icon_id, array( 64, 64 ) ); ?>
+										<div class="icon-preview" style="margin-bottom: 10px;">
+											<img src="<?php echo esc_url( $icon_image[0] ); ?>" alt="Favicon" style="width: 64px; height: 64px; border: 1px solid #ddd; padding: 5px; background: #f9f9f9;" />
+										</div>
+									<?php endif; ?>
+									<input type="hidden" id="site_icon" name="site_icon" value="<?php echo esc_attr( $site_icon_id ); ?>" />
+									<button type="button" class="button button-secondary upload-icon-button">
+										<?php echo $site_icon_id ? 'Change Site Icon' : 'Upload Site Icon'; ?>
+									</button>
+									<?php if ( $site_icon_id ) : ?>
+										<button type="button" class="button button-secondary remove-icon-button">Remove Site Icon</button>
+									<?php endif; ?>
+									<p class="description">Recommended: PNG, 512×512px (square)</p>
+								</div>
+							</td>
+						</tr>
+
+						<!-- API Test -->
+						<tr>
+							<th scope="row">
+								<label>API Endpoint</label>
+							</th>
+							<td>
+								<p>
+									<a href="<?php echo esc_url( rest_url( 'wp/v2/site-settings' ) ); ?>" target="_blank" class="button button-secondary">
+										Test API Endpoint
+									</a>
+								</p>
+								<p class="description">Click to view your site settings in JSON format</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<?php submit_button( 'Save Settings' ); ?>
+			</form>
+
+			<script>
+			jQuery(document).ready(function($) {
+				console.log('Appearance settings page loaded');
+				
+				// Check if wp.media is available
+				if (typeof wp === 'undefined' || typeof wp.media === 'undefined') {
+					console.error('WordPress media library not loaded!');
+					alert('Error: WordPress media library not loaded. Please refresh the page.');
+					return;
+				}
+				
+				console.log('WordPress media library is available');
+				
+				// Logo upload
+				var logoUploader;
+				$('.upload-logo-button').on('click', function(e) {
+					e.preventDefault();
+					console.log('Logo upload button clicked');
+					
+					if (logoUploader) {
+						console.log('Opening existing logo uploader');
+						logoUploader.open();
+						return;
+					}
+					
+					console.log('Creating new logo uploader');
+					logoUploader = wp.media({
+						title: 'Choose Logo',
+						button: { text: 'Use as Logo' },
+						multiple: false,
+						library: { type: 'image' }
+					});
+					
+					logoUploader.on('select', function() {
+						console.log('Logo selected');
+						var attachment = logoUploader.state().get('selection').first().toJSON();
+						console.log('Logo attachment:', attachment);
+						
+						$('#custom_logo').val(attachment.id);
+						$('.logo-preview').remove();
+						$('.logo-upload-wrapper').prepend('<div class="logo-preview" style="margin-bottom: 10px;"><img src="' + attachment.url + '" alt="Logo" style="max-width: 400px; max-height: 100px; border: 1px solid #ddd; padding: 10px; background: #f9f9f9;" /></div>');
+						$('.upload-logo-button').text('Change Logo');
+						
+						if (!$('.remove-logo-button').length) {
+							$('.upload-logo-button').after(' <button type="button" class="button button-secondary remove-logo-button" style="margin-left: 5px;">Remove Logo</button>');
+						}
+						
+						console.log('Logo preview updated');
+					});
+					
+					logoUploader.open();
+				});
+
+				// Remove logo
+				$(document).on('click', '.remove-logo-button', function(e) {
+					e.preventDefault();
+					console.log('Remove logo clicked');
+					$('#custom_logo').val('');
+					$('.logo-preview').remove();
+					$('.upload-logo-button').text('Upload Logo');
+					$(this).remove();
+				});
+
+				// Site icon upload
+				var iconUploader;
+				$('.upload-icon-button').on('click', function(e) {
+					e.preventDefault();
+					console.log('Site icon upload button clicked');
+					
+					if (iconUploader) {
+						console.log('Opening existing icon uploader');
+						iconUploader.open();
+						return;
+					}
+					
+					console.log('Creating new icon uploader');
+					iconUploader = wp.media({
+						title: 'Choose Site Icon (Favicon)',
+						button: { text: 'Use as Site Icon' },
+						multiple: false,
+						library: { type: 'image' }
+					});
+					
+					iconUploader.on('select', function() {
+						console.log('Site icon selected');
+						var attachment = iconUploader.state().get('selection').first().toJSON();
+						console.log('Icon attachment:', attachment);
+						
+						$('#site_icon').val(attachment.id);
+						$('.icon-preview').remove();
+						$('.site-icon-upload-wrapper').prepend('<div class="icon-preview" style="margin-bottom: 10px;"><img src="' + attachment.url + '" alt="Favicon" style="width: 64px; height: 64px; border: 1px solid #ddd; padding: 5px; background: #f9f9f9;" /></div>');
+						$('.upload-icon-button').text('Change Site Icon');
+						
+						if (!$('.remove-icon-button').length) {
+							$('.upload-icon-button').after(' <button type="button" class="button button-secondary remove-icon-button" style="margin-left: 5px;">Remove Site Icon</button>');
+						}
+						
+						console.log('Site icon preview updated');
+					});
+					
+					iconUploader.open();
+				});
+
+				// Remove site icon
+				$(document).on('click', '.remove-icon-button', function(e) {
+					e.preventDefault();
+					console.log('Remove site icon clicked');
+					$('#site_icon').val('');
+					$('.icon-preview').remove();
+					$('.upload-icon-button').text('Upload Site Icon');
+					$(this).remove();
+				});
+				
+				console.log('All event handlers attached');
+			});
+			</script>
+		</div>
+		<?php
+	}
+endif;
+
+// Register REST API endpoint for site settings
+if ( ! function_exists( 'twentytwentyfive_register_site_settings_route' ) ) :
+	/**
+	 * Registers REST API route for site settings.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_site_settings_route() {
+		register_rest_route(
+			'wp/v2',
+			'/site-settings',
+			array(
+				'methods'             => 'GET',
+				'callback'            => 'twentytwentyfive_get_site_settings',
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+endif;
+add_action( 'rest_api_init', 'twentytwentyfive_register_site_settings_route' );
+
+// Get site settings
+if ( ! function_exists( 'twentytwentyfive_get_site_settings' ) ) :
+	/**
+	 * Returns site settings including title, logo, and favicon.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return WP_REST_Response Site settings data.
+	 */
+	function twentytwentyfive_get_site_settings() {
+		$custom_logo_id = get_theme_mod( 'custom_logo' );
+		$site_icon_id   = get_option( 'site_icon' );
+
+		$logo_data    = null;
+		$favicon_data = null;
+
+		// Get logo data
+		if ( $custom_logo_id ) {
+			$logo_image = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+			if ( $logo_image ) {
+				$logo_data = array(
+					'url'    => $logo_image[0],
+					'width'  => $logo_image[1],
+					'height' => $logo_image[2],
+					'alt'    => get_post_meta( $custom_logo_id, '_wp_attachment_image_alt', true ),
+				);
+			}
+		}
+
+		// Get favicon data
+		if ( $site_icon_id ) {
+			$favicon_image = wp_get_attachment_image_src( $site_icon_id, 'full' );
+			if ( $favicon_image ) {
+				$favicon_data = array(
+					'url'    => $favicon_image[0],
+					'width'  => $favicon_image[1],
+					'height' => $favicon_image[2],
+				);
+
+				// Get different sizes for favicon
+				$favicon_data['sizes'] = array(
+					'32'  => wp_get_attachment_image_src( $site_icon_id, array( 32, 32 ) )[0],
+					'180' => wp_get_attachment_image_src( $site_icon_id, array( 180, 180 ) )[0],
+					'192' => wp_get_attachment_image_src( $site_icon_id, array( 192, 192 ) )[0],
+					'512' => wp_get_attachment_image_src( $site_icon_id, array( 512, 512 ) )[0],
+				);
+			}
+		}
+
+		$settings = array(
+			'title'       => get_bloginfo( 'name' ),
+			'description' => get_bloginfo( 'description' ),
+			'url'         => get_bloginfo( 'url' ),
+			'logo'        => $logo_data,
+			'favicon'     => $favicon_data,
+		);
+
+		return rest_ensure_response( $settings );
+	}
+endif;
+
+
+// ============================================
+// FOOTER WIDGETS - Dynamic Footer System
+// ============================================
+
+// Register footer widget areas
+if ( ! function_exists( 'twentytwentyfive_register_footer_widgets' ) ) :
+	function twentytwentyfive_register_footer_widgets() {
+		for ( $i = 1; $i <= 5; $i++ ) {
+			register_sidebar(
+				array(
+					'name'          => 'Footer Column ' . $i,
+					'id'            => 'footer-column-' . $i,
+					'description'   => 'Footer widget area column ' . $i,
+					'before_widget' => '<div class="footer-widget">',
+					'after_widget'  => '</div>',
+					'before_title'  => '<h4 class="widget-title">',
+					'after_title'   => '</h4>',
+				)
+			);
+		}
+	}
+endif;
+add_action( 'widgets_init', 'twentytwentyfive_register_footer_widgets' );
+
+// Register custom options for copyright text
+if ( ! function_exists( 'twentytwentyfive_register_footer_copyright_settings' ) ) :
+	function twentytwentyfive_register_footer_copyright_settings() {
+		register_setting(
+			'general',
+			'footer_copyright_left',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'wp_kses_post',
+				'default'           => '',
+			)
+		);
+
+		register_setting(
+			'general',
+			'footer_copyright_right',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'wp_kses_post',
+				'default'           => '',
+			)
+		);
+	}
+endif;
+add_action( 'admin_init', 'twentytwentyfive_register_footer_copyright_settings' );
+
+// Add settings fields to General Settings page
+if ( ! function_exists( 'twentytwentyfive_add_footer_copyright_fields' ) ) :
+	function twentytwentyfive_add_footer_copyright_fields() {
+		add_settings_section(
+			'footer_copyright_section',
+			'Footer Copyright Settings',
+			function () {
+				echo '<p>Configure the left and right copyright text for your footer.</p>';
+			},
+			'general'
+		);
+
+		add_settings_field(
+			'footer_copyright_left',
+			'Copyright Left Text',
+			function () {
+				$value = get_option( 'footer_copyright_left', '' );
+				echo '<textarea name="footer_copyright_left" rows="3" cols="50" class="large-text">' . esc_textarea( $value ) . '</textarea>';
+				echo '<p class="description">HTML allowed. Use {year} for current year.</p>';
+			},
+			'general',
+			'footer_copyright_section'
+		);
+
+		add_settings_field(
+			'footer_copyright_right',
+			'Copyright Right Text',
+			function () {
+				$value = get_option( 'footer_copyright_right', '' );
+				echo '<textarea name="footer_copyright_right" rows="3" cols="50" class="large-text">' . esc_textarea( $value ) . '</textarea>';
+				echo '<p class="description">HTML allowed. Use {year} for current year.</p>';
+			},
+			'general',
+			'footer_copyright_section'
+		);
+	}
+endif;
+add_action( 'admin_init', 'twentytwentyfive_add_footer_copyright_fields' );
+
+// REST API endpoint for footer widgets
+if ( ! function_exists( 'twentytwentyfive_register_footer_widgets_endpoint' ) ) :
+	function twentytwentyfive_register_footer_widgets_endpoint() {
+		register_rest_route(
+			'wp/v2',
+			'/footer-widgets',
+			array(
+				'methods'             => 'GET',
+				'callback'            => 'twentytwentyfive_get_footer_widgets_data',
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+endif;
+add_action( 'rest_api_init', 'twentytwentyfive_register_footer_widgets_endpoint' );
+
+// Get footer widgets data
+if ( ! function_exists( 'twentytwentyfive_get_footer_widgets_data' ) ) :
+	function twentytwentyfive_get_footer_widgets_data() {
+		$footer_data = array();
+
+		// Get widget data for each column
+		for ( $i = 1; $i <= 5; $i++ ) {
+			$sidebar_id = 'footer-column-' . $i;
+
+			if ( is_active_sidebar( $sidebar_id ) ) {
+				ob_start();
+				dynamic_sidebar( $sidebar_id );
+				$content = ob_get_clean();
+
+				// Parse the widget content
+				$widget_data = twentytwentyfive_parse_footer_widget_content( $content, $sidebar_id );
+
+				if ( $widget_data ) {
+					$footer_data[ 'column' . $i ] = $widget_data;
+				}
+			}
+		}
+
+		// Get copyright text
+		$copyright_left  = get_option( 'footer_copyright_left', '' );
+		$copyright_right = get_option( 'footer_copyright_right', '' );
+
+		// Replace {year} placeholder with current year
+		$current_year    = gmdate( 'Y' );
+		$copyright_left  = str_replace( '{year}', $current_year, $copyright_left );
+		$copyright_right = str_replace( '{year}', $current_year, $copyright_right );
+
+		$footer_data['copyrightLeft']  = $copyright_left;
+		$footer_data['copyrightRight'] = $copyright_right;
+
+		return rest_ensure_response( $footer_data );
+	}
+endif;
+
+// Parse footer widget content
+if ( ! function_exists( 'twentytwentyfive_parse_footer_widget_content' ) ) :
+	function twentytwentyfive_parse_footer_widget_content( $content, $sidebar_id ) {
+		if ( empty( $content ) ) {
+			return null;
+		}
+
+		// Extract title
+		preg_match( '/<h4[^>]*class="widget-title"[^>]*>(.*?)<\/h4>/s', $content, $title_matches );
+		$title = isset( $title_matches[1] ) ? wp_strip_all_tags( $title_matches[1] ) : '';
+
+		// Remove title from content
+		$content = preg_replace( '/<h4[^>]*class="widget-title"[^>]*>.*?<\/h4>/s', '', $content );
+
+		// Extract links if it's a menu widget
+		$links = array();
+		preg_match_all( '/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/s', $content, $link_matches, PREG_SET_ORDER );
+
+		if ( ! empty( $link_matches ) ) {
+			foreach ( $link_matches as $match ) {
+				$links[] = array(
+					'url'   => $match[1],
+					'label' => wp_strip_all_tags( $match[2] ),
+				);
+			}
+		}
+
+		// Clean up content
+		$content = wp_strip_all_tags( $content, '<p><br><strong><em><a><ul><li>' );
+		$content = trim( $content );
+
+		return array(
+			'id'      => $sidebar_id,
+			'title'   => $title,
+			'content' => $content,
+			'links'   => $links,
+		);
+	}
+endif;
+
+
+// ============================================
+// ACF BLOCKS REGISTRATION
+// ============================================
+
+// Register ACF Blocks
+if ( ! function_exists( 'twentytwentyfive_register_acf_blocks' ) ) :
+	/**
+	 * Registers ACF blocks.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_acf_blocks() {
+		// Check if ACF function exists
+		if ( ! function_exists( 'acf_register_block_type' ) ) {
+			return;
+		}
+
+		// Register Full Width Left Text Section Block
+		acf_register_block_type(
+			array(
+				'name'            => 'full-width-left-text-section',
+				'title'           => __( 'Full Width Left Text Section', 'twentytwentyfive' ),
+				'description'     => __( 'A full-width section with left-aligned text content and right image', 'twentytwentyfive' ),
+				'render_template' => get_template_directory() . '/blocks/full-width-left-text-section.php',
+				'category'        => 'formatting',
+				'icon'            => 'align-left',
+				'keywords'        => array( 'full', 'width', 'text', 'section', 'case', 'studies' ),
+				'supports'        => array(
+					'align'  => array( 'wide', 'full' ),
+					'anchor' => true,
+				),
+				'mode'            => 'preview',
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview',
+						'data' => array(
+							'heading'     => 'Sample Heading',
+							'sub_heading' => 'Sample subheading text',
+						),
+					),
+				),
+			)
+		);
+
+		// Register Image Grid Hover Block
+		acf_register_block_type(
+			array(
+				'name'            => 'image-grid-hover',
+				'title'           => __( 'Image Grid Hover', 'twentytwentyfive' ),
+				'description'     => __( 'Image grid with hover effects - 1 large image + 4 smaller images in 2x2 grid', 'twentytwentyfive' ),
+				'render_template' => get_template_directory() . '/blocks/image-grid-hover/block.php',
+				'category'        => 'media',
+				'icon'            => 'grid-view',
+				'keywords'        => array( 'image', 'grid', 'hover', 'gallery' ),
+				'supports'        => array(
+					'align' => array( 'wide', 'full' ),
+				),
+			)
+		);
+	}
+endif;
+add_action( 'acf/init', 'twentytwentyfive_register_acf_blocks' );
+
+// Enqueue ACF block assets for editor
+if ( ! function_exists( 'twentytwentyfive_enqueue_acf_block_editor_assets' ) ) :
+	/**
+	 * Enqueues ACF block assets for the editor.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_enqueue_acf_block_editor_assets() {
+		// Image Grid Hover Block styles
+		wp_enqueue_style(
+			'image-grid-hover-editor-style',
+			get_template_directory_uri() . '/blocks/image-grid-hover/style.css',
+			array(),
+			filemtime( get_template_directory() . '/blocks/image-grid-hover/style.css' )
+		);
+		
+		// Full Width Left Text Section Block styles
+		if ( file_exists( get_template_directory() . '/blocks/full-width-left-text-section.css' ) ) {
+			wp_enqueue_style(
+				'full-width-left-text-section-editor-style',
+				get_template_directory_uri() . '/blocks/full-width-left-text-section.css',
+				array(),
+				filemtime( get_template_directory() . '/blocks/full-width-left-text-section.css' )
+			);
+		}
+	}
+endif;
+add_action( 'enqueue_block_editor_assets', 'twentytwentyfive_enqueue_acf_block_editor_assets' );
+
+// Enqueue ACF block assets for frontend
+if ( ! function_exists( 'twentytwentyfive_enqueue_acf_block_frontend_assets' ) ) :
+	/**
+	 * Enqueues ACF block assets for the frontend.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_enqueue_acf_block_frontend_assets() {
+		// Only enqueue if blocks are present on the page
+		if ( has_block( 'acf/image-grid-hover' ) ) {
+			wp_enqueue_style(
+				'image-grid-hover-style',
+				get_template_directory_uri() . '/blocks/image-grid-hover/style.css',
+				array(),
+				filemtime( get_template_directory() . '/blocks/image-grid-hover/style.css' )
+			);
+			
+			wp_enqueue_script(
+				'image-grid-hover-script',
+				get_template_directory_uri() . '/blocks/image-grid-hover/script.js',
+				array(),
+				filemtime( get_template_directory() . '/blocks/image-grid-hover/script.js' ),
+				true
+			);
+		}
+		
+		if ( has_block( 'acf/full-width-left-text-section' ) && file_exists( get_template_directory() . '/blocks/full-width-left-text-section.css' ) ) {
+			wp_enqueue_style(
+				'full-width-left-text-section-style',
+				get_template_directory_uri() . '/blocks/full-width-left-text-section.css',
+				array(),
+				filemtime( get_template_directory() . '/blocks/full-width-left-text-section.css' )
+			);
+		}
+	}
+endif;
+add_action( 'wp_enqueue_scripts', 'twentytwentyfive_enqueue_acf_block_frontend_assets' );
+
+// ============================================
+// FOOTER WIDGETS API
+// ============================================
+
+// Register footer widget areas
+if ( ! function_exists( 'twentytwentyfive_register_footer_widgets' ) ) :
+	/**
+	 * Registers footer widget areas.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_footer_widgets() {
+		for ( $i = 1; $i <= 5; $i++ ) {
+			register_sidebar(
+				array(
+					'name'          => 'Footer Column ' . $i,
+					'id'            => 'footer-column-' . $i,
+					'description'   => 'Footer widget area column ' . $i,
+					'before_widget' => '<div class="footer-widget">',
+					'after_widget'  => '</div>',
+					'before_title'  => '<h4 class="widget-title">',
+					'after_title'   => '</h4>',
+				)
+			);
+		}
+	}
+endif;
+add_action( 'widgets_init', 'twentytwentyfive_register_footer_widgets' );
+
+// Register custom options for copyright text
+if ( ! function_exists( 'twentytwentyfive_register_footer_copyright_settings' ) ) :
+	/**
+	 * Registers footer copyright settings.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_footer_copyright_settings() {
+		register_setting(
+			'general',
+			'footer_copyright_left',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'wp_kses_post',
+				'default'           => '',
+			)
+		);
+
+		register_setting(
+			'general',
+			'footer_copyright_right',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'wp_kses_post',
+				'default'           => '',
+			)
+		);
+	}
+endif;
+add_action( 'admin_init', 'twentytwentyfive_register_footer_copyright_settings' );
+
+// Add settings fields to General Settings page
+if ( ! function_exists( 'twentytwentyfive_add_footer_copyright_fields' ) ) :
+	/**
+	 * Adds footer copyright fields to General Settings page.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_add_footer_copyright_fields() {
+		add_settings_section(
+			'footer_copyright_section',
+			'Footer Copyright Settings',
+			function () {
+				echo '<p>Configure the left and right copyright text for your footer.</p>';
+			},
+			'general'
+		);
+
+		add_settings_field(
+			'footer_copyright_left',
+			'Copyright Left Text',
+			function () {
+				$value = get_option( 'footer_copyright_left', '' );
+				echo '<textarea name="footer_copyright_left" rows="3" cols="50" class="large-text">' . esc_textarea( $value ) . '</textarea>';
+				echo '<p class="description">HTML allowed. Use {year} for current year.</p>';
+			},
+			'general',
+			'footer_copyright_section'
+		);
+
+		add_settings_field(
+			'footer_copyright_right',
+			'Copyright Right Text',
+			function () {
+				$value = get_option( 'footer_copyright_right', '' );
+				echo '<textarea name="footer_copyright_right" rows="3" cols="50" class="large-text">' . esc_textarea( $value ) . '</textarea>';
+				echo '<p class="description">HTML allowed. Use {year} for current year.</p>';
+			},
+			'general',
+			'footer_copyright_section'
+		);
+	}
+endif;
+add_action( 'admin_init', 'twentytwentyfive_add_footer_copyright_fields' );
+
+// REST API endpoint for footer widgets
+if ( ! function_exists( 'twentytwentyfive_register_footer_widgets_endpoint' ) ) :
+	/**
+	 * Registers REST API endpoint for footer widgets.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_footer_widgets_endpoint() {
+		register_rest_route(
+			'wp/v2',
+			'/footer-widgets',
+			array(
+				'methods'             => 'GET',
+				'callback'            => 'twentytwentyfive_get_footer_widgets_data',
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+endif;
+add_action( 'rest_api_init', 'twentytwentyfive_register_footer_widgets_endpoint' );
+
+// Get footer widgets data
+if ( ! function_exists( 'twentytwentyfive_get_footer_widgets_data' ) ) :
+	/**
+	 * Returns footer widgets data for REST API.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return WP_REST_Response Footer widgets data.
+	 */
+	function twentytwentyfive_get_footer_widgets_data() {
+		$footer_data = array();
+
+		// Get widget data for each column
+		for ( $i = 1; $i <= 5; $i++ ) {
+			$sidebar_id = 'footer-column-' . $i;
+
+			if ( is_active_sidebar( $sidebar_id ) ) {
+				ob_start();
+				dynamic_sidebar( $sidebar_id );
+				$content = ob_get_clean();
+
+				// Parse the widget content
+				$widget_data = twentytwentyfive_parse_footer_widget_content( $content, $sidebar_id );
+
+				if ( $widget_data ) {
+					$footer_data[ 'column' . $i ] = $widget_data;
+				}
+			}
+		}
+
+		// Get copyright text
+		$copyright_left  = get_option( 'footer_copyright_left', '' );
+		$copyright_right = get_option( 'footer_copyright_right', '' );
+
+		// Replace {year} placeholder with current year
+		$current_year    = gmdate( 'Y' );
+		$copyright_left  = str_replace( '{year}', $current_year, $copyright_left );
+		$copyright_right = str_replace( '{year}', $current_year, $copyright_right );
+
+		$footer_data['copyrightLeft']  = $copyright_left;
+		$footer_data['copyrightRight'] = $copyright_right;
+
+		return rest_ensure_response( $footer_data );
+	}
+endif;
+
+// Parse footer widget content
+if ( ! function_exists( 'twentytwentyfive_parse_footer_widget_content' ) ) :
+	/**
+	 * Parses footer widget content.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param string $content    Widget content HTML.
+	 * @param string $sidebar_id Sidebar ID.
+	 * @return array|null Parsed widget data or null.
+	 */
+	function twentytwentyfive_parse_footer_widget_content( $content, $sidebar_id ) {
+		if ( empty( $content ) ) {
+			return null;
+		}
+
+		// Extract title
+		preg_match( '/<h4[^>]*class="widget-title"[^>]*>(.*?)<\/h4>/s', $content, $title_matches );
+		$title = isset( $title_matches[1] ) ? strip_tags( $title_matches[1] ) : '';
+
+		// Remove title from content
+		$content = preg_replace( '/<h4[^>]*class="widget-title"[^>]*>.*?<\/h4>/s', '', $content );
+
+		// Extract links if it's a menu widget
+		$links = array();
+		preg_match_all( '/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/s', $content, $link_matches, PREG_SET_ORDER );
+
+		if ( ! empty( $link_matches ) ) {
+			foreach ( $link_matches as $match ) {
+				$links[] = array(
+					'url'   => $match[1],
+					'label' => strip_tags( $match[2] ),
+				);
+			}
+
+			// If we found links, remove the entire menu/list structure from content
+			// This prevents duplicate display of menu items
+			$content = preg_replace( '/<ul[^>]*>.*?<\/ul>/s', '', $content );
+			$content = preg_replace( '/<nav[^>]*>.*?<\/nav>/s', '', $content );
+		}
+
+		// Clean up content - keep images and preserve HTML structure
+		$content = strip_tags( $content, '<p><br><strong><em><a><img><ul><li><div><span>' );
+		$content = trim( $content );
+
+		// If content is empty after removing menus, set it to empty string
+		if ( empty( $content ) || '<div class="footer-widget"></div>' === $content ) {
+			$content = '';
+		}
+
+		return array(
+			'id'      => $sidebar_id,
+			'title'   => $title,
+			'content' => $content,
+			'links'   => $links,
+		);
+	}
+endif;
+
+
+// Set ACF JSON save/load paths
+if ( ! function_exists( 'twentytwentyfive_acf_json_save_point' ) ) :
+	/**
+	 * Sets the ACF JSON save point.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param string $path The default path.
+	 * @return string Modified path.
+	 */
+	function twentytwentyfive_acf_json_save_point( $path ) {
+		return get_stylesheet_directory() . '/acf-json';
+	}
+endif;
+add_filter( 'acf/settings/save_json', 'twentytwentyfive_acf_json_save_point' );
+
+if ( ! function_exists( 'twentytwentyfive_acf_json_load_point' ) ) :
+	/**
+	 * Sets the ACF JSON load point.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param array $paths Array of paths.
+	 * @return array Modified paths.
+	 */
+	function twentytwentyfive_acf_json_load_point( $paths ) {
+		unset( $paths[0] );
+		$paths[] = get_stylesheet_directory() . '/acf-json';
+		return $paths;
+	}
+endif;
+add_filter( 'acf/settings/load_json', 'twentytwentyfive_acf_json_load_point' );
+
+
+// Register Icon Text Grid ACF Block
+if ( ! function_exists( 'twentytwentyfive_register_icon_text_grid_block' ) ) :
+	/**
+	 * Registers the Icon Text Grid ACF block.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_icon_text_grid_block() {
+		// Check if ACF function exists
+		if ( ! function_exists( 'acf_register_block_type' ) ) {
+			return;
+		}
+
+		acf_register_block_type(
+			array(
+				'name'            => 'icon-text-grid',
+				'title'           => __( 'Icon Text Grid', 'twentytwentyfive' ),
+				'description'     => __( 'Flexible grid with text and icons that rotate on hover', 'twentytwentyfive' ),
+				'render_template' => get_template_directory() . '/blocks/icon-text-grid/block.php',
+				'category'        => 'formatting',
+				'icon'            => 'grid-view',
+				'keywords'        => array( 'icon', 'grid', 'text', 'link', 'clickable' ),
+				'supports'        => array(
+					'align'  => true,
+					'anchor' => true,
+				),
+				'enqueue_style'   => get_template_directory_uri() . '/blocks/icon-text-grid/style.css',
+				'enqueue_script'  => get_template_directory_uri() . '/blocks/icon-text-grid/script.js',
+			)
+		);
+	}
+endif;
+add_action( 'acf/init', 'twentytwentyfive_register_icon_text_grid_block' );
+
+
+// Register ACF Blocks
+if ( ! function_exists( 'twentytwentyfive_register_acf_blocks' ) ) :
+	/**
+	 * Registers ACF blocks.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_acf_blocks() {
+		if ( ! function_exists( 'acf_register_block_type' ) ) {
+			return;
+		}
+
+		// Register Promo Block
+		acf_register_block_type(
+			array(
+				'name'            => 'promo-block',
+				'title'           => __( 'Promo Block', 'twentytwentyfive' ),
+				'description'     => __( 'A promotional banner with background image, heading, sub-heading, and CTA button', 'twentytwentyfive' ),
+				'render_template' => get_template_directory() . '/blocks/promo-block.php',
+				'category'        => 'formatting',
+				'icon'            => 'megaphone',
+				'keywords'        => array( 'promo', 'banner', 'cta', 'promotional' ),
+				'supports'        => array(
+					'align'  => array( 'full', 'wide' ),
+					'mode'   => true,
+					'jsx'    => true,
+					'anchor' => true,
+				),
+				'example'         => array(
+					'attributes' => array(
+						'mode' => 'preview',
+						'data' => array(
+							'heading'     => 'Ring the Sound of Opportunity',
+							'sub_heading' => 'Move 1,000+1,000 Lives Forward',
+							'button_text' => 'READ MORE',
+							'button_link' => '#',
+						),
+					),
+				),
+			)
+		);
+
+		// Register Full Width Left Text Section
+		acf_register_block_type(
+			array(
+				'name'            => 'full-width-left-text-section',
+				'title'           => __( 'Full Width Left Text Section', 'twentytwentyfive' ),
+				'description'     => __( 'A full-width section with left-aligned text', 'twentytwentyfive' ),
+				'render_template' => get_template_directory() . '/blocks/full-width-left-text-section.php',
+				'category'        => 'formatting',
+				'icon'            => 'align-left',
+				'keywords'        => array( 'text', 'section', 'full-width' ),
+				'supports'        => array(
+					'align' => array( 'full', 'wide' ),
+					'mode'  => true,
+					'jsx'   => true,
+				),
+			)
+		);
+
+		// Register Image Grid Hover
+		acf_register_block_type(
+			array(
+				'name'            => 'image-grid-hover',
+				'title'           => __( 'Image Grid Hover', 'twentytwentyfive' ),
+				'description'     => __( 'A grid of images with hover effects', 'twentytwentyfive' ),
+				'render_template' => get_template_directory() . '/blocks/image-grid-hover.php',
+				'category'        => 'media',
+				'icon'            => 'grid-view',
+				'keywords'        => array( 'image', 'grid', 'gallery', 'hover' ),
+				'supports'        => array(
+					'align' => array( 'full', 'wide' ),
+					'mode'  => true,
+					'jsx'   => true,
+				),
+			)
+		);
+
+		// Register Icon Text Grid
+		acf_register_block_type(
+			array(
+				'name'            => 'icon-text-grid',
+				'title'           => __( 'Icon Text Grid', 'twentytwentyfive' ),
+				'description'     => __( 'A grid of icons with text', 'twentytwentyfive' ),
+				'render_template' => get_template_directory() . '/blocks/icon-text-grid/icon-text-grid.php',
+				'category'        => 'formatting',
+				'icon'            => 'grid-view',
+				'keywords'        => array( 'icon', 'text', 'grid' ),
+				'supports'        => array(
+					'align' => array( 'full', 'wide' ),
+					'mode'  => true,
+					'jsx'   => true,
+				),
+			)
+		);
+	}
+endif;
+add_action( 'acf/init', 'twentytwentyfive_register_acf_blocks' );
+
+// Set ACF JSON save point
+if ( ! function_exists( 'twentytwentyfive_acf_json_save_point' ) ) :
+	/**
+	 * Sets the ACF JSON save point.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param string $path The path to save ACF JSON files.
+	 * @return string Modified path.
+	 */
+	function twentytwentyfive_acf_json_save_point( $path ) {
+		return get_stylesheet_directory() . '/acf-json';
+	}
+endif;
+add_filter( 'acf/settings/save_json', 'twentytwentyfive_acf_json_save_point' );
+
+// Set ACF JSON load point
+if ( ! function_exists( 'twentytwentyfive_acf_json_load_point' ) ) :
+	/**
+	 * Sets the ACF JSON load point.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @param array $paths Array of paths to load ACF JSON files from.
+	 * @return array Modified paths.
+	 */
+	function twentytwentyfive_acf_json_load_point( $paths ) {
+		$paths[] = get_stylesheet_directory() . '/acf-json';
+		return $paths;
+	}
+endif;
+add_filter( 'acf/settings/load_json', 'twentytwentyfive_acf_json_load_point' );
+
+
+// Load centralized ACF blocks registration
+require_once get_template_directory() . '/inc/acf-blocks.php';

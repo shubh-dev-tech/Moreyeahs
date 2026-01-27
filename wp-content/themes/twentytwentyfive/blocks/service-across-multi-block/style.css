@@ -1,0 +1,507 @@
+/**
+ * Service Across Multi Block Styles
+ * 
+ * Styles for the multi-cloud services block with platforms, 
+ * service categories, technologies, and testimonial quote
+ */
+
+.service-across-multi-block {
+    position: relative;
+    padding: 80px 0;
+    overflow: hidden;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+}
+
+.samb-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Header Section */
+.samb-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.samb-main-heading {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 20px 0;
+    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.samb-main-description {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0.9;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Cloud Platforms Section */
+.samb-platforms {
+    margin-bottom: 80px;
+}
+
+.samb-platforms-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.samb-platform-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.samb-platform-badge:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.samb-platform-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    z-index: -1;
+}
+
+.samb-platform-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.samb-platform-name {
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Service Categories Section */
+.samb-services {
+    margin-bottom: 80px;
+}
+
+.samb-services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+}
+
+.samb-service-category {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 32px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.samb-service-category:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.samb-service-category::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+    border-radius: 16px 16px 0 0;
+}
+
+.samb-category-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 24px 0;
+    color: #ffffff;
+}
+
+.samb-services-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.samb-service-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 8px 0;
+    transition: all 0.2s ease;
+}
+
+.samb-service-item:hover {
+    padding-left: 8px;
+}
+
+.samb-service-checkmark {
+    color: #10b981;
+    font-weight: bold;
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.samb-service-name {
+    font-size: 1rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+/* Implementations & Technologies Section */
+.samb-implementations {
+    margin-bottom: 80px;
+}
+
+.samb-implementations-title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 40px 0;
+    color: #ffffff;
+}
+
+.samb-tech-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+}
+
+.samb-tech-badge {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.samb-tech-badge:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    filter: brightness(1.1);
+}
+
+.samb-tech-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.samb-tech-badge:hover::before {
+    left: 100%;
+}
+
+/* Testimonial Section */
+.samb-testimonial {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.samb-quote {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4;
+    margin: 0;
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.samb-quote::before,
+.samb-quote::after {
+    content: '"';
+    font-size: 4rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.3);
+    position: absolute;
+    line-height: 1;
+}
+
+.samb-quote::before {
+    top: -20px;
+    left: 0;
+}
+
+.samb-quote::after {
+    bottom: -40px;
+    right: 0;
+}
+
+/* Decorative Elements */
+.samb-decorative-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.samb-circle {
+    position: absolute;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.samb-circle-1 {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    right: 10%;
+    animation-delay: 0s;
+}
+
+.samb-circle-2 {
+    width: 150px;
+    height: 150px;
+    bottom: 20%;
+    left: 5%;
+    animation-delay: 2s;
+}
+
+.samb-circle-3 {
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    right: 5%;
+    animation-delay: 4s;
+}
+
+.samb-circle-4 {
+    width: 80px;
+    height: 80px;
+    bottom: 10%;
+    right: 20%;
+    animation-delay: 1s;
+}
+
+.samb-line {
+    position: absolute;
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+    border-radius: 2px;
+    animation: pulse 4s ease-in-out infinite;
+}
+
+.samb-line-1 {
+    width: 200px;
+    height: 2px;
+    top: 30%;
+    left: 10%;
+    transform: rotate(45deg);
+    animation-delay: 0s;
+}
+
+.samb-line-2 {
+    width: 150px;
+    height: 2px;
+    bottom: 40%;
+    right: 15%;
+    transform: rotate(-30deg);
+    animation-delay: 2s;
+}
+
+.samb-line-3 {
+    width: 100px;
+    height: 2px;
+    top: 70%;
+    left: 20%;
+    transform: rotate(60deg);
+    animation-delay: 1s;
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.6;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .service-across-multi-block {
+        padding: 60px 0;
+    }
+    
+    .samb-container {
+        padding: 0 16px;
+    }
+    
+    .samb-header {
+        margin-bottom: 40px;
+    }
+    
+    .samb-main-heading {
+        font-size: 2.5rem;
+    }
+    
+    .samb-main-description {
+        font-size: 1.1rem;
+    }
+    
+    .samb-platforms-grid {
+        gap: 20px;
+    }
+    
+    .samb-platform-badge {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .samb-services-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    
+    .samb-service-category {
+        padding: 24px;
+    }
+    
+    .samb-category-title {
+        font-size: 1.25rem;
+    }
+    
+    .samb-tech-badges {
+        gap: 12px;
+    }
+    
+    .samb-tech-badge {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+    
+    .samb-implementations-title {
+        font-size: 1.5rem;
+    }
+    
+    .samb-quote {
+        font-size: 1.5rem;
+        padding: 0 20px;
+    }
+    
+    .samb-quote::before,
+    .samb-quote::after {
+        font-size: 3rem;
+    }
+    
+    /* Hide decorative elements on mobile for better performance */
+    .samb-decorative-elements {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .samb-platforms-grid {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .samb-platform-badge {
+        justify-content: center;
+    }
+    
+    .samb-services,
+    .samb-implementations {
+        margin-bottom: 60px;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .samb-platform-badge,
+    .samb-service-category {
+        border-color: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .samb-tech-badge {
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .samb-platform-badge,
+    .samb-service-category,
+    .samb-tech-badge,
+    .samb-service-item {
+        transition: none;
+    }
+    
+    .samb-circle,
+    .samb-line {
+        animation: none;
+    }
+    
+    .samb-decorative-elements {
+        display: none;
+    }
+}

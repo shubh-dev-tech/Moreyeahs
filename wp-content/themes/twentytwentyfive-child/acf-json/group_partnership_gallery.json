@@ -1,0 +1,390 @@
+{
+    "key": "group_partnership_gallery",
+    "title": "Partnership Gallery",
+    "fields": [
+        {
+            "key": "field_partnership_heading",
+            "label": "Heading",
+            "name": "heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Main heading for the partnership gallery section",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Cloud & Platform Partnerships",
+            "placeholder": "Enter heading",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_partnership_sub_heading",
+            "label": "Sub Heading",
+            "name": "sub_heading",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Sub heading or description for the partnership gallery section",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "Enter sub heading or description",
+            "maxlength": "",
+            "rows": 3,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_partnership_gallery_images",
+            "label": "Partnership Images",
+            "name": "gallery_images",
+            "aria-label": "",
+            "type": "gallery",
+            "instructions": "Upload partner logos or images",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "insert": "append",
+            "library": "all",
+            "min": 1,
+            "max": "",
+            "mime_types": "jpg,jpeg,png,gif,webp,svg",
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0
+        },
+        {
+            "key": "field_partnership_layout_type",
+            "label": "Layout Type",
+            "name": "layout_type",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose between grid layout or slider layout",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "grid": "Grid Layout",
+                "slider": "Slider Layout"
+            },
+            "default_value": "grid",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 1,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_partnership_columns_count",
+            "label": "Columns Count",
+            "name": "columns_count",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose how many columns to display",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "3": "3 Columns",
+                "4": "4 Columns",
+                "5": "5 Columns",
+                "6": "6 Columns"
+            },
+            "default_value": 4,
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 1,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_partnership_enable_slider",
+            "label": "Enable Infinite Slider",
+            "name": "enable_slider",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Enable infinite loop slider (only works when Layout Type is set to Slider)",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_partnership_layout_type",
+                        "operator": "==",
+                        "value": "slider"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Yes",
+            "ui_off_text": "No"
+        },
+        {
+            "key": "field_partnership_slider_speed",
+            "label": "Slider Speed (seconds)",
+            "name": "slider_speed",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Speed of the slider animation in seconds",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_partnership_layout_type",
+                        "operator": "==",
+                        "value": "slider"
+                    },
+                    {
+                        "field": "field_partnership_enable_slider",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 3,
+            "placeholder": "",
+            "prepend": "",
+            "append": "seconds",
+            "min": 1,
+            "max": 10,
+            "step": 0.5
+        },
+        {
+            "key": "field_partnership_autoplay",
+            "label": "Autoplay Slider",
+            "name": "autoplay_slider",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Enable autoplay for the slider",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_partnership_layout_type",
+                        "operator": "==",
+                        "value": "slider"
+                    },
+                    {
+                        "field": "field_partnership_enable_slider",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Yes",
+            "ui_off_text": "No"
+        },
+        {
+            "key": "field_partnership_slider_direction",
+            "label": "Slider Direction",
+            "name": "slider_direction",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose the direction of the slider movement",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_partnership_layout_type",
+                        "operator": "==",
+                        "value": "slider"
+                    },
+                    {
+                        "field": "field_partnership_enable_slider",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "left": "Left to Right",
+                "right": "Right to Left"
+            },
+            "default_value": "left",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 1,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_partnership_image_style",
+            "label": "Image Style",
+            "name": "image_style",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose how images should be displayed within their containers",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "contain": "Contain (fit within container)",
+                "cover": "Cover (fill container)",
+                "fill": "Fill (stretch to fit)"
+            },
+            "default_value": "contain",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 1,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_partnership_image_hover_effect",
+            "label": "Image Hover Effect",
+            "name": "image_hover_effect",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose the hover effect for images",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "scale": "Scale & Lift",
+                "fade": "Fade In",
+                "rotate": "Rotate & Scale",
+                "none": "Color Only"
+            },
+            "default_value": "scale",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 1,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_partnership_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose background color for the section",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#f8f9fa",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_partnership_text_color",
+            "label": "Text Color",
+            "name": "text_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose text color for heading and sub heading",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#333333",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/partnership-gallery"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Flexible partnership gallery with multiple layout options, infinite slider, and customizable styling",
+    "show_in_rest": false,
+    "display_title": "",
+    "modified": 1767684366
+}

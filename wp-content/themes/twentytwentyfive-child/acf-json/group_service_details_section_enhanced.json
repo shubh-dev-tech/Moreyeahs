@@ -1,0 +1,622 @@
+{
+    "key": "group_service_details_section_enhanced",
+    "title": "Service Details Section (Enhanced)",
+    "fields": [
+        {
+            "key": "field_sds_bg_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose a background color for the section",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#f8f9fa",
+            "enable_opacity": false,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_sds_bg_image",
+            "label": "Background Image",
+            "name": "background_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Upload a background image (optional - will overlay on background color)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0,
+            "mime_types": ""
+        },
+        {
+            "key": "field_sds_heading",
+            "label": "Main Heading",
+            "name": "heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the main heading for the section",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placeholder": "What We Mean by Solutions",
+            "default_value": "",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sds_sub_heading",
+            "label": "Sub Heading",
+            "name": "sub_heading",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Enter the sub heading text below the main heading",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "rows": 2,
+            "placeholder": "We bring you powerful advantages to navigate your digital transformation",
+            "default_value": "",
+            "new_lines": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_sds_service_template",
+            "label": "Quick Service Templates",
+            "name": "service_template",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose a pre-defined template to quickly add common services",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "": "-- Select Template --",
+                "tech_services": "Technology Services",
+                "business_services": "Business Services",
+                "enterprise_solutions": "Enterprise Solutions",
+                "custom": "Custom Services"
+            },
+            "default_value": false,
+            "allow_null": 1,
+            "multiple": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_sds_services",
+            "label": "Services",
+            "name": "services",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add service details with icons, titles, and descriptions. Use the template above for quick setup.",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "button_label": "Add Service",
+            "min": 1,
+            "max": 12,
+            "rows_per_page": 20,
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_service_category",
+                    "label": "Service Category",
+                    "name": "service_category",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "Categorize this service for better organization",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "technical": "Technical Services",
+                        "business": "Business Services",
+                        "enterprise": "Enterprise Solutions",
+                        "consulting": "Consulting Services",
+                        "support": "Support Services"
+                    },
+                    "default_value": "technical",
+                    "allow_null": 1,
+                    "multiple": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "return_format": "value",
+                    "create_options": 0,
+                    "save_options": 0,
+                    "parent_repeater": "field_sds_services"
+                },
+                {
+                    "key": "field_service_icon",
+                    "label": "Service Icon",
+                    "name": "service_icon",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Upload an icon for this service (recommended: SVG or PNG, 64x64px)",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "min_width": 0,
+                    "min_height": 0,
+                    "min_size": 0,
+                    "max_width": 0,
+                    "max_height": 0,
+                    "max_size": 0,
+                    "mime_types": "",
+                    "parent_repeater": "field_sds_services"
+                },
+                {
+                    "key": "field_service_icon_color",
+                    "label": "Icon Color Override",
+                    "name": "service_icon_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Override the icon color (works best with SVG icons)",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_service_icon",
+                                "operator": "!=",
+                                "value": ""
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "enable_opacity": false,
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true,
+                    "return_format": "string",
+                    "parent_repeater": "field_sds_services"
+                },
+                {
+                    "key": "field_service_title",
+                    "label": "Service Title",
+                    "name": "service_title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter the service title",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "Data Science & AI",
+                    "default_value": "",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sds_services"
+                },
+                {
+                    "key": "field_service_subtitle",
+                    "label": "Service Subtitle",
+                    "name": "service_subtitle",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Optional subtitle for additional context",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "Advanced Analytics Solutions",
+                    "default_value": "",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sds_services"
+                },
+                {
+                    "key": "field_service_description_type",
+                    "label": "Description Type",
+                    "name": "service_description_type",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "Choose how to display the service description",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "bullet_list": "Bullet List",
+                        "paragraph": "Paragraph Text",
+                        "features": "Feature List with Icons"
+                    },
+                    "default_value": "bullet_list",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "return_format": "value",
+                    "create_options": 0,
+                    "save_options": 0,
+                    "parent_repeater": "field_sds_services"
+                },
+                {
+                    "key": "field_service_description",
+                    "label": "Service Description",
+                    "name": "service_description",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Enter service description. For bullet lists, start each line with • or -",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_service_description_type",
+                                "operator": "!=",
+                                "value": "features"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "rows": 4,
+                    "placeholder": "• AI\/ML models\n• Computer vision\n• Predictive analytics\n• Data visualization",
+                    "default_value": "",
+                    "new_lines": "",
+                    "maxlength": "",
+                    "parent_repeater": "field_sds_services"
+                },
+                {
+                    "key": "field_service_features",
+                    "label": "Service Features",
+                    "name": "service_features",
+                    "aria-label": "",
+                    "type": "repeater",
+                    "instructions": "Add individual features with optional icons",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_service_description_type",
+                                "operator": "==",
+                                "value": "features"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "table",
+                    "button_label": "Add Feature",
+                    "min": 0,
+                    "max": 8,
+                    "rows_per_page": 20,
+                    "collapsed": "",
+                    "sub_fields": [
+                        {
+                            "key": "field_feature_icon",
+                            "label": "Feature Icon",
+                            "name": "feature_icon",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "Small icon for this feature (optional)",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "preview_size": "medium",
+                            "library": "all",
+                            "min_width": 0,
+                            "min_height": 0,
+                            "min_size": 0,
+                            "max_width": 0,
+                            "max_height": 0,
+                            "max_size": 0,
+                            "mime_types": "",
+                            "parent_repeater": "field_service_features"
+                        },
+                        {
+                            "key": "field_feature_text",
+                            "label": "Feature Text",
+                            "name": "feature_text",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "Feature description",
+                            "required": 1,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placeholder": "AI\/ML models",
+                            "default_value": "",
+                            "maxlength": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_service_features"
+                        }
+                    ],
+                    "parent_repeater": "field_sds_services"
+                },
+                {
+                    "key": "field_service_link",
+                    "label": "Service Link",
+                    "name": "service_link",
+                    "aria-label": "",
+                    "type": "url",
+                    "instructions": "Enter a URL for this service (optional)",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "https:\/\/example.com\/service",
+                    "default_value": "",
+                    "parent_repeater": "field_sds_services"
+                },
+                {
+                    "key": "field_service_link_text",
+                    "label": "Link Text",
+                    "name": "service_link_text",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Custom text for the service link",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_service_link",
+                                "operator": "!=",
+                                "value": ""
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "Learn More",
+                    "default_value": "Learn More",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sds_services"
+                },
+                {
+                    "key": "field_service_priority",
+                    "label": "Service Priority",
+                    "name": "service_priority",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "Set priority for ordering (higher numbers appear first)",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "1": "Low Priority",
+                        "2": "Normal Priority",
+                        "3": "High Priority",
+                        "4": "Featured Service"
+                    },
+                    "default_value": 2,
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "return_format": "value",
+                    "create_options": 0,
+                    "save_options": 0,
+                    "parent_repeater": "field_sds_services"
+                },
+                {
+                    "key": "field_service_status",
+                    "label": "Service Status",
+                    "name": "service_status",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "Current status of this service offering",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "active": "Active",
+                        "coming_soon": "Coming Soon",
+                        "featured": "Featured",
+                        "legacy": "Legacy Support"
+                    },
+                    "default_value": "active",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "return_format": "value",
+                    "create_options": 0,
+                    "save_options": 0,
+                    "parent_repeater": "field_sds_services"
+                }
+            ]
+        },
+        {
+            "key": "field_sds_grid_columns",
+            "label": "Grid Columns",
+            "name": "grid_columns",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose how many columns to display on desktop",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "2": "2 Columns",
+                "3": "3 Columns",
+                "4": "4 Columns"
+            },
+            "default_value": 3,
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_sds_show_categories",
+            "label": "Show Category Filters",
+            "name": "show_categories",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Display category filter buttons above the services",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 0,
+            "message": "",
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_sds_sort_by",
+            "label": "Sort Services By",
+            "name": "sort_by",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose how to sort the services",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "order": "Manual Order",
+                "priority": "Priority (High to Low)",
+                "title": "Title (A-Z)",
+                "category": "Category"
+            },
+            "default_value": "order",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value",
+            "create_options": 0,
+            "save_options": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/service-details-section"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [],
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "modified": 1767594428
+}

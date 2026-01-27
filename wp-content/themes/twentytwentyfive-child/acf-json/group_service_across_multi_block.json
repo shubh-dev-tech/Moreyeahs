@@ -1,0 +1,409 @@
+{
+    "key": "group_service_across_multi_block",
+    "title": "Service Across Multi Block",
+    "fields": [
+        {
+            "key": "field_sam_main_heading",
+            "label": "Main Heading",
+            "name": "main_heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the main heading for the service section",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Delivering Seamless Services Across Multi-Cloud Platforms",
+            "placeholder": "Delivering Seamless Services Across Multi-Cloud Platforms",
+            "show_in_graphql": 1,
+            "graphql_field_name": "mainHeading",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sam_main_description",
+            "label": "Main Description",
+            "name": "main_description",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Enter the main description text",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "We enable enterprises to design, deploy, and manage secure, scalable, and high-performance solutions across leading cloud providers.",
+            "placeholder": "We enable enterprises to design, deploy, and manage secure, scalable, and high-performance solutions across leading cloud providers.",
+            "show_in_graphql": 1,
+            "graphql_field_name": "mainDescription",
+            "maxlength": "",
+            "rows": 3,
+            "new_lines": ""
+        },
+        {
+            "key": "field_sam_cloud_platforms",
+            "label": "Cloud Platforms",
+            "name": "cloud_platforms",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add cloud platform badges (Google Cloud Platform, AWS, Azure, etc.)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 10,
+            "collapsed": "",
+            "button_label": "Add Platform",
+            "rows_per_page": 20,
+            "show_in_graphql": 1,
+            "graphql_field_name": "cloudPlatforms",
+            "sub_fields": [
+                {
+                    "key": "field_sam_platform_icon",
+                    "label": "Platform Icon",
+                    "name": "platform_icon",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Upload platform icon\/logo",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "platformIcon",
+                    "parent_repeater": "field_sam_cloud_platforms",
+                    "preview_size": "medium"
+                },
+                {
+                    "key": "field_sam_platform_name",
+                    "label": "Platform Name",
+                    "name": "platform_name",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter platform name",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "70",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "Google Cloud Platform (GCP)",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "platformName",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sam_cloud_platforms"
+                }
+            ]
+        },
+        {
+            "key": "field_sam_service_categories",
+            "label": "Service Categories",
+            "name": "service_categories",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add service categories (Core Cloud Services, Security & Data, AI\/DevOps & Monitoring)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "row",
+            "pagination": 0,
+            "min": 0,
+            "max": 10,
+            "collapsed": "",
+            "button_label": "Add Category",
+            "rows_per_page": 20,
+            "show_in_graphql": 1,
+            "graphql_field_name": "serviceCategories",
+            "sub_fields": [
+                {
+                    "key": "field_sam_category_title",
+                    "label": "Category Title",
+                    "name": "category_title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter category title",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "100",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "Core Cloud Services",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "categoryTitle",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sam_service_categories"
+                },
+                {
+                    "key": "field_sam_category_services",
+                    "label": "Services",
+                    "name": "services",
+                    "aria-label": "",
+                    "type": "repeater",
+                    "instructions": "Add services for this category",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "100",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "table",
+                    "pagination": 0,
+                    "min": 0,
+                    "max": 20,
+                    "collapsed": "",
+                    "button_label": "Add Service",
+                    "rows_per_page": 20,
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "services",
+                    "parent_repeater": "field_sam_service_categories",
+                    "sub_fields": [
+                        {
+                            "key": "field_sam_service_name",
+                            "label": "Service Name",
+                            "name": "service_name",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "Enter service name",
+                            "required": 1,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "Software, Platform & Infrastructure Services",
+                            "show_in_graphql": 1,
+                            "graphql_field_name": "serviceName",
+                            "maxlength": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_sam_category_services"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_sam_implementations_title",
+            "label": "Implementations Section Title",
+            "name": "implementations_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter title for implementations & technologies section",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Implementations & Technologies",
+            "placeholder": "Implementations & Technologies",
+            "show_in_graphql": 1,
+            "graphql_field_name": "implementationsTitle",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_sam_technology_badges",
+            "label": "Technology Badges",
+            "name": "technology_badges",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add technology badges (GKE, AKS, EKS, Docker, etc.)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 50,
+            "collapsed": "",
+            "button_label": "Add Technology",
+            "rows_per_page": 20,
+            "show_in_graphql": 1,
+            "graphql_field_name": "technologyBadges",
+            "sub_fields": [
+                {
+                    "key": "field_sam_tech_name",
+                    "label": "Technology Name",
+                    "name": "tech_name",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter technology name",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "GKE",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "techName",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_sam_technology_badges"
+                },
+                {
+                    "key": "field_sam_tech_color",
+                    "label": "Badge Color",
+                    "name": "tech_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Choose badge background color",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#1e3a8a",
+                    "enable_opacity": 1,
+                    "return_format": "string",
+                    "show_in_graphql": 1,
+                    "graphql_field_name": "techColor",
+                    "parent_repeater": "field_sam_technology_badges",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true
+                }
+            ]
+        },
+        {
+            "key": "field_sam_testimonial_quote",
+            "label": "Testimonial Quote",
+            "name": "testimonial_quote",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Enter the testimonial quote text",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "The best service is delivered when customer success becomes your own.",
+            "placeholder": "The best service is delivered when customer success becomes your own.",
+            "show_in_graphql": 1,
+            "graphql_field_name": "testimonialQuote",
+            "maxlength": "",
+            "rows": 3,
+            "new_lines": ""
+        },
+        {
+            "key": "field_sam_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose background color for the section",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#0f172a",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "show_in_graphql": 1,
+            "graphql_field_name": "backgroundColor",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_sam_text_color",
+            "label": "Text Color",
+            "name": "text_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose text color for the section",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffffff",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "show_in_graphql": 1,
+            "graphql_field_name": "textColor",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/service-across-multi-block"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Multi-cloud services block with cloud platforms, service categories, technologies, and testimonial quote",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1766398096
+}

@@ -1,0 +1,266 @@
+.investor-block {
+  padding: 80px 20px;
+  background-color: #ffffff;
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  &__decorative-line {
+    font-size: 14px;
+    letter-spacing: 8px;
+    color: #999;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  &__main-title {
+    font-size: 56px;
+    font-weight: bold;
+    color: #000;
+    margin: 0 0 20px;
+    line-height: 1.2;
+    letter-spacing: -1px;
+  }
+
+  &__subtitle {
+    font-size: 24px;
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  &__featured {
+    position: relative;
+  }
+
+  &__featured-image {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 15px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__featured-img {
+    object-fit: cover;
+  }
+
+  &__featured-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);
+    z-index: 1;
+  }
+
+  &__featured-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 40px;
+    z-index: 2;
+  }
+
+  &__featured-title {
+    font-size: 45px;
+    font-weight: 500;
+    color: #fff;
+    margin: 0;
+    line-height: 1.3;
+    text-decoration: none;
+    display: block;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  &__sidebar {
+    background-color: #fff;
+    padding: 0;
+  }
+
+  &__sidebar-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #000;
+    margin: 0 0 40px;
+    line-height: 1.2;
+  }
+
+  &__sections {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__section {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 30px;
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
+
+  &__section-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #999;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+  }
+
+  &__item {
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__item-link {
+    font-size: 18px;
+    color: #333;
+    text-decoration: none;
+    line-height: 1.6;
+    display: block;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #0066cc;
+    }
+  }
+
+  &__item-text {
+    font-size: 18px;
+    color: #333;
+    line-height: 1.6;
+    display: block;
+  }
+
+  &__view-all {
+    margin-top: 30px;
+    padding-top: 30px;
+  }
+
+  &__view-all-link {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0066cc;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #004999;
+    }
+  }
+
+  // Responsive
+  @media (max-width: 1024px) {
+    padding: 60px 20px;
+
+    &__header {
+      margin-bottom: 40px;
+    }
+
+    &__main-title {
+      font-size: 42px;
+    }
+
+    &__subtitle {
+      font-size: 20px;
+    }
+
+    &__grid {
+      gap: 30px;
+    }
+
+    &__featured-image {
+      height: 400px;
+    }
+
+    &__sidebar-title {
+      font-size: 30px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 40px 20px;
+
+    &__header {
+      margin-bottom: 30px;
+    }
+
+    &__main-title {
+      font-size: 32px;
+    }
+
+    &__subtitle {
+      font-size: 18px;
+    }
+
+    &__grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    &__featured-image {
+      height: 350px;
+    }
+
+    &__featured-content {
+      padding: 30px;
+    }
+
+    &__featured-title {
+      font-size: 24px;
+    }
+
+    &__sidebar-title {
+      font-size: 26px;
+      margin-bottom: 30px;
+    }
+
+    &__sections {
+      gap: 30px;
+    }
+
+    &__section {
+      padding-bottom: 20px;
+    }
+
+    &__item-link,
+    &__item-text {
+      font-size: 16px;
+    }
+  }
+}

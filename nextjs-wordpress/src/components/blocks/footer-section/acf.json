@@ -1,0 +1,403 @@
+{
+  "key": "group_footer_section",
+  "title": "Footer Section",
+  "fields": [
+    {
+      "key": "field_footer_enable_contact_section",
+      "label": "Enable Contact Section",
+      "name": "enable_contact_section",
+      "type": "true_false",
+      "instructions": "Enable the contact information and form section at the top of the footer",
+      "default_value": 1
+    },
+    {
+      "key": "field_footer_contact_info",
+      "label": "Contact Information",
+      "name": "contact_info",
+      "type": "group",
+      "instructions": "Contact information displayed in the contact section",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_footer_enable_contact_section",
+            "operator": "==",
+            "value": "1"
+          }
+        ]
+      ],
+      "sub_fields": [
+        {
+          "key": "field_footer_contact_email",
+          "label": "Email",
+          "name": "email",
+          "type": "email",
+          "default_value": "info@moreyeahs.com"
+        },
+        {
+          "key": "field_footer_contact_phone",
+          "label": "Phone",
+          "name": "phone",
+          "type": "text",
+          "default_value": "+91 7415567401 +91 9324881631"
+        },
+        {
+          "key": "field_footer_contact_address",
+          "label": "Address",
+          "name": "address",
+          "type": "text",
+          "default_value": "Indore, Madhya Pradesh, 452010"
+        },
+        {
+          "key": "field_footer_contact_city_state",
+          "label": "City, State",
+          "name": "city_state",
+          "type": "text",
+          "default_value": "Cedar Park, TX 78613"
+        }
+      ]
+    },
+    {
+      "key": "field_footer_logo",
+      "label": "Logo",
+      "name": "logo",
+      "type": "image",
+      "instructions": "Upload your company logo",
+      "return_format": "array"
+    },
+    {
+      "key": "field_footer_company_description",
+      "label": "Company Description",
+      "name": "company_description",
+      "type": "textarea",
+      "instructions": "Brief description about your company",
+      "default_value": "We are committed to making meaningful contributions to the environment and society. As a global technology leader, MoreYeahs aims to automate digital literacy and foster sustainable, self-sufficient communities."
+    },
+    {
+      "key": "field_footer_company_columns",
+      "label": "Company Links",
+      "name": "company_columns",
+      "type": "repeater",
+      "instructions": "Add company-related links",
+      "sub_fields": [
+        {
+          "key": "field_footer_company_column_title",
+          "label": "Section Title",
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "key": "field_footer_company_links",
+          "label": "Links",
+          "name": "links",
+          "type": "repeater",
+          "sub_fields": [
+            {
+              "key": "field_footer_company_link_label",
+              "label": "Link Label",
+              "name": "label",
+              "type": "text"
+            },
+            {
+              "key": "field_footer_company_link_url",
+              "label": "Link URL",
+              "name": "url",
+              "type": "url"
+            },
+            {
+              "key": "field_footer_company_link_target",
+              "label": "Link Target",
+              "name": "target",
+              "type": "select",
+              "choices": {
+                "_self": "Same Window",
+                "_blank": "New Window"
+              },
+              "default_value": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "field_footer_about_columns",
+      "label": "About Links",
+      "name": "about_columns",
+      "type": "repeater",
+      "instructions": "Add about-related links",
+      "sub_fields": [
+        {
+          "key": "field_footer_about_column_title",
+          "label": "Section Title",
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "key": "field_footer_about_links",
+          "label": "Links",
+          "name": "links",
+          "type": "repeater",
+          "sub_fields": [
+            {
+              "key": "field_footer_about_link_label",
+              "label": "Link Label",
+              "name": "label",
+              "type": "text"
+            },
+            {
+              "key": "field_footer_about_link_url",
+              "label": "Link URL",
+              "name": "url",
+              "type": "url"
+            },
+            {
+              "key": "field_footer_about_link_target",
+              "label": "Link Target",
+              "name": "target",
+              "type": "select",
+              "choices": {
+                "_self": "Same Window",
+                "_blank": "New Window"
+              },
+              "default_value": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "field_footer_career_columns",
+      "label": "Career Links",
+      "name": "career_columns",
+      "type": "repeater",
+      "instructions": "Add career-related links",
+      "sub_fields": [
+        {
+          "key": "field_footer_career_column_title",
+          "label": "Section Title",
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "key": "field_footer_career_links",
+          "label": "Links",
+          "name": "links",
+          "type": "repeater",
+          "sub_fields": [
+            {
+              "key": "field_footer_career_link_label",
+              "label": "Link Label",
+              "name": "label",
+              "type": "text"
+            },
+            {
+              "key": "field_footer_career_link_url",
+              "label": "Link URL",
+              "name": "url",
+              "type": "url"
+            },
+            {
+              "key": "field_footer_career_link_target",
+              "label": "Link Target",
+              "name": "target",
+              "type": "select",
+              "choices": {
+                "_self": "Same Window",
+                "_blank": "New Window"
+              },
+              "default_value": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "field_footer_services_columns",
+      "label": "Services Links",
+      "name": "services_columns",
+      "type": "repeater",
+      "instructions": "Add services-related links",
+      "sub_fields": [
+        {
+          "key": "field_footer_services_column_title",
+          "label": "Section Title",
+          "name": "title",
+          "type": "text"
+        },
+        {
+          "key": "field_footer_services_links",
+          "label": "Links",
+          "name": "links",
+          "type": "repeater",
+          "sub_fields": [
+            {
+              "key": "field_footer_services_link_label",
+              "label": "Link Label",
+              "name": "label",
+              "type": "text"
+            },
+            {
+              "key": "field_footer_services_link_url",
+              "label": "Link URL",
+              "name": "url",
+              "type": "url"
+            },
+            {
+              "key": "field_footer_services_link_target",
+              "label": "Link Target",
+              "name": "target",
+              "type": "select",
+              "choices": {
+                "_self": "Same Window",
+                "_blank": "New Window"
+              },
+              "default_value": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "field_footer_social_links",
+      "label": "Social Media Links",
+      "name": "social_links",
+      "type": "repeater",
+      "instructions": "Add social media links",
+      "sub_fields": [
+        {
+          "key": "field_footer_social_platform",
+          "label": "Platform",
+          "name": "platform",
+          "type": "select",
+          "choices": {
+            "linkedin": "LinkedIn",
+            "twitter": "Twitter",
+            "facebook": "Facebook",
+            "instagram": "Instagram",
+            "youtube": "YouTube"
+          }
+        },
+        {
+          "key": "field_footer_social_url",
+          "label": "URL",
+          "name": "url",
+          "type": "url"
+        }
+      ]
+    },
+    {
+      "key": "field_footer_follow_us_text",
+      "label": "Follow Us Text",
+      "name": "follow_us_text",
+      "type": "text",
+      "default_value": "Follow Us"
+    },
+    {
+      "key": "field_footer_copyright_text",
+      "label": "Copyright Text",
+      "name": "copyright_text",
+      "type": "text",
+      "default_value": "© 2025 MoreYeahs. All rights reserved."
+    },
+    {
+      "key": "field_footer_privacy_policy_link",
+      "label": "Privacy Policy Link",
+      "name": "privacy_policy_link",
+      "type": "group",
+      "sub_fields": [
+        {
+          "key": "field_footer_privacy_label",
+          "label": "Label",
+          "name": "label",
+          "type": "text",
+          "default_value": "Privacy Policy"
+        },
+        {
+          "key": "field_footer_privacy_url",
+          "label": "URL",
+          "name": "url",
+          "type": "url"
+        },
+        {
+          "key": "field_footer_privacy_target",
+          "label": "Target",
+          "name": "target",
+          "type": "select",
+          "choices": {
+            "_self": "Same Window",
+            "_blank": "New Window"
+          },
+          "default_value": "_self"
+        }
+      ]
+    },
+    {
+      "key": "field_footer_terms_of_use_link",
+      "label": "Terms of Use Link",
+      "name": "terms_of_use_link",
+      "type": "group",
+      "sub_fields": [
+        {
+          "key": "field_footer_terms_label",
+          "label": "Label",
+          "name": "label",
+          "type": "text",
+          "default_value": "Terms of Use"
+        },
+        {
+          "key": "field_footer_terms_url",
+          "label": "URL",
+          "name": "url",
+          "type": "url"
+        },
+        {
+          "key": "field_footer_terms_target",
+          "label": "Target",
+          "name": "target",
+          "type": "select",
+          "choices": {
+            "_self": "Same Window",
+            "_blank": "New Window"
+          },
+          "default_value": "_self"
+        }
+      ]
+    },
+    {
+      "key": "field_footer_background_color",
+      "label": "Background Color",
+      "name": "background_color",
+      "type": "color_picker",
+      "default_value": "#f8f9fa"
+    },
+    {
+      "key": "field_footer_text_color",
+      "label": "Text Color",
+      "name": "text_color",
+      "type": "color_picker",
+      "default_value": "#333333"
+    },
+    {
+      "key": "field_footer_link_color",
+      "label": "Link Color",
+      "name": "link_color",
+      "type": "color_picker",
+      "default_value": "#666666"
+    },
+    {
+      "key": "field_footer_link_hover_color",
+      "label": "Link Hover Color",
+      "name": "link_hover_color",
+      "type": "color_picker",
+      "default_value": "#000000"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/footer-section"
+      }
+    ]
+  ]
+}

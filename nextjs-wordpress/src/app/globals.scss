@@ -1,0 +1,62 @@
+@import '../styles/main.scss';
+
+/* Global layout fixes */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+/* Prevent any element from causing horizontal scroll */
+body, html, #__next, main {
+  max-width: 100vw;
+}
+
+img, video, iframe, embed, object {
+  max-width: 100%;
+  height: auto;
+}
+
+.block-not-use{
+  display: none!important;
+}
+/* WordPress raw HTML content styling */
+.wordpress-content {
+  width: 100%;
+  
+  /* Ensure scripts and styles from WordPress are preserved */
+  script, style {
+    display: none;
+  }
+  
+  /* Basic content styling */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Preserve WordPress custom blocks and shortcodes */
+  > * {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* Prevent layout issues with blocks */
+.blocks-container {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.blocks-container > section {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}

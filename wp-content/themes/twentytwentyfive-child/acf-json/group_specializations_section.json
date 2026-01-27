@@ -1,0 +1,518 @@
+{
+    "key": "group_specializations_section",
+    "title": "Specializations Section",
+    "fields": [
+        {
+            "key": "field_specializations_left_repeater",
+            "label": "Left Side Items",
+            "name": "left_items",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add items for the left side with image, heading and subheading",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Add Item",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_specializations_item_image",
+                    "label": "Image",
+                    "name": "image",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Upload image for this item",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "thumbnail",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "parent_repeater": "field_specializations_left_repeater"
+                },
+                {
+                    "key": "field_specializations_item_heading",
+                    "label": "Heading",
+                    "name": "heading",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter the heading for this item",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": "",
+                    "parent_repeater": "field_specializations_left_repeater"
+                },
+                {
+                    "key": "field_specializations_item_heading_color",
+                    "label": "Heading Color",
+                    "name": "heading_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Select heading color",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#333333",
+                    "enable_opacity": 1,
+                    "return_format": "string",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true,
+                    "parent_repeater": "field_specializations_left_repeater"
+                },
+                {
+                    "key": "field_specializations_item_subheading",
+                    "label": "Subheading",
+                    "name": "subheading",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Enter the subheading\/description for this item",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "maxlength": "",
+                    "rows": 3,
+                    "new_lines": "",
+                    "parent_repeater": "field_specializations_left_repeater"
+                },
+                {
+                    "key": "field_specializations_item_subheading_color",
+                    "label": "Subheading Color",
+                    "name": "subheading_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Select subheading color",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#666666",
+                    "enable_opacity": 1,
+                    "return_format": "string",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true,
+                    "parent_repeater": "field_specializations_left_repeater"
+                }
+            ]
+        },
+        {
+            "key": "field_specializations_right_heading",
+            "label": "Right Side Heading",
+            "name": "right_heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the main heading for the right side",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_specializations_right_heading_color",
+            "label": "Right Heading Color",
+            "name": "right_heading_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Select right heading color",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#333333",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_specializations_right_span_text",
+            "label": "Right Heading Span Text",
+            "name": "right_span_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the span text (highlighted part) for the right heading",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_specializations_right_span_color",
+            "label": "Right Span Color",
+            "name": "right_span_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Select span text color",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#007acc",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_specializations_right_paragraphs",
+            "label": "Right Side Paragraphs",
+            "name": "right_paragraphs",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add paragraphs for the right side content",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Add Paragraph",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_specializations_paragraph_text",
+                    "label": "Paragraph Text",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Enter paragraph content",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "maxlength": "",
+                    "rows": 4,
+                    "new_lines": "",
+                    "parent_repeater": "field_specializations_right_paragraphs"
+                },
+                {
+                    "key": "field_specializations_paragraph_color",
+                    "label": "Paragraph Color",
+                    "name": "color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Select paragraph text color",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#666666",
+                    "enable_opacity": 1,
+                    "return_format": "string",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true,
+                    "parent_repeater": "field_specializations_right_paragraphs"
+                }
+            ]
+        },
+        {
+            "key": "field_specializations_background_type",
+            "label": "Background Type",
+            "name": "background_type",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose the background type",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "color": "Solid Color",
+                "gradient": "Gradient",
+                "image": "Background Image"
+            },
+            "default_value": "color",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_specializations_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Select background color",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_specializations_background_type",
+                        "operator": "==",
+                        "value": "color"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#E0F7FA",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_specializations_gradient_start",
+            "label": "Gradient Start Color",
+            "name": "gradient_start",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Select gradient start color",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_specializations_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#E0F7FA",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_specializations_gradient_end",
+            "label": "Gradient End Color",
+            "name": "gradient_end",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Select gradient end color",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_specializations_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#B2EBF2",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_specializations_gradient_direction",
+            "label": "Gradient Direction",
+            "name": "gradient_direction",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Select gradient direction",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_specializations_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "to right": "Left to Right",
+                "to left": "Right to Left",
+                "to bottom": "Top to Bottom",
+                "to top": "Bottom to Top",
+                "45deg": "Diagonal (45°)",
+                "135deg": "Diagonal (135°)"
+            },
+            "default_value": "to right",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_specializations_background_image",
+            "label": "Background Image",
+            "name": "background_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Upload background image",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_specializations_background_type",
+                        "operator": "==",
+                        "value": "image"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_specializations_section_height",
+            "label": "Section Height",
+            "name": "section_height",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Set custom height (e.g., 100vh, 800px, auto)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "auto",
+            "placeholder": "auto, 100vh, 800px",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/specializations-section"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1768384839
+}

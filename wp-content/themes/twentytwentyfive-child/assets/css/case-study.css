@@ -1,0 +1,700 @@
+/* ============================================
+   Global Case Study List Containment
+   ============================================ */
+
+/* Ensure all ul/ol elements in case study blocks stay contained */
+.case-study-article ul,
+.case-study-article ol,
+[class*="case-study"] ul,
+[class*="case-study"] ol {
+    margin: 15px 0;
+    padding-left: 25px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: block;
+    position: relative;
+    list-style-position: inside;
+}
+
+.case-study-article ul li,
+.case-study-article ol li,
+[class*="case-study"] ul li,
+[class*="case-study"] ol li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: list-item;
+    position: relative;
+}
+
+/* Force containment for any stubborn lists */
+.case-study-main ul,
+.case-study-main ol {
+    contain: layout style;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* ============================================
+   Case Study Blocks Styles
+   Modern, professional styling matching the City Dynamics design
+   ============================================ */
+
+/* ============================================
+   Case Study Header Block
+   ============================================ */
+
+.case-study-header {
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.case-study-header__gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.case-study-header__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 60px 20px;
+}
+
+.case-study-header__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.case-study-header__logo {
+    margin-bottom: 30px;
+}
+
+.case-study-header__logo img {
+    max-width: 200px;
+    height: auto;
+}
+
+.case-study-header__title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 15px 0;
+    line-height: 1.2;
+}
+
+.case-study-header__subtitle {
+    font-size: 24px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.4;
+    max-width: 700px;
+}
+
+@media (max-width: 768px) {
+    .case-study-header__title {
+        font-size: 32px;
+    }
+    
+    .case-study-header__subtitle {
+        font-size: 18px;
+    }
+}
+
+/* ============================================
+   Case Study Layout Block
+   ============================================ */
+
+.case-study-layout {
+    padding: 60px 20px;
+    background: #f5f5f5;
+}
+
+.case-study-layout__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 40px;
+}
+
+.case-study-layout__sidebar {
+    position: sticky;
+    top: 20px;
+    align-self: start;
+}
+
+.case-study-layout__content {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+/* Ensure all content within layout stays contained */
+.case-study-layout__content * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.case-study-layout__content ul,
+.case-study-layout__content ol {
+    margin: 15px 0;
+    padding-left: 25px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: block;
+    position: relative;
+}
+
+.case-study-layout__content ul li,
+.case-study-layout__content ol li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: list-item;
+    position: relative;
+}
+
+/* Additional containment for any nested lists */
+.case-study-layout__content ul ul,
+.case-study-layout__content ol ol,
+.case-study-layout__content ul ol,
+.case-study-layout__content ol ul {
+    margin: 8px 0;
+    padding-left: 20px;
+    max-width: calc(100% - 20px);
+}
+
+@media (max-width: 1024px) {
+    .case-study-layout__container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .case-study-layout__sidebar {
+        position: relative;
+        top: 0;
+    }
+}
+
+/* ============================================
+   Case Study Left Sidebar Block
+   ============================================ */
+
+.case-study-left-sidebar {
+    background: #e91e63;
+    color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.case-study-sidebar__content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.sidebar-section {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 20px;
+}
+
+.sidebar-section:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.sidebar-section__icon {
+    margin-bottom: 10px;
+}
+
+.sidebar-section__icon img {
+    filter: brightness(0) invert(1);
+    width: 24px;
+    height: 24px;
+}
+
+.sidebar-section__title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 15px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-section__items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sidebar-item {
+    padding-left: 0;
+}
+
+.sidebar-item__label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    opacity: 0.9;
+}
+
+.sidebar-item__value {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.sidebar-downloads {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.sidebar-download-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.sidebar-download-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-download-btn img {
+    filter: brightness(0) invert(1);
+}
+
+/* ============================================
+   Meet the Client Block
+   ============================================ */
+
+.meet-the-client {
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 30px;
+}
+
+.meet-client__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e91e63;
+}
+
+.meet-client__icon {
+    color: #e91e63;
+}
+
+.meet-client__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333333;
+    margin: 0;
+}
+
+.meet-client__description {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #555555;
+    margin-bottom: 25px;
+}
+
+.meet-client__profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.meet-client__image {
+    flex-shrink: 0;
+}
+
+.meet-client__image img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e91e63;
+}
+
+.meet-client__info {
+    flex: 1;
+}
+
+.meet-client__name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #e91e63;
+    margin: 0 0 8px 0;
+}
+
+.meet-client__position {
+    font-size: 14px;
+    color: #777777;
+}
+
+.meet-client__designation,
+.meet-client__company {
+    font-weight: 500;
+}
+
+.meet-client__quote {
+    font-size: 16px;
+    font-style: italic;
+    color: #666666;
+    padding: 20px;
+    border-left: 4px solid #e91e63;
+    background: #fef5f9;
+    border-radius: 4px;
+    margin: 0;
+}
+
+.meet-client__quote p {
+    margin: 0;
+}
+
+/* ============================================
+   Case Study Content Section Block
+   ============================================ */
+
+.case-study-content-section {
+    margin-bottom: 40px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.content-section__header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.content-section__icon {
+    color: #e91e63;
+    flex-shrink: 0;
+}
+
+.content-section__icon img {
+    width: 32px;
+    height: 32px;
+}
+
+.content-section__title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #e91e63;
+    margin: 0;
+}
+
+.content-section__content {
+    padding-left: 47px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.content-section__text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.content-section__text p {
+    margin-bottom: 15px;
+}
+
+.content-section__text p:last-child {
+    margin-bottom: 0;
+}
+
+.content-section__text strong,
+.content-section__text b {
+    color: #e91e63;
+    font-weight: 600;
+}
+
+/* Fix for ul/ol elements in content sections */
+.content-section__text ul,
+.content-section__text ol {
+    margin: 15px 0;
+    padding-left: 25px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: block;
+    position: relative;
+}
+
+.content-section__text ul li,
+.content-section__text ol li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    color: #333333;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: list-item;
+    position: relative;
+}
+
+.content-section__bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.content-section__bullets li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333333;
+}
+
+.content-section__bullets li:before {
+    content: "•";
+    color: #e91e63;
+    font-weight: bold;
+    font-size: 24px;
+    position: absolute;
+    left: 0;
+    top: -4px;
+}
+
+.content-section__quote {
+    font-size: 18px;
+    font-style: italic;
+    color: #666666;
+    padding: 20px 25px;
+    border-left: 4px solid #e91e63;
+    background: #fef5f9;
+    border-radius: 4px;
+    margin: 20px 0;
+}
+
+.content-section__quote p {
+    margin: 0;
+}
+
+.content-section__divider {
+    height: 1px;
+    background: linear-gradient(to right, #e91e63, transparent);
+    margin-top: 30px;
+}
+
+/* ============================================
+   Case Study Quote Block
+   ============================================ */
+
+.case-study-quote {
+    margin: 40px 0;
+    padding: 30px 40px;
+    background: #fef5f9;
+    border-left: 6px solid #e91e63;
+    border-radius: 8px;
+    position: relative;
+}
+
+.case-study-quote:before {
+    content: """;
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 80px;
+    color: #e91e63;
+    opacity: 0.2;
+    font-family: Georgia, serif;
+    line-height: 1;
+}
+
+.case-study-quote__text {
+    font-size: 20px;
+    font-style: italic;
+    color: #333333;
+    line-height: 1.6;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.case-study-quote__author {
+    margin-top: 15px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    color: #e91e63;
+    text-align: right;
+}
+
+/* ============================================
+   Case Study CTA Block
+   ============================================ */
+
+.case-study-cta {
+    margin: 50px 0;
+    padding: 40px;
+    background: linear-gradient(135deg, #00bcd4 0%, #9c27b0 100%);
+    border-radius: 12px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.case-study-cta__title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 15px 0;
+}
+
+.case-study-cta__description {
+    font-size: 18px;
+    margin: 0 0 30px 0;
+    opacity: 0.95;
+}
+
+.case-study-cta__button {
+    display: inline-block;
+    padding: 15px 40px;
+    background: #ffffff;
+    color: #e91e63;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.case-study-cta__button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 768px) {
+    .case-study-layout {
+        padding: 30px 15px;
+    }
+    
+    .case-study-layout__content {
+        padding: 25px;
+        overflow: hidden;
+    }
+    
+    .case-study-left-sidebar {
+        padding: 20px;
+    }
+    
+    .meet-the-client {
+        padding: 25px;
+    }
+    
+    .meet-client__profile {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .content-section__content {
+        padding-left: 0;
+        overflow: hidden;
+    }
+    
+    .case-study-cta {
+        padding: 30px 20px;
+    }
+    
+    .case-study-cta__title {
+        font-size: 24px;
+    }
+    
+    /* Mobile-specific list containment */
+    .case-study-article ul,
+    .case-study-article ol,
+    [class*="case-study"] ul,
+    [class*="case-study"] ol {
+        padding-left: 20px;
+        margin: 10px 0;
+    }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+    .case-study-header__gradient {
+        opacity: 0.3;
+    }
+    
+    .case-study-layout__sidebar {
+        page-break-inside: avoid;
+    }
+    
+    .sidebar-download-btn {
+        display: none;
+    }
+    
+    .case-study-cta {
+        display: none;
+    }
+}

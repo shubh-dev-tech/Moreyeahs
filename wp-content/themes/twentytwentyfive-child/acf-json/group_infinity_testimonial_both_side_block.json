@@ -1,0 +1,431 @@
+{
+    "key": "group_infinity_testimonial_both_side_block",
+    "title": "Infinity Testimonial Both Side Block",
+    "fields": [
+        {
+            "key": "field_infinity_testimonial_show_rating",
+            "label": "Show Rating Section",
+            "name": "show_rating",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Toggle to show or hide the rating section",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Show",
+            "ui_off_text": "Hide"
+        },
+        {
+            "key": "field_infinity_testimonial_rating_text",
+            "label": "Rating Text",
+            "name": "rating_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Text to display in the rating section (e.g., 'Rated 4\/5 by over 1 Lakh users')",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_infinity_testimonial_show_rating",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Rated 4\/5 by over 1 Lakh users",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_infinity_testimonial_rating_stars",
+            "label": "Rating Stars",
+            "name": "rating_stars",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Number of stars to display (1-5)",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_infinity_testimonial_show_rating",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 4,
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": 1,
+            "max": 5,
+            "step": 1
+        },
+        {
+            "key": "field_infinity_testimonial_heading",
+            "label": "Heading",
+            "name": "heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Main heading for the testimonial section",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Words of praise from others about our presence.",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_infinity_testimonial_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose a background color (leave empty to use default gradient)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_infinity_testimonial_background_image",
+            "label": "Background Image",
+            "name": "background_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Upload a background image (will override background color)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0,
+            "mime_types": ""
+        },
+        {
+            "key": "field_infinity_testimonial_scroll_direction",
+            "label": "Scroll Direction",
+            "name": "scroll_direction",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose the direction for the infinite scroll",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "left_to_right": "Left to Right",
+                "right_to_left": "Right to Left"
+            },
+            "default_value": "left_to_right",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_infinity_testimonial_testimonials",
+            "label": "Testimonials",
+            "name": "testimonials",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add multiple testimonials to display in infinite slider",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "min": 1,
+            "max": 0,
+            "layout": "block",
+            "button_label": "Add New Testimonial",
+            "rows_per_page": 20,
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_infinity_testimonial_content_type",
+                    "label": "Content Type",
+                    "name": "content_type",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "Choose between text testimonial or video",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "text": "Text Testimonial",
+                        "video": "Video Testimonial"
+                    },
+                    "default_value": "text",
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "ui": 0,
+                    "return_format": "value",
+                    "ajax": 0,
+                    "placeholder": "",
+                    "parent_repeater": "field_infinity_testimonial_testimonials",
+                    "create_options": 0,
+                    "save_options": 0
+                },
+                {
+                    "key": "field_infinity_testimonial_quote",
+                    "label": "Quote",
+                    "name": "quote",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Testimonial quote text",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_infinity_testimonial_content_type",
+                                "operator": "==",
+                                "value": "text"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "rows": 4,
+                    "default_value": "",
+                    "new_lines": "",
+                    "maxlength": "",
+                    "placeholder": "Enter testimonial text...",
+                    "parent_repeater": "field_infinity_testimonial_testimonials"
+                },
+                {
+                    "key": "field_infinity_testimonial_video",
+                    "label": "Video",
+                    "name": "video",
+                    "aria-label": "",
+                    "type": "file",
+                    "instructions": "Upload video testimonial (MP4, WebM, or MOV)",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_infinity_testimonial_content_type",
+                                "operator": "==",
+                                "value": "video"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "min_size": 0,
+                    "max_size": 0,
+                    "mime_types": "mp4,webm,mov",
+                    "parent_repeater": "field_infinity_testimonial_testimonials"
+                },
+                {
+                    "key": "field_infinity_testimonial_video_thumbnail",
+                    "label": "Video Thumbnail",
+                    "name": "video_thumbnail",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Thumbnail image for video (optional - will use first frame if not provided)",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_infinity_testimonial_content_type",
+                                "operator": "==",
+                                "value": "video"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "min_width": 0,
+                    "min_height": 0,
+                    "min_size": 0,
+                    "max_width": 0,
+                    "max_height": 0,
+                    "max_size": 0,
+                    "mime_types": "",
+                    "parent_repeater": "field_infinity_testimonial_testimonials"
+                },
+                {
+                    "key": "field_infinity_testimonial_author_name",
+                    "label": "Author Name",
+                    "name": "author_name",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Name of the person giving testimonial",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Enter author name...",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_infinity_testimonial_testimonials"
+                },
+                {
+                    "key": "field_infinity_testimonial_author_title",
+                    "label": "Author Title",
+                    "name": "author_title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Job title or position",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Enter job title...",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_infinity_testimonial_testimonials"
+                },
+                {
+                    "key": "field_infinity_testimonial_author_company",
+                    "label": "Author Company",
+                    "name": "author_company",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Company name",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Enter company name...",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_infinity_testimonial_testimonials"
+                },
+                {
+                    "key": "field_infinity_testimonial_author_image",
+                    "label": "Author Image",
+                    "name": "author_image",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Profile image of the author",
+                    "required": 0,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "thumbnail",
+                    "library": "all",
+                    "min_width": 0,
+                    "min_height": 0,
+                    "min_size": 0,
+                    "max_width": 0,
+                    "max_height": 0,
+                    "max_size": 0,
+                    "mime_types": "",
+                    "parent_repeater": "field_infinity_testimonial_testimonials"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/infinity-testimonial-both-side"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [],
+    "active": true,
+    "description": "Advanced testimonial block with infinite scroll, video support, and rating section",
+    "show_in_rest": false,
+    "display_title": "",
+    "modified": 1766045976
+}

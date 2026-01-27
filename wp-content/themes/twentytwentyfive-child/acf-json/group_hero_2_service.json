@@ -1,0 +1,986 @@
+{
+    "key": "group_hero_2_service",
+    "title": "Hero 2 Service Block",
+    "fields": [
+        {
+            "key": "field_hero2_title",
+            "label": "Title",
+            "name": "title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the main title (e.g., 'What is Data')",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "What is Data Engineering?",
+            "maxlength": "",
+            "placeholder": "Enter main title",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_hero2_title_span_text",
+            "label": "Title Span Text",
+            "name": "title_span_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Optional: Additional text to display after the title in a different color (e.g., 'Engineering?')",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_hero2_title_span_color",
+            "label": "Title Span Color",
+            "name": "title_span_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the color for the span text",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_title_span_text",
+                        "operator": "!=empty"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#6366f1",
+            "enable_opacity": false,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_hero2_background_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose a background color",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_background_type",
+                        "operator": "==",
+                        "value": "color"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffffff",
+            "enable_opacity": true,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_hero2_gradient_color_1",
+            "label": "Gradient Color 1",
+            "name": "gradient_color_1",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the first gradient color",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#ffffff",
+            "enable_opacity": true,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_hero2_gradient_color_2",
+            "label": "Gradient Color 2",
+            "name": "gradient_color_2",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Choose the second gradient color",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#f3f4f6",
+            "enable_opacity": true,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_hero2_background_image",
+            "label": "Background Image",
+            "name": "background_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Upload a background image",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_background_type",
+                        "operator": "==",
+                        "value": "image"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_hero2_section_height",
+            "label": "Section Height",
+            "name": "section_height",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose the section height",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "auto": "Auto Height",
+                "small": "Small (60vh)",
+                "medium": "Medium (80vh)",
+                "large": "Large (100vh)",
+                "custom": "Custom Height"
+            },
+            "default_value": "auto",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_hero2_custom_height",
+            "label": "Custom Height (px)",
+            "name": "custom_height",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Enter custom height in pixels",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_section_height",
+                        "operator": "==",
+                        "value": "custom"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 600,
+            "min": 200,
+            "max": 2000,
+            "step": 10,
+            "placeholder": "",
+            "prepend": "",
+            "append": "px"
+        },
+        {
+            "key": "field_hero2_subtitle",
+            "label": "Subtitle",
+            "name": "subtitle",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 1,
+            "placeholder": "Enter subtitle",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_hero2_description",
+            "label": "Description",
+            "name": "description",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 1,
+            "rows": 4,
+            "placeholder": "Enter description text",
+            "new_lines": ""
+        },
+        {
+            "key": "field_hero2_left_image",
+            "label": "Left Side Image",
+            "name": "left_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_hero2_image_full_width",
+            "label": "Full Width Image",
+            "name": "image_full_width",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Make the image cover the entire left section (or right section when layout is reversed)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "message": "Enable full width image",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "Yes",
+            "ui_off_text": "No"
+        },
+        {
+            "key": "field_hero2_background_type",
+            "label": "Background Type",
+            "name": "background_type",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "color": "Solid Color",
+                "gradient": "Gradient",
+                "image": "Background Image"
+            },
+            "default_value": "color",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_hero2_gradient_color1",
+            "label": "Gradient Color 1",
+            "name": "gradient_color1",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#7ED4AD",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_hero2_gradient_color2",
+            "label": "Gradient Color 2",
+            "name": "gradient_color2",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#4ECDC4",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_hero2_gradient_direction",
+            "label": "Gradient Direction",
+            "name": "gradient_direction",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_background_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "to right": "Left to Right",
+                "to left": "Right to Left",
+                "to bottom": "Top to Bottom",
+                "to top": "Bottom to Top",
+                "45deg": "Diagonal (45°)",
+                "135deg": "Diagonal (135°)"
+            },
+            "default_value": "to right",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_hero2_bg_overlay",
+            "label": "Background Overlay Color",
+            "name": "background_overlay",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Optional overlay color for background image",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_background_type",
+                        "operator": "==",
+                        "value": "image"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "enable_opacity": 1,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_hero2_title_color",
+            "label": "Title Color",
+            "name": "title_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#333333",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_hero2_subtitle_color",
+            "label": "Subtitle Color",
+            "name": "subtitle_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#666666",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_hero2_description_color",
+            "label": "Description Color",
+            "name": "description_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#333333",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_hero2_service_layout",
+            "label": "Service Blocks Layout",
+            "name": "service_layout",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose how service blocks are arranged",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "1x1": "1×1 (Single block)",
+                "1x2": "1×2 (Two blocks vertically)",
+                "1x3": "1×3 (Three blocks vertically)",
+                "2x1": "2×1 (Two blocks horizontally)",
+                "2x2": "2×2 (Four blocks in grid)",
+                "2x3": "2×3 (Six blocks in grid)",
+                "3x1": "3×1 (Three blocks horizontally)",
+                "3x2": "3×2 (Six blocks in grid)"
+            },
+            "default_value": "1x3",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_hero2_reverse_layout",
+            "label": "Reverse Layout",
+            "name": "reverse_layout",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Flip image and content positions (image on right, content on left)",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "message": "Enable reverse layout",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "Yes",
+            "ui_off_text": "No"
+        },
+        {
+            "key": "field_hero2_content_type",
+            "label": "Content Type",
+            "name": "content_type",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose between service blocks or bullet points",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "service_blocks": "Service Blocks",
+                "bullet_points": "Bullet Points"
+            },
+            "default_value": "service_blocks",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_hero2_service_blocks",
+            "label": "Service Blocks",
+            "name": "service_blocks",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_content_type",
+                        "operator": "==",
+                        "value": "service_blocks"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 1,
+            "max": 6,
+            "collapsed": "",
+            "button_label": "Add Service Block",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_hero2_block_title",
+                    "label": "Block Title",
+                    "name": "title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Enter block title",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_hero2_service_blocks"
+                },
+                {
+                    "key": "field_hero2_block_description",
+                    "label": "Block Description",
+                    "name": "description",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "rows": 3,
+                    "placeholder": "Enter block description",
+                    "new_lines": "",
+                    "parent_repeater": "field_hero2_service_blocks"
+                },
+                {
+                    "key": "field_hero2_block_bg_color",
+                    "label": "Background Color",
+                    "name": "background_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#ffffff",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "parent_repeater": "field_hero2_service_blocks",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true
+                },
+                {
+                    "key": "field_hero2_block_title_color",
+                    "label": "Title Color",
+                    "name": "title_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Color of the block title text",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#333333",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "parent_repeater": "field_hero2_service_blocks",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true
+                },
+                {
+                    "key": "field_hero2_block_description_color",
+                    "label": "Description Color",
+                    "name": "description_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Color of the block description text",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#666666",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "parent_repeater": "field_hero2_service_blocks",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true
+                }
+            ]
+        },
+        {
+            "key": "field_hero2_bullet_points",
+            "label": "Bullet Points",
+            "name": "bullet_points",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_hero2_content_type",
+                        "operator": "==",
+                        "value": "bullet_points"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 1,
+            "max": 10,
+            "collapsed": "",
+            "button_label": "Add Bullet Point",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_hero2_bullet_heading",
+                    "label": "Heading",
+                    "name": "heading",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Enter bullet point heading",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_hero2_bullet_points"
+                },
+                {
+                    "key": "field_hero2_bullet_subheading",
+                    "label": "Sub-heading",
+                    "name": "subheading",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Enter bullet point sub-heading (optional)",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_hero2_bullet_points"
+                },
+                {
+                    "key": "field_hero2_bullet_description",
+                    "label": "Description",
+                    "name": "description",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "rows": 3,
+                    "placeholder": "Enter bullet point description",
+                    "new_lines": "",
+                    "parent_repeater": "field_hero2_bullet_points"
+                },
+                {
+                    "key": "field_hero2_bullet_color",
+                    "label": "Bullet Color",
+                    "name": "bullet_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Color of the bullet point",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#7ED4AD",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "parent_repeater": "field_hero2_bullet_points",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true
+                },
+                {
+                    "key": "field_hero2_bullet_heading_color",
+                    "label": "Heading Color",
+                    "name": "heading_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Color of the heading text",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#333333",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "parent_repeater": "field_hero2_bullet_points",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true
+                },
+                {
+                    "key": "field_hero2_bullet_subheading_color",
+                    "label": "Sub-heading Color",
+                    "name": "subheading_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Color of the sub-heading text",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#666666",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "parent_repeater": "field_hero2_bullet_points",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true
+                },
+                {
+                    "key": "field_hero2_bullet_description_color",
+                    "label": "Description Color",
+                    "name": "description_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "Color of the description text",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#333333",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "parent_repeater": "field_hero2_bullet_points",
+                    "custom_palette_source": "",
+                    "palette_colors": "",
+                    "show_color_wheel": true
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/hero-2-service"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Hero section with left image and right service blocks",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1768466629
+}
