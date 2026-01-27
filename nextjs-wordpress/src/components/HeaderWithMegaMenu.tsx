@@ -30,23 +30,28 @@ function MenuItems({ items, megaMenuMap, disableMegaMenu = false }: { items: Men
         const hasMegaMenu = !disableMegaMenu && megaMenuMap[itemTitleLower];
         const hasChildren = item.children && item.children.length > 0;
         
+        // Check if this is the Career menu item and use custom URL
+        const isCareerItem = itemTitleLower === 'career' || itemTitleLower === 'careers';
+        const finalUrl = isCareerItem ? 'https://app.emossy.com/#/job-module/jobs?companyId=IjE' : item.url;
+        
         return (
           <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (hasChildren ? 'has-children' : '')}>
             {hasMegaMenu ? (
               <MegaMenu trigger={item.title} menuData={hasMegaMenu} />
             ) : (
               <>
-                {wpUrlToPath(item.url).startsWith('#') ? (
+                {isCareerItem || wpUrlToPath(finalUrl).startsWith('#') ? (
                   <a 
-                    href={wpUrlToPath(item.url)} 
-                    target={item.target}
+                    href={isCareerItem ? finalUrl : wpUrlToPath(finalUrl)} 
+                    target={isCareerItem ? '_blank' : item.target}
                     className={item.classes}
+                    rel={isCareerItem ? 'noopener noreferrer' : undefined}
                   >
                     {item.title}
                   </a>
                 ) : (
                   <Link 
-                    href={wpUrlToPath(item.url)} 
+                    href={wpUrlToPath(finalUrl)} 
                     target={item.target}
                     className={item.classes}
                   >
