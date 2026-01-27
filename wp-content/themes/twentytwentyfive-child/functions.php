@@ -1980,3 +1980,164 @@ $testimonials_cpt = get_stylesheet_directory() . '/inc/cpt-testimonials.php';
 if (file_exists($testimonials_cpt)) {
     require_once $testimonials_cpt;
 }
+
+/**
+ * ========================================
+ * CONTACT FORM FUNCTIONALITY
+ * ========================================
+ */
+
+// Register Custom Post Type for Contact Submissions
+add_action('init', 'register_contact_submissions_cpt');
+
+function register_contact_submissions_cpt() {
+    $labels = array(
+        'name'                  => _x('Contact Submissions', 'Post type general name', 'textdomain'),
+        'singular_name'         => _x('Contact Submission', 'Post type singular name', 'textdomain'),
+        'menu_name'             => _x('Contact Submissions', 'Admin Menu text', 'textdomain'),
+        'name_admin_bar'        => _x('Contact Submission', 'Add New on Toolbar', 'textdomain'),
+        'add_new'               => __('Add New', 'textdomain'),
+        'add_new_item'          => __('Add New Submission', 'textdomain'),
+        'new_item'              => __('New Submission', 'textdomain'),
+        'edit_item'             => __('Edit Submission', 'textdomain'),
+        'view_item'             => __('View Submission', 'textdomain'),
+        'all_items'             => __('All Submissions', 'textdomain'),
+        'search_items'          => __('Search Submissions', 'textdomain'),
+        'not_found'             => __('No submissions found.', 'textdomain'),
+        'not_found_in_trash'    => __('No submissions found in Trash.', 'textdomain'),
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => false,
+        'rewrite'            => false,
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'hierarchical'       => false,
+        'menu_position'      => 25,
+        'menu_icon'          => 'dashicons-email',
+        'supports'           => array('title', 'editor', 'custom-fields'),
+        'show_in_rest'       => false,
+    );
+
+    register_post_type('contact_submissions', $args);
+}
+
+// Register Custom REST API Endpoint for Contact Form
+add_action('rest_api_init', 'register_contact_form_endpoint');
+
+function register_contact_form_endpoint() {
+    register_rest_route('custom/v1', '/contact-submit', array(
+        'methods'             => 'POST',
+        'callback'            => 'handle_contact_form_submission',
+        'permission_callback' => '__return_true', // Public endpoint
+    ));
+}
+
+/**
+ * Handle Contact Form Submission
+ * 
+ * @param WP_REST_Request $request Full request data
+ * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure
+ */
+function handle_contact_form_submission($request) {
+    // Get form data from request
+    $email   = sanitize_email($request->get_param('email'));
+    $phone   = sanitize_text_field($request->get_param('phone'));
+    $message = sanitize_textarea_field($request->get_param('message'));
+
+    // Validation: Check required fields
+    $errors = array();
+
+    if (empty($email)) {
+        $errors[] = 'Email is required.';
+    } elseif (!is_email($email)) {
+        $errors[] = 'Please provide a valid email address.';
+    }
+
+    if (empty($message)) {
+        $errors[] = 'Message is required.';
+    }
+
+    // If there are validation errors, return error response
+    if (!empty($errors)) {
+        return new WP_Error(
+            'validation_error',
+            'Validation failed',
+            array(
+                'status' => 400,
+                'errors' => $errors,
+            )
+        );
+    }
+
+    // Prepare post data for saving submission
+    $post_title = sprintf(
+        'Contact from %s - %s',
+        $email,
+        current_time('Y-m-d H:i:s')
+    );
+
+    $post_content = sprintf(
+        "Email: %s\nPhone: %s\n\nMessage:\n%s",
+        $email,
+        !empty($phone) ? $phone : 'Not provided',
+        $message
+    );
+
+    // Insert submission as custom post type
+    $post_id = wp_insert_post(array(
+        'post_type'    => 'contact_submissions',
+        'post_title'   => $post_title,
+        'post_content' => $post_content,
+        'post_status'  => 'publish',
+        'meta_input'   => array(
+            'contact_email'   => $email,
+            'contact_phone'   => $phone,
+            'contact_message' => $message,
+            'submission_date' => current_time('mysql'),
+        ),
+    ));
+
+    // Check if post was created successfully
+    if (is_wp_error($post_id)) {
+        return new WP_Error(
+            'submission_failed',
+            'Failed to save your submission. Please try again.',
+            array('status' => 500)
+        );
+    }
+
+    // Optional: Send notification email to admin
+    $admin_email = get_option('admin_email');
+    $subject = 'New Contact Form Submission - ' . get_bloginfo('name');
+    $email_body = sprintf(
+        "You have received a new contact form submission:\n\n" .
+        "Email: %s\n" .
+        "Phone: %s\n" .
+        "Message:\n%s\n\n" .
+        "Submission ID: %d\n" .
+        "Date: %s",
+        $email,
+        !empty($phone) ? $phone : 'Not provided',
+        $message,
+        $post_id,
+        current_time('Y-m-d H:i:s')
+    );
+
+    wp_mail($admin_email, $subject, $email_body);
+
+    // Return success response
+    return rest_ensure_response(array(
+        'success' => true,
+        'message' => 'Thank you! Your message has been sent successfully. We will get back to you soon.',
+        'data'    => array(
+            'submission_id' => $post_id,
+            'email'         => $email,
+        ),
+    ));
+}
