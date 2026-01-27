@@ -92,7 +92,7 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
           }
           
           .case-study-card__title {
-            font-size: 1.5rem;
+            font-size: 15px;
             margin-bottom: 12px;
             font-weight: 600;
           }

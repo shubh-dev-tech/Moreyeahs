@@ -792,3 +792,56 @@
     padding: 30px 20px;
   }
 }
+
+/* PDF-specific styles */
+#case-study-pdf-content {
+  background: white;
+  min-height: 100vh;
+}
+
+/* Hide decorative elements during PDF generation */
+.pdf-generating {
+  overflow: visible !important;
+}
+
+.pdf-generating *[style*="#e91e63"],
+.pdf-generating *[style*="rgb(233, 30, 99)"],
+.pdf-generating .decorative-line,
+.pdf-generating .decorative-border {
+  display: none !important;
+}
+
+/* Print/PDF optimizations */
+@media print {
+  #case-study-pdf-content {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .sidebar {
+    background: linear-gradient(135deg, rgb(46, 188, 212), rgb(30, 39, 176)) !important;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .headerBackground {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .sectionIcon {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* Ensure PDF button doesn't appear in PDF */
+@media print {
+  .sidebarDownloadBtn {
+    display: none !important;
+  }
+}

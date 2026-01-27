@@ -49,6 +49,10 @@ function MobileMenuItems({
       {items.map((item) => {
         const itemTitleLower = item.title.toLowerCase().trim();
         const hasMegaMenu = megaMenuMap[itemTitleLower];
+        
+        // Check if this is the Career menu item and use custom URL
+        const isCareerItem = itemTitleLower === 'career' || itemTitleLower === 'careers';
+        const finalUrl = isCareerItem ? 'https://app.emossy.com/#/job-module/jobs?companyId=IjE' : item.url;
 
         if (hasMegaMenu) {
           return (
@@ -84,18 +88,19 @@ function MobileMenuItems({
             {item.children.length > 0 ? (
               <>
                 <div className="mobile-menu__item-wrapper">
-                  {wpUrlToPath(item.url).startsWith('#') ? (
+                  {isCareerItem || wpUrlToPath(finalUrl).startsWith('#') ? (
                     <a 
-                      href={wpUrlToPath(item.url)} 
-                      target={item.target}
+                      href={isCareerItem ? finalUrl : wpUrlToPath(finalUrl)} 
+                      target={isCareerItem ? '_blank' : item.target}
                       className={`mobile-menu__link ${item.classes}`}
                       onClick={onLinkClick}
+                      rel={isCareerItem ? 'noopener noreferrer' : undefined}
                     >
                       {item.title}
                     </a>
                   ) : (
                     <Link 
-                      href={wpUrlToPath(item.url)} 
+                      href={wpUrlToPath(finalUrl)} 
                       target={item.target}
                       className={`mobile-menu__link ${item.classes}`}
                       onClick={onLinkClick}
@@ -126,18 +131,19 @@ function MobileMenuItems({
               </>
             ) : (
               <div className="mobile-menu__item-wrapper">
-                {wpUrlToPath(item.url).startsWith('#') ? (
+                {isCareerItem || wpUrlToPath(finalUrl).startsWith('#') ? (
                   <a 
-                    href={wpUrlToPath(item.url)} 
-                    target={item.target}
+                    href={isCareerItem ? finalUrl : wpUrlToPath(finalUrl)} 
+                    target={isCareerItem ? '_blank' : item.target}
                     className={`mobile-menu__link ${item.classes}`}
                     onClick={onLinkClick}
+                    rel={isCareerItem ? 'noopener noreferrer' : undefined}
                   >
                     {item.title}
                   </a>
                 ) : (
                   <Link 
-                    href={wpUrlToPath(item.url)} 
+                    href={wpUrlToPath(finalUrl)} 
                     target={item.target}
                     className={`mobile-menu__link ${item.classes}`}
                     onClick={onLinkClick}

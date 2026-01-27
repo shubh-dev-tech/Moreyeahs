@@ -156,7 +156,7 @@ export default async function CaseStudiesPage() {
 
   return (
     <main className="case-studies-archive">
-      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '60px 20px' }}>
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '90px 20px' }}>
         <header style={{ textAlign: 'center', marginBottom: '60px' }}>
           <h1 style={{ fontSize: '3rem', marginBottom: '20px', fontWeight: 'bold' }}>
             Case Studies
