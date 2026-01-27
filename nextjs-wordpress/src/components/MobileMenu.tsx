@@ -49,6 +49,12 @@ function MobileMenuItems({
       {items.map((item) => {
         const itemTitleLower = item.title.toLowerCase().trim();
         const hasMegaMenu = megaMenuMap[itemTitleLower];
+        
+        // Custom URL handling for specific menu items
+        let customUrl = item.url;
+        if (itemTitleLower === 'career' || itemTitleLower === 'careers') {
+          customUrl = 'https://app.emossy.com/#/job-module/jobs?companyId=IjEi';
+        }
 
         if (hasMegaMenu) {
           return (
@@ -84,10 +90,11 @@ function MobileMenuItems({
             {item.children.length > 0 ? (
               <>
                 <div className="mobile-menu__item-wrapper">
-                  {wpUrlToPath(item.url).startsWith('#') ? (
+                  {wpUrlToPath(customUrl).startsWith('#') || customUrl.startsWith('http') ? (
                     <a 
-                      href={wpUrlToPath(item.url)} 
-                      target={item.target}
+                      href={customUrl.startsWith('http') ? customUrl : wpUrlToPath(customUrl)} 
+                      target={customUrl.startsWith('http') ? '_blank' : item.target}
+                      rel={customUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
                       className={`mobile-menu__link ${item.classes}`}
                       onClick={onLinkClick}
                     >
@@ -95,7 +102,7 @@ function MobileMenuItems({
                     </a>
                   ) : (
                     <Link 
-                      href={wpUrlToPath(item.url)} 
+                      href={wpUrlToPath(customUrl)} 
                       target={item.target}
                       className={`mobile-menu__link ${item.classes}`}
                       onClick={onLinkClick}
@@ -126,10 +133,11 @@ function MobileMenuItems({
               </>
             ) : (
               <div className="mobile-menu__item-wrapper">
-                {wpUrlToPath(item.url).startsWith('#') ? (
+                {wpUrlToPath(customUrl).startsWith('#') || customUrl.startsWith('http') ? (
                   <a 
-                    href={wpUrlToPath(item.url)} 
-                    target={item.target}
+                    href={customUrl.startsWith('http') ? customUrl : wpUrlToPath(customUrl)} 
+                    target={customUrl.startsWith('http') ? '_blank' : item.target}
+                    rel={customUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
                     className={`mobile-menu__link ${item.classes}`}
                     onClick={onLinkClick}
                   >
@@ -137,7 +145,7 @@ function MobileMenuItems({
                   </a>
                 ) : (
                   <Link 
-                    href={wpUrlToPath(item.url)} 
+                    href={wpUrlToPath(customUrl)} 
                     target={item.target}
                     className={`mobile-menu__link ${item.classes}`}
                     onClick={onLinkClick}

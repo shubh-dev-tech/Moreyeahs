@@ -1,13 +1,32 @@
 'use client';
 
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
-
 interface PDFOptions {
   filename?: string;
   format?: 'a4' | 'letter';
   orientation?: 'portrait' | 'landscape';
 }
+
+// Lazy load function for html2canvas
+const loadHtml2Canvas = async () => {
+  try {
+    const html2canvasModule = await import('html2canvas');
+    return html2canvasModule.default;
+  } catch (error) {
+    console.error('Failed to load html2canvas:', error);
+    throw new Error('PDF generation library not available. Please try refreshing the page.');
+  }
+};
+
+// Lazy load function for jsPDF
+const loadJsPDF = async () => {
+  try {
+    const jsPDFModule = await import('jspdf');
+    return jsPDFModule.default;
+  } catch (error) {
+    console.error('Failed to load jsPDF:', error);
+    throw new Error('PDF generation library not available. Please try refreshing the page.');
+  }
+};
 
 export const generatePDF = async (
   elementId: string, 
@@ -20,6 +39,11 @@ export const generatePDF = async (
   } = options;
 
   try {
+    // Load libraries dynamically
+    const [html2canvas, jsPDF] = await Promise.all([
+      loadHtml2Canvas(),
+      loadJsPDF()
+    ]);
     // Get the element to convert
     const element = document.getElementById(elementId);
     if (!element) {
@@ -195,6 +219,12 @@ export const testPDFGeneration = async (): Promise<void> => {
   try {
     console.log('Testing PDF generation...');
     
+    // Load libraries dynamically
+    const [html2canvas, jsPDF] = await Promise.all([
+      loadHtml2Canvas(),
+      loadJsPDF()
+    ]);
+    
     // Create a simple test element
     const testElement = document.createElement('div');
     testElement.id = 'pdf-test-element';
@@ -219,12 +249,27 @@ export const testPDFGeneration = async (): Promise<void> => {
     
     document.body.appendChild(testElement);
     
-    // Generate PDF
-    await generatePDF('pdf-test-element', {
-      filename: 'test-pdf.pdf',
-      format: 'a4',
-      orientation: 'portrait'
+    // Generate canvas
+    const canvas = await html2canvas(testElement, {
+      useCORS: true,
+      allowTaint: true,
+      logging: false
     });
+    
+    // Create PDF
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+    
+    // Add image to PDF
+    const imgData = canvas.toDataURL('image/jpeg', 0.8);
+    const imgWidth = 210; // A4 width in mm
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    
+    pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+    pdf.save('test-pdf.pdf');
     
     // Clean up
     document.body.removeChild(testElement);
