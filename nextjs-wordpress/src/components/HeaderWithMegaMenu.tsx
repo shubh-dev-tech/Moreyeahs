@@ -30,11 +30,9 @@ function MenuItems({ items, megaMenuMap, disableMegaMenu = false }: { items: Men
         const hasMegaMenu = !disableMegaMenu && megaMenuMap[itemTitleLower];
         const hasChildren = item.children && item.children.length > 0;
         
-        // Custom URL handling for specific menu items
-        let customUrl = item.url;
-        if (itemTitleLower === 'career' || itemTitleLower === 'careers') {
-          customUrl = 'https://app.emossy.com/#/job-module/jobs?companyId=IjEi';
-        }
+        // Check if this is the Career menu item and use custom URL
+        const isCareerItem = itemTitleLower === 'career' || itemTitleLower === 'careers';
+        const finalUrl = isCareerItem ? 'https://app.emossy.com/#/job-module/jobs?companyId=IjE' : item.url;
         
         return (
           <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (hasChildren ? 'has-children' : '')}>
@@ -42,18 +40,18 @@ function MenuItems({ items, megaMenuMap, disableMegaMenu = false }: { items: Men
               <MegaMenu trigger={item.title} menuData={hasMegaMenu} />
             ) : (
               <>
-                {wpUrlToPath(customUrl).startsWith('#') || customUrl.startsWith('http') ? (
+                {isCareerItem || wpUrlToPath(finalUrl).startsWith('#') ? (
                   <a 
-                    href={customUrl.startsWith('http') ? customUrl : wpUrlToPath(customUrl)} 
-                    target={customUrl.startsWith('http') ? '_blank' : item.target}
-                    rel={customUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    href={isCareerItem ? finalUrl : wpUrlToPath(finalUrl)} 
+                    target={isCareerItem ? '_blank' : item.target}
                     className={item.classes}
+                    rel={isCareerItem ? 'noopener noreferrer' : undefined}
                   >
                     {item.title}
                   </a>
                 ) : (
                   <Link 
-                    href={wpUrlToPath(customUrl)} 
+                    href={wpUrlToPath(finalUrl)} 
                     target={item.target}
                     className={item.classes}
                   >
