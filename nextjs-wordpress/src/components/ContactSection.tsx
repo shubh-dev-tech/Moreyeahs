@@ -20,6 +20,9 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
     message: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState('');
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -28,11 +31,37 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    // Reset form
-    setFormData({ email: '', phone: '', message: '' });
+    
+    if (!formData.email || !formData.message) {
+      setMessage('Please fill in all required fields');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setMessage('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setMessage('Thank you! Your message has been sent successfully.');
+        setFormData({ email: '', phone: '', message: '' });
+      } else {
+        setMessage(result.error || 'Failed to send message');
+      }
+    } catch (error) {
+      setMessage('Network error. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -96,6 +125,20 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
           {/* Contact Form */}
           <div className="contact-form-wrapper">
             <h2 className="contact-title">Contact Us</h2>
+            
+            {message && (
+              <div style={{
+                padding: '10px 15px',
+                marginBottom: '15px',
+                borderRadius: '5px',
+                backgroundColor: message.includes('successfully') ? '#d4edda' : '#f8d7da',
+                color: message.includes('successfully') ? '#155724' : '#721c24',
+                border: `1px solid ${message.includes('successfully') ? '#c3e6cb' : '#f5c6cb'}`
+              }}>
+                {message}
+              </div>
+            )}
+            
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-row">
                 <div className="form-group">
@@ -107,6 +150,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
                     onChange={handleInputChange}
                     required
                     className="form-input"
+                    disabled={isSubmitting}
                   />
                 </div>
                 <div className="form-group">
@@ -117,6 +161,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
                     value={formData.phone}
                     onChange={handleInputChange}
                     className="form-input"
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -129,10 +174,11 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
                   required
                   rows={2}
                   className="form-textarea"
+                  disabled={isSubmitting}
                 />
               </div>
-              <button type="submit" className="submit-button">
-                Send Message
+              <button type="submit" className="submit-button" disabled={isSubmitting}>
+                {isSubmitting ? 'Sending...' : 'Send Message'}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
                 </svg>
