@@ -62,10 +62,10 @@
 
   &__title {
     color: var(--stepper-text-color);
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
     line-height: 1.3;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     white-space: nowrap;
     // text-shadow: var(--stepper-text-shadow);
   }
@@ -79,7 +79,7 @@
 
   &__item {
     position: relative;
-    margin-bottom: 40px;
+    margin-bottom: 15px;
 
     &:last-child {
       margin-bottom: 0;
@@ -88,7 +88,7 @@
     // Active state with gradient and flash effect
     &--active {
       .new-stepper__line {
-        width: 100px !important;
+        width: 60px !important;
         height: 4px !important;
         background: linear-gradient(90deg, var(--stepper-line-color-start) 0%, var(--stepper-line-color-mid) 50%, var(--stepper-line-color-end) 100%) !important;
         background-size: 200% 100% !important;
@@ -136,7 +136,7 @@
 
   &__line {
     height: 3px;
-    width: 40px;
+    width: 20px;
     background: linear-gradient(90deg, var(--stepper-inactive-line-start), var(--stepper-inactive-line-end));
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     margin-bottom: 8px;
@@ -147,7 +147,7 @@
 
   &__label {
     color: var(--stepper-inactive-text);
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 500;
     line-height: 1.3;
     white-space: nowrap;

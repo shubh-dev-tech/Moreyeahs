@@ -18,6 +18,19 @@
     &:hover {
       background-color: rgba(0, 0, 0, 0.05);
     }
+
+    // Dynamic background-based styling
+    &--dark-bg {
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+
+    &--light-bg {
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
   }
 
   &__overlay {
@@ -437,6 +450,7 @@
     border-top: 1px solid rgba(0, 0, 0, 0.08);
   }
 
+  // Support both old and new social link structures
   &__social {
     display: flex;
     gap: 1.5rem;
@@ -457,18 +471,56 @@
   }
 }
 
+// New social links structure
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+
+  .social-link {
+    color: #666;
+    @include transition(color 0.2s ease);
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+
+    &:hover {
+      color: #0066cc;
+      opacity: 1;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
 .hamburger-line {
   width: 24px;
   height: 2px;
-  background-color: #000000;
   @include transition(transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease);
   border-radius: 2px;
+  
+  // Default white color
+  background-color: #ffffff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+
+  // Dynamic background-based styling with higher specificity
+  &--dark-bg {
+    background-color: #ffffff !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  &--light-bg {
+    background-color: #000000 !important;
+    box-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+  }
 
   &.open {
     &:nth-child(1) {
       transform: translateY(8px) rotate(45deg);
-      background-color: $color-text;
+      background-color: $color-text !important;
     }
 
     &:nth-child(2) {
@@ -477,7 +529,7 @@
 
     &:nth-child(3) {
       transform: translateY(-8px) rotate(-45deg);
-      background-color: $color-text;
+      background-color: $color-text !important;
     }
   }
 }

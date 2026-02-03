@@ -482,14 +482,6 @@
 
     .testimonial-slider-container {
       height: auto;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .testimonial-cards-wrapper {
-      width: 100%;
-      height: auto;
-      margin-bottom: 0;
     }
 
     .testimonial-card {
@@ -527,29 +519,16 @@
     }
 
     .testimonial-navigation {
-      position: static;
+      position: relative;
       bottom: auto;
       left: auto;
       transform: none;
       justify-content: center;
-      margin-top: 40px;
-      display: flex;
-      align-items: center;
-      gap: 30px;
+      margin-top: 30px;
 
       .nav-btn {
-        width: 50px;
-        height: 50px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        
-        &:hover {
-          border-color: rgba(255, 255, 255, 0.5);
-          background: rgba(255, 255, 255, 0.15);
-          transform: scale(1.05);
-        }
+        width: 60px;
+        height: 60px;
         
         svg {
           width: 20px;
@@ -559,23 +538,12 @@
     }
 
     .testimonial-dots {
-      position: static;
+      position: relative;
       bottom: auto;
       left: auto;
       transform: none;
       justify-content: center;
-      margin-top: 25px;
-      display: flex;
-      gap: 12px;
-
-      .dot {
-        width: 12px;
-        height: 12px;
-        
-        &.active {
-          transform: scale(1.3);
-        }
-      }
+      margin-top: 20px;
     }
   }
 
@@ -599,32 +567,6 @@
         .testimonial-quote {
           font-size: 0.95rem;
         }
-      }
-    }
-
-    .testimonial-navigation {
-      margin-top: 30px;
-      gap: 25px;
-
-      .nav-btn {
-        width: 45px;
-        height: 45px;
-        
-        svg {
-          width: 18px;
-          height: 18px;
-          color: #0084ffc0;
-        }
-      }
-    }
-
-    .testimonial-dots {
-      margin-top: 20px;
-      gap: 10px;
-
-      .dot {
-        width: 10px;
-        height: 10px;
       }
     }
   }
@@ -669,7 +611,7 @@
 .dice-testimonial-block {
   .nav-btn:focus,
   .dot:focus {
-    outline: 2px solid #0084ffc0;
+    outline: 2px solid #ffd700;
     outline-offset: 2px;
   }
 }
