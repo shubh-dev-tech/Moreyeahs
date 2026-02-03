@@ -38,6 +38,7 @@ export const generatePDF = async (
     orientation = 'portrait'
   } = options;
 
+  let addedPdfClass = false;
   try {
     // Load libraries dynamically
     const [html2canvas, jsPDF] = await Promise.all([
@@ -49,34 +50,6 @@ export const generatePDF = async (
     if (!element) {
       throw new Error(`Element with ID "${elementId}" not found`);
     }
-
-    // Add PDF mode class to make styles PDF-friendly
-    const originalClasses = element.className;
-    element.classList.add('pdf-mode');
-    document.body.classList.add('pdf-generating');
-
-    // Force style recalculation for dynamic headings
-    const dynamicHeadings = element.querySelectorAll('[class*="dynamicHeading"]');
-    console.log(`Found ${dynamicHeadings.length} dynamic headings for PDF processing`);
-    dynamicHeadings.forEach((heading, index) => {
-      if (heading instanceof HTMLElement) {
-        console.log(`Processing dynamic heading ${index + 1}:`, heading.textContent);
-        // Force a repaint by temporarily changing a style
-        const originalDisplay = heading.style.display;
-        heading.style.display = 'none';
-        heading.offsetHeight; // Trigger reflow
-        heading.style.display = originalDisplay || '';
-        
-        // Ensure text is visible by setting explicit styles
-        heading.style.color = '#516FC2';
-        heading.style.background = 'none';
-        heading.style.webkitBackgroundClip = 'initial';
-        heading.style.webkitTextFillColor = 'initial';
-        heading.style.animation = 'none';
-        
-        console.log(`Applied PDF-friendly styles to heading ${index + 1}`);
-      }
-    });
 
     // Show loading state
     const loadingElement = document.createElement('div');
@@ -131,8 +104,12 @@ export const generatePDF = async (
       })
     );
 
-    // Wait a bit for layout to settle and styles to apply
+    // Wait a bit for layout to settle
     await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Enable PDF mode CSS overrides (used to freeze animations / hide decorations)
+    document.body.classList.add('pdf-generating');
+    addedPdfClass = true;
 
     // Generate canvas from HTML with better options
     console.log('Generating canvas for element:', element);
@@ -143,14 +120,19 @@ export const generatePDF = async (
       offsetHeight: element.offsetHeight
     });
     
+    // NOTE: We cast to any because html2canvas option typings can lag behind runtime options.
+    // foreignObjectRendering helps with advanced CSS like background-clip:text (gradient text)
+    // which otherwise may render as a "background block" in the captured canvas.
     const canvas = await html2canvas(element, {
       useCORS: true,
       allowTaint: true,
       logging: true, // Enable logging for debugging
       width: element.scrollWidth,
       height: element.scrollHeight,
-      background: '#ffffff'
-    });
+      backgroundColor: '#ffffff',
+      scale: 2,
+      foreignObjectRendering: true
+    } as any);
     
     console.log('Canvas generated successfully:', {
       width: canvas.width,
@@ -223,30 +205,20 @@ export const generatePDF = async (
     // Save the PDF
     pdf.save(filename);
 
-    // Remove loading element and restore original classes
+    // Remove loading element
     const overlay = document.getElementById('pdf-loading-overlay');
     if (overlay) {
       document.body.removeChild(overlay);
     }
-    
-    // Restore original state
-    element.className = originalClasses;
-    document.body.classList.remove('pdf-generating');
-    
-    // Restore original styles for dynamic headings
-    const dynamicHeadingsRestore = element.querySelectorAll('[class*="dynamicHeading"]');
-    dynamicHeadingsRestore.forEach(heading => {
-      if (heading instanceof HTMLElement) {
-        heading.style.color = '';
-        heading.style.background = '';
-        heading.style.webkitBackgroundClip = '';
-        heading.style.webkitTextFillColor = '';
-        heading.style.animation = '';
-      }
-    });
 
   } catch (error) {
     console.error('Error generating PDF:', error);
+    
+    // Cleanup PDF mode on error as well
+    if (addedPdfClass) {
+      document.body.classList.remove('pdf-generating');
+      addedPdfClass = false;
+    }
     
     // Remove loading element if it exists
     const overlay = document.getElementById('pdf-loading-overlay');
@@ -254,28 +226,14 @@ export const generatePDF = async (
       document.body.removeChild(overlay);
     }
     
-    // Restore original state
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.classList.remove('pdf-mode');
-      
-      // Restore original styles for dynamic headings
-      const dynamicHeadings = element.querySelectorAll('[class*="dynamicHeading"]');
-      dynamicHeadings.forEach(heading => {
-        if (heading instanceof HTMLElement) {
-          heading.style.color = '';
-          heading.style.background = '';
-          heading.style.webkitBackgroundClip = '';
-          heading.style.webkitTextFillColor = '';
-          heading.style.animation = '';
-        }
-      });
-    }
-    document.body.classList.remove('pdf-generating');
-    
     // Show error message with more details
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     alert(`Error generating PDF: ${errorMessage}. Please try again.`);
+  } finally {
+    // Cleanup PDF mode after successful generation too
+    if (addedPdfClass) {
+      document.body.classList.remove('pdf-generating');
+    }
   }
 };
 

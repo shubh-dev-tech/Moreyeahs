@@ -1,21 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
-interface ContactFormData {
+interface CaseStudyDownloadFormData {
+  name: string;
   email: string;
+  company?: string;
   phone?: string;
-  message: string;
+  caseStudyTitle: string;
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body: ContactFormData = await request.json();
-    const { email, phone, message } = body;
+    const body: CaseStudyDownloadFormData = await request.json();
+    const { name, email, company, phone, caseStudyTitle } = body;
 
     // Validate required fields
-    if (!email || !message) {
+    if (!name || !email || !caseStudyTitle) {
       return NextResponse.json(
-        { success: false, error: 'Email and message are required' },
+        { success: false, error: 'Name, email, and case study title are required' },
         { status: 400 }
       );
     }
@@ -42,16 +44,18 @@ export async function POST(request: NextRequest) {
     // Email content
     const emailContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <h2 style="color: #333;">New Contact Form Submission</h2>
+        <h2 style="color: #333;">New Case Study Download Request</h2>
         <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+          <p><strong>Case Study:</strong> ${caseStudyTitle}</p>
+          <p><strong>Name:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>
+          ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
           ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
-          <p><strong>Message:</strong></p>
-          <div style="background: white; padding: 15px; border-radius: 5px; margin-top: 10px;">
-            ${message.replace(/\n/g, '<br>')}
-          </div>
         </div>
         <p style="color: #666; margin-top: 20px;">
+          This user has downloaded the case study: <strong>${caseStudyTitle}</strong>
+        </p>
+        <p style="color: #666; margin-top: 10px;">
           Reply to: <a href="mailto:${email}">${email}</a>
         </p>
       </div>
@@ -61,22 +65,22 @@ export async function POST(request: NextRequest) {
     await transporter.sendMail({
       from: process.env.MICROSOFT365_EMAIL,
       to: process.env.MICROSOFT365_EMAIL, // Send to same email
-             cc:process.env.MICROSOFT365_CC,
+      cc:process.env.MICROSOFT365_CC,
       bcc:process.env.MICROSOFT365_BCC,
       replyTo: email,
-      subject: `Contact Form: ${email}`,
+      subject: `Case Study Download: ${caseStudyTitle} - ${name}`,
       html: emailContent,
     });
 
     return NextResponse.json({
       success: true,
-      message: 'Message sent successfully!'
+      message: 'Form submitted successfully!'
     });
 
   } catch (error) {
-    console.error('Contact form error:', error);
+    console.error('Case study download form error:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to send message' },
+      { success: false, error: 'Failed to submit form' },
       { status: 500 }
     );
   }
@@ -84,7 +88,8 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   return NextResponse.json({
-    message: 'Contact API is working',
+    message: 'Case Study Download API is working',
     smtp: 'Microsoft 365'
   });
 }
+
