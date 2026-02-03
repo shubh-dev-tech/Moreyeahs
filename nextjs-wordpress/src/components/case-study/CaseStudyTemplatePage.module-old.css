@@ -358,7 +358,6 @@
   position: relative;
 
   background: linear-gradient(135deg, rgb(0, 188, 212), rgb(156, 39, 176));
-
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -800,42 +799,6 @@
   min-height: 100vh;
 }
 
-/* PDF-friendly dynamic heading styles */
-.pdf-mode .dynamicHeading {
-  /* Remove gradient text and animations for PDF */
-  background: none !important;
-  -webkit-background-clip: initial !important;
-  -webkit-text-fill-color: initial !important;
-  background-clip: initial !important;
-  color: #516FC2 !important;
-  animation: none !important;
-  font-weight: 700 !important;
-  text-shadow: none !important;
-}
-
-.pdf-mode .dynamicHeading::after {
-  /* Remove shine animation for PDF */
-  display: none !important;
-}
-
-.pdf-mode .dynamicHeadingSection::before {
-  /* Remove sliding dot animation for PDF */
-  display: none !important;
-}
-
-.pdf-mode .dynamicHeadingSection::after {
-  /* Keep the gradient line but make it static */
-  animation: none !important;
-  background: linear-gradient(135deg, rgb(0, 188, 212), rgb(156, 39, 176)) !important;
-}
-
-/* Fallback for PDF generation using data attribute */
-.pdf-mode .dynamicHeading:empty::before {
-  content: attr(data-pdf-text);
-  color: #516FC2;
-  font-weight: 700;
-}
-
 /* Hide decorative elements during PDF generation */
 .pdf-generating {
   overflow: visible !important;
@@ -846,6 +809,14 @@
 .pdf-generating .decorative-line,
 .pdf-generating .decorative-border {
   display: none !important;
+}
+
+/* Freeze animations/transitions during PDF capture to avoid visual artifacts */
+.pdf-generating *,
+.pdf-generating *::before,
+.pdf-generating *::after {
+  animation: none !important;
+  transition: none !important;
 }
 
 /* Print/PDF optimizations */
@@ -869,29 +840,6 @@
   .sectionIcon {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-  }
-  
-  /* PDF-friendly dynamic heading for print */
-  .dynamicHeading {
-    background: none !important;
-    -webkit-background-clip: initial !important;
-    -webkit-text-fill-color: initial !important;
-    background-clip: initial !important;
-    color: #516FC2 !important;
-    animation: none !important;
-  }
-  
-  .dynamicHeading::after {
-    display: none !important;
-  }
-  
-  .dynamicHeadingSection::before {
-    display: none !important;
-  }
-  
-  .dynamicHeadingSection::after {
-    animation: none !important;
-    background: linear-gradient(135deg, rgb(0, 188, 212), rgb(156, 39, 176)) !important;
   }
 }
 

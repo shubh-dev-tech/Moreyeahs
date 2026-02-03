@@ -12,17 +12,60 @@
   padding-right: 40px!important;
   z-index: $z-index-header;
   padding: 1.25rem 0;
-  // background-color: #ffffff40;
-  // backdrop-filter: blur(10px);
-  // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transform: translateY(0);
-  background: #FFFFFFCC;
+  background: transparent;
   opacity: 1;
-  @include transition(transform var(--header-animation-duration, 0.3s) ease, opacity var(--header-animation-duration, 0.3s) ease);
+  @include transition(all var(--header-animation-duration, 0.3s) ease);
+
+  // Dark background state (transparent header)
+  &--dark-bg {
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+
+    .header__logo {
+      color: #ffffff;
+    }
+
+    .header__menu a {
+      color: #ffffff;
+    }
+
+    .header__search-btn {
+      color: #ffffff;
+    }
+
+    .hamburger-line {
+      background-color: #ffffff;
+    }
+  }
+
+  // Light background state (scrolled header)
+  &--light-bg {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+    .header__logo {
+      color: $color-text;
+    }
+
+    .header__menu a {
+      color: $color-text;
+    }
+
+    .header__search-btn {
+      color: $color-text;
+    }
+
+    .hamburger-line {
+      background-color: $color-text;
+    }
+  }
 
   @include mobile {
     position: relative;
-    background: #ffffff;
+    background: transparent;
   }
 
   &__nav {
@@ -41,7 +84,7 @@
   &__logo {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #000;
+    color: #ffffff;
     letter-spacing: -0.5px;
     @include transition(color 0.2s ease);
     // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -60,7 +103,20 @@
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    @include transition(filter 0.3s ease);
+    @include transition(filter 0.3s ease, opacity 0.3s ease);
+
+    // Smooth transition for logo changes
+    transition: opacity 0.3s ease, filter 0.3s ease;
+
+    // Dark logo visible by default
+    &--dark {
+      display: block;
+    }
+
+    // Light logo hidden by default
+    &--light {
+      display: none;
+    }
   }
 
   &__logo-text {
@@ -74,6 +130,14 @@
     align-items: center;
     margin: 0;
     padding: 0;
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0.3s ease, opacity 0.3s ease;
+
+    &--hidden {
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
 
     > li {
       position: relative;
@@ -97,18 +161,17 @@
     }
 
     a {
-      color: #000000;
       padding: 0.75rem 0;
       display: block;
-          font-weight: 700;
+      font-weight: 700;
       position: relative;
       @include transition(color 0.2s ease);
-      // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      
+      // Default white color (for dark backgrounds) - high specificity
+      color: #ffffff !important;
 
       &:hover {
-        color: #000000;
-        opacity: 1;
-        font-weight: 700;
+        opacity: 0.8;
       }
     }
 
@@ -122,8 +185,10 @@
         left: 0;
         width: 0;
         height: 2px;
-        background-color: #000000;
         @include transition(width 0.3s ease);
+        
+        // Default white underline
+        background-color: #ffffff;
       }
 
       &:hover::after {
@@ -144,6 +209,47 @@
       transform: rotate(180deg);
     }
 
+    // Dynamic background-based styling - only for main menu items, not submenus
+    &--dark-bg {
+      > li > a:not(.header__submenu a) {
+        color: #ffffff !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+        &:hover {
+          color: #ffffff !important;
+          opacity: 0.8;
+        }
+
+        &::after {
+          background-color: #ffffff !important;
+        }
+      }
+
+      > li.has-children > a::before {
+        color: #ffffff !important;
+      }
+    }
+
+    &--light-bg {
+      > li > a:not(.header__submenu a) {
+        color: #000000 !important;
+        text-shadow: none;
+
+        &:hover {
+          color: #000000 !important;
+          opacity: 0.8;
+        }
+
+        &::after {
+          background-color: #000000 !important;
+        }
+      }
+
+      > li.has-children > a::before {
+        color: #000000 !important;
+      }
+    }
+
     @include mobile {
       display: none;
     }
@@ -153,7 +259,7 @@
     position: absolute;
     top: calc(100% - 0.25rem); // Reduce gap for easier hover
     left: 0;
-    background-color: #FFFFFFCC;
+    background-color: rgb(2 2 2 / 80%);
     border: 1px solid $color-border;
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
@@ -191,6 +297,7 @@
         background-color: $color-bg-alt;
         border-left-color: $color-primary;
         padding-left: 1.75rem;
+        color: #000!important;
       }
     }
 
@@ -251,20 +358,76 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+
+    // Dynamic background-based styling with higher specificity
+    &--dark-bg {
+      .header__search-btn {
+        color: #ffffff !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+        &:hover {
+          color: #ffffff !important;
+          opacity: 0.8;
+        }
+      }
+
+      .hamburger-line {
+        background-color: #ffffff !important;
+      }
+    }
+
+    &--light-bg {
+      .header__search-btn {
+        color: #000000 !important;
+        text-shadow: none;
+
+        &:hover {
+          color: #000000 !important;
+          opacity: 0.8;
+        }
+      }
+
+      .hamburger-line {
+        background-color: #000000 !important;
+      }
+    }
   }
 
   &__search-btn {
     background: none;
     border: none;
     cursor: pointer;
+    display: none!important;
     padding: 0.5rem;
-    color: #000;
     border-radius: 50%;
     width: 44px;
     height: 44px;
     @include flex-center;
     @include transition(all 0.2s ease);
-    // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    
+    // Default white color
+    color: #ffffff;
+
+    // Dynamic background-based styling with higher specificity
+    &--dark-bg {
+      color: #ffffff !important;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+      &:hover {
+        color: #ffffff !important;
+        opacity: 0.8;
+      }
+    }
+
+    &--light-bg {
+      color: #000000 !important;
+      text-shadow: none;
+
+      &:hover {
+        color: #000000 !important;
+        opacity: 0.8;
+      }
+    }
 
     @include mobile {
       display: none;

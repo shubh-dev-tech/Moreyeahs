@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import CaseStudyCard from '@/components/case-study/CaseStudyCard';
+import CaseStudiesWithSidebar from '@/components/case-study/CaseStudiesWithSidebar';
 import { generatePageMetadata } from '@/lib/seo';
 
 // Interface for processed case study data (strings only)
@@ -14,6 +14,8 @@ interface ProcessedCaseStudyData {
   featured_image: string | null;
   blocks: any[];
   acf_fields: any;
+  categories?: number[];
+  _embedded?: any;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -71,6 +73,9 @@ async function getCaseStudies(): Promise<ProcessedCaseStudyData[]> {
       return 'Case Study';
     };
     
+    // Remove duplicates by ID and slug
+    const uniqueCaseStudies = new Map();
+    
     const processedData = caseStudies.map((cs: any) => {
       const rawTitle = extractRendered(cs.title);
       const content = extractRendered(cs.content);
@@ -91,11 +96,23 @@ async function getCaseStudies(): Promise<ProcessedCaseStudyData[]> {
         date: cs.date,
         featured_image: cs._embedded?.['wp:featuredmedia']?.[0]?.source_url ?? null,
         blocks: [],
-        acf_fields: cs.acf_fields || cs.acf || {}
+        acf_fields: cs.acf_fields || cs.acf || {},
+        categories: cs.categories || [],
+        _embedded: cs._embedded
       };
     });
     
-    return processedData;
+    // Remove duplicates by ID
+    processedData.forEach(cs => {
+      if (!uniqueCaseStudies.has(cs.id)) {
+        uniqueCaseStudies.set(cs.id, cs);
+      }
+    });
+    
+    const finalData = Array.from(uniqueCaseStudies.values());
+    console.log(`Fetched ${caseStudies.length} case studies, after deduplication: ${finalData.length}`);
+    
+    return finalData;
   } catch (error) {
     console.error('Error fetching case studies:', error);
     // Try fallback to regular posts
@@ -134,7 +151,10 @@ async function getCaseStudiesFromPosts(apiUrl: string): Promise<ProcessedCaseStu
       return [];
     }
     
-    return posts.map((post: any) => ({
+    // Remove duplicates by ID
+    const uniquePosts = new Map();
+    
+    const processedPosts = posts.map((post: any) => ({
       id: post.id,
       title: post.title?.rendered || 'Untitled Case Study',
       slug: post.slug,
@@ -143,8 +163,22 @@ async function getCaseStudiesFromPosts(apiUrl: string): Promise<ProcessedCaseStu
       date: post.date,
       featured_image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url ?? null,
       blocks: [],
-      acf_fields: {}
+      acf_fields: {},
+      categories: post.categories || [],
+      _embedded: post._embedded
     }));
+    
+    // Remove duplicates by ID
+    processedPosts.forEach(post => {
+      if (!uniquePosts.has(post.id)) {
+        uniquePosts.set(post.id, post);
+      }
+    });
+    
+    const finalPosts = Array.from(uniquePosts.values());
+    console.log(`Fallback: Fetched ${posts.length} posts, after deduplication: ${finalPosts.length}`);
+    
+    return finalPosts;
   } catch (error) {
     console.error('Fallback posts fetch error:', error);
     return [];
@@ -176,22 +210,7 @@ export default async function CaseStudiesPage() {
             </p>
           </div>
         ) : (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
-            gap: '30px'
-          }}>
-            {caseStudies.map((caseStudy) => (
-              <CaseStudyCard
-                key={caseStudy.id}
-                id={caseStudy.id}
-                title={caseStudy.title}
-                slug={caseStudy.slug}
-                excerpt={caseStudy.excerpt}
-                featured_image={caseStudy.featured_image ?? null}
-              />
-            ))}
-          </div>
+          <CaseStudiesWithSidebar caseStudies={caseStudies} />
         )}
       </div>
     </main>
