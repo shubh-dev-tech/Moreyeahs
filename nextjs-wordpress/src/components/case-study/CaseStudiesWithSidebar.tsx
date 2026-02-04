@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import CaseStudyCard from './CaseStudyCard';
 
 interface ProcessedCaseStudyData {
@@ -21,6 +21,11 @@ interface CaseStudiesWithSidebarProps {
   caseStudies: ProcessedCaseStudyData[];
 }
 
+const INITIAL_CARDS = 6;
+const CARDS_PER_LOAD = 6;
+const INITIAL_LOADING_TIME = 2000; // 3 seconds
+const SCROLL_LOADING_DELAY = 600; // milliseconds
+
 const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
   caseStudies
 }) => {
@@ -28,6 +33,10 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<Set<number>>(new Set());
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default closed on mobile
+  const [visibleCardsCount, setVisibleCardsCount] = useState(INITIAL_CARDS);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // Optimized debounce for search (300ms)
   useEffect(() => {
@@ -37,6 +46,12 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
 
     return () => clearTimeout(timer);
   }, [searchQuery]);
+
+  // Reset visible cards count when filters change
+  useEffect(() => {
+    setVisibleCardsCount(INITIAL_CARDS);
+    setIsInitialLoading(true);
+  }, [debouncedSearchQuery, selectedCategories]);
 
   // Extract ALL categories from case studies
   const availableCategories = useMemo(() => {
@@ -180,6 +195,63 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
     return filtered;
   }, [caseStudies, debouncedSearchQuery, selectedCategories]);
 
+  // Initial loading: Show 6 cards, then loading for 3 seconds
+  useEffect(() => {
+    if (isInitialLoading && filteredCaseStudies.length > INITIAL_CARDS) {
+      const timer = setTimeout(() => {
+        setIsInitialLoading(false);
+      }, INITIAL_LOADING_TIME);
+
+      return () => clearTimeout(timer);
+    } else if (filteredCaseStudies.length <= INITIAL_CARDS) {
+      setIsInitialLoading(false);
+    }
+  }, [isInitialLoading, filteredCaseStudies.length]);
+
+  // Lazy loading with Intersection Observer (only after initial loading is done)
+  useEffect(() => {
+    if (isInitialLoading || visibleCardsCount >= filteredCaseStudies.length) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const target = entries[0];
+        if (target.isIntersecting && !isLoadingMore) {
+          const currentFilteredCount = filteredCaseStudies.length;
+          if (visibleCardsCount < currentFilteredCount) {
+            setIsLoadingMore(true);
+            // Add delay before loading more cards
+            setTimeout(() => {
+              setVisibleCardsCount((prev) => {
+                const nextCount = prev + CARDS_PER_LOAD;
+                setIsLoadingMore(false);
+                return Math.min(nextCount, currentFilteredCount);
+              });
+            }, SCROLL_LOADING_DELAY);
+          }
+        }
+      },
+      {
+        root: null,
+        rootMargin: '200px', // Start loading 200px before reaching the bottom
+        threshold: 0.1,
+      }
+    );
+
+    const currentRef = loadMoreRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+      observer.disconnect();
+    };
+  }, [visibleCardsCount, filteredCaseStudies.length, isLoadingMore, isInitialLoading]);
+
   // Handle category toggle
   const handleCategoryToggle = useCallback((categoryId: number) => {
     setSelectedCategories(prev => {
@@ -228,7 +300,7 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
                 </svg>
                 <input
                   type="text"
-                  placeholder="Search categories & case studies..."
+                  placeholder="Search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="search-input"
@@ -297,7 +369,7 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
                 </div>
               )}
               <div className="case-studies-grid">
-                {filteredCaseStudies.map((caseStudy) => (
+                {filteredCaseStudies.slice(0, visibleCardsCount).map((caseStudy) => (
                   <CaseStudyCard
                     key={caseStudy.id}
                     id={caseStudy.id}
@@ -308,6 +380,26 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
                   />
                 ))}
               </div>
+              
+              {/* Initial Loading Indicator (after 6 cards for 3 seconds) */}
+              {isInitialLoading && filteredCaseStudies.length > INITIAL_CARDS && (
+                <div className="loading-indicator">
+                  <div className="loading-spinner"></div>
+                  <p className="loading-text">Loading case studies...</p>
+                </div>
+              )}
+              
+              {/* Lazy Loading Trigger and Indicator */}
+              {!isInitialLoading && visibleCardsCount < filteredCaseStudies.length && (
+                <div ref={loadMoreRef} className="load-more-trigger">
+                  {isLoadingMore && (
+                    <div className="loading-indicator">
+                      <div className="loading-spinner"></div>
+                      <p className="loading-text">Loading more case studies...</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </>
           ) : (
             <div className="no-results">
@@ -333,7 +425,7 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
 
         .filter-wrapper {
           position: relative;
-          width: 100%;
+          width: 120%;
         }
 
         /* Filter Toggle Button - Hidden on Desktop, Visible on Mobile */
@@ -575,9 +667,50 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
         }
 
         .case-studies-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-          gap: 30px;
+         display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+         gap: 20px;
+        }
+
+        /* Loading Indicator */
+        .loading-indicator {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          padding: 40px 20px;
+          margin-top: 40px;
+        }
+
+        .loading-spinner {
+          width: 48px;
+          height: 48px;
+          border: 4px solid #e5e7eb;
+          border-top-color: #0891b2;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        .loading-text {
+          color: #6b7280;
+          font-size: 0.95rem;
+          font-weight: 500;
+          margin: 0;
+        }
+
+        .load-more-trigger {
+          margin-top: 40px;
+          min-height: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         /* No Results */
@@ -728,6 +861,27 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
             grid-template-columns: 1fr;
             gap: 20px;
           }
+
+          .load-more-trigger {
+            margin-top: 30px;
+            min-height: 80px;
+          }
+
+          .loading-indicator {
+            padding: 30px 15px;
+            gap: 12px;
+            margin-top: 30px;
+          }
+
+          .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border-width: 3px;
+          }
+
+          .loading-text {
+            font-size: 0.85rem;
+          }
         }
 
         @media (max-width: 480px) {
@@ -805,6 +959,27 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           .results-count {
             font-size: 0.8rem;
             margin-bottom: 12px;
+          }
+
+          .load-more-trigger {
+            margin-top: 25px;
+            min-height: 70px;
+          }
+
+          .loading-indicator {
+            padding: 25px 12px;
+            gap: 10px;
+            margin-top: 25px;
+          }
+
+          .loading-spinner {
+            width: 36px;
+            height: 36px;
+            border-width: 3px;
+          }
+
+          .loading-text {
+            font-size: 0.8rem;
           }
         }
       `}</style>

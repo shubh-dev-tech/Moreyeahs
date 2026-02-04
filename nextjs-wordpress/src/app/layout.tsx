@@ -5,6 +5,8 @@ import Footer from '@/components/Footer';
 import JsonLd from '@/components/JsonLd';
 import ClientBlockInitializer from '@/components/ClientBlockInitializer';
 import WordPressErrorHandler from '@/components/WordPressErrorHandler';
+import PageLoaderWrapper from '@/components/PageLoaderWrapper';
+import RouteLoader from '@/components/RouteLoader';
 import { AuthProvider } from '@/contexts/AuthContext';
 import './globals.scss';
 
@@ -46,13 +48,16 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <AuthProvider>
           <WordPressErrorHandler />
-          <div className="site-wrapper">
-            <Header />
-            <main className="main-content">
-              {children}
-            </main>
-            <Footer />
-          </div>
+          <PageLoaderWrapper>
+            <div className="site-wrapper">
+              <Header />
+              <main className="main-content">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </PageLoaderWrapper>
+          <RouteLoader />
           <ClientBlockInitializer />
         </AuthProvider>
       </body>
