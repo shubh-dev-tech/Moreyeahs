@@ -42,23 +42,105 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
     setIsSubmitting(true);
     setMessage('');
 
+    console.log('Form submission started with data:', formData);
+
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      // First, try to send to WordPress plugin API
+      let wpSuccess = false;
+      let wpError = '';
+      
+      console.log('Attempting WordPress API call...');
+      
+      const wpApiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost/moreyeahs-new';
+      const wpEndpoint = `${wpApiUrl}/wp-json/contact-form/v1/submit`;
+      
+      console.log('WordPress API endpoint:', wpEndpoint);
+      
+      try {
+        const wpResponse = await fetch(wpEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.email.split('@')[0], // Use email prefix as name fallback
+            email: formData.email,
+            phone: formData.phone,
+            subject: 'Contact Form Submission',
+            message: formData.message,
+          }),
+        });
+        
+        console.log('WordPress API response status:', wpResponse.status);
+        
+        if (wpResponse.ok) {
+          const wpResult = await wpResponse.json();
+          console.log('WordPress API result:', wpResult);
+          wpSuccess = wpResult.success;
+          if (!wpSuccess) {
+            wpError = wpResult.message || 'WordPress API failed';
+          }
+        } else {
+          wpError = `WordPress API returned ${wpResponse.status}`;
+        }
+      } catch (wpErr) {
+        console.error('WordPress API error:', wpErr);
+        wpError = `WordPress API error: ${wpErr instanceof Error ? wpErr.message : 'Unknown error'}`;
+      }
 
-      const result = await response.json();
+      // Then send to existing email API
+      let emailSuccess = false;
+      let emailError = '';
+      
+      console.log('Attempting Email API call...');
+      
+      try {
+        const emailResponse = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+        
+        console.log('Email API response status:', emailResponse.status);
+        
+        if (emailResponse.ok) {
+          const emailResult = await emailResponse.json();
+          console.log('Email API result:', emailResult);
+          emailSuccess = emailResult.success;
+          if (!emailSuccess) {
+            emailError = emailResult.error || 'Email API failed';
+          }
+        } else {
+          emailError = `Email API returned ${emailResponse.status}`;
+        }
+      } catch (emailErr) {
+        console.error('Email API error:', emailErr);
+        emailError = `Email API error: ${emailErr instanceof Error ? emailErr.message : 'Unknown error'}`;
+      }
 
-      if (result.success) {
+      // Show appropriate message based on results
+      console.log('Final results - Email success:', emailSuccess, 'WP success:', wpSuccess);
+      console.log('Errors - Email:', emailError, 'WP:', wpError);
+      
+      if (emailSuccess && wpSuccess) {
+        setMessage('Thank you! Your message has been sent successfully and saved to our records.');
+        setFormData({ email: '', phone: '', message: '' });
+      } else if (emailSuccess) {
         setMessage('Thank you! Your message has been sent successfully.');
         setFormData({ email: '', phone: '', message: '' });
+      } else if (wpSuccess) {
+        setMessage('Thank you! Your message has been saved. We will get back to you soon.');
+        setFormData({ email: '', phone: '', message: '' });
       } else {
-        setMessage(result.error || 'Failed to send message');
+        // Show specific error messages for debugging
+        let errorMsg = 'There was an issue processing your message. ';
+        if (emailError) errorMsg += `Email: ${emailError}. `;
+        if (wpError) errorMsg += `Database: ${wpError}. `;
+        errorMsg += 'Please try again or contact us directly.';
+        setMessage(errorMsg);
       }
+
     } catch (error) {
-      setMessage('Network error. Please try again.');
+      console.error('Contact form error:', error);
+      setMessage(`Network error: ${error instanceof Error ? error.message : 'Unknown error'}. Please check your connection and try again.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -70,54 +152,44 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
         <div className="contact-content">
           {/* Contact Information */}
           <div className="contact-info">
-            <h2 className="contact-title">Contact Information</h2>
-            <div className="contact-details">
-              {/* Email and Phone in parallel */}
-              <div className="contact-row">
-                {contact_info?.email && (
-                  <div className="contact-item">
-                    <div className="contact-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                      </svg>
-                    </div>
-                    <span className="contact-text">{contact_info.email}</span>
-                  </div>
-                )}
-                {contact_info?.phone && (
-                  <div className="contact-item">
-                    <div className="contact-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                      </svg>
-                    </div>
-                    <span className="contact-text">{contact_info.phone}</span>
-                  </div>
-                )}
+            <h2 className="contact-title">From vision to value—guided by experts</h2>
+            
+            {/* Expertise Section */}
+            <div className="expertise-section">
+              <div className="expertise-item">
+                <div className="expertise-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                  </svg>
+                </div>
+                <div className="expertise-content">
+                  <h3 className="expertise-title">11+ Years of Expertise</h3>
+                  <p className="expertise-description">Driving high-impact solutions through deep industry expertise and proven experience.</p>
+                </div>
               </div>
-              
-              {/* Address at the bottom */}
-              <div className="contact-address-section">
-                {contact_info?.address && (
-                  <div className="contact-item">
-                    <div className="contact-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                      </svg>
-                    </div>
-                    <span className="contact-text">{contact_info.address}</span>
-                  </div>
-                )}
-                {contact_info?.city_state && (
-                  <div className="contact-item">
-                    <div className="contact-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                      </svg>
-                    </div>
-                    <span className="contact-text">{contact_info.city_state}</span>
-                  </div>
-                )}
+
+              <div className="expertise-item">
+                <div className="expertise-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                  </svg>
+                </div>
+                <div className="expertise-content">
+                  <h3 className="expertise-title">100+ Satisfied Clients</h3>
+                  <p className="expertise-description">Empowering industry software experts to achieve their brand objectives.</p>
+                </div>
+              </div>
+
+              <div className="expertise-item">
+                <div className="expertise-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4h3v4h2v-7.5c0-.83.67-1.5 1.5-1.5S12 9.67 12 10.5V11h2.5c.83 0 1.5.67 1.5 1.5V18h2v-5.5c0-1.1-.9-2-2-2H13v-.5c0-1.93-1.57-3.5-3.5-3.5S6 8.07 6 10v8h-2z"/>
+                  </svg>
+                </div>
+                <div className="expertise-content">
+                  <h3 className="expertise-title">150+ In House Team Members</h3>
+                  <p className="expertise-description">Expert team built to successfully deliver projects of any size.</p>
+                </div>
               </div>
             </div>
           </div>

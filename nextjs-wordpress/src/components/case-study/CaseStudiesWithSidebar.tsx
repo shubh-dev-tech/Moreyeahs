@@ -36,6 +36,7 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
   const [visibleCardsCount, setVisibleCardsCount] = useState(INITIAL_CARDS);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // Optimized debounce for search (300ms)
@@ -265,29 +266,125 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
     });
   }, []);
 
+  // Handle category selection from dropdown (mobile)
+  const handleCategorySelect = useCallback((categoryId: number) => {
+    handleCategoryToggle(categoryId);
+    setIsCategoryDropdownOpen(false);
+  }, [handleCategoryToggle]);
+
   // Clear all filters
   const clearFilters = useCallback(() => {
     setSearchQuery('');
     setSelectedCategories(new Set());
   }, []);
 
+  // Get selected category names for dropdown display
+  const selectedCategoryNames = useMemo(() => {
+    return availableCategories
+      .filter(cat => selectedCategories.has(cat.id))
+      .map(cat => cat.name);
+  }, [availableCategories, selectedCategories]);
+
   return (
     <div className="case-studies-with-sidebar">
-      <div className="filter-wrapper">
-        {/* Filter Toggle Button - Mobile Only */}
-        <button 
-          className={`filter-toggle-btn ${isSidebarOpen ? 'open' : 'closed'}`}
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          aria-label={isSidebarOpen ? 'Close filter sidebar' : 'Open filter sidebar'}
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            <circle cx="7" cy="6" r="2" fill="currentColor"/>
-            <circle cx="17" cy="12" r="2" fill="currentColor"/>
-            <circle cx="7" cy="18" r="2" fill="currentColor"/>
+      {/* Mobile Filter Bar - Only visible on mobile */}
+      <div className="mobile-filter-bar">
+        {/* Search Input */}
+        <div className="mobile-search-wrapper">
+          <svg className="mobile-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </button>
+          <input
+            type="text"
+            placeholder="Search case studies..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="mobile-search-input"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="mobile-clear-search-btn"
+              aria-label="Clear search"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </button>
+          )}
+        </div>
 
+        {/* Category Dropdown */}
+        <div className="mobile-category-dropdown-wrapper">
+          <button
+            className={`mobile-category-dropdown-btn ${selectedCategories.size > 0 ? 'badge-active' : ''}`}
+            onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
+            aria-label="Select category"
+          >
+            <span className="mobile-dropdown-label">
+              {selectedCategoryNames.length > 0 
+                ? `${selectedCategoryNames.length} Selected` 
+                : 'All Categories'}
+            </span>
+            <svg 
+              className={`mobile-dropdown-arrow ${isCategoryDropdownOpen ? 'open' : ''}`}
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none"
+            >
+              <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          
+          {isCategoryDropdownOpen && (
+            <>
+              <div 
+                className="mobile-dropdown-overlay"
+                onClick={() => setIsCategoryDropdownOpen(false)}
+              />
+              <div className="mobile-category-dropdown">
+                <div className="mobile-dropdown-drag-handle"></div>
+                <div className="mobile-dropdown-header">
+                  <h3>Select Categories</h3>
+                  {selectedCategories.size > 0 && (
+                    <button onClick={clearFilters} className="mobile-clear-all-btn">
+                      Clear All
+                    </button>
+                  )}
+                </div>
+                <div className="mobile-dropdown-list">
+                  {availableCategories.length > 0 ? (
+                    availableCategories.map((category) => (
+                      <button
+                        key={category.id}
+                        className={`mobile-dropdown-item ${selectedCategories.has(category.id) ? 'selected' : ''}`}
+                        onClick={() => handleCategorySelect(category.id)}
+                      >
+                        <span className="mobile-dropdown-checkbox">
+                          {selectedCategories.has(category.id) && (
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                              <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          )}
+                        </span>
+                        <span className="mobile-dropdown-name">{category.name}</span>
+                        <span className="mobile-dropdown-count">({category.count})</span>
+                      </button>
+                    ))
+                  ) : (
+                    <div className="mobile-no-categories">
+                      <p>No categories found</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      <div className="filter-wrapper">
         <div className="case-studies-layout-container">
         {/* Left Sidebar */}
         <aside className={`filter-sidebar ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
@@ -428,8 +525,8 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           width: 120%;
         }
 
-        /* Filter Toggle Button - Hidden on Desktop, Visible on Mobile */
-        .filter-toggle-btn {
+        /* Mobile Filter Bar - Hidden on Desktop */
+        .mobile-filter-bar {
           display: none;
         }
 
@@ -773,88 +870,329 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
         }
 
         @media (max-width: 768px) {
-          /* Show Toggle Button on Mobile */
-          .filter-toggle-btn {
-            display: flex;
-            position: absolute;
-            left: 10px;
-            top: -6px;
-            z-index: 1001;
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          /* Fix overflow on mobile screens only */
+          .case-studies-with-sidebar {
+            overflow-x: hidden;
+            max-width: 100%;
           }
 
-          .filter-toggle-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 16px rgba(8, 145, 178, 0.5);
+          .filter-wrapper {
+            width: 100% !important;
+            max-width: 100%;
+            overflow-x: hidden;
+          }
+
+          /* Show Mobile Filter Bar */
+          .mobile-filter-bar {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 0;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            align-items: stretch;
+          }
+
+          .mobile-search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex: 1;
+            min-width: 0;
+          }
+
+          .mobile-search-icon {
+            position: absolute;
+            left: 12px;
+            color: #6b7280;
+            pointer-events: none;
+            z-index: 1;
+          }
+
+          .mobile-search-input {
+            width: 100%;
+            padding: 12px 38px 12px 38px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+            box-sizing: border-box;
+          }
+
+          .mobile-search-input:focus {
+            outline: none;
+            border-color: #0891b2;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+          }
+
+          .mobile-clear-search-btn {
+            position: absolute;
+            right: 8px;
+            padding: 4px;
+            background: transparent;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            z-index: 1;
+          }
+
+          .mobile-clear-search-btn:hover {
+            background: #f3f4f6;
+            color: #374151;
+          }
+
+          .mobile-category-dropdown-wrapper {
+            position: relative;
+            flex-shrink: 0;
+            width: auto;
+            min-width: 140px;
+            max-width: 180px;
+            box-sizing: border-box;
+          }
+
+          .mobile-category-dropdown-btn {
+            width: 100%;
+            height: 100%;
+            padding: 12px 14px;
+            border: 2px solid #0891b2;
+            border-radius: 20px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #0891b2;
+            white-space: nowrap;
+            box-sizing: border-box;
+          }
+
+          .mobile-category-dropdown-btn.badge-active {
+            background: #0891b2;
+            color: #ffffff;
+          }
+
+          .mobile-category-dropdown-btn:hover {
+            background: #ecfeff;
+            border-color: #0891b2;
+            transform: scale(1.02);
+          }
+
+          .mobile-category-dropdown-btn.badge-active:hover {
+            background: #0e7490;
+            border-color: #0e7490;
+          }
+
+          .mobile-dropdown-label {
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+            min-width: 0;
+          }
+
+          .mobile-dropdown-arrow {
+            color: inherit;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
+          }
+
+          .mobile-dropdown-arrow.open {
+            transform: rotate(180deg);
+          }
+
+          .mobile-dropdown-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 999;
+          }
+
+          .mobile-category-dropdown {
+            position: fixed;
+            top: auto;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100vw;
+            max-width: 100vw;
+            background: #ffffff;
+            border-top: 2px solid #e5e7eb;
+            border-left: none;
+            border-right: none;
+            border-bottom: none;
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            max-height: 70vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            box-sizing: border-box;
+            transform: translateY(0);
+            animation: slideUp 0.3s ease-out;
+          }
+
+          @keyframes slideUp {
+            from {
+              transform: translateY(100%);
+            }
+            to {
+              transform: translateY(0);
+            }
+          }
+
+          .mobile-dropdown-drag-handle {
+            width: 40px;
+            height: 4px;
+            background: #d1d5db;
+            border-radius: 2px;
+            margin: 12px auto 8px;
+            cursor: grab;
+          }
+
+          .mobile-dropdown-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
+            background: #ffffff;
+            z-index: 1;
+          }
+
+          .mobile-dropdown-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0;
+          }
+
+          .mobile-clear-all-btn {
+            padding: 4px 12px;
+            background: transparent;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          }
+
+          .mobile-clear-all-btn:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+            color: #374151;
+          }
+
+          .mobile-dropdown-list {
+            max-height: calc(70vh - 80px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 20px;
+          }
+
+          .mobile-dropdown-item {
+            width: 100%;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+          }
+
+          .mobile-dropdown-item:hover {
+            background: #f9fafb;
+          }
+
+          .mobile-dropdown-item.selected {
+            background: #ecfeff;
+          }
+
+          .mobile-dropdown-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+          }
+
+          .mobile-dropdown-item.selected .mobile-dropdown-checkbox {
+            background: #0891b2;
+            border-color: #0891b2;
+            color: white;
+          }
+
+          .mobile-dropdown-name {
+            flex: 1;
+            color: #374151;
+            font-weight: 500;
+          }
+
+          .mobile-dropdown-item.selected .mobile-dropdown-name {
+            color: #0891b2;
+            font-weight: 600;
+          }
+
+          .mobile-dropdown-count {
+            font-size: 0.85rem;
+            color: #6b7280;
+            font-weight: 500;
+          }
+
+          .mobile-no-categories {
+            padding: 20px;
+            text-align: center;
+            color: #6b7280;
+          }
+
+          /* Hide sidebar completely on mobile */
+          .filter-sidebar {
+            display: none !important;
           }
 
           .case-studies-layout-container {
-            gap: 15px;
-            flex-direction: row;
-            align-items: flex-start;
-            padding-top: 50px;
-          }
-
-          .filter-sidebar {
-            width: 240px;
-            flex-shrink: 0;
-            position: sticky;
-            top: 10px;
-          }
-
-          .filter-sidebar.sidebar-open {
-            opacity: 1;
-            transform: translateX(0);
-            pointer-events: auto;
-            visibility: visible;
-          }
-
-          .filter-sidebar.sidebar-closed {
-            opacity: 0;
-            transform: translateX(-100%);
-            pointer-events: none;
-            visibility: hidden;
-            width: 0;
-            margin-right: 0;
-            overflow: hidden;
+            gap: 0;
+            flex-direction: column;
+            align-items: stretch;
+            padding-top: 0;
           }
 
           .case-studies-content {
             flex: 1;
             min-width: 0;
-          }
-
-          .sidebar-container {
-            min-height: calc(100vh - 140px);
-            padding: 16px;
-            max-height: calc(100vh - 140px);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-          }
-
-          .categories-section {
-            flex: 1;
-            min-height: 0;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-          }
-
-          .categories-list {
-            flex: 1;
-            min-height: 0;
-            overflow-y: auto;
+            width: 100%;
           }
 
           .case-studies-grid {
@@ -885,71 +1223,78 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
         }
 
         @media (max-width: 480px) {
-          /* Toggle Button for Small Mobile */
-          .filter-toggle-btn {
-            left: 5px;
-            top: -6px;
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
+          .mobile-filter-bar {
+            gap: 8px;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
           }
 
-          .case-studies-layout-container {
-            gap: 12px;
-            flex-direction: row;
-            padding-top: 45px;
+          .mobile-search-wrapper {
+            flex: 1;
           }
 
-          .filter-sidebar {
-            width: 200px;
-          }
-
-          .filter-sidebar.sidebar-closed {
-            width: 0;
-          }
-
-          .sidebar-container {
-            padding: 12px;
-            border-radius: 8px;
-            min-height: calc(100vh - 120px);
-            max-height: calc(100vh - 120px);
-          }
-
-          .search-input {
-            padding: 8px 32px 8px 32px;
+          .mobile-search-input {
+            padding: 10px 34px 10px 34px;
             font-size: 0.85rem;
+            box-sizing: border-box;
           }
 
-          .search-icon {
+          .mobile-search-icon {
             width: 16px;
             height: 16px;
             left: 10px;
           }
 
-          .categories-title {
+          .mobile-category-dropdown-wrapper {
+            min-width: 120px;
+            max-width: 160px;
+          }
+
+          .mobile-category-dropdown-btn {
+            padding: 10px 12px;
+            font-size: 0.8rem;
+            box-sizing: border-box;
+          }
+
+          .mobile-dropdown-label {
+            font-size: 0.8rem;
+          }
+
+          .mobile-dropdown-arrow {
+            width: 14px;
+            height: 14px;
+          }
+
+          .mobile-category-dropdown {
+            max-height: 65vh;
+          }
+
+          .mobile-dropdown-list {
+            max-height: calc(65vh - 80px);
+          }
+
+          .mobile-dropdown-header h3 {
             font-size: 0.95rem;
           }
 
-          .category-checkbox-label {
-            padding: 8px 8px;
-            gap: 8px;
+          .mobile-dropdown-item {
+            padding: 10px 14px;
+            font-size: 0.9rem;
           }
 
-          .checkbox-custom {
+          .mobile-dropdown-checkbox {
             width: 18px;
             height: 18px;
           }
 
-          .category-name {
-            font-size: 0.85rem;
+          .mobile-dropdown-name {
+            font-size: 0.9rem;
           }
 
-          .category-count {
-            font-size: 0.75rem;
-          }
-
-          .categories-list {
-            gap: 6px;
+          .mobile-dropdown-count {
+            font-size: 0.8rem;
           }
 
           .case-studies-grid {
