@@ -18,8 +18,6 @@
       },
       "default_value": "In the news",
       "placeholder": "In the news",
-      "show_in_graphql": 1,
-      "graphql_field_name": "sectionTitle",
       "maxlength": "",
       "prepend": "",
       "append": ""
@@ -38,8 +36,6 @@
         "class": "",
         "id": ""
       },
-      "show_in_graphql": 1,
-      "graphql_field_name": "subHeadings",
       "layout": "table",
       "pagination": 0,
       "min": 0,
@@ -64,8 +60,6 @@
           },
           "default_value": "",
           "placeholder": "Winners of Qorus-Infosys Finacle Banking Innovation Awards 2025",
-          "show_in_graphql": 1,
-          "graphql_field_name": "text",
           "maxlength": "",
           "prepend": "",
           "append": "",
@@ -87,8 +81,6 @@
           },
           "default_value": "",
           "placeholder": "https://example.com",
-          "show_in_graphql": 1,
-          "graphql_field_name": "link",
           "parent_repeater": "field_news_sub_headings"
         }
       ]
@@ -109,8 +101,6 @@
       },
       "default_value": "",
       "placeholder": "Launched today: Infosys Topaz - An AI-first offering to accelerate business value for global enterprises using generative AI",
-      "show_in_graphql": 1,
-      "graphql_field_name": "featuredParagraph",
       "maxlength": "",
       "rows": 4,
       "new_lines": ""
@@ -130,9 +120,7 @@
         "id": ""
       },
       "default_value": "",
-      "placeholder": "https://example.com",
-      "show_in_graphql": 1,
-      "graphql_field_name": "featuredLink"
+      "placeholder": "https://example.com"
     },
     {
       "key": "field_news_background_image",
@@ -150,9 +138,7 @@
       },
       "return_format": "array",
       "preview_size": "medium",
-      "library": "all",
-      "show_in_graphql": 1,
-      "graphql_field_name": "backgroundImage"
+      "library": "all"
     },
     {
       "key": "field_news_additional_items",
@@ -168,8 +154,6 @@
         "class": "",
         "id": ""
       },
-      "show_in_graphql": 1,
-      "graphql_field_name": "additionalItems",
       "layout": "block",
       "pagination": 0,
       "min": 0,
@@ -195,8 +179,6 @@
           "return_format": "array",
           "preview_size": "medium",
           "library": "all",
-          "show_in_graphql": 1,
-          "graphql_field_name": "image",
           "parent_repeater": "field_news_additional_items"
         },
         {
@@ -215,8 +197,6 @@
           },
           "default_value": "",
           "placeholder": "Infosys Q2 FY26 Results - Archived Webcast",
-          "show_in_graphql": 1,
-          "graphql_field_name": "title",
           "maxlength": "",
           "rows": 3,
           "new_lines": "",
@@ -238,8 +218,6 @@
           },
           "default_value": "",
           "placeholder": "https://example.com/news-article",
-          "show_in_graphql": 1,
-          "graphql_field_name": "link",
           "parent_repeater": "field_news_additional_items"
         },
         {
@@ -258,8 +236,6 @@
           },
           "default_value": "",
           "placeholder": "October 18, 2025",
-          "show_in_graphql": 1,
-          "graphql_field_name": "date",
           "maxlength": "",
           "prepend": "",
           "append": "",

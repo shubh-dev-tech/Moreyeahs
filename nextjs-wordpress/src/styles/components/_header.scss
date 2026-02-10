@@ -146,16 +146,22 @@
         position: static; // Allow mega menu to span full width
         
         .mega-menu-trigger::after {
-          content: ' ▾';
-          font-size: 0.75em;
-          margin-left: 0.35rem;
-          opacity: 0.6;
-          transition: transform 0.2s ease;
+          content: '';
           display: inline-block;
+          width: 6px;
+          height: 6px;
+          margin-left: 0.5rem;
+          border-right: 1.5px solid currentColor;
+          border-bottom: 1.5px solid currentColor;
+          transform: rotate(45deg);
+          opacity: 0.8;
+          transition: transform 0.2s ease;
+          vertical-align: middle;
+          margin-top: -2px;
         }
 
         &:hover .mega-menu-trigger::after {
-          transform: rotate(180deg);
+          transform: rotate(-135deg);
         }
       }
     }
@@ -196,17 +202,24 @@
       }
     }
 
-    .has-children > a::before {
-      content: ' ▾';
-      font-size: 0.75em;
-      margin-left: 0.35rem;
-      opacity: 0.6;
-      @include transition(transform 0.2s ease);
-      display: inline-block;
+    > li.has-children > a::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-left: 0.5rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    opacity: 1;
+    transition: transform 0.2s ease;
+    vertical-align: middle;
+    margin-top: -6px;
+    margin-right: 8px;
     }
 
-    .has-children:hover > a::before {
-      transform: rotate(180deg);
+    > li.has-children:hover > a::before {
+      transform: rotate(-135deg);
     }
 
     // Dynamic background-based styling - only for main menu items, not submenus
@@ -229,6 +242,22 @@
         color: #ffffff !important;
       }
     }
+
+  // 1400px - 1100px: Smaller gap and font size
+    @media (min-width: 1100px) and (max-width: 1400px) {
+      display: flex;
+      gap: 1.5rem;
+      
+      > li > a {
+        font-size: 14px;
+      }
+    }
+
+    // 1099px and below: Hide menu
+    @media (max-width: 1099px) {
+      display: none;
+    }
+
 
     &--light-bg {
       > li > a:not(.header__submenu a) {
@@ -293,6 +322,11 @@
         display: none;
       }
 
+      // Override main menu arrow for submenu items
+      &::before {
+        display: none !important;
+      }
+
       &:hover {
         background-color: $color-bg-alt;
         border-left-color: $color-primary;
@@ -304,11 +338,24 @@
     .has-children {
       position: relative;
 
-      > a::before {
-        content: ' ▸';
+      > a::after {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
         float: right;
         margin-left: 1.5rem;
-        opacity: 0.6;
+        border-right: 1.5px solid currentColor;
+        border-bottom: 1.5px solid currentColor;
+        transform: rotate(-45deg);
+        opacity: 0.8;
+        transition: transform 0.2s ease;
+        vertical-align: middle;
+        margin-top: 2px;
+      }
+
+      &:hover > a::after {
+        transform: rotate(-45deg) scale(1.1);
       }
     }
 

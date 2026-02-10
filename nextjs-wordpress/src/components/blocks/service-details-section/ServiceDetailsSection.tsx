@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import './styles.scss';
 
 interface ServiceItem {
@@ -171,7 +172,7 @@ const ServiceDetailsSection: React.FC<ServiceDetailsSectionProps> = ({
                     <div className="service-content">
                       {service.service_icon && (
                         <div className="service-icon">
-                          <img 
+                          <Image 
                             src={service.service_icon.url} 
                             alt={service.service_icon.alt || service.service_title}
                             width={64}

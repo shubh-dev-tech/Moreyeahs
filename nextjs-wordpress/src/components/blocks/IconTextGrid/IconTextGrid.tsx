@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { transformMediaUrl } from '@/lib/wpFetch';
 import './styles.scss';
 
@@ -87,12 +88,12 @@ export default function IconTextGrid({ data }: IconTextGridProps) {
               
               {item.icon && (
                 <div className="icon-text-grid__icon-wrapper">
-                  <img
-                    decoding="async"
+                  <Image
                     src={transformMediaUrl(item.icon.url)}
                     alt={item.icon.alt || item.text}
                     className="icon-text-grid__icon"
-                    style={{}}
+                    width={64}
+                    height={64}
                   />
                 </div>
               )}

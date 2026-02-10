@@ -45,7 +45,7 @@ export default function MoreyeahsSliderBlock({ slides: slidesProp, data, ...attr
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
     setIsAutoplay(false);
-    setTimeout(() => setIsAutoplay(true), 10000);
+    setTimeout(() => setIsAutoplay(true), 4000);
   };
 
   return (

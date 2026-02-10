@@ -4,12 +4,12 @@ This guide explains how to implement dynamic SEO metadata using Yoast SEO for al
 
 ## Overview
 
-All pages now fetch their metadata dynamically from WordPress using Yoast SEO plugin via GraphQL. This means when you update SEO details in WordPress admin, the changes automatically reflect on your Next.js frontend.
+All pages now fetch their metadata dynamically from WordPress using Yoast SEO plugin via REST API. This means when you update SEO details in WordPress admin, the changes automatically reflect on your Next.js frontend.
 
 ## How It Works
 
 1. **Yoast SEO** is configured in WordPress for each page
-2. **WPGraphQL Yoast SEO plugin** exposes SEO data via GraphQL API
+2. **WordPress REST API** exposes SEO data via standard endpoints
 3. **generatePageMetadata()** function in Next.js fetches this data
 4. Next.js uses the data to populate meta tags, Open Graph, Twitter Cards, etc.
 
@@ -144,7 +144,7 @@ To update SEO metadata for any page:
 
 ## Cache Revalidation
 
-The GraphQL queries use Next.js revalidation:
+The REST API queries use Next.js revalidation:
 - Default: 3600 seconds (1 hour)
 - Can be adjusted in `src/lib/wordpress.ts`
 
@@ -158,44 +158,22 @@ To see changes immediately during development, you can:
 ### Metadata not updating
 - Check if the WordPress page slug matches the slug passed to `generatePageMetadata()`
 - Verify Yoast SEO is installed and activated
-- Ensure WPGraphQL Yoast SEO plugin is active
-- Check WordPress GraphQL endpoint is accessible
+- Check WordPress REST API endpoint is accessible
 
 ### 404 or null data
 - Verify the page exists in WordPress with the correct slug
 - Check WordPress page is published (not draft)
-- Test GraphQL query in WordPress GraphQL IDE
+- Test REST API query in browser or API client
 
-### Testing GraphQL Queries
+### Testing REST API Queries
 
-You can test the query in WordPress:
-1. Go to: `http://your-wordpress-site/graphql`
-2. Use this query:
-```graphql
-query GetPageSEO($slug: ID!) {
-  page(id: $slug, idType: SLUG) {
-    id
-    title
-    slug
-    seo {
-      title
-      metaDesc
-      canonical
-      opengraphTitle
-      opengraphDescription
-      opengraphImage {
-        sourceUrl
-      }
-    }
-  }
-}
-```
-3. Query Variables:
-```json
-{
-  "slug": "your-page-slug"
-}
-```
+You can test the REST API in your browser:
+1. Go to: `http://your-wordpress-site/wp-json/wp/v2/pages?slug=your-page-slug&_embed`
+2. This will return the page data including Yoast SEO metadata in the `yoast_head_json` field
+3. You can also test specific endpoints:
+   - All pages: `/wp-json/wp/v2/pages`
+   - Specific page by slug: `/wp-json/wp/v2/pages?slug=your-page-slug`
+   - With Yoast data: Add `&_embed` parameter
 
 ## Pages Updated
 
@@ -235,8 +213,7 @@ All the following pages now use dynamic Yoast SEO metadata:
 ## Related Files
 
 - **SEO Library:** `src/lib/seo.ts` - Contains `generatePageMetadata()` function
-- **WordPress GraphQL:** `src/lib/wordpress.ts` - GraphQL client
-- **Queries:** `src/lib/queries.ts` - GraphQL queries including SEO fields
+- **WordPress REST API:** `src/lib/wordpress.ts` - REST API client
 - **Types:** `src/lib/types.ts` - TypeScript interfaces for SEO data
 
 ## Benefits

@@ -132,7 +132,30 @@ export default async function Footer() {
         address: "Indore, Madhya Pradesh, 452010",
         city_state: "Cedar Park, TX 78613"
       },
-      enable_contact_section: true
+      enable_contact_section: true,
+      privacy_policy_link: {
+        label: 'Privacy Policy',
+        url: '/privacy-policy'
+      },
+      terms_of_use_link: {
+        label: 'Terms & Conditions',
+        url: '/terms-and-conditions'
+      }
+    };
+  }
+
+  // Ensure privacy policy and terms links exist even if not in WordPress settings
+  if (!footerData.privacy_policy_link) {
+    footerData.privacy_policy_link = {
+      label: 'Privacy Policy',
+      url: '/privacy-policy'
+    };
+  }
+
+  if (!footerData.terms_of_use_link) {
+    footerData.terms_of_use_link = {
+      label: 'Terms & Conditions',
+      url: '/terms-and-conditions'
     };
   }
 

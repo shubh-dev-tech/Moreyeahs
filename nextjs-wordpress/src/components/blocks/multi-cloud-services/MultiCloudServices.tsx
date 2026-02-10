@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import './styles.scss';
 
 interface CloudPlatform {
@@ -289,10 +290,12 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
               >
                 <div className="service-header">
                   {getImageUrl(section.section_image) ? (
-                    <img 
+                    <Image 
                       src={getImageUrl(section.section_image)!} 
                       alt={getImageAlt(section.section_image, section.section_title)}
                       className="section-image"
+                      width={48}
+                      height={48}
                     />
                   ) : section.section_icon && (
                     <i className={section.section_icon}></i>
@@ -333,10 +336,12 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
                   {(() => {
                     const imageUrl = getImageUrl(implementations_section.section_image);
                     return imageUrl ? (
-                      <img 
+                      <Image 
                         src={imageUrl} 
                         alt={getImageAlt(implementations_section.section_image, implementations_section.title)}
                         className="section-image"
+                        width={48}
+                        height={48}
                       />
                     ) : null;
                   })()}
@@ -378,10 +383,12 @@ const MultiCloudServices: React.FC<MultiCloudServicesProps> = ({
               >
                 <div className="credentials-header">
                   {getImageUrl(credentials_section.credential_image) && (
-                    <img 
+                    <Image 
                       src={getImageUrl(credentials_section.credential_image)!} 
                       alt={getImageAlt(credentials_section.credential_image, credentials_section.title)}
                       className="credentials-image"
+                      width={48}
+                      height={48}
                     />
                   )}
                   <h3 

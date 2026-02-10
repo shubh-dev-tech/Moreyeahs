@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { generatePageMetadata } from '@/lib/seo';
 
 interface IndustryData {
@@ -163,9 +164,11 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
             {/* Main Content */}
             <div className="industry-content">
               {industry.featured_image && (
-                <img 
+                <Image 
                   src={industry.featured_image}
                   alt={industry.title}
+                  width={800}
+                  height={400}
                   style={{
                     width: '100%',
                     height: '400px',

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import './styles.scss';
 
 interface LeftItem {
@@ -219,9 +220,11 @@ const SpecializationsSection: React.FC<SpecializationsSectionProps> = ({ data })
                 <div key={index} className="specialization-item">
                   {item.image && item.image.url && (
                     <div className="item-image">
-                      <img 
+                      <Image 
                         src={item.image.url} 
-                        alt={item.image.alt || item.heading || 'Specialization icon'} 
+                        alt={item.image.alt || item.heading || 'Specialization icon'}
+                        width={item.image.width || 64}
+                        height={item.image.height || 64}
                       />
                     </div>
                   )}

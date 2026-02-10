@@ -3,7 +3,7 @@
  * Fetch and process ACF field data from WordPress
  */
 
-import { fetchGraphQL, fetchRestAPI } from './wordpress';
+import { fetchRestAPI } from './wordpress';
 
 export interface ACFField {
   fieldGroupName?: string;
@@ -11,23 +11,19 @@ export interface ACFField {
 }
 
 /**
- * Fetch ACF fields for a post via GraphQL
+ * Fetch ACF fields for a post via REST API
  */
 export async function getPostACFFields(slug: string, postType: string = 'post'): Promise<ACFField | null> {
-  const query = `
-    query GetPostACF($slug: ID!) {
-      ${postType}(id: $slug, idType: SLUG) {
-        id
-        acfFields: acf {
-          fieldGroupName
-        }
-      }
-    }
-  `;
-  
   try {
-    const data = await fetchGraphQL<any>(query, { slug });
-    return data[postType]?.acfFields || null;
+    // First get the post by slug to get its ID
+    const posts = await fetchRestAPI(`/wp/v2/${postType}s?slug=${slug}&_fields=id,acf`);
+    
+    if (!posts || posts.length === 0) {
+      return null;
+    }
+    
+    const post = posts[0];
+    return post.acf || null;
   } catch (error) {
     return null;
   }

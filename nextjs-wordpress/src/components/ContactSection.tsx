@@ -152,7 +152,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
         <div className="contact-content">
           {/* Contact Information */}
           <div className="contact-info">
-            <h2 className="contact-title">From vision to value—guided by experts</h2>
+            <h2 className="contact-title">From Vision to Value—Guided by Experts</h2>
             
             {/* Expertise Section */}
             <div className="expertise-section">
@@ -183,7 +183,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
               <div className="expertise-item">
                 <div className="expertise-icon">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4h3v4h2v-7.5c0-.83.67-1.5 1.5-1.5S12 9.67 12 10.5V11h2.5c.83 0 1.5.67 1.5 1.5V18h2v-5.5c0-1.1-.9-2-2-2H13v-.5c0-1.93-1.57-3.5-3.5-3.5S6 8.07 6 10v8h-2z"/>
+                    <path d="M12 12.75c1.63 0 3.07.39 4.24.9 1.08.48 1.76 1.56 1.76 2.73V18H6v-1.61c0-1.18.68-2.26 1.76-2.73 1.17-.52 2.61-.91 4.24-.91zM4 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm1.13 1.1c-.37-.06-.74-.1-1.13-.1-.99 0-1.93.21-2.78.58C.48 14.9 0 15.62 0 16.43V18h4.5v-1.61c0-.83.23-1.61.63-2.29zM20 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm2.78 1.58c-.85-.37-1.79-.58-2.78-.58-.39 0-.76.04-1.13.1.4.68.63 1.46.63 2.29V18H24v-1.57c0-.81-.48-1.53-1.22-1.85zM12 6c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"/>
                   </svg>
                 </div>
                 <div className="expertise-content">

@@ -159,31 +159,12 @@
 }
 
 // Responsive
-@media (max-width: 1024px) {
+@media (max-width: 1450px) {
   .new-stepper {
     display: none;
   }
 }
 
-@media (min-width: 1025px) and (max-width: 1280px) {
-  .new-stepper {
-    left: 20px;
-
-    &__title {
-      font-size: 18px;
-    }
-
-    &__item--active {
-      .new-stepper__line {
-        width: 80px;
-      }
-    }
-
-    &__label {
-      font-size: 14px;
-    }
-  }
-}
 
 // Force dark mode styles with higher specificity
 .new-stepper.new-stepper--dark {

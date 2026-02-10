@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import './styles.scss';
 
 interface FeaturePoint {
@@ -149,9 +150,11 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
                   <div key={index} className="feature-point">
                     {icon_image ? (
                       <div className="point-icon">
-                        <img 
+                        <Image 
                           src={icon_image.url} 
-                          alt={icon_image.alt || 'Feature icon'} 
+                          alt={icon_image.alt || 'Feature icon'}
+                          width={icon_image.width || 24}
+                          height={icon_image.height || 24}
                         />
                       </div>
                     ) : (
@@ -196,10 +199,12 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
 
           {main_image ? (
             <div className="image-wrapper">
-              <img 
+              <Image 
                 src={main_image.url} 
                 alt={main_image.alt || 'Main illustration'} 
-                className="main-image" 
+                className="main-image"
+                width={main_image.width || 600}
+                height={main_image.height || 400}
               />
             </div>
           ) : (

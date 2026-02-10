@@ -7,7 +7,7 @@
   // Contact Section Styles
   .footer-contact-section {
     padding: 0;
-        background: white;
+     background: linear-gradient(180deg, rgba(93, 115, 143, 0.21), rgba(255, 255, 255, 0.4));
 
     .container {
       max-width: 1200px;
@@ -35,7 +35,7 @@
       grid-gap: 64px;
       gap: 48px;
       align-items: start;
-      background: rgb(93 115 143 / 21%);
+      background: linear-gradient(180deg, rgba(93,115,143,0.21), rgba(255,255,255,0.4));
       border-radius: 20px;
       padding: 35px;
       position: relative;
@@ -214,6 +214,7 @@
             color: rgb(25, 59, 107);
             // transform: translateY(-1px);
             box-shadow: 0 4px 12px rgb(25, 59, 107);
+                background: #fff;
           }
 
           &:active {
@@ -408,12 +409,14 @@
 
   .footer-bottom {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     padding: 24px 0 0;
     border-top: 1px solid #e0e0e0;
 
     @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 16px;
       justify-content: center;
     }
 
@@ -457,6 +460,8 @@
     }
 
     .footer-bottom {
+      flex-direction: column;
+      gap: 12px;
       padding: 20px 0 0;
     }
   }
@@ -479,6 +484,8 @@
     }
 
     .footer-bottom {
+      flex-direction: column;
+      gap: 12px;
       padding: 16px 0 0;
     }
   }

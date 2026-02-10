@@ -148,6 +148,19 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
     );
   }, [availableCategories, debouncedSearchQuery]);
 
+  // Get top 4 categories (sorted by count, descending)
+  const topCategories = useMemo(() => {
+    return [...availableCategories]
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 4);
+  }, [availableCategories]);
+
+  // Get remaining categories (for dropdown)
+  const remainingCategories = useMemo(() => {
+    const topCategoryIds = new Set(topCategories.map(cat => cat.id));
+    return availableCategories.filter(cat => !topCategoryIds.has(cat.id));
+  }, [availableCategories, topCategories]);
+
   // Filter case studies based on search query and selected categories
   const filteredCaseStudies = useMemo(() => {
     let filtered = caseStudies;
@@ -384,77 +397,117 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
         </div>
       </div>
 
+      {/* Desktop Filter Bar - Only visible on desktop */}
+      <div className="filter-bar">
+        {/* Top 4 Category Badges */}
+        <div className="category-badges-container">
+          {topCategories.map((category) => (
+            <button
+              key={category.id}
+              className={`category-badge ${selectedCategories.has(category.id) ? 'active' : ''}`}
+              onClick={() => handleCategoryToggle(category.id)}
+              aria-label={`Filter by ${category.name}`}
+            >
+              <span className="badge-name">{category.name}</span>
+              <span className="badge-count">({category.count})</span>
+            </button>
+          ))}
+        </div>
+
+        {/* All Categories Dropdown Button */}
+        <div className="category-dropdown-wrapper">
+            <button
+              className={`category-dropdown-btn ${selectedCategories.size > topCategories.filter(c => selectedCategories.has(c.id)).length ? 'has-selection' : ''}`}
+              onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
+              aria-label="Select more categories"
+            >
+              <span className="dropdown-label">All Categories</span>
+              <svg 
+                className={`dropdown-arrow ${isCategoryDropdownOpen ? 'open' : ''}`}
+                width="18" 
+                height="18" 
+                viewBox="0 0 24 24" 
+                fill="none"
+              >
+                <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            
+            {isCategoryDropdownOpen && (
+              <>
+                <div 
+                  className="dropdown-overlay"
+                  onClick={() => setIsCategoryDropdownOpen(false)}
+                />
+                <div className="category-dropdown">
+                  <div className="dropdown-header">
+                    <h3>All Categories</h3>
+                    {selectedCategories.size > 0 && (
+                      <button onClick={clearFilters} className="clear-all-btn">
+                        Clear All
+                      </button>
+                    )}
+                  </div>
+                  <div className="dropdown-list">
+                    {availableCategories.length > 0 ? (
+                      availableCategories.map((category) => (
+                        <button
+                          key={category.id}
+                          className={`dropdown-item ${selectedCategories.has(category.id) ? 'selected' : ''}`}
+                          onClick={() => handleCategorySelect(category.id)}
+                        >
+                          <span className="dropdown-checkbox">
+                            {selectedCategories.has(category.id) && (
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              </svg>
+                            )}
+                          </span>
+                          <span className="dropdown-name">{category.name}</span>
+                          <span className="dropdown-count">({category.count})</span>
+                        </button>
+                      ))
+                    ) : (
+                      <div className="no-categories">
+                        <p>No categories found</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+
+        {/* Search Input */}
+        <div className="search-wrapper">
+          <svg className="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <input
+            type="text"
+            placeholder="Search case studies..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="search-input"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="clear-search-btn"
+              aria-label="Clear search"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </button>
+          )}
+        </div>
+      </div>
+
       <div className="filter-wrapper">
         <div className="case-studies-layout-container">
         {/* Left Sidebar */}
-        <aside className={`filter-sidebar ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-          <div className="sidebar-container">
-            {/* Single Search Box - Works for both categories and case studies */}
-            <div className="search-section">
-              <div className="search-input-wrapper">
-                <svg className="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <input
-                  type="text"
-                  placeholder="Search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="search-input"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="clear-search-btn"
-                    aria-label="Clear search"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                      <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                    </svg>
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Categories Section */}
-            <div className="categories-section">
-              <div className="categories-header">
-                <h3 className="categories-title">Categories</h3>
-                {(selectedCategories.size > 0 || searchQuery) && (
-                  <button onClick={clearFilters} className="clear-filters-btn">
-                    Clear All
-                  </button>
-                )}
-              </div>
-
-              {/* Categories List with Checkboxes */}
-              <div className="categories-list">
-                {filteredCategories.length > 0 ? (
-                  filteredCategories.map((category) => (
-                    <label
-                      key={category.id}
-                      className={`category-checkbox-label ${selectedCategories.has(category.id) ? 'checked' : ''}`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedCategories.has(category.id)}
-                        onChange={() => handleCategoryToggle(category.id)}
-                        className="category-checkbox"
-                      />
-                      <span className="checkbox-custom"></span>
-                      <span className="category-name">{category.name}</span>
-                      <span className="category-count">({category.count})</span>
-                    </label>
-                  ))
-                ) : (
-                  <div className="no-categories">
-                    <p>No categories found</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </aside>
+       
 
         {/* Main Content */}
         <div className="case-studies-content">
@@ -522,12 +575,326 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
 
         .filter-wrapper {
           position: relative;
-          width: 120%;
+          width: 100%;
         }
 
         /* Mobile Filter Bar - Hidden on Desktop */
         .mobile-filter-bar {
           display: none;
+        }
+
+        /* Desktop Filter Bar - Visible on Desktop */
+        .filter-bar {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 30px;
+          padding: 0;
+          width: 100%;
+          flex-wrap: wrap;
+        }
+
+        /* Category Badges Container */
+        .category-badges-container {
+          display: flex;
+          flex-direction: row;
+          gap: 8px;
+          flex-wrap: wrap;
+          flex: 1;
+          min-width: 0;
+        }
+
+        /* Category Badge */
+        .category-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 14px;
+          border: 2px solid #e5e7eb;
+          border-radius: 20px;
+          background: #ffffff;
+          color: #374151;
+          font-size: 0.9rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          white-space: nowrap;
+          box-sizing: border-box;
+        }
+
+        .category-badge:hover {
+          border-color: #0891b2;
+          background: #ecfeff;
+          color: #0891b2;
+          transform: translateY(-1px);
+        }
+
+        .category-badge.active {
+          background: #0891b2;
+          border-color: #0891b2;
+          color: #ffffff;
+        }
+
+        .category-badge.active:hover {
+          background: #0e7490;
+          border-color: #0e7490;
+        }
+
+        .badge-name {
+          font-weight: 600;
+        }
+
+        .badge-count {
+          font-size: 0.85rem;
+          opacity: 0.8;
+          font-weight: 500;
+        }
+
+        /* Category Dropdown Wrapper */
+        .category-dropdown-wrapper {
+          position: relative;
+          flex-shrink: 0;
+        }
+
+        .category-dropdown-btn {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 16px;
+          border: 2px solid #0891b2;
+          border-radius: 8px;
+          background: #ffffff;
+          color: #0891b2;
+          font-size: 0.95rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          white-space: nowrap;
+          box-sizing: border-box;
+        }
+
+        .category-dropdown-btn:hover {
+          background: #ecfeff;
+          transform: translateY(-1px);
+        }
+
+        .category-dropdown-btn.has-selection {
+          background: #0891b2;
+          color: #ffffff;
+        }
+
+        .category-dropdown-btn.has-selection:hover {
+          background: #0e7490;
+          border-color: #0e7490;
+        }
+
+        .dropdown-label {
+          font-weight: 600;
+        }
+
+        .dropdown-arrow {
+          transition: transform 0.3s ease;
+          flex-shrink: 0;
+        }
+
+        .dropdown-arrow.open {
+          transform: rotate(180deg);
+        }
+
+        .dropdown-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.3);
+          z-index: 999;
+        }
+
+        .category-dropdown {
+          position: absolute;
+          top: calc(100% + 8px);
+          left: 0;
+          width: 320px;
+          max-width: 90vw;
+          background: #ffffff;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+          z-index: 1000;
+          max-height: 400px;
+          overflow: hidden;
+          animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .dropdown-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px 20px;
+          border-bottom: 1px solid #e5e7eb;
+          position: sticky;
+          top: 0;
+          background: #ffffff;
+          z-index: 1;
+        }
+
+        .dropdown-header h3 {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin: 0;
+        }
+
+        .clear-all-btn {
+          padding: 6px 12px;
+          background: transparent;
+          border: 1px solid #e5e7eb;
+          border-radius: 6px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #6b7280;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .clear-all-btn:hover {
+          background: #f3f4f6;
+          border-color: #d1d5db;
+          color: #374151;
+        }
+
+        .dropdown-list {
+          max-height: 320px;
+          overflow-y: auto;
+          padding: 8px 0;
+        }
+
+        .dropdown-item {
+          width: 100%;
+          padding: 12px 20px;
+          border: none;
+          background: transparent;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          text-align: left;
+          font-size: 0.95rem;
+          box-sizing: border-box;
+        }
+
+        .dropdown-item:hover {
+          background: #f9fafb;
+        }
+
+        .dropdown-item.selected {
+          background: #ecfeff;
+        }
+
+        .dropdown-checkbox {
+          width: 20px;
+          height: 20px;
+          border: 2px solid #d1d5db;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          transition: all 0.2s ease;
+        }
+
+        .dropdown-item.selected .dropdown-checkbox {
+          background: #0891b2;
+          border-color: #0891b2;
+          color: white;
+        }
+
+        .dropdown-name {
+          flex: 1;
+          color: #374151;
+          font-weight: 500;
+        }
+
+        .dropdown-item.selected .dropdown-name {
+          color: #0891b2;
+          font-weight: 600;
+        }
+
+        .dropdown-count {
+          font-size: 0.85rem;
+          color: #6b7280;
+          font-weight: 500;
+        }
+
+        /* Search Wrapper */
+        .search-wrapper {
+          position: relative;
+          display: flex;
+          align-items: center;
+          flex: 1;
+          min-width: 200px;
+          max-width: 400px;
+        }
+
+        .search-icon {
+          position: absolute;
+          left: 12px;
+          color: #6b7280;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .search-input {
+          width: 100%;
+          padding: 10px 40px 10px 40px;
+          border: 2px solid #e5e7eb;
+          border-radius: 8px;
+          font-size: 0.95rem;
+          transition: all 0.3s ease;
+          background: #f9fafb;
+          box-sizing: border-box;
+        }
+
+        .search-input:focus {
+          outline: none;
+          border-color: #0891b2;
+          background: #ffffff;
+          box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+        }
+
+        .clear-search-btn {
+          position: absolute;
+          right: 8px;
+          padding: 4px;
+          background: transparent;
+          border: none;
+          color: #6b7280;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          transition: all 0.2s ease;
+          z-index: 1;
+        }
+
+        .clear-search-btn:hover {
+          background: #f3f4f6;
+          color: #374151;
         }
 
         .case-studies-layout-container {
@@ -765,7 +1132,7 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
 
         .case-studies-grid {
          display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
          gap: 20px;
         }
 
@@ -867,6 +1234,10 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
             min-height: calc(100vh - 120px);
             padding: 20px;
           }
+
+          .case-studies-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
         }
 
         @media (max-width: 768px) {
@@ -882,7 +1253,12 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
             overflow-x: hidden;
           }
 
-          /* Show Mobile Filter Bar */
+          /* Hide Desktop Filter Bar on Mobile */
+          .filter-bar {
+            display: none;
+          }
+
+          /* Show Mobile Filter Bar on Mobile */
           .mobile-filter-bar {
             display: flex;
             flex-direction: row;
@@ -1226,9 +1602,6 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           .mobile-filter-bar {
             gap: 8px;
             margin-bottom: 15px;
-            width: 100%;
-            max-width: 100%;
-            box-sizing: border-box;
           }
 
           .mobile-search-wrapper {
@@ -1238,7 +1611,6 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           .mobile-search-input {
             padding: 10px 34px 10px 34px;
             font-size: 0.85rem;
-            box-sizing: border-box;
           }
 
           .mobile-search-icon {
@@ -1255,7 +1627,6 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           .mobile-category-dropdown-btn {
             padding: 10px 12px;
             font-size: 0.8rem;
-            box-sizing: border-box;
           }
 
           .mobile-dropdown-label {

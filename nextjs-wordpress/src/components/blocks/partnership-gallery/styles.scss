@@ -89,7 +89,7 @@
       
       /* Error handling for placeholder images */
       &[src*="placeholder"] {
-        background-color: #ff6b6b;
+        // background-color: #ff6b6b;
         color: white;
         display: flex;
         align-items: center;

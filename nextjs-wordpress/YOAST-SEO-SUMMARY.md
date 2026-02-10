@@ -9,7 +9,7 @@ All pages in your Next.js application now fetch their SEO metadata dynamically f
 ### 1. Enhanced SEO Library (`src/lib/seo.ts`)
 
 Added a new `generatePageMetadata()` function that:
-- Fetches Yoast SEO data from WordPress via GraphQL
+- Fetches Yoast SEO data from WordPress via REST API
 - Extracts SEO title, description, Open Graph, Twitter Cards, etc.
 - Returns properly formatted Next.js Metadata object
 - Includes fallback logic if SEO data is not found
@@ -135,7 +135,7 @@ To verify it's working:
 
 ## Cache Considerations
 
-- GraphQL queries cache for 1 hour by default
+- REST API queries cache for 1 hour by default
 - To see immediate changes during development, restart the dev server
 - In production, changes appear within the revalidation period
 

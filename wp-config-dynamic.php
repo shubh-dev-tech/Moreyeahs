@@ -14,18 +14,18 @@ function detect_wp_environment() {
         return 'local';
     }
     
-    // Staging environment
-    if (strpos($host, 'staging.') !== false) {
-        return 'staging';
+    // Check for moreyeahs.com domain
+    if (strpos($host, 'moreyeahs.com') !== false) {
+        return 'production-com';
     }
     
-    // Development environment
-    if (strpos($host, 'dev.') !== false) {
-        return 'development';
+    // Check for moreyeahs.in domain or Vercel
+    if (strpos($host, 'moreyeahs.in') !== false || strpos($host, 'vercel.app') !== false) {
+        return 'production-in';
     }
     
-    // Production environment
-    return 'production';
+    // Default fallback
+    return 'local';
 }
 
 // Get current environment
@@ -47,81 +47,60 @@ switch ($wp_environment) {
         define('WP_HOME', $protocol . $host . '/moreyeahs-new');
         define('WP_SITEURL', $protocol . $host . '/moreyeahs-new');
         
-        // Database settings for local
+        // Database settings for localhost
         if (!defined('DB_NAME')) define('DB_NAME', 'moreyeahs-new');
         if (!defined('DB_USER')) define('DB_USER', 'root');
         if (!defined('DB_PASSWORD')) define('DB_PASSWORD', '');
         if (!defined('DB_HOST')) define('DB_HOST', 'localhost');
         
-        // Debug settings for local (only set if not already defined)
+        // Debug settings for local
         if (!defined('WP_DEBUG')) define('WP_DEBUG', true);
         if (!defined('WP_DEBUG_LOG')) define('WP_DEBUG_LOG', true);
         if (!defined('WP_DEBUG_DISPLAY')) define('WP_DEBUG_DISPLAY', false);
         
         break;
         
-    case 'development':
-        // Development environment settings
+    case 'production-com':
+        // Production settings for moreyeahs.com
         define('WP_HOME', $protocol . $host);
         define('WP_SITEURL', $protocol . $host);
         
-        // Database settings for development
-        if (!defined('DB_NAME')) define('DB_NAME', 'moreyeahs_dev');
-        if (!defined('DB_USER')) define('DB_USER', getenv('DB_USER') ?: 'root');
-        if (!defined('DB_PASSWORD')) define('DB_PASSWORD', getenv('DB_PASSWORD') ?: '');
-        if (!defined('DB_HOST')) define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+        // Database settings for moreyeahs.com
+        if (!defined('DB_NAME')) define('DB_NAME', 'pro-moreyeahs-new');
+        if (!defined('DB_USER')) define('DB_USER', 'pro-db-moreyeahs');
+        if (!defined('DB_PASSWORD')) define('DB_PASSWORD', 'Shubham@123');
+        if (!defined('DB_HOST')) define('DB_HOST', 'localhost');
         
-        // Debug settings for development (only set if not already defined)
-        if (!defined('WP_DEBUG')) define('WP_DEBUG', true);
-        if (!defined('WP_DEBUG_LOG')) define('WP_DEBUG_LOG', true);
-        if (!defined('WP_DEBUG_DISPLAY')) define('WP_DEBUG_DISPLAY', false);
-        
-        break;
-        
-    case 'staging':
-        // Staging environment settings
-        define('WP_HOME', $protocol . $host);
-        define('WP_SITEURL', $protocol . $host);
-        
-        // Database settings for staging
-        if (!defined('DB_NAME')) define('DB_NAME', getenv('DB_NAME_STAGING') ?: 'moreyeahs_staging');
-        if (!defined('DB_USER')) define('DB_USER', getenv('DB_USER_STAGING') ?: 'root');
-        if (!defined('DB_PASSWORD')) define('DB_PASSWORD', getenv('DB_PASSWORD_STAGING') ?: '');
-        if (!defined('DB_HOST')) define('DB_HOST', getenv('DB_HOST_STAGING') ?: 'localhost');
-        
-        // Debug settings for staging (only set if not already defined)
+        // Debug settings for production
         if (!defined('WP_DEBUG')) define('WP_DEBUG', false);
         if (!defined('WP_DEBUG_LOG')) define('WP_DEBUG_LOG', true);
         if (!defined('WP_DEBUG_DISPLAY')) define('WP_DEBUG_DISPLAY', false);
         
         break;
         
-    case 'production':
-    default:
-        // Production environment settings
+    case 'production-in':
+        // Production settings for moreyeahs.in and Vercel
         define('WP_HOME', $protocol . $host);
         define('WP_SITEURL', $protocol . $host);
         
-        // Database settings for production
-        if (!defined('DB_NAME')) define('DB_NAME', getenv('DB_NAME_PROD') ?: 'moreyeahs_prod');
-        if (!defined('DB_USER')) define('DB_USER', getenv('DB_USER_PROD') ?: 'root');
-        if (!defined('DB_PASSWORD')) define('DB_PASSWORD', getenv('DB_PASSWORD_PROD') ?: '');
-        if (!defined('DB_HOST')) define('DB_HOST', getenv('DB_HOST_PROD') ?: 'localhost');
+        // Database settings for moreyeahs.in and Vercel
+        if (!defined('DB_NAME')) define('DB_NAME', 'moreyeahs-new');
+        if (!defined('DB_USER')) define('DB_USER', 'moreyeahs_db_admin');
+        if (!defined('DB_PASSWORD')) define('DB_PASSWORD', 'hlMj=tobUp3p');
+        if (!defined('DB_HOST')) define('DB_HOST', 'localhost');
         
-        // Debug settings for production (only set if not already defined)
+        // Debug settings for production
         if (!defined('WP_DEBUG')) define('WP_DEBUG', false);
-        if (!defined('WP_DEBUG_LOG')) define('WP_DEBUG_LOG', false);
+        if (!defined('WP_DEBUG_LOG')) define('WP_DEBUG_LOG', true);
         if (!defined('WP_DEBUG_DISPLAY')) define('WP_DEBUG_DISPLAY', false);
         
         break;
 }
 
+
 // Common settings for all environments
 if (!defined('DB_CHARSET')) define('DB_CHARSET', 'utf8mb4');
 if (!defined('DB_COLLATE')) define('DB_COLLATE', '');
-
-// CORS and media transformation functions are now handled by the mu-plugin:
-// wp-content/mu-plugins/moreyeahs-dynamic-config.php
 
 // JWT Authentication settings
 if (!defined('JWT_AUTH_SECRET_KEY')) {
@@ -140,12 +119,9 @@ if (!defined('ALLOWED_ORIGIN')) {
         case 'local':
             define('ALLOWED_ORIGIN', 'http://localhost:3000');
             break;
-        case 'development':
-        case 'staging':
-        case 'production':
-        default:
-            define('ALLOWED_ORIGIN', 'https://moreyeahsnew.vercel.app');
+        case 'production-com':
+        case 'production-in':
+            define('ALLOWED_ORIGIN', 'https://moreyeahsnew.vercel.app,https://moreyeahs.in,https://moreyeahs.com');
             break;
     }
 }
-

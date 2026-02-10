@@ -195,6 +195,12 @@ export async function getCategories(params: Record<string, string | number> = {}
   return categories || [];
 }
 
+// Get testimonials with safe fallback
+export async function getTestimonials(params: Record<string, string | number> = {}): Promise<any[]> {
+  const testimonials = await wpFetch<any[]>('/wp/v2/testimonials', params);
+  return testimonials || [];
+}
+
 /**
  * Media URL transformation - safe for build time
  */

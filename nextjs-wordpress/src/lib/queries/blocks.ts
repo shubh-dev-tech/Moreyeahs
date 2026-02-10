@@ -1,5 +1,5 @@
 /**
- * GraphQL Queries for Blocks and ACF
+ * Queries for Blocks and ACF
  */
 
 export const GET_POST_WITH_BLOCKS = `

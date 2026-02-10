@@ -107,9 +107,9 @@ export default async function BlogPage() {
       <section className={styles['blog-hero']}>
         <div className={styles.container}>
           <h1 className={styles['blog-hero__title']}>Our Blog</h1>
-          <p className={styles['blog-hero__subtitle']}>
+          {/* <p className={styles['blog-hero__subtitle']}>
             Insights, updates, and stories from our team
-          </p>
+          </p> */}
         </div>
       </section>
 
