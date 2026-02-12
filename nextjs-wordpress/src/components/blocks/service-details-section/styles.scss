@@ -147,6 +147,39 @@
   }
 }
 
+/* Service Link Wrapper */
+.service-link-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.service-link-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #202020;
+  transition: color 0.3s ease;
+}
+
+.service-link-arrow {
+  color: #202020;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.service-link:hover {
+  .service-link-text {
+    color: #20202090;
+  }
+  
+  .service-link-arrow {
+    color: #20202090;
+    transform: translateX(4px);
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .service-details-section {

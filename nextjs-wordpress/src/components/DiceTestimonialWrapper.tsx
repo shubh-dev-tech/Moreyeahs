@@ -196,7 +196,7 @@ const DiceTestimonialWrapper: React.FC = () => {
     gradient_direction: 'to bottom right',
     background_height: 'medium',
     text_color: '#ffffff',
-    accent_color: 'rgb(0, 162, 255)'
+    accent_color: '#EBEEF2CC'
   };
 
   return <DiceTestimonial data={testimonialData} />;

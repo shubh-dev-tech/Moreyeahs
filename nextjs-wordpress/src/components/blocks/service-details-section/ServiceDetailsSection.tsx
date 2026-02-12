@@ -10,6 +10,7 @@ interface ServiceItem {
   service_title: string;
   service_description: string;
   service_link?: string;
+  service_link_text?: string;
 }
 
 interface ServiceDetailsSectionProps {
@@ -65,6 +66,7 @@ const ServiceDetailsSection: React.FC<ServiceDetailsSectionProps> = ({
         service_title: data[`services_${serviceIndex}_service_title`],
         service_description: data[`services_${serviceIndex}_service_description`],
         service_link: data[`services_${serviceIndex}_service_link`],
+        service_link_text: data[`services_${serviceIndex}_service_link_text`],
         service_icon: data[`services_${serviceIndex}_service_icon`]
       };
       reconstructedServices.push(service);
@@ -165,6 +167,8 @@ const ServiceDetailsSection: React.FC<ServiceDetailsSectionProps> = ({
               const wrapperProps = service.service_link 
                 ? { href: service.service_link, className: 'service-link' }
                 : {};
+              
+              const linkText = service.service_link_text || 'See Solutions';
 
               return (
                 <div key={index} className="service-item">
@@ -205,6 +209,15 @@ const ServiceDetailsSection: React.FC<ServiceDetailsSectionProps> = ({
                             )
                             : formatDescription(service.service_description)
                           }
+                        </div>
+                      )}
+                      
+                      {service.service_link && (
+                        <div className="service-link-wrapper">
+                          <span className="service-link-text">{linkText}</span>
+                          <svg className="service-link-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
                         </div>
                       )}
                     </div>

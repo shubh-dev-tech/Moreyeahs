@@ -1,6 +1,12 @@
 .contai-new {
-      padding-left: 40px;
-    padding-right: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
+
+
+  @media (max-width: 1023px) {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }
                                 
 .header {
@@ -11,61 +17,46 @@
   padding-left: 40px!important;
   padding-right: 40px!important;
   z-index: $z-index-header;
-  padding: 1.25rem 0;
+  padding: 0.55rem 0;
   transform: translateY(0);
-  background: transparent;
+  background: rgba(250, 250, 250, 0.4); // Off-white background
+  // background: transparent; 
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px); // Safari support
   opacity: 1;
   @include transition(all var(--header-animation-duration, 0.3s) ease);
 
-  // Dark background state (transparent header)
-  &--dark-bg {
-    background: transparent;
-    backdrop-filter: none;
-    box-shadow: none;
-
-    .header__logo {
-      color: #ffffff;
-    }
-
-    .header__menu a {
-      color: #ffffff;
-    }
-
-    .header__search-btn {
-      color: #ffffff;
-    }
-
-    .hamburger-line {
-      background-color: #ffffff;
-    }
-  }
-
-  // Light background state (scrolled header)
+  // Always use light background - text always black
   &--light-bg {
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    background-color: rgba(250, 250, 250, 0.4); // Off-white background
+    // background-color: transparent; 
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); // Safari support
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 
     .header__logo {
-      color: $color-text;
+      color: #202020 !important;
     }
 
     .header__menu a {
-      color: $color-text;
+      color: #202020 !important;
     }
 
     .header__search-btn {
-      color: $color-text;
+        color: #202020 !important;
     }
 
     .hamburger-line {
-      background-color: $color-text;
+      background-color: #202020  !important;
     }
   }
 
+  // Apply glass effect on all screen sizes including mobile and tablet
   @include mobile {
-    position: relative;
-    background: transparent;
+    position: fixed; // Keep fixed positioning
+    background: rgba(250, 250, 250, 0.4); // Same glass background
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); // Safari support
   }
 
   &__nav {
@@ -84,10 +75,9 @@
   &__logo {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #ffffff;
+    color: #000000 !important; // Always black
     letter-spacing: -0.5px;
     @include transition(color 0.2s ease);
-    // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
 
@@ -102,21 +92,11 @@
     width: 130px;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    filter: none; // Remove filter - logo always visible as is
     @include transition(filter 0.3s ease, opacity 0.3s ease);
 
     // Smooth transition for logo changes
     transition: opacity 0.3s ease, filter 0.3s ease;
-
-    // Dark logo visible by default
-    &--dark {
-      display: block;
-    }
-
-    // Light logo hidden by default
-    &--light {
-      display: none;
-    }
   }
 
   &__logo-text {
@@ -134,10 +114,11 @@
     opacity: 1;
     transition: visibility 0.3s ease, opacity 0.3s ease;
 
-    &--hidden {
-      visibility: hidden !important;
-      opacity: 0 !important;
-    }
+    // Removed --hidden class - menu always visible
+    // &--hidden {
+    //   visibility: hidden !important;
+    //   opacity: 0 !important;
+    // }
 
     > li {
       position: relative;
@@ -167,14 +148,14 @@
     }
 
     a {
-      padding: 0.75rem 0;
+      padding: 0.15rem 0;
       display: block;
       font-weight: 700;
       position: relative;
       @include transition(color 0.2s ease);
       
-      // Default white color (for dark backgrounds) - high specificity
-      color: #ffffff !important;
+      // Always black color
+      color: #000000 !important;
 
       &:hover {
         opacity: 0.8;
@@ -183,65 +164,41 @@
 
     > li > a {
       font-size: 1rem;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        @include transition(width 0.3s ease);
-        
-        // Default white underline
-        background-color: #ffffff;
-      }
-
-      &:hover::after {
-        width: 100%;
-      }
     }
 
-    > li.has-children > a::before {
-    content: "";
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    margin-left: 0.5rem;
-    border-right: 1.5px solid currentColor;
-    border-bottom: 1.5px solid currentColor;
-    transform: rotate(45deg);
-    opacity: 1;
-    transition: transform 0.2s ease;
-    vertical-align: middle;
-    margin-top: -6px;
-    margin-right: 8px;
+    // Underline effect only for links WITHOUT children
+    > li:not(.has-children):not(.has-mega-menu) > a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      @include transition(width 0.3s ease);
+      
+      // Always black underline
+      background-color: #666666!important;
     }
 
-    > li.has-children:hover > a::before {
-      transform: rotate(-135deg);
+    > li:not(.has-children):not(.has-mega-menu) > a:hover::after {
+      width: 100%;
     }
 
-    // Dynamic background-based styling - only for main menu items, not submenus
-    &--dark-bg {
-      > li > a:not(.header__submenu a) {
-        color: #ffffff !important;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-
-        &:hover {
-          color: #ffffff !important;
-          opacity: 0.8;
-        }
-
-        &::after {
-          background-color: #ffffff !important;
-        }
-      }
-
-      > li.has-children > a::before {
-        color: #ffffff !important;
-      }
+    // Style for React chevron icon
+    .menu-chevron {
+      display: inline-block;
+      margin-left: 0.35rem;
+      font-size: 14px;
+      transition: transform 0.2s ease;
+      vertical-align: middle;
+      margin-top: -2px;
     }
+
+    > li.has-children:hover .menu-chevron {
+      transform: rotate(180deg);
+    }
+
+    // Removed dark-bg styling - always use light-bg with black text
 
   // 1400px - 1100px: Smaller gap and font size
     @media (min-width: 1100px) and (max-width: 1400px) {
@@ -288,21 +245,24 @@
     position: absolute;
     top: calc(100% - 0.25rem); // Reduce gap for easier hover
     left: 0;
-    background-color: rgb(2 2 2 / 80%);
-    border: 1px solid $color-border;
+    background-color: #ffffff; // White background
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     min-width: 250px;
+    max-width: 280px;
+     margin-top: 16px;
     list-style: none;
     padding: 0.75rem 0;
     padding-top: 1rem; // Add extra padding at top for hover bridge
     font-weight: 700;
     margin: 0;
+    margin-top: 10px;
     opacity: 0 !important; // Force hidden on load
     visibility: hidden !important; // Force hidden on load
     transform: translateY(-10px);
     @include transition(opacity 0.25s ease, transform 0.25s ease, visibility 0.25s);
-    transition-delay: 0s, 0s, 0s; // Instant hide
+    transition-delay: 0.3s, 0.3s, 0.3s; // Add delay before hiding
     z-index: $z-index-dropdown;
     pointer-events: none; // Prevent interaction when hidden
 
@@ -311,51 +271,40 @@
       margin: 0;
     }
 
-    a {
-      padding: 0.875rem 1.5rem;
-      white-space: nowrap;
+a {
+      padding: 0.800rem 1rem;
+      white-space: normal; // Allow text to wrap
+      word-wrap: break-word; // Break long words if needed
       font-size: 0.95rem;
       border-left: 3px solid transparent;
+      color: #000000 !important; // Black text by default
+      line-height: 1.4; // Better line height for wrapped text
       @include transition(all 0.2s ease);
 
-      &::after {
-        display: none;
-      }
-
       // Override main menu arrow for submenu items
-      &::before {
+      &::after {
+        display: none !important;
+      }
+      
+      // Hide chevron icon in nested submenu items only
+      .menu-chevron {
         display: none !important;
       }
 
       &:hover {
-        background-color: $color-bg-alt;
+        background-color: #f5f5f5; // Light gray on hover
         border-left-color: $color-primary;
-        padding-left: 1.75rem;
-        color: #000!important;
+        padding-left: 1.65rem;
+        color: #000000 !important; // Black text on hover
       }
     }
 
     .has-children {
       position: relative;
 
+      // Arrow removed from submenu items
       > a::after {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        float: right;
-        margin-left: 1.5rem;
-        border-right: 1.5px solid currentColor;
-        border-bottom: 1.5px solid currentColor;
-        transform: rotate(-45deg);
-        opacity: 0.8;
-        transition: transform 0.2s ease;
-        vertical-align: middle;
-        margin-top: 2px;
-      }
-
-      &:hover > a::after {
-        transform: rotate(-45deg) scale(1.1);
+        display: none !important;
       }
     }
 
@@ -389,7 +338,7 @@
     visibility: visible !important;
     transform: translateY(0);
     pointer-events: auto; // Re-enable interaction on hover
-    transition-delay: 0.15s, 0.15s, 0.15s; // Small delay before showing
+    transition-delay: 0s, 0s, 0s; // Show immediately on hover
   }
   
   // Optional: Enable keyboard navigation with focus
@@ -406,23 +355,6 @@
     align-items: center;
     gap: 0.5rem;
 
-    // Dynamic background-based styling with higher specificity
-    &--dark-bg {
-      .header__search-btn {
-        color: #ffffff !important;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-
-        &:hover {
-          color: #ffffff !important;
-          opacity: 0.8;
-        }
-      }
-
-      .hamburger-line {
-        background-color: #ffffff !important;
-      }
-    }
-
     &--light-bg {
       .header__search-btn {
         color: #000000 !important;
@@ -435,7 +367,7 @@
       }
 
       .hamburger-line {
-        background-color: #000000 !important;
+        background-color: #202020 !important;
       }
     }
   }
@@ -452,19 +384,8 @@
     @include flex-center;
     @include transition(all 0.2s ease);
     
-    // Default white color
-    color: #ffffff;
-
-    // Dynamic background-based styling with higher specificity
-    &--dark-bg {
-      color: #ffffff !important;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-
-      &:hover {
-        color: #ffffff !important;
-        opacity: 0.8;
-      }
-    }
+    // Always black color
+    color: #000000 !important;
 
     &--light-bg {
       color: #000000 !important;

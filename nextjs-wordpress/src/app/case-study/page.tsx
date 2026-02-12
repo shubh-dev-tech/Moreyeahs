@@ -186,7 +186,11 @@ async function getCaseStudiesFromPosts(apiUrl: string): Promise<ProcessedCaseStu
   }
 }
 
-export default async function CaseStudiesPage() {
+export default async function CaseStudiesPage({
+  searchParams,
+}: {
+  searchParams: { industry?: string; category?: string };
+}) {
   const caseStudies = await getCaseStudies();
 
   return (
@@ -212,7 +216,9 @@ export default async function CaseStudiesPage() {
               </p>
             </div>
           ) : (
-            <CaseStudiesWithSidebar caseStudies={caseStudies} />
+            <CaseStudiesWithSidebar 
+              caseStudies={caseStudies}
+            />
           )}
         </div>
       </section>

@@ -1,0 +1,204 @@
+{
+  "key": "group_work_slider",
+  "title": "Work Slider Block",
+  "fields": [
+    {
+      "key": "field_work_slider_bg_type",
+      "label": "Background Type",
+      "name": "background_type",
+      "type": "select",
+      "instructions": "Choose the type of background for the slider section",
+      "choices": {
+        "color": "Solid Color",
+        "image": "Background Image",
+        "gradient": "CSS Gradient"
+      },
+      "default_value": "color"
+    },
+    {
+      "key": "field_work_slider_bg_color",
+      "label": "Background Color",
+      "name": "background_color",
+      "type": "color_picker",
+      "instructions": "Select a solid background color",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_work_slider_bg_type",
+            "operator": "==",
+            "value": "color"
+          }
+        ]
+      ],
+      "default_value": "#d4e4f0"
+    },
+    {
+      "key": "field_work_slider_bg_image",
+      "label": "Background Image",
+      "name": "background_image",
+      "type": "image",
+      "instructions": "Upload a background image for the slider section",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_work_slider_bg_type",
+            "operator": "==",
+            "value": "image"
+          }
+        ]
+      ],
+      "return_format": "array"
+    },
+    {
+      "key": "field_work_slider_gradient_start",
+      "label": "Gradient Start Color",
+      "name": "gradient_start_color",
+      "type": "color_picker",
+      "instructions": "Select the starting color for the gradient",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_work_slider_bg_type",
+            "operator": "==",
+            "value": "gradient"
+          }
+        ]
+      ],
+      "default_value": "#B0C7E0"
+    },
+    {
+      "key": "field_work_slider_gradient_end",
+      "label": "Gradient End Color",
+      "name": "gradient_end_color",
+      "type": "color_picker",
+      "instructions": "Select the ending color for the gradient",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_work_slider_bg_type",
+            "operator": "==",
+            "value": "gradient"
+          }
+        ]
+      ],
+      "default_value": "#E8F4FA"
+    },
+    {
+      "key": "field_work_slider_gradient_direction",
+      "label": "Gradient Direction",
+      "name": "gradient_direction",
+      "type": "select",
+      "instructions": "Select the direction of the gradient",
+      "conditional_logic": [
+        [
+          {
+            "field": "field_work_slider_bg_type",
+            "operator": "==",
+            "value": "gradient"
+          }
+        ]
+      ],
+      "choices": {
+        "to bottom": "Top to Bottom",
+        "to top": "Bottom to Top",
+        "to right": "Left to Right",
+        "to left": "Right to Left",
+        "135deg": "Diagonal (Top-Left to Bottom-Right)",
+        "45deg": "Diagonal (Bottom-Left to Top-Right)"
+      },
+      "default_value": "177.31deg"
+    },
+    {
+      "key": "field_work_slider_heading",
+      "label": "Heading (First Part)",
+      "name": "heading",
+      "type": "text",
+      "instructions": "Enter the first part of the heading (e.g., \"Our\")",
+      "default_value": "Our"
+    },
+    {
+      "key": "field_work_slider_heading_color",
+      "label": "Heading Color",
+      "name": "heading_color",
+      "type": "color_picker",
+      "instructions": "Color for the main heading text (applies to heading and all slide titles)",
+      "default_value": "#333333"
+    },
+    {
+      "key": "field_work_slider_heading_span",
+      "label": "Heading (Highlighted Part)",
+      "name": "heading_span_text",
+      "type": "text",
+      "instructions": "Enter the highlighted part of the heading (e.g., \"Work\")",
+      "default_value": "Work"
+    },
+    {
+      "key": "field_work_slider_heading_span_color",
+      "label": "Heading Span Color",
+      "name": "heading_span_color",
+      "type": "color_picker",
+      "instructions": "Color for the highlighted span text in heading",
+      "default_value": "#4a90e2"
+    },
+    {
+      "key": "field_work_slider_subheading",
+      "label": "Subheading",
+      "name": "subheading",
+      "type": "textarea",
+      "instructions": "Enter the subheading/description text below the main heading",
+      "default_value": "Powered solutions enabling intelligent automation, smarter document management, and enhanced enterprise collaboration across industries."
+    },
+    {
+      "key": "field_work_slider_subheading_color",
+      "label": "Subheading Color",
+      "name": "subheading_color",
+      "type": "color_picker",
+      "instructions": "Color for the subheading text (applies to subheading and all slide descriptions)",
+      "default_value": "#666666"
+    },
+    {
+      "key": "field_work_slider_slides",
+      "label": "Slides",
+      "name": "slides",
+      "type": "repeater",
+      "instructions": "Add slides to the work slider. Each slide will inherit the colors set above.",
+      "required": 1,
+      "layout": "block",
+      "button_label": "Add Slide",
+      "sub_fields": [
+        {
+          "key": "field_work_slider_slide_image",
+          "label": "Slide Image",
+          "name": "image",
+          "type": "image",
+          "instructions": "Upload an image for this slide",
+          "return_format": "array"
+        },
+        {
+          "key": "field_work_slider_slide_title",
+          "label": "Slide Title",
+          "name": "title",
+          "type": "text",
+          "instructions": "Enter the title for this slide (will use the heading color set above)",
+          "required": 1
+        },
+        {
+          "key": "field_work_slider_slide_description",
+          "label": "Slide Description",
+          "name": "description",
+          "type": "textarea",
+          "instructions": "Enter the description for this slide (will use the subheading color set above)"
+        }
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/work-slider"
+      }
+    ]
+  ]
+}

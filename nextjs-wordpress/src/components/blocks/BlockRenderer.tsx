@@ -49,6 +49,7 @@ import MultiCloudServices from './multi-cloud-services/MultiCloudServices';
 import VideoHeroSection from './video-hero-section/VideoHeroSection';
 import DomainEnablesSection from './domain-enables-section/DomainEnablesSection';
 import SpecializationsSection from './specializations-section/SpecializationsSection';
+import WorkSlider from './work-slider/WorkSlider';
 import ServicesSection from './services-section/ServicesSection';
 import FitsTogetherSection from './fits-together-section/FitsTogetherSection';
 import FaqSection from './faq-section/FaqSection';
@@ -104,6 +105,7 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/video-hero-section': VideoHeroSection,
   'acf/domain-enables-section': DomainEnablesSection,
   'acf/specializations-section': SpecializationsSection,
+  'acf/work-slider': WorkSlider,
   'acf/services-section': ServicesSection,
   'acf/fits-together-section': FitsTogetherSection,
   'acf/faq-section': FaqSection,
@@ -141,6 +143,7 @@ const BLOCK_SECTION_IDS: Record<string, string> = {
   'acf/video-hero-section': 'video-hero-section',
   'acf/domain-enables-section': 'domain-enables-section',
   'acf/specializations-section': 'specializations-section',
+  'acf/work-slider': 'work-slider',
   'acf/services-section': 'services-section',
   'acf/fits-together-section': 'fits-together-section',
   'acf/faq-section': 'faq-section',

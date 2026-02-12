@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import ReactCountryFlag from 'react-country-flag';
 import { getFooterSettings } from '@/lib/wpFetch';
 import ContactSection from './ContactSection';
 
@@ -171,7 +172,7 @@ export default async function Footer() {
     copyright_text,
     privacy_policy_link,
     terms_of_use_link,
-    background_color = '#f8f9fa',
+    background_color = '#FFFFFF',
     text_color = '#333333',
     link_color = '#666666',
     link_hover_color = '#000000',
@@ -225,7 +226,7 @@ export default async function Footer() {
             {renderColumn('Company', company_columns)}
             {renderColumn('About', about_columns)}
             {/* {renderColumn('Career', career_columns)} */}
-            {renderColumn('Services', services_columns)}
+            {renderColumn('Domain', services_columns)}
           </div>
 
           {/* Social Links Column */}
@@ -260,24 +261,38 @@ export default async function Footer() {
               
               {/* Address at the bottom */}
               <div className="contact-address-section">
-                {contact_info?.address && (
-                  <div className="contact-item">
-                    <div className="contact-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                      </svg>
-                    </div>
-                    <span className="contact-text">{contact_info.address}</span>
-                  </div>
-                )}
                 {contact_info?.city_state && (
                   <div className="contact-item">
                     <div className="contact-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                      </svg>
+                      <ReactCountryFlag
+                        countryCode="US"
+                        svg
+                         style={{
+                          width: '24px',
+                          height: '24px',
+                          borderRadius: '50%',
+                          objectFit: 'cover'
+                        }}
+                      />
                     </div>
                     <span className="contact-text">{contact_info.city_state}</span>
+                  </div>
+                )}
+                {contact_info?.address && (
+                  <div className="contact-item">
+                    <div className="contact-icon">
+                      <ReactCountryFlag
+                        countryCode="IN"
+                        svg
+                        style={{
+                          width: '24px',
+                          height: '24px',
+                          borderRadius: '50%',
+                          objectFit: 'cover'
+                        }}
+                      />
+                    </div>
+                    <span className="contact-text">{contact_info.address}</span>
                   </div>
                 )}
               </div>

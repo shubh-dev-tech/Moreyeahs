@@ -92,10 +92,6 @@
         height: 4px !important;
         background: linear-gradient(90deg, var(--stepper-line-color-start) 0%, var(--stepper-line-color-mid) 50%, var(--stepper-line-color-end) 100%) !important;
         background-size: 200% 100% !important;
-        animation: 
-          flash-gradient 2s ease-in-out infinite,
-          pulse-glow 2s ease-in-out infinite,
-          gradient-shift 3s ease-in-out infinite;
         opacity: 1 !important;
       }
 

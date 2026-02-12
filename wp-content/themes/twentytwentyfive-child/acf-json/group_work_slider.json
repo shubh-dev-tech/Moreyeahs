@@ -1,0 +1,429 @@
+{
+    "key": "group_work_slider",
+    "title": "Work Slider Block",
+    "fields": [
+        {
+            "key": "field_work_slider_bg_type",
+            "label": "Background Type",
+            "name": "background_type",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Choose the type of background for the slider section",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "color": "Solid Color",
+                "image": "Background Image",
+                "gradient": "CSS Gradient"
+            },
+            "default_value": "color",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_work_slider_bg_color",
+            "label": "Background Color",
+            "name": "background_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Select a solid background color",
+            "required": false,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_work_slider_bg_type",
+                        "operator": "==",
+                        "value": "color"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#d4e4f0",
+            "enable_opacity": false,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_work_slider_bg_image",
+            "label": "Background Image",
+            "name": "background_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Upload a background image for the slider section",
+            "required": false,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_work_slider_bg_type",
+                        "operator": "==",
+                        "value": "image"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0,
+            "mime_types": ""
+        },
+        {
+            "key": "field_work_slider_gradient_start",
+            "label": "Gradient Start Color",
+            "name": "gradient_start_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Select the starting color for the gradient",
+            "required": false,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_work_slider_bg_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#B0C7E0",
+            "enable_opacity": false,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_work_slider_gradient_end",
+            "label": "Gradient End Color",
+            "name": "gradient_end_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Select the ending color for the gradient",
+            "required": false,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_work_slider_bg_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#E8F4FA",
+            "enable_opacity": false,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_work_slider_gradient_direction",
+            "label": "Gradient Direction",
+            "name": "gradient_direction",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Select the direction of the gradient",
+            "required": false,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_work_slider_bg_type",
+                        "operator": "==",
+                        "value": "gradient"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "to bottom": "Top to Bottom",
+                "to top": "Bottom to Top",
+                "to right": "Left to Right",
+                "to left": "Right to Left",
+                "135deg": "Diagonal (Top-Left to Bottom-Right)",
+                "45deg": "Diagonal (Bottom-Left to Top-Right)"
+            },
+            "default_value": "177.31deg",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_work_slider_heading",
+            "label": "Heading (First Part)",
+            "name": "heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the first part of the heading (e.g., \"Our\")",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Our",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_work_slider_heading_color",
+            "label": "Heading Color",
+            "name": "heading_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Color for the main heading text (applies to heading and all slide titles)",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#333333",
+            "enable_opacity": false,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_work_slider_heading_span",
+            "label": "Heading (Highlighted Part)",
+            "name": "heading_span_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the highlighted part of the heading (e.g., \"Work\")",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Work",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_work_slider_heading_span_color",
+            "label": "Heading Span Color",
+            "name": "heading_span_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Color for the highlighted span text in heading",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#4a90e2",
+            "enable_opacity": false,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_work_slider_subheading",
+            "label": "Subheading",
+            "name": "subheading",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Enter the subheading\/description text below the main heading",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Powered solutions enabling intelligent automation, smarter document management, and enhanced enterprise collaboration across industries.",
+            "new_lines": "",
+            "maxlength": "",
+            "placeholder": "",
+            "rows": ""
+        },
+        {
+            "key": "field_work_slider_subheading_color",
+            "label": "Subheading Color",
+            "name": "subheading_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Color for the subheading text (applies to subheading and all slide descriptions)",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#666666",
+            "enable_opacity": false,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true,
+            "return_format": "string"
+        },
+        {
+            "key": "field_work_slider_slides",
+            "label": "Slides",
+            "name": "slides",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add slides to the work slider. Each slide will inherit the colors set above.",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "button_label": "Add Slide",
+            "min": 0,
+            "max": 0,
+            "rows_per_page": 20,
+            "collapsed": "",
+            "sub_fields": [
+                {
+                    "key": "field_work_slider_slide_image",
+                    "label": "Slide Image",
+                    "name": "image",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Upload an image for this slide",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "min_width": 0,
+                    "min_height": 0,
+                    "min_size": 0,
+                    "max_width": 0,
+                    "max_height": 0,
+                    "max_size": 0,
+                    "mime_types": "",
+                    "parent_repeater": "field_work_slider_slides"
+                },
+                {
+                    "key": "field_work_slider_slide_title",
+                    "label": "Slide Title",
+                    "name": "title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter the title for this slide (will use the heading color set above)",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_work_slider_slides"
+                },
+                {
+                    "key": "field_work_slider_slide_description",
+                    "label": "Slide Description",
+                    "name": "description",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Enter the description for this slide (will use the subheading color set above)",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "new_lines": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "rows": "",
+                    "parent_repeater": "field_work_slider_slides"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/work-slider"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [],
+    "active": true,
+    "description": "",
+    "show_in_rest": false,
+    "display_title": "",
+    "modified": 1770809472
+}

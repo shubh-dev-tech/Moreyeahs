@@ -71,7 +71,7 @@
   /* Image Wrapper Styles */
   .partnership-image-wrapper {
     width: 100%;
-    height: 120px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -222,12 +222,12 @@
 
   /* Enhanced Visual Effects */
   &[data-columns="3"] .partnership-item .partnership-image-wrapper {
-    height: 140px;
+    height: 80px;
   }
 
   &[data-columns="5"] .partnership-item .partnership-image-wrapper,
   &[data-columns="6"] .partnership-item .partnership-image-wrapper {
-    height: 100px;
+    height: 60px;
   }
 
   /* Loading Animation */
@@ -315,7 +315,7 @@
     }
 
     .partnership-slide .partnership-image-wrapper {
-      height: 90px;
+      height: 50px;
     }
   }
 
@@ -350,7 +350,7 @@
     }
     
     .partnership-image-wrapper {
-      height: 100px;
+      height: 40px;
       padding: 15px;
     }
     

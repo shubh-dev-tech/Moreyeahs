@@ -158,9 +158,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
             <div className="expertise-section">
               <div className="expertise-item">
                 <div className="expertise-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                  </svg>
+                  <img src="https://dev.moreyeahs.com/wp-content/uploads/2026/02/WorkspacePremiumOutlined-5.png" alt="Expertise Icon" width="32" height="32" />
                 </div>
                 <div className="expertise-content">
                   <h3 className="expertise-title">11+ Years of Expertise</h3>
@@ -170,9 +168,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
 
               <div className="expertise-item">
                 <div className="expertise-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
-                  </svg>
+                  <img src="https://dev.moreyeahs.com/wp-content/uploads/2026/02/HandshakeOutlined.png" alt="Handshake Icon" width="32" height="32" />
                 </div>
                 <div className="expertise-content">
                   <h3 className="expertise-title">100+ Satisfied Clients</h3>
@@ -182,9 +178,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
 
               <div className="expertise-item">
                 <div className="expertise-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 12.75c1.63 0 3.07.39 4.24.9 1.08.48 1.76 1.56 1.76 2.73V18H6v-1.61c0-1.18.68-2.26 1.76-2.73 1.17-.52 2.61-.91 4.24-.91zM4 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm1.13 1.1c-.37-.06-.74-.1-1.13-.1-.99 0-1.93.21-2.78.58C.48 14.9 0 15.62 0 16.43V18h4.5v-1.61c0-.83.23-1.61.63-2.29zM20 13c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm2.78 1.58c-.85-.37-1.79-.58-2.78-.58-.39 0-.76.04-1.13.1.4.68.63 1.46.63 2.29V18H24v-1.57c0-.81-.48-1.53-1.22-1.85zM12 6c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"/>
-                  </svg>
+                  <img src="https://dev.moreyeahs.com/wp-content/uploads/2026/02/GroupsOutlined-1.png" alt="Groups Icon" width="32" height="32" />
                 </div>
                 <div className="expertise-content">
                   <h3 className="expertise-title">150+ In House Team Members</h3>
@@ -196,7 +190,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
 
           {/* Contact Form */}
           <div className="contact-form-wrapper">
-            <h2 className="contact-title">Contact Us</h2>
+            {/* <h2 className="contact-title">Contact Us</h2> */}
             
             {message && (
               <div style={{
@@ -214,10 +208,12 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-row">
                 <div className="form-group">
+                  <label htmlFor="email">Email</label>
                   <input
+                    id="email"
                     type="email"
                     name="email"
-                    placeholder="Email"
+                    placeholder="Enter your Email"
                     value={formData.email}
                     onChange={handleInputChange}
                     required
@@ -226,10 +222,12 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
                   />
                 </div>
                 <div className="form-group">
+                  <label htmlFor="phone">Phone Number</label>
                   <input
+                    id="phone"
                     type="tel"
                     name="phone"
-                    placeholder="Phone Number"
+                    placeholder="Enter your Phone Number"
                     value={formData.phone}
                     onChange={handleInputChange}
                     className="form-input"
@@ -238,9 +236,11 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
                 </div>
               </div>
               <div className="form-group">
+                <label htmlFor="message">Message</label>
                 <textarea
+                  id="message"
                   name="message"
-                  placeholder="Write your message..."
+                  placeholder="Your message"
                   value={formData.message}
                   onChange={handleInputChange}
                   required

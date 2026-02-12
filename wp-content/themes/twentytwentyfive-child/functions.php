@@ -219,7 +219,7 @@ function register_case_study_post_type() {
         'query_var'             => true,
         'hierarchical'          => false,
         'supports'              => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields', 'revisions'),
-        'taxonomies'            => array('category', 'post_tag'), // Add default taxonomies
+        'taxonomies'            => array('industry', 'category', 'post_tag'), // Industries first, then categories and tags
         'can_export'            => true,
         'delete_with_user'      => false,
     );
@@ -229,10 +229,67 @@ function register_case_study_post_type() {
 add_action('init', 'register_case_study_post_type', 0);
 
 /**
+ * Register Industries Taxonomy for Case Studies
+ */
+function register_case_study_industries_taxonomy() {
+    $labels = array(
+        'name'                       => _x('Industries', 'taxonomy general name', 'twentytwentyfive'),
+        'singular_name'              => _x('Industry', 'taxonomy singular name', 'twentytwentyfive'),
+        'search_items'               => __('Search Industries', 'twentytwentyfive'),
+        'popular_items'              => __('Popular Industries', 'twentytwentyfive'),
+        'all_items'                  => __('All Industries', 'twentytwentyfive'),
+        'parent_item'                => __('Parent Industry', 'twentytwentyfive'),
+        'parent_item_colon'          => __('Parent Industry:', 'twentytwentyfive'),
+        'edit_item'                  => __('Edit Industry', 'twentytwentyfive'),
+        'update_item'                => __('Update Industry', 'twentytwentyfive'),
+        'add_new_item'               => __('Add New Industry', 'twentytwentyfive'),
+        'new_item_name'              => __('New Industry Name', 'twentytwentyfive'),
+        'separate_items_with_commas' => __('Separate industries with commas', 'twentytwentyfive'),
+        'add_or_remove_items'        => __('Add or remove industries', 'twentytwentyfive'),
+        'choose_from_most_used'      => __('Choose from the most used industries', 'twentytwentyfive'),
+        'not_found'                  => __('No industries found.', 'twentytwentyfive'),
+        'menu_name'                  => __('Industries', 'twentytwentyfive'),
+    );
+
+    $args = array(
+        'labels'                => $labels,
+        'description'           => __('Industries for organizing case studies', 'twentytwentyfive'),
+        'hierarchical'          => true, // Like categories (set to false if you want it like tags)
+        'public'                => true,
+        'publicly_queryable'    => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'show_in_nav_menus'     => true,
+        'show_in_rest'          => true, // Enable for Gutenberg and REST API
+        'rest_base'             => 'industries',
+        'rest_controller_class' => 'WP_REST_Terms_Controller',
+        'show_tagcloud'         => true,
+        'show_in_quick_edit'    => true,
+        'show_admin_column'     => true, // Show in admin columns
+        'rewrite'               => array(
+            'slug'         => 'industry',
+            'with_front'   => false,
+            'hierarchical' => true,
+        ),
+        'query_var'             => true,
+        'capabilities'          => array(
+            'manage_terms' => 'manage_categories',
+            'edit_terms'   => 'manage_categories',
+            'delete_terms' => 'manage_categories',
+            'assign_terms' => 'edit_posts',
+        ),
+    );
+
+    register_taxonomy('industry', array('case_study'), $args);
+}
+add_action('init', 'register_case_study_industries_taxonomy', 0);
+
+/**
  * Flush rewrite rules on theme activation
  */
 function case_study_flush_rewrites() {
     register_case_study_post_type();
+    register_case_study_industries_taxonomy();
     flush_rewrite_rules();
 }
 register_activation_hook(__FILE__, 'case_study_flush_rewrites');
@@ -242,6 +299,7 @@ register_activation_hook(__FILE__, 'case_study_flush_rewrites');
  */
 add_action('after_switch_theme', function() {
     register_case_study_post_type();
+    register_case_study_industries_taxonomy();
     flush_rewrite_rules();
 });
 
@@ -1334,6 +1392,46 @@ function twentytwentyfive_child_register_acf_blocks() {
                     ),
                     'right_paragraphs' => array(
                         array('text' => 'We specialize in building Microsoft powered environments that are stable, scalable, and designed for real world usage.')
+                    )
+                ),
+            ),
+        ),
+    ));
+
+    // Work Slider Block
+    acf_register_block_type(array(
+        'name'              => 'work-slider',
+        'title'             => __('Work Slider', 'twentytwentyfive'),
+        'description'       => __('Responsive slider showcasing work/projects with customizable background, colors, and dynamic slides', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'slides',
+        'keywords'          => array('work', 'slider', 'carousel', 'projects', 'portfolio', 'background'),
+        'render_template'   => 'blocks/work-slider/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/work-slider/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading' => 'Our',
+                    'heading_span_text' => 'Work',
+                    'subheading' => 'Powered solutions enabling intelligent automation, smarter document management, and enhanced enterprise collaboration across industries.',
+                    'background_type' => 'color',
+                    'background_color' => '#d4e4f0',
+                    'heading_color' => '#333333',
+                    'heading_span_color' => '#4a90e2',
+                    'subheading_color' => '#666666',
+                    'slides' => array(
+                        array(
+                            'title' => 'Defect Detection and Pit Mapping',
+                            'description' => 'A leading global aluminum and copper manufacturer involved in mining, refining, smelting, and value added metal solutions across industries.',
+                            'image' => ''
+                        )
                     )
                 ),
             ),
