@@ -2,9 +2,11 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import DiceTestimonialWrapper from '@/components/DiceTestimonialWrapper';
 import JsonLd from '@/components/JsonLd';
 import ClientBlockInitializer from '@/components/ClientBlockInitializer';
 import WordPressErrorHandler from '@/components/WordPressErrorHandler';
+import ScrollToTop from '@/components/ScrollToTop';
 import { AuthProvider } from '@/contexts/AuthContext';
 import './globals.scss';
 
@@ -51,7 +53,9 @@ export default function RootLayout({
             <main className="main-content">
               {children}
             </main>
+            <DiceTestimonialWrapper />
             <Footer />
+            <ScrollToTop />
           </div>
           <ClientBlockInitializer />
         </AuthProvider>

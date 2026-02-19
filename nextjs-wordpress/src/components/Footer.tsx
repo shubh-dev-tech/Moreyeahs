@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import ReactCountryFlag from 'react-country-flag';
 import { getFooterSettings } from '@/lib/wpFetch';
 import ContactSection from './ContactSection';
 
@@ -132,7 +133,30 @@ export default async function Footer() {
         address: "Indore, Madhya Pradesh, 452010",
         city_state: "Cedar Park, TX 78613"
       },
-      enable_contact_section: true
+      enable_contact_section: true,
+      privacy_policy_link: {
+        label: 'Privacy Policy',
+        url: '/privacy-policy'
+      },
+      terms_of_use_link: {
+        label: 'Terms & Conditions',
+        url: '/terms-and-conditions'
+      }
+    };
+  }
+
+  // Ensure privacy policy and terms links exist even if not in WordPress settings
+  if (!footerData.privacy_policy_link) {
+    footerData.privacy_policy_link = {
+      label: 'Privacy Policy',
+      url: '/privacy-policy'
+    };
+  }
+
+  if (!footerData.terms_of_use_link) {
+    footerData.terms_of_use_link = {
+      label: 'Terms & Conditions',
+      url: '/terms-and-conditions'
     };
   }
 
@@ -148,7 +172,7 @@ export default async function Footer() {
     copyright_text,
     privacy_policy_link,
     terms_of_use_link,
-    background_color = '#f8f9fa',
+    background_color = '#FFFFFF',
     text_color = '#333333',
     link_color = '#666666',
     link_hover_color = '#000000',
@@ -201,14 +225,83 @@ export default async function Footer() {
           <div className="footer-navigation">
             {renderColumn('Company', company_columns)}
             {renderColumn('About', about_columns)}
-            {renderColumn('Career', career_columns)}
-            {renderColumn('Services', services_columns)}
+            {/* {renderColumn('Career', career_columns)} */}
+            {renderColumn('Domain', services_columns)}
           </div>
 
           {/* Social Links Column */}
           {social_links && social_links.length > 0 && (
+            
             <div className="footer-social">
               <h3 className="footer-column-title">{follow_us_text}</h3>
+                <div className="contact-details">
+              {/* Email and Phone in parallel */}
+              <div className="contact-row">
+                {contact_info?.email && (
+                  <div className="contact-item">
+                    <div className="contact-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                      </svg>
+                    </div>
+                    <span className="contact-text">{contact_info.email}</span>
+                  </div>
+                )}
+                {contact_info?.phone && (
+                  <div className="contact-item">
+                    <div className="contact-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                      </svg>
+                    </div>
+                    <span className="contact-text">{contact_info.phone}</span>
+                  </div>
+                )}
+              </div>
+              
+              {/* Address at the bottom */}
+              <div className="contact-address-section">
+                {contact_info?.city_state && (
+                  <div className="contact-item">
+                    <div className="contact-icon">
+                      <ReactCountryFlag
+                        countryCode="US"
+                        svg
+                         style={{
+                          width: '24px',
+                          height: '24px',
+                           minWidth: '24px',
+                          minHeight: '24px',
+                          borderRadius: '50%',
+                          objectFit: 'cover',
+                          flexShrink: 0
+                        }}
+                      />
+                    </div>
+                    <span className="contact-text">{contact_info.city_state}</span>
+                  </div>
+                )}
+                {contact_info?.address && (
+                  <div className="contact-item">
+                    <div className="contact-icon">
+                      <ReactCountryFlag
+                        countryCode="IN"
+                        svg
+                        style={{
+                          width: '24px',
+                          minWidth: '24px',
+                          minHeight: '24px',
+                          borderRadius: '50%',
+                          objectFit: 'cover',
+                          flexShrink: 0
+                        }}
+                      />
+                    </div>
+                    <span className="contact-text">{contact_info.address}</span>
+                  </div>
+                )}
+              </div>
+            </div>
               <div className="social-links">
                 {social_links.map((social, index) => (
                   <Link

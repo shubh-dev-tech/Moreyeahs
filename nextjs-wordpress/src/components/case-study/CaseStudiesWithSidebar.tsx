@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import CaseStudyCard from './CaseStudyCard';
 
 interface ProcessedCaseStudyData {
@@ -21,13 +22,30 @@ interface CaseStudiesWithSidebarProps {
   caseStudies: ProcessedCaseStudyData[];
 }
 
+const INITIAL_CARDS = 6;
+const CARDS_PER_LOAD = 6;
+const INITIAL_LOADING_TIME = 2000; // 3 seconds
+const SCROLL_LOADING_DELAY = 600; // milliseconds
+
 const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
   caseStudies
 }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+  const [selectedIndustries, setSelectedIndustries] = useState<Set<number>>(new Set());
   const [selectedCategories, setSelectedCategories] = useState<Set<number>>(new Set());
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default closed on mobile
+  const [visibleCardsCount, setVisibleCardsCount] = useState(INITIAL_CARDS);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isIndustriesCollapsed, setIsIndustriesCollapsed] = useState(false);
+  const [isCategoriesCollapsed, setIsCategoriesCollapsed] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   // Optimized debounce for search (300ms)
   useEffect(() => {
@@ -37,6 +55,12 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
 
     return () => clearTimeout(timer);
   }, [searchQuery]);
+
+  // Reset visible cards count when filters change
+  useEffect(() => {
+    setVisibleCardsCount(INITIAL_CARDS);
+    setIsInitialLoading(true);
+  }, [debouncedSearchQuery, selectedIndustries, selectedCategories]);
 
   // Extract ALL categories from case studies
   const availableCategories = useMemo(() => {
@@ -120,6 +144,95 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [caseStudies]);
 
+  // Extract ALL industries from case studies
+  const availableIndustries = useMemo(() => {
+    const industryMap = new Map<number, { id: number; name: string; slug: string; count: number }>();
+    
+    caseStudies.forEach(caseStudy => {
+      const processedIndustries = new Set<number>(); // Track processed industries for this case study
+      
+      // Check embedded terms to get industry names and IDs
+      if (caseStudy._embedded && caseStudy._embedded['wp:term']) {
+        const terms = caseStudy._embedded['wp:term'];
+        if (Array.isArray(terms)) {
+          terms.forEach((taxonomyTerms: any[]) => {
+            if (Array.isArray(taxonomyTerms)) {
+              taxonomyTerms.forEach((term: any) => {
+                if (term && term.taxonomy === 'industry') {
+                  const termId = term.id || term.term_id;
+                  const termName = term.name || '';
+                  const termSlug = term.slug || '';
+                  
+                  if (termId && termName && !processedIndustries.has(termId)) {
+                    processedIndustries.add(termId);
+                    const existing = industryMap.get(termId) || { 
+                      id: termId, 
+                      name: termName, 
+                      slug: termSlug, 
+                      count: 0 
+                    };
+                    existing.count++;
+                    industryMap.set(termId, existing);
+                  }
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+    
+    return Array.from(industryMap.values())
+      .filter(ind => ind.count > 0)
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [caseStudies]);
+
+  // Initialize selected industries from URL on mount
+  useEffect(() => {
+    if (isInitialMount.current && availableIndustries.length > 0) {
+      const industryParam = searchParams.get('industry');
+      if (industryParam) {
+        const industrySlugs = industryParam.split(',').map(s => s.trim()).filter(Boolean);
+        const industryIds = new Set<number>();
+        
+        industrySlugs.forEach(slug => {
+          const industry = availableIndustries.find(ind => ind.slug === slug);
+          if (industry) {
+            industryIds.add(industry.id);
+          }
+        });
+        
+        if (industryIds.size > 0) {
+          setSelectedIndustries(industryIds);
+        }
+      }
+      isInitialMount.current = false;
+    }
+  }, [searchParams, availableIndustries]);
+
+  // Update URL when selected industries change (skip initial mount)
+  useEffect(() => {
+    if (!isInitialMount.current) {
+      const params = new URLSearchParams(searchParams.toString());
+      
+      if (selectedIndustries.size > 0) {
+        const industrySlugs = Array.from(selectedIndustries)
+          .map(id => availableIndustries.find(ind => ind.id === id)?.slug)
+          .filter(Boolean)
+          .join(',');
+        
+        if (industrySlugs) {
+          params.set('industry', industrySlugs);
+        }
+      } else {
+        params.delete('industry');
+      }
+      
+      const newUrl = params.toString() ? `?${params.toString()}` : '/case-study';
+      router.push(newUrl, { scroll: false });
+    }
+  }, [selectedIndustries, availableIndustries, router, searchParams]);
+
   // Filter categories based on search query (same search for both)
   const filteredCategories = useMemo(() => {
     if (!debouncedSearchQuery.trim()) {
@@ -132,7 +245,19 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
     );
   }, [availableCategories, debouncedSearchQuery]);
 
-  // Filter case studies based on search query and selected categories
+  // Filter industries based on search query (same search for both)
+  const filteredIndustries = useMemo(() => {
+    if (!debouncedSearchQuery.trim()) {
+      return availableIndustries;
+    }
+    
+    const query = debouncedSearchQuery.toLowerCase();
+    return availableIndustries.filter(ind => 
+      ind.name.toLowerCase().includes(query)
+    );
+  }, [availableIndustries, debouncedSearchQuery]);
+
+  // Filter case studies based on search query and selected categories/industries
   const filteredCaseStudies = useMemo(() => {
     let filtered = caseStudies;
 
@@ -144,6 +269,29 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
         caseStudy.excerpt.toLowerCase().includes(query) ||
         caseStudy.content.toLowerCase().includes(query)
       );
+    }
+
+    // Filter by selected industries
+    if (selectedIndustries.size > 0) {
+      filtered = filtered.filter(caseStudy => {
+        // Check embedded terms
+        if (caseStudy._embedded && caseStudy._embedded['wp:term']) {
+          const terms = caseStudy._embedded['wp:term'];
+          if (Array.isArray(terms)) {
+            for (const taxonomyTerms of terms) {
+              if (Array.isArray(taxonomyTerms)) {
+                const hasIndustry = taxonomyTerms.some((term: any) => {
+                  const isIndustry = term.taxonomy === 'industry';
+                  const termId = term.id || term.term_id;
+                  return isIndustry && selectedIndustries.has(termId);
+                });
+                if (hasIndustry) return true;
+              }
+            }
+          }
+        }
+        return false;
+      });
     }
 
     // Filter by selected categories
@@ -178,7 +326,81 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
     }
 
     return filtered;
-  }, [caseStudies, debouncedSearchQuery, selectedCategories]);
+  }, [caseStudies, debouncedSearchQuery, selectedIndustries, selectedCategories]);
+
+  // Initial loading: Show 6 cards, then loading for 3 seconds
+  useEffect(() => {
+    if (isInitialLoading && filteredCaseStudies.length > INITIAL_CARDS) {
+      const timer = setTimeout(() => {
+        setIsInitialLoading(false);
+      }, INITIAL_LOADING_TIME);
+
+      return () => clearTimeout(timer);
+    } else if (filteredCaseStudies.length <= INITIAL_CARDS) {
+      setIsInitialLoading(false);
+    }
+  }, [isInitialLoading, filteredCaseStudies.length]);
+
+  // Lazy loading with Intersection Observer (only after initial loading is done)
+  useEffect(() => {
+    if (isInitialLoading || visibleCardsCount >= filteredCaseStudies.length) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const target = entries[0];
+        if (target.isIntersecting && !isLoadingMore) {
+          const currentFilteredCount = filteredCaseStudies.length;
+          if (visibleCardsCount < currentFilteredCount) {
+            setIsLoadingMore(true);
+            // Add delay before loading more cards
+            setTimeout(() => {
+              setVisibleCardsCount((prev) => {
+                const nextCount = prev + CARDS_PER_LOAD;
+                setIsLoadingMore(false);
+                return Math.min(nextCount, currentFilteredCount);
+              });
+            }, SCROLL_LOADING_DELAY);
+          }
+        }
+      },
+      {
+        root: null,
+        rootMargin: '200px', // Start loading 200px before reaching the bottom
+        threshold: 0.1,
+      }
+    );
+
+    const currentRef = loadMoreRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+      observer.disconnect();
+    };
+  }, [visibleCardsCount, filteredCaseStudies.length, isLoadingMore, isInitialLoading]);
+
+  // Handle industry toggle
+  const handleIndustryToggle = useCallback((industryId: number) => {
+    setSelectedIndustries(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(industryId)) {
+        newSet.delete(industryId);
+      } else {
+        newSet.add(industryId);
+      }
+      return newSet;
+    });
+    // Close mobile sidebar after selection on small screens
+    if (window.innerWidth <= 768) {
+      setTimeout(() => setIsSidebarOpen(false), 300);
+    }
+  }, []);
 
   // Handle category toggle
   const handleCategoryToggle = useCallback((categoryId: number) => {
@@ -191,36 +413,79 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
       }
       return newSet;
     });
+    // Close mobile sidebar after selection on small screens
+    if (window.innerWidth <= 768) {
+      setTimeout(() => setIsSidebarOpen(false), 300);
+    }
   }, []);
 
   // Clear all filters
   const clearFilters = useCallback(() => {
     setSearchQuery('');
+    setSelectedIndustries(new Set());
     setSelectedCategories(new Set());
+    setIsSidebarOpen(false); // Close sidebar on mobile after clearing
   }, []);
 
   return (
     <div className="case-studies-with-sidebar">
-      <div className="filter-wrapper">
-        {/* Filter Toggle Button - Mobile Only */}
-        <button 
-          className={`filter-toggle-btn ${isSidebarOpen ? 'open' : 'closed'}`}
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          aria-label={isSidebarOpen ? 'Close filter sidebar' : 'Open filter sidebar'}
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            <circle cx="7" cy="6" r="2" fill="currentColor"/>
-            <circle cx="17" cy="12" r="2" fill="currentColor"/>
-            <circle cx="7" cy="18" r="2" fill="currentColor"/>
-          </svg>
-        </button>
+      {/* Mobile Filter Button - Only visible on mobile */}
+      <button 
+        className="mobile-filter-button"
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        aria-label="Open filters"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+        <span>Filters</span>
+        {(selectedIndustries.size > 0 || selectedCategories.size > 0) && (
+          <span className="filter-badge">{selectedIndustries.size + selectedCategories.size}</span>
+        )}
+      </button>
 
-        <div className="case-studies-layout-container">
-        {/* Left Sidebar */}
-        <aside className={`filter-sidebar ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+      <div className="filter-wrapper">
+        {/* Mobile Sidebar Overlay */}
+        {isSidebarOpen && (
+          <div 
+            className="mobile-sidebar-overlay"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
+        <div className={`case-studies-layout-container ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+        {/* Left Sidebar - Desktop: always visible, Mobile: slide-in drawer */}
+        <aside className={`filter-sidebar ${isSidebarOpen ? 'mobile-open' : ''} ${isSidebarCollapsed ? 'collapsed' : ''}`}>
+          {/* Sidebar Collapse Toggle Button */}
+          <button 
+            className="sidebar-collapse-toggle"
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            <svg 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none"
+              style={{ transform: isSidebarCollapsed ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease' }}
+            >
+              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          
           <div className="sidebar-container">
-            {/* Single Search Box - Works for both categories and case studies */}
+            {/* Mobile Close Button */}
+            {/* <button 
+              className="mobile-close-btn"
+              onClick={() => setIsSidebarOpen(false)}
+              aria-label="Close filters"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </button> */}
+
+            {/* Search Section */}
             <div className="search-section">
               <div className="search-input-wrapper">
                 <svg className="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -228,7 +493,7 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
                 </svg>
                 <input
                   type="text"
-                  placeholder="Search categories & case studies..."
+                  placeholder="Search case studies..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="search-input"
@@ -247,21 +512,89 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
               </div>
             </div>
 
+            {/* Industries Section */}
+            <div className="industries-section">
+              <div className="industries-header">
+                <h3 className="industries-title">Industries</h3>
+                <div className="header-actions">
+                  {selectedIndustries.size > 0 && (
+                    <button onClick={() => setSelectedIndustries(new Set())} className="clear-filters-btn">
+                      Clear
+                    </button>
+                  )}
+                  <button 
+                    onClick={() => setIsIndustriesCollapsed(!isIndustriesCollapsed)} 
+                    className="collapse-btn"
+                    aria-label={isIndustriesCollapsed ? "Expand industries" : "Collapse industries"}
+                  >
+                    <svg 
+                      width="16" 
+                      height="16" 
+                      viewBox="0 0 24 24" 
+                      fill="none"
+                      style={{ transform: isIndustriesCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease' }}
+                    >
+                      <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div className={`industries-list ${isIndustriesCollapsed ? 'collapsed' : ''}`}>
+                {availableIndustries.length > 0 ? (
+                  availableIndustries.map((industry) => (
+                    <label
+                      key={industry.id}
+                      className={`industry-checkbox-label ${selectedIndustries.has(industry.id) ? 'checked' : ''}`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedIndustries.has(industry.id)}
+                        onChange={() => handleIndustryToggle(industry.id)}
+                        className="industry-checkbox"
+                      />
+                      <span className="checkbox-custom"></span>
+                      <span className="industry-name">{industry.name}</span>
+                      <span className="industry-count">({industry.count})</span>
+                    </label>
+                  ))
+                ) : (
+                  <div className="no-industries">
+                    <p>No industries found</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* Categories Section */}
             <div className="categories-section">
               <div className="categories-header">
-                <h3 className="categories-title">Categories</h3>
-                {(selectedCategories.size > 0 || searchQuery) && (
-                  <button onClick={clearFilters} className="clear-filters-btn">
-                    Clear All
+                <h3 className="categories-title">Services</h3>
+                <div className="header-actions">
+                  {selectedCategories.size > 0 && (
+                    <button onClick={() => setSelectedCategories(new Set())} className="clear-filters-btn">
+                      Clear
+                    </button>
+                  )}
+                  <button 
+                    onClick={() => setIsCategoriesCollapsed(!isCategoriesCollapsed)} 
+                    className="collapse-btn"
+                    aria-label={isCategoriesCollapsed ? "Expand categories" : "Collapse categories"}
+                  >
+                    <svg 
+                      width="16" 
+                      height="16" 
+                      viewBox="0 0 24 24" 
+                      fill="none"
+                      style={{ transform: isCategoriesCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease' }}
+                    >
+                      <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                   </button>
-                )}
+                </div>
               </div>
-
-              {/* Categories List with Checkboxes */}
-              <div className="categories-list">
-                {filteredCategories.length > 0 ? (
-                  filteredCategories.map((category) => (
+              <div className={`categories-list ${isCategoriesCollapsed ? 'collapsed' : ''}`}>
+                {availableCategories.length > 0 ? (
+                  availableCategories.map((category) => (
                     <label
                       key={category.id}
                       className={`category-checkbox-label ${selectedCategories.has(category.id) ? 'checked' : ''}`}
@@ -291,13 +624,13 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
         <div className="case-studies-content">
           {filteredCaseStudies.length > 0 ? (
             <>
-              {(debouncedSearchQuery || selectedCategories.size > 0) && (
+              {(debouncedSearchQuery || selectedIndustries.size > 0 || selectedCategories.size > 0) && (
                 <div className="results-count">
                   Showing {filteredCaseStudies.length} of {caseStudies.length} case studies
                 </div>
               )}
               <div className="case-studies-grid">
-                {filteredCaseStudies.map((caseStudy) => (
+                {filteredCaseStudies.slice(0, visibleCardsCount).map((caseStudy) => (
                   <CaseStudyCard
                     key={caseStudy.id}
                     id={caseStudy.id}
@@ -308,13 +641,33 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
                   />
                 ))}
               </div>
+              
+              {/* Initial Loading Indicator (after 6 cards for 3 seconds) */}
+              {isInitialLoading && filteredCaseStudies.length > INITIAL_CARDS && (
+                <div className="loading-indicator">
+                  <div className="loading-spinner"></div>
+                  <p className="loading-text">Loading case studies...</p>
+                </div>
+              )}
+              
+              {/* Lazy Loading Trigger and Indicator */}
+              {!isInitialLoading && visibleCardsCount < filteredCaseStudies.length && (
+                <div ref={loadMoreRef} className="load-more-trigger">
+                  {isLoadingMore && (
+                    <div className="loading-indicator">
+                      <div className="loading-spinner"></div>
+                      <p className="loading-text">Loading more case studies...</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </>
           ) : (
             <div className="no-results">
               <div className="no-results-icon">🔍</div>
               <h3>No case studies found</h3>
               <p>Try adjusting your search or filters.</p>
-              {(searchQuery || selectedCategories.size > 0) && (
+              {(searchQuery || selectedIndustries.size > 0 || selectedCategories.size > 0) && (
                 <button onClick={clearFilters} className="reset-filters-btn">
                   Clear All Filters
                 </button>
@@ -336,8 +689,23 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           width: 100%;
         }
 
-        /* Filter Toggle Button - Hidden on Desktop, Visible on Mobile */
-        .filter-toggle-btn {
+        /* Mobile Filter Button - Hidden on Desktop */
+        .mobile-filter-button {
+          display: none;
+        }
+
+        /* Mobile Filter Bar - Hidden (using drawer instead) */
+        .mobile-filter-bar {
+          display: none;
+        }
+
+        /* Mobile Sidebar Overlay - Hidden on Desktop */
+        .mobile-sidebar-overlay {
+          display: none;
+        }
+
+        /* Mobile Close Button - Hidden on Desktop */
+        .mobile-close-btn {
           display: none;
         }
 
@@ -347,14 +715,50 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           align-items: flex-start;
         }
 
-        /* Left Sidebar */
+        /* Left Sidebar - Only visible on desktop */
         .filter-sidebar {
           flex-shrink: 0;
-          width: 320px;
+          width: 300px;
           position: sticky;
           top: 20px;
           align-self: flex-start;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .filter-sidebar.collapsed {
+          width: 50px;
+        }
+
+        .filter-sidebar.collapsed .sidebar-container {
+          opacity: 0;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        .sidebar-collapse-toggle {
+          position: absolute;
+          top: 20px;
+          right: -15px;
+          width: 30px;
+          height: 30px;
+          background: #ffffff;
+          border: 2px solid #FFFFFF66;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 10;
+          color: #6b7280;
+          transition: all 0.3s ease;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-collapse-toggle:hover {
+          background: #f9fafb;
+          border-color: #0891b2;
+          color: #0891b2;
+          transform: scale(1.1);
         }
 
         .sidebar-container {
@@ -363,9 +767,11 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           padding: 24px;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
           border: 1px solid #e5e7eb;
-          min-height: calc(100vh - 100px);
           display: flex;
           flex-direction: column;
+          min-height: calc(100vh - 150px);
+          max-height: calc(100vh - 150px);
+          transition: opacity 0.3s ease;
         }
 
         /* Search Section */
@@ -379,7 +785,7 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           align-items: center;
         }
 
-        .search-icon {
+        .sidebar-container .search-icon {
           position: absolute;
           left: 12px;
           color: #6b7280;
@@ -387,24 +793,25 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           z-index: 1;
         }
 
-        .search-input {
+        .sidebar-container .search-input {
           width: 100%;
           padding: 12px 40px 12px 40px;
-          border: 2px solid #e5e7eb;
+         border: 2px solid #FFFFFF66;
           border-radius: 8px;
           font-size: 0.95rem;
           transition: all 0.3s ease;
           background: #f9fafb;
+          box-sizing: border-box;
         }
 
-        .search-input:focus {
+        .sidebar-container .search-input:focus {
           outline: none;
           border-color: #0891b2;
           background: #ffffff;
           box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
         }
 
-        .clear-search-btn {
+        .sidebar-container .clear-search-btn {
           position: absolute;
           right: 8px;
           padding: 4px;
@@ -420,7 +827,7 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           z-index: 1;
         }
 
-        .clear-search-btn:hover {
+        .sidebar-container .clear-search-btn:hover {
           background: #f3f4f6;
           color: #374151;
         }
@@ -429,6 +836,156 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
         .categories-section {
           border-top: 1px solid #e5e7eb;
           padding-top: 24px;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          min-height: 0;
+          overflow: hidden;
+        }
+
+        /* Industries Section */
+        .industries-section {
+          border-top: 1px solid #e5e7eb;
+          padding-top: 24px;
+          margin-bottom: 24px;
+          display: flex;
+          flex-direction: column;
+          max-height: 300px;
+          overflow: hidden;
+        }
+
+        .industries-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 16px;
+          flex-shrink: 0;
+        }
+
+        .header-actions {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .collapse-btn {
+          padding: 4px;
+          background: transparent;
+          border: none;
+          color: #6b7280;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          transition: all 0.2s ease;
+        }
+
+        .collapse-btn:hover {
+          background: #f3f4f6;
+          color: #374151;
+        }
+
+        .industries-title {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin: 0;
+        }
+
+        .industries-list {
+          flex: 1;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          min-height: 0;
+          max-height: 300px;
+          transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+
+        .industries-list.collapsed {
+          max-height: 0;
+          opacity: 0;
+          overflow: hidden;
+          margin-bottom: 0;
+        }
+
+        .industries-list::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .industries-list::-webkit-scrollbar-track {
+          background: #f1f5f9;
+          border-radius: 3px;
+        }
+
+        .industries-list::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 3px;
+        }
+
+        .industries-list::-webkit-scrollbar-thumb:hover {
+          background: #94a3b8;
+        }
+
+        .industry-checkbox-label {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 12px;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          user-select: none;
+        }
+
+        .industry-checkbox-label:hover {
+          background: #f9fafb;
+        }
+
+        .industry-checkbox-label.checked {
+          background: #ecfeff;
+        }
+
+        .industry-checkbox {
+          display: none;
+        }
+
+        .industry-checkbox:checked + .checkbox-custom {
+          background: #0891b2;
+          border-color: #0891b2;
+        }
+
+        .industry-checkbox:checked + .checkbox-custom::after {
+          content: '✓';
+          color: white;
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        .industry-name {
+          flex: 1;
+          font-size: 0.95rem;
+          color: #374151;
+          font-weight: 500;
+        }
+
+        .industry-checkbox-label.checked .industry-name {
+          color: #0891b2;
+          font-weight: 600;
+        }
+
+        .industry-count {
+          font-size: 0.85rem;
+          color: #6b7280;
+          font-weight: 500;
+        }
+
+        .no-industries {
+          padding: 20px;
+          text-align: center;
+          color: #6b7280;
         }
 
         .categories-header {
@@ -436,6 +993,7 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           justify-content: space-between;
           align-items: center;
           margin-bottom: 16px;
+          flex-shrink: 0;
         }
 
         .categories-title {
@@ -470,6 +1028,14 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           flex-direction: column;
           gap: 8px;
           min-height: 0;
+          transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+
+        .categories-list.collapsed {
+          max-height: 0;
+          opacity: 0;
+          overflow: hidden;
+          margin-bottom: 0;
         }
 
         .categories-list::-webkit-scrollbar {
@@ -576,8 +1142,55 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
 
         .case-studies-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-          gap: 30px;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 24px;
+          transition: all 0.3s ease;
+        }
+
+        /* When sidebar is collapsed, show 3 cards per row */
+        .case-studies-layout-container.sidebar-collapsed .case-studies-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Loading Indicator */
+        .loading-indicator {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          padding: 40px 20px;
+          margin-top: 40px;
+        }
+
+        .loading-spinner {
+          width: 48px;
+          height: 48px;
+          border: 4px solid #e5e7eb;
+          border-top-color: #0891b2;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        .loading-text {
+          color: #6b7280;
+          font-size: 0.95rem;
+          font-weight: 500;
+          margin: 0;
+        }
+
+        .load-more-trigger {
+          margin-top: 40px;
+          min-height: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         /* No Results */
@@ -635,167 +1248,213 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
 
           .sidebar-container {
             min-height: calc(100vh - 120px);
+            max-height: calc(100vh - 120px);
             padding: 20px;
+          }
+
+          .case-studies-grid {
+            grid-template-columns: repeat(1, 1fr);
           }
         }
 
         @media (max-width: 768px) {
-          /* Show Toggle Button on Mobile */
-          .filter-toggle-btn {
+          /* Fix overflow on mobile screens only */
+          .case-studies-with-sidebar {
+            overflow-x: hidden;
+            max-width: 100%;
+            position: relative;
+          }
+
+          .filter-wrapper {
+            width: 100% !important;
+            max-width: 100%;
+            overflow-x: hidden;
+          }
+
+          /* Show Mobile Filter Button on Mobile */
+          .mobile-filter-button {
             display: flex;
-            position: absolute;
-            left: 10px;
-            top: -6px;
-            z-index: 1001;
-            width: 44px;
-            height: 44px;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
             background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
             cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(8, 145, 178, 0.3);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
           }
 
-          .filter-toggle-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 16px rgba(8, 145, 178, 0.5);
+          .mobile-filter-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(8, 145, 178, 0.3);
+          }
+
+          .filter-badge {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-left: 4px;
+          }
+
+          /* Mobile Sidebar Overlay */
+          .mobile-sidebar-overlay {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            animation: fadeIn 0.3s ease;
+          }
+
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+
+          /* Keep Mobile Filter Bar Hidden */
+          .mobile-filter-bar {
+            display: none !important;
+          }
+
+
+          /* Mobile Sidebar - Slide in from left */
+          .filter-sidebar {
+            position: fixed;
+            top: 80px;
+            left: -100%;
+            width: 85%;
+            max-width: 320px;
+            height: calc(100vh - 100px);
+            z-index: 999;
+            transition: left 0.3s ease-in-out;
+            overflow: visible;
+          }
+
+          .filter-sidebar.mobile-open {
+            left: 0;
+          }
+
+          /* Hide sidebar collapse toggle on mobile */
+          .sidebar-collapse-toggle {
+            display: none;
+          }
+
+          .sidebar-container {
+            height: 100%;
+            max-height: calc(100vh - 100px);
+            border-radius: 0 12px 12px 0;
+            padding: 20px;
+            position: relative;
+            overflow-y: auto;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+          }
+
+          .sidebar-container::-webkit-scrollbar {
+            width: 6px;
+          }
+
+          .sidebar-container::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 3px;
+          }
+
+          .sidebar-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+          }
+
+          .sidebar-container::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+          }
+
+          /* Mobile Close Button */
+          .mobile-close-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #374151;
+            transition: all 0.2s ease;
+            z-index: 10;
+          }
+
+          .mobile-close-btn:active {
+            background: #e5e7eb;
+            transform: scale(0.95);
           }
 
           .case-studies-layout-container {
-            gap: 15px;
-            flex-direction: row;
-            align-items: flex-start;
-            padding-top: 50px;
-          }
-
-          .filter-sidebar {
-            width: 240px;
-            flex-shrink: 0;
-            position: sticky;
-            top: 10px;
-          }
-
-          .filter-sidebar.sidebar-open {
-            opacity: 1;
-            transform: translateX(0);
-            pointer-events: auto;
-            visibility: visible;
-          }
-
-          .filter-sidebar.sidebar-closed {
-            opacity: 0;
-            transform: translateX(-100%);
-            pointer-events: none;
-            visibility: hidden;
-            width: 0;
-            margin-right: 0;
-            overflow: hidden;
+            gap: 0;
+            flex-direction: column;
+            align-items: stretch;
+            padding-top: 0;
           }
 
           .case-studies-content {
             flex: 1;
             min-width: 0;
-          }
-
-          .sidebar-container {
-            min-height: calc(100vh - 140px);
-            padding: 16px;
-            max-height: calc(100vh - 140px);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-          }
-
-          .categories-section {
-            flex: 1;
-            min-height: 0;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-          }
-
-          .categories-list {
-            flex: 1;
-            min-height: 0;
-            overflow-y: auto;
+            width: 100%;
           }
 
           .case-studies-grid {
             grid-template-columns: 1fr;
             gap: 20px;
           }
+
+          .load-more-trigger {
+            margin-top: 30px;
+            min-height: 80px;
+          }
+
+          .loading-indicator {
+            padding: 30px 15px;
+            gap: 12px;
+            margin-top: 30px;
+          }
+
+          .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border-width: 3px;
+          }
+
+          .loading-text {
+            font-size: 0.85rem;
+          }
         }
 
         @media (max-width: 480px) {
-          /* Toggle Button for Small Mobile */
-          .filter-toggle-btn {
-            left: 5px;
-            top: -6px;
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-          }
-
-          .case-studies-layout-container {
-            gap: 12px;
-            flex-direction: row;
-            padding-top: 45px;
+          .mobile-filter-button {
+            font-size: 0.9rem;
+            padding: 10px 18px;
           }
 
           .filter-sidebar {
-            width: 200px;
-          }
-
-          .filter-sidebar.sidebar-closed {
-            width: 0;
+            width: 90%;
           }
 
           .sidebar-container {
-            padding: 12px;
-            border-radius: 8px;
-            min-height: calc(100vh - 120px);
-            max-height: calc(100vh - 120px);
-          }
-
-          .search-input {
-            padding: 8px 32px 8px 32px;
-            font-size: 0.85rem;
-          }
-
-          .search-icon {
-            width: 16px;
-            height: 16px;
-            left: 10px;
-          }
-
-          .categories-title {
-            font-size: 0.95rem;
-          }
-
-          .category-checkbox-label {
-            padding: 8px 8px;
-            gap: 8px;
-          }
-
-          .checkbox-custom {
-            width: 18px;
-            height: 18px;
-          }
-
-          .category-name {
-            font-size: 0.85rem;
-          }
-
-          .category-count {
-            font-size: 0.75rem;
-          }
-
-          .categories-list {
-            gap: 6px;
+            padding: 16px;
           }
 
           .case-studies-grid {
@@ -805,6 +1464,27 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
           .results-count {
             font-size: 0.8rem;
             margin-bottom: 12px;
+          }
+
+          .load-more-trigger {
+            margin-top: 25px;
+            min-height: 70px;
+          }
+
+          .loading-indicator {
+            padding: 25px 12px;
+            gap: 10px;
+            margin-top: 25px;
+          }
+
+          .loading-spinner {
+            width: 36px;
+            height: 36px;
+            border-width: 3px;
+          }
+
+          .loading-text {
+            font-size: 0.8rem;
           }
         }
       `}</style>

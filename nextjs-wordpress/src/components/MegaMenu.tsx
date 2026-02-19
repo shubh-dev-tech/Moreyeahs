@@ -115,7 +115,7 @@ export default function MegaMenu({ trigger, menuData }: MegaMenuProps) {
                   >
                     {category.icon && <span className="category-icon">{category.icon}</span>}
                     <span className="category-title">{category.title}</span>
-                    <span className="category-arrow">▸</span>
+                    <span className="category-arrow"></span>
                   </li>
                 ))}
               </ul>

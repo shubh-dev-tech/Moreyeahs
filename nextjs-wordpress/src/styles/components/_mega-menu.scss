@@ -116,6 +116,18 @@
       opacity: 0;
       transition: opacity 0.2s ease;
       color: #007bff;
+      position: relative;
+      
+      &::after {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-right: 1.5px solid currentColor;
+        border-bottom: 1.5px solid currentColor;
+        transform: rotate(-45deg);
+        vertical-align: middle;
+      }
     }
 
     &:hover,

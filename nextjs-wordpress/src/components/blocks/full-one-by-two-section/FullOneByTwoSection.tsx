@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import './styles.scss';
 
@@ -31,6 +33,38 @@ interface FullOneByTwoSectionProps {
 const FullOneByTwoSection: React.FC<FullOneByTwoSectionProps> = ({
   data
 }) => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          } else {
+            // Add exit animation when scrolling away
+            setIsVisible(false);
+          }
+        });
+      },
+      {
+        threshold: 0.2, // Trigger when 20% of the element is visible
+        rootMargin: '0px'
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   // Safety check for data
   if (!data) {
     console.warn('FullOneByTwoSection: No data provided');
@@ -116,7 +150,8 @@ const FullOneByTwoSection: React.FC<FullOneByTwoSectionProps> = ({
 
   const sectionClasses = [
     'full-one-by-two-section',
-    isReversed ? 'reverse-layout' : ''
+    isReversed ? 'reverse-layout' : '',
+    isVisible ? 'is-visible' : ''
   ].filter(Boolean).join(' ');
 
   const sectionStyles = {
@@ -125,7 +160,7 @@ const FullOneByTwoSection: React.FC<FullOneByTwoSectionProps> = ({
   };
 
   return (
-    <section className={sectionClasses} style={sectionStyles}>
+    <section ref={sectionRef} className={sectionClasses} style={sectionStyles}>
       <div className="full-one-by-two-container">
         <div className="content-half">
           {heading && (

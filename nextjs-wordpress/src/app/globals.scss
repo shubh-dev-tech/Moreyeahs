@@ -60,3 +60,38 @@ img, video, iframe, embed, object {
   max-width: 100vw;
   overflow-x: hidden;
 }
+/* Page Loader Styles */
+.page-loader-active {
+  overflow: hidden !important;
+}
+
+/* Ensure loader appears above everything */
+.page-loader {
+  z-index: 99999 !important;
+}
+
+/* Smooth transitions for content */
+.main-content {
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Prevent flash of unstyled content during loading */
+.site-wrapper {
+  min-height: 100vh;
+}
+
+/* Optimize loader performance */
+.pageLoader * {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Ensure smooth animations on all devices */
+@media (prefers-reduced-motion: reduce) {
+  .pageLoader * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

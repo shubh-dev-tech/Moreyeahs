@@ -376,7 +376,7 @@ const ServiceTestimonial: React.FC<ServiceTestimonialProps> = ({
               <button 
                 className="nav-btn prev-btn"
                 onClick={() => moveSlider('prev')}
-                disabled={isAnimating}
+                // disabled={isAnimating}
                 style={{ borderColor: accent_color }}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -387,7 +387,7 @@ const ServiceTestimonial: React.FC<ServiceTestimonialProps> = ({
               <button 
                 className="nav-btn next-btn"
                 onClick={() => moveSlider('next')}
-                disabled={isAnimating}
+                // disabled={isAnimating}
                 style={{ borderColor: accent_color }}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

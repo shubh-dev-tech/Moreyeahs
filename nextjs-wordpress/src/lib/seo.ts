@@ -1,49 +1,8 @@
 import { Metadata } from 'next';
 import { Post, SEO } from './types';
-import { getSiteSettings, fetchGraphQL } from './wordpress';
+import { getSiteSettings, fetchRestAPI } from './wordpress';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
-
-// GraphQL query to fetch page SEO data from Yoast
-const GET_PAGE_SEO = `
-  query GetPageSEO($slug: ID!) {
-    page(id: $slug, idType: SLUG) {
-      id
-      title
-      slug
-      seo {
-        title
-        metaDesc
-        canonical
-        opengraphTitle
-        opengraphDescription
-        opengraphImage {
-          sourceUrl
-        }
-        twitterTitle
-        twitterDescription
-        twitterImage {
-          sourceUrl
-        }
-        metaRobotsNoindex
-        metaRobotsNofollow
-        schema {
-          raw
-        }
-      }
-    }
-  }
-`;
-
-// Interface for page SEO data from WordPress
-interface PageSEOData {
-  page: {
-    id: string;
-    title: string;
-    slug: string;
-    seo: SEO;
-  };
-}
 
 // Helper to get site settings with fallback
 async function getSiteInfo() {
@@ -159,35 +118,25 @@ export function truncateText(text: string, maxLength: number = 160): string {
  */
 export async function generatePageMetadata(slug: string): Promise<Metadata> {
   try {
-    // Try GraphQL first, but fallback to REST API if GraphQL fails
+    // Use REST API to fetch page data with Yoast SEO
     let pageData: any = null;
     let seo: any = null;
 
-    try {
-      const data = await fetchGraphQL<PageSEOData>(GET_PAGE_SEO, { slug });
-      if (data?.page) {
-        pageData = data.page;
-        seo = data.page.seo;
-      }
-    } catch (graphqlError) {
-      // GraphQL failed, try REST API with Yoast SEO data
-      console.log(`GraphQL failed for ${slug}, trying REST API...`);
-      const restResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost/moreyeahs-new'}/wp-json/wp/v2/pages?slug=${slug}&_embed`,
-        { next: { revalidate: 3600 } }
-      );
-      
-      if (restResponse.ok) {
-        const pages = await restResponse.json();
-        if (pages && pages.length > 0) {
-          const page = pages[0];
-          pageData = {
-            title: page.title?.rendered || '',
-            slug: page.slug
-          };
-          // Extract Yoast SEO data if available in the response
-          seo = page.yoast_head_json || null;
-        }
+    const restResponse = await fetch(
+      `${process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost/moreyeahs-new'}/wp-json/wp/v2/pages?slug=${slug}&_embed`,
+      { next: { revalidate: 3600 } }
+    );
+    
+    if (restResponse.ok) {
+      const pages = await restResponse.json();
+      if (pages && pages.length > 0) {
+        const page = pages[0];
+        pageData = {
+          title: page.title?.rendered || '',
+          slug: page.slug
+        };
+        // Extract Yoast SEO data if available in the response
+        seo = page.yoast_head_json || null;
       }
     }
 

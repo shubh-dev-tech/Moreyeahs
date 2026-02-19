@@ -333,7 +333,7 @@ const DiceTestimonial: React.FC<DiceTestimonialProps> = ({ data }) => {
               <button 
                 className="nav-btn prev-btn"
                 onClick={() => moveSlider('prev')}
-                disabled={isAnimating}
+                // disabled={isAnimating}
                 style={{ borderColor: accent_color }}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -344,7 +344,7 @@ const DiceTestimonial: React.FC<DiceTestimonialProps> = ({ data }) => {
               <button 
                 className="nav-btn next-btn"
                 onClick={() => moveSlider('next')}
-                disabled={isAnimating}
+                // disabled={isAnimating}
                 style={{ borderColor: accent_color }}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import CaseStudiesWithSidebar from '@/components/case-study/CaseStudiesWithSidebar';
 import { generatePageMetadata } from '@/lib/seo';
+import styles from './page.module.css';
 
 // Interface for processed case study data (strings only)
 interface ProcessedCaseStudyData {
@@ -185,34 +186,42 @@ async function getCaseStudiesFromPosts(apiUrl: string): Promise<ProcessedCaseStu
   }
 }
 
-export default async function CaseStudiesPage() {
+export default async function CaseStudiesPage({
+  searchParams,
+}: {
+  searchParams: { industry?: string; category?: string };
+}) {
   const caseStudies = await getCaseStudies();
 
   return (
-    <main className="case-studies-archive">
-      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '90px 20px' }}>
-        <header style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <h1 style={{ fontSize: '3rem', marginBottom: '20px', fontWeight: 'bold' }}>
-            Case Studies
-          </h1>
-          <p style={{ fontSize: '1.25rem', color: '#666', maxWidth: '700px', margin: '0 auto' }}>
+    <div className={styles['case-study-page']}>
+      {/* Hero Section */}
+      <section className={styles['case-study-hero']}>
+        <div className={styles.container}>
+          <h1 className={styles['case-study-hero__title']}>Case Studies</h1>
+          <p className={styles['case-study-hero__subtitle']}>
             Discover how we&apos;ve helped businesses transform and achieve their goals
           </p>
-        </header>
+        </div>
+      </section>
 
-        {caseStudies.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-            <p style={{ fontSize: '1.25rem', color: '#666' }}>No case studies found.</p>
-            <p style={{ marginTop: '20px' }}>
-              <Link href="/" style={{ color: '#0070f3', textDecoration: 'underline' }}>
-                Go back home
-              </Link>
-            </p>
-          </div>
-        ) : (
-          <CaseStudiesWithSidebar caseStudies={caseStudies} />
-        )}
-      </div>
-    </main>
+      {/* Case Studies Content */}
+      <section className={styles['case-study-content-section']}>
+        <div className={styles.container}>
+          {caseStudies.length === 0 ? (
+            <div className={styles['no-case-studies']}>
+              <p>No case studies found. Check back soon!</p>
+              <p style={{ marginTop: '20px' }}>
+                <Link href="/">Go back home</Link>
+              </p>
+            </div>
+          ) : (
+            <CaseStudiesWithSidebar 
+              caseStudies={caseStudies}
+            />
+          )}
+        </div>
+      </section>
+    </div>
   );
 }

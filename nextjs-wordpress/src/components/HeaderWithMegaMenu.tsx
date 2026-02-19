@@ -3,13 +3,14 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { IoChevronDown } from 'react-icons/io5';
 import { MenuItem } from '@/types/menu';
 import { wpUrlToPath } from '@/lib/url-utils';
 import MegaMenu, { MegaMenuData } from './MegaMenu';
 import MobileMenu from './MobileMenu';
 import { transformMediaUrl } from '@/lib/wpFetch';
 import { useBackgroundDetection } from '@/hooks/useBackgroundDetection';
+import { usePathname } from 'next/navigation';
 
 interface HeaderWithMegaMenuProps {
   siteName: string;
@@ -50,6 +51,7 @@ function MenuItems({ items, megaMenuMap, disableMegaMenu = false }: { items: Men
                     rel={isCareerItem ? 'noopener noreferrer' : undefined}
                   >
                     {item.title}
+                    {hasChildren && <IoChevronDown className="menu-chevron" />}
                   </a>
                 ) : (
                   <Link 
@@ -58,6 +60,7 @@ function MenuItems({ items, megaMenuMap, disableMegaMenu = false }: { items: Men
                     className={item.classes}
                   >
                     {item.title}
+                    {hasChildren && <IoChevronDown className="menu-chevron" />}
                   </Link>
                 )}
                 
@@ -76,18 +79,22 @@ function MenuItems({ items, megaMenuMap, disableMegaMenu = false }: { items: Men
 }
 
 export default function HeaderWithMegaMenu({ siteName, logo, primaryMenuItems, secondMenuItems, megaMenus }: HeaderWithMegaMenuProps) {
-  // Get current pathname to trigger background check on route changes
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [hideDefaultHeader, setHideDefaultHeader] = useState(false);
   const pathname = usePathname();
   
-  // Dynamic logo URLs
-  const lightBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Moreyeahs-Logo-7.png';
-  const darkBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Logo-1.png';
+  // Detect background color for default header
+  const isDarkBackground = useBackgroundDetection('.header--transparent', [pathname]);
   
-  // Detect background color (re-check when pathname changes)
-  const isDarkBackground = useBackgroundDetection('.header', [pathname]);
+  // Logo URLs
+  const lightBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Moreyeahs-Logo-7.png'; // Black logo
+  const darkBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Logo-1.png'; // White logo
   
-  // Choose logo based on background
-  const currentLogoUrl = isDarkBackground ? darkBgLogoUrl : lightBgLogoUrl;
+  // Choose logo based on background for default header
+  const defaultHeaderLogoUrl = isDarkBackground ? darkBgLogoUrl : lightBgLogoUrl;
+  // Sticky header always uses black logo
+  const stickyHeaderLogoUrl = lightBgLogoUrl;
+  
   // Create a flexible mega menu mapping that handles variations
   const megaMenuMap: Record<string, MegaMenuData> = megaMenus.reduce((acc, menu) => {
     const key = menu.title.toLowerCase().trim();
@@ -105,95 +112,134 @@ export default function HeaderWithMegaMenu({ siteName, logo, primaryMenuItems, s
     return acc;
   }, {} as Record<string, MegaMenuData>);
 
-  // State for menu visibility
-  const [isMenuHidden, setIsMenuHidden] = useState(false);
-
-  // Scroll detection
+  // Detect scroll to show/hide headers
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    let lastScrollY = window.scrollY || 0;
-    let ticking = false;
-
+    let lastScrollY = window.scrollY;
+    
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-          const scrollDifference = currentScrollY - lastScrollY;
-
-          // Only show menu when at top (scrollY <= 50)
-          // Hide menu when scrolled down, regardless of scroll direction
-          if (currentScrollY <= 50) {
-            // At top - show menu
-            setIsMenuHidden(false);
-          } else {
-            // Scrolled down - hide menu (even when scrolling up)
-            setIsMenuHidden(true);
-          }
-
-          lastScrollY = currentScrollY <= 0 ? 0 : currentScrollY;
-          ticking = false;
-        });
-        ticking = true;
+      const currentScrollY = window.scrollY;
+      const firstSectionHeight = window.innerHeight * 0.8; // 80vh as example
+      
+      // Hide default header when scrolling down
+      if (currentScrollY > 100) {
+        setHideDefaultHeader(true);
+      } else {
+        setHideDefaultHeader(false);
       }
+      
+      // Show sticky header after first section
+      setIsScrolled(currentScrollY > firstSectionHeight);
+      
+      lastScrollY = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <header className="header">
-      <div className="">
-        <nav className="header__nav">
-          <Link href="/" className="header__logo">
-            <Image
-              src={currentLogoUrl}
-              alt={siteName}
-              width={220}
-              height={50}
-              priority
-              className="header__logo-image"
-            />
-          </Link>
-          
-          {/* Desktop Primary Menu */}
-          {primaryMenuItems.length > 0 ? (
-            <ul className={`header__menu ${isMenuHidden ? 'header__menu--hidden' : ''} ${isDarkBackground ? 'header__menu--dark-bg' : 'header__menu--light-bg'}`}>
-              <MenuItems items={primaryMenuItems} megaMenuMap={megaMenuMap} disableMegaMenu={true} />
-            </ul>
-          ) : (
-            <ul className={`header__menu ${isMenuHidden ? 'header__menu--hidden' : ''} ${isDarkBackground ? 'header__menu--dark-bg' : 'header__menu--light-bg'}`}>
-              <li>
-                <Link href="/">Home</Link>
-              </li>
-            </ul>
-          )}
-
-          {/* Desktop & Mobile Burger Menu */}
-          <div className={`header__actions ${isDarkBackground ? 'header__actions--dark-bg' : 'header__actions--light-bg'}`}>
-            {/* Search Icon (optional) */}
-            <button className={`header__search-btn ${isDarkBackground ? 'header__search-btn--dark-bg' : 'header__search-btn--light-bg'}`} aria-label="Search">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="2"/>
-                <path d="M12.5 12.5L17 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </button>
+    <>
+      {/* Default Transparent Header - Hides on scroll */}
+      <header className={`header header--transparent ${hideDefaultHeader ? 'header--hidden' : ''} ${isDarkBackground ? 'header--dark-bg' : 'header--light-bg'}`}>
+        <div className="contai-new">
+          <nav className="header__nav">
+            <Link href="/" className="header__logo">
+              <Image
+                src={defaultHeaderLogoUrl}
+                alt={siteName}
+                width={220}
+                height={50}
+                priority
+                className="header__logo-image"
+              />
+            </Link>
             
-            {/* Burger Menu */}
-            <MobileMenu 
-              items={secondMenuItems.length > 0 ? secondMenuItems : primaryMenuItems}
-              logo={{ url: currentLogoUrl, alt: siteName, width: 220, height: 50 }}
-              siteName={siteName}
-              megaMenus={megaMenus}
-              isDarkBackground={isDarkBackground}
-            />
-          </div>
-        </nav>
-      </div>
-    </header>
+            {/* Desktop Primary Menu */}
+            {primaryMenuItems.length > 0 ? (
+              <ul className={`header__menu ${isDarkBackground ? 'header__menu--dark-bg' : 'header__menu--light-bg'}`}>
+                <MenuItems items={primaryMenuItems} megaMenuMap={megaMenuMap} disableMegaMenu={true} />
+              </ul>
+            ) : (
+              <ul className={`header__menu ${isDarkBackground ? 'header__menu--dark-bg' : 'header__menu--light-bg'}`}>
+                <li>
+                  <Link href="/">Home</Link>
+                </li>
+              </ul>
+            )}
+
+            {/* Desktop & Mobile Burger Menu */}
+            <div className={`header__actions ${isDarkBackground ? 'header__actions--dark-bg' : 'header__actions--light-bg'}`}>
+              {/* Search Icon (optional) */}
+              <button className={`header__search-btn ${isDarkBackground ? 'header__search-btn--dark-bg' : 'header__search-btn--light-bg'}`} aria-label="Search">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M12.5 12.5L17 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </button>
+              
+              {/* Burger Menu */}
+              <MobileMenu 
+                items={secondMenuItems.length > 0 ? secondMenuItems : primaryMenuItems}
+                logo={{ url: defaultHeaderLogoUrl, alt: siteName, width: 220, height: 50 }}
+                siteName={siteName}
+                megaMenus={megaMenus}
+                isDarkBackground={isDarkBackground}
+              />
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      {/* Sticky Header - Fades in on scroll */}
+      <header className={`header header--sticky ${isScrolled ? 'header--visible' : ''}`}>
+        <div className="contai-new">
+          <nav className="header__nav">
+            <Link href="/" className="header__logo">
+              <Image
+                src={stickyHeaderLogoUrl}
+                alt={siteName}
+                width={220}
+                height={50}
+                priority
+                className="header__logo-image"
+              />
+            </Link>
+            
+            {/* Desktop Primary Menu */}
+            {primaryMenuItems.length > 0 ? (
+              <ul className="header__menu header__menu--light-bg">
+                <MenuItems items={primaryMenuItems} megaMenuMap={megaMenuMap} disableMegaMenu={true} />
+              </ul>
+            ) : (
+              <ul className="header__menu header__menu--light-bg">
+                <li>
+                  <Link href="/">Home</Link>
+                </li>
+              </ul>
+            )}
+
+            {/* Desktop & Mobile Burger Menu */}
+            <div className="header__actions header__actions--light-bg">
+              {/* Search Icon (optional) */}
+              <button className="header__search-btn header__search-btn--light-bg" aria-label="Search">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M12.5 12.5L17 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </button>
+              
+              {/* Burger Menu */}
+              <MobileMenu 
+                items={secondMenuItems.length > 0 ? secondMenuItems : primaryMenuItems}
+                logo={{ url: stickyHeaderLogoUrl, alt: siteName, width: 220, height: 50 }}
+                siteName={siteName}
+                megaMenus={megaMenus}
+                isDarkBackground={false}
+              />
+            </div>
+          </nav>
+        </div>
+      </header>
+    </>
   );
 }

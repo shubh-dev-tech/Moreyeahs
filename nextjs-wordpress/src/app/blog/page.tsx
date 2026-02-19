@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
-import BlogCard from '@/components/blog/BlogCard';
 import { generatePageMetadata } from '@/lib/seo';
 import styles from './Blog.module.css';
+import BlogPostsWithLoading from '@/components/blog/BlogPostsWithLoading';
+
 
 // Interface for processed blog post data
 interface ProcessedBlogData {
@@ -107,9 +107,9 @@ export default async function BlogPage() {
       <section className={styles['blog-hero']}>
         <div className={styles.container}>
           <h1 className={styles['blog-hero__title']}>Our Blog</h1>
-          <p className={styles['blog-hero__subtitle']}>
+          {/* <p className={styles['blog-hero__subtitle']}>
             Insights, updates, and stories from our team
-          </p>
+          </p> */}
         </div>
       </section>
 
@@ -121,21 +121,7 @@ export default async function BlogPage() {
               <p>No blog posts found. Check back soon!</p>
             </div>
           ) : (
-            <div className={styles['blog-grid']}>
-              {posts.map((post) => (
-                <BlogCard
-                  key={post.id}
-                  id={post.id}
-                  title={post.title}
-                  slug={post.slug}
-                  excerpt={post.excerpt}
-                  featured_image={post.featured_image}
-                  date={post.date}
-                  author={post.author}
-                  categories={post.categories}
-                />
-              ))}
-            </div>
+            <BlogPostsWithLoading posts={posts} gridClassName={styles['blog-grid']} />
           )}
         </div>
       </section>

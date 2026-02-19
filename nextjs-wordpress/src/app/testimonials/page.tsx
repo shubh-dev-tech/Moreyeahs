@@ -1,5 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
+import Image from 'next/image';
 import { getPageWithBlocks } from '@/lib/wpFetch';
 import { generatePageMetadata } from '@/lib/seo';
 
@@ -123,9 +124,11 @@ export default async function TestimonialsPage() {
               >
                 {testimonial.image?.url && (
                   <div className="mb-4">
-                    <img
+                    <Image
                       src={testimonial.image.url}
                       alt={testimonial.image.alt || testimonial.name}
+                      width={64}
+                      height={64}
                       className="w-16 h-16 rounded-full mx-auto object-cover"
                     />
                   </div>

@@ -83,7 +83,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
             />
           )}
           
-          <div className="blog-card__meta">
+          {/* <div className="blog-card__meta">
             <div className="blog-card__author">
               {author.avatar && (
                 <Image
@@ -97,7 +97,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
               <span className="blog-card__author-name">{author.name}</span>
             </div>
             <span className="blog-card__date">{formatDate(date)}</span>
-          </div>
+          </div> */}
           
           <div className="blog-card__link">
             Read More

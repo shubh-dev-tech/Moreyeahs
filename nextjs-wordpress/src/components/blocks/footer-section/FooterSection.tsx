@@ -210,7 +210,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ data }) => {
               <div className="contact-content">
                 {/* Contact Information */}
                 <div className="contact-info">
-                  <h2 className="contact-title">Contact Information</h2>
+                  <h2 className="contact-title">Contact Information1</h2>
                   <div className="contact-details">
                     {contact_info?.email && (
                       <div className="contact-item">

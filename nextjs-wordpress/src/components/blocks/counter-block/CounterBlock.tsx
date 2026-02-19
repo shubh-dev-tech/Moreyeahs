@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
 import './styles.scss';
 
 interface CounterItem {
@@ -25,6 +27,71 @@ export default function CounterBlock({ data }: CounterBlockProps) {
     background_color
   } = data || {};
 
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const [counterValues, setCounterValues] = useState<number[]>([]);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Initialize counter values to 0
+  useEffect(() => {
+    if (counters) {
+      setCounterValues(new Array(counters.length).fill(0));
+    }
+  }, [counters]);
+
+  // Animate counter when section is visible
+  useEffect(() => {
+    if (!counters || hasAnimated) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+            
+            // Animate each counter
+            counters.forEach((counter, index) => {
+              const targetValue = parseFloat(counter.number || '0');
+              const duration = 2000; // 2 seconds
+              const steps = 60;
+              const increment = targetValue / steps;
+              const stepDuration = duration / steps;
+              
+              let currentStep = 0;
+              
+              const timer = setInterval(() => {
+                currentStep++;
+                const newValue = Math.min(increment * currentStep, targetValue);
+                
+                setCounterValues((prev) => {
+                  const updated = [...prev];
+                  updated[index] = newValue;
+                  return updated;
+                });
+                
+                if (currentStep >= steps) {
+                  clearInterval(timer);
+                }
+              }, stepDuration);
+            });
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      const currentSection = sectionRef.current;
+      if (currentSection) {
+        observer.unobserve(currentSection);
+      }
+    };
+  }, [counters, hasAnimated]);
+
+  // Early return after all hooks
   if (!heading && !sub_heading && (!counters || counters.length === 0)) {
     return null;
   }
@@ -38,8 +105,19 @@ export default function CounterBlock({ data }: CounterBlockProps) {
     backgroundColor: backgroundColor
   };
 
+  // Format counter value
+  const formatCounterValue = (value: number, originalNumber: string): string => {
+    // Check if original number has decimals
+    const hasDecimals = originalNumber.includes('.');
+    if (hasDecimals) {
+      const decimalPlaces = originalNumber.split('.')[1]?.length || 1;
+      return value.toFixed(decimalPlaces);
+    }
+    return Math.floor(value).toString();
+  };
+
   return (
-    <section id={blockId} className="counter-block" style={blockStyles}>
+    <section ref={sectionRef} id={blockId} className="counter-block" style={blockStyles}>
       <div className="counter-block__container">
         {(heading || sub_heading) && (
           <div className="counter-block__header">
@@ -61,7 +139,9 @@ export default function CounterBlock({ data }: CounterBlockProps) {
                   {counter.prefix && (
                     <span className="counter-block__prefix">{counter.prefix}</span>
                   )}
-                  <span className="counter-block__value">{counter.number}</span>
+                  <span className="counter-block__value">
+                    {formatCounterValue(counterValues[index] || 0, counter.number || '0')}
+                  </span>
                   {counter.suffix && (
                     <span className="counter-block__suffix">{counter.suffix}</span>
                   )}

@@ -446,9 +446,9 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
                       target.src = 'https://via.placeholder.com/400x200/4a148c/ffffff?text=Image+Not+Found';
                     }}
                   />
-                  <div className="stories-blog-block__card-label">
+                  {/* <div className="stories-blog-block__card-label">
                     {getPostTypeLabel()}
-                  </div>
+                  </div> */}
                 </div>
                 <div className="stories-blog-block__card-content">
                   <h3 className="stories-blog-block__card-title">

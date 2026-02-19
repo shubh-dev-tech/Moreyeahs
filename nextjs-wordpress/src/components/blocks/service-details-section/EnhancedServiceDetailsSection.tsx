@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import Image from 'next/image';
 import './styles.scss';
 
 interface ServiceFeature {
@@ -129,7 +130,7 @@ const EnhancedServiceDetailsSection: React.FC<EnhancedServiceDetailsSectionProps
               {service.service_features.map((feature, index) => (
                 <div key={index} className="service-feature">
                   {feature.feature_icon && (
-                    <img 
+                    <Image 
                       src={feature.feature_icon.url} 
                       alt={feature.feature_icon.alt}
                       className="feature-icon"
@@ -241,7 +242,7 @@ const EnhancedServiceDetailsSection: React.FC<EnhancedServiceDetailsSectionProps
                       {/* Service Icon */}
                       {service.service_icon && (
                         <div className="service-icon">
-                          <img 
+                          <Image 
                             src={service.service_icon.url} 
                             alt={service.service_icon.alt || service.service_title}
                             width={64}

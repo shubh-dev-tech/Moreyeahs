@@ -6,14 +6,16 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 4px;
     z-index: 1001;
     border-radius: 50%;
     @include transition(background-color 0.2s ease);
-    width: 44px;
-    height: 44px;
+    width: 30px;
+    height: 30px;
     align-items: center;
     justify-content: center;
+         margin-top: 10px;
+    margin-bottom: 10px;
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.05);
@@ -123,11 +125,12 @@
     background: none;
     border: 2px solid #000;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0rem;
     color: #000;
     border-radius: 50%;
-    width: 48px;
-    height: 48px;
+    width: 34px;
+    height: 34px;
+    margin-top: 6px;
     @include flex-center;
     @include transition(all 0.2s ease);
 
@@ -502,19 +505,20 @@
   @include transition(transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease);
   border-radius: 2px;
   
+  
   // Default white color
   background-color: #ffffff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  // box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 
   // Dynamic background-based styling with higher specificity
   &--dark-bg {
     background-color: #ffffff !important;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    // box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
 
   &--light-bg {
-    background-color: #000000 !important;
-    box-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+    background-color: #202020 !important;
+    // box-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
   }
 
   &.open {

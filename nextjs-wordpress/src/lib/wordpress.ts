@@ -49,50 +49,6 @@ export async function fetchWordPressAPI<T>(endpoint: string, data?: any): Promis
   }
 }
 
-export async function fetchGraphQL<T = any>(query: string, variables?: Record<string, any>): Promise<T> {
-  const baseUrl = getWordPressUrl();
-  const graphqlUrl = `${baseUrl}/graphql`;
-
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-    const response = await fetch(graphqlUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        query,
-        variables: variables || {},
-      }),
-      next: { revalidate: 3600 },
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    if (result.errors) {
-      console.error('GraphQL errors:', result.errors);
-      throw new Error(`GraphQL error: ${result.errors[0]?.message || 'Unknown error'}`);
-    }
-
-    return result.data as T;
-  } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.warn('GraphQL request failed:', error instanceof Error ? error.message : 'Unknown error');
-    }
-    throw error;
-  }
-}
-
 export async function fetchRestAPI(endpoint: string, data?: any) {
   const apiUrl = getWordPressApiUrl();
 

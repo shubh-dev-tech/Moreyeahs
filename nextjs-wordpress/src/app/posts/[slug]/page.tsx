@@ -1,5 +1,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import { getPostBySlug, getPosts, transformMediaUrl } from '@/lib/wpFetch';
 import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
@@ -80,7 +81,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
 
         {featuredImage && (
           <div className="post-single__featured-image">
-            <img
+            <Image
               src={transformMediaUrl(featuredImage.source_url)}
               alt={featuredImage.alt_text || post.title.rendered}
               width={featuredImage.media_details.width}

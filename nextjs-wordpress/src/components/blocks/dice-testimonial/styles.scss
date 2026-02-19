@@ -14,10 +14,11 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: none !important;
     z-index: 1;
     opacity: 0;
     transition: opacity 0.3s ease;
+    
   }
 
   &[style*="background-image"]::before {
@@ -30,10 +31,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: 
-      radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.05) 0%, transparent 50%);
+    background-image: none;
     animation: float 20s ease-in-out infinite;
   }
 
@@ -61,6 +59,7 @@
       margin: 0 0 20px 0;
       line-height: 1.2;
       font-family: var(--font-manrope, 'Manrope', sans-serif);
+      
       
       span {
         font-weight: 700;
@@ -115,6 +114,11 @@
       opacity: 1;
       z-index: 3;
       filter: blur(0px);
+      border: 1px solid #F6F8FB;
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(32, 32, 32, 0.1);
+      border-radius: 21px;
+    
     }
     
     &.prev {
@@ -141,7 +145,7 @@
     /* Client Testimonial */
     .client-testimonial {
       width: 100%;
-      background: white;
+      background: none;
       backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 20px;
@@ -178,6 +182,7 @@
           line-height: 1;
           margin-bottom: 0px;
           opacity: 0.8;
+          color: #20202099 !important;
         }
 
         .testimonial-quote {
@@ -272,12 +277,12 @@
     .nav-btn {
       width: 40px;
       height: 40px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid #EBEEF24D;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
+      background: #EBEEF2CC;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      color: white;
+      color: #20202099;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -286,9 +291,9 @@
       font-size: 0;
       position: relative;
       overflow: hidden;
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      // box-shadow: 
+      //   0 8px 32px rgba(0, 0, 0, 0.3),
+      //   inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
       &::before {
         content: '';
@@ -323,10 +328,10 @@
         background: rgba(255, 255, 255, 0.1);
         border-color: rgba(255, 255, 255, 0.3);
         transform: scale(1.05) translateY(-2px);
-        box-shadow: 
-          0 12px 40px rgba(0, 0, 0, 0.4),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2),
-          0 0 20px rgba(255, 255, 255, 0.1);
+        // box-shadow: 
+        //   0 12px 40px rgba(0, 0, 0, 0.4),
+        //   inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        //   0 0 20px rgba(255, 255, 255, 0.1);
 
         &::before {
           opacity: 1;
@@ -341,12 +346,18 @@
         svg {
           transform: scale(1.1);
           filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+          
         }
       }
 
       &:active {
         transform: scale(0.98) translateY(0);
         transition: all 0.1s ease;
+        border: 1px solid #F6F8FB;
+        background: #fff;
+        box-shadow: 0 4px 10px rgba(32, 32, 32, 0.1);
+        border-radius: 21px;
+       
       }
 
       &:disabled {
@@ -372,14 +383,18 @@
         height: 24px;
         transition: all 0.3s ease;
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        color: #20202099 !important;
       }
 
       &.prev-btn svg {
         transform: translateX(-1px);
+        color: #20202099 !important;
+        
       }
 
       &.next-btn svg {
         transform: translateX(1px);
+        color: #20202099 !important;
       }
     }
   }
@@ -664,12 +679,16 @@
     line-height: 1.5;
   }
 }
-
+.dice-testimonial-block{
+      background: #F6F8FB !important;
+          min-height: auto!important;
+          
+}
 /* Accessibility */
 .dice-testimonial-block {
   .nav-btn:focus,
   .dot:focus {
-    outline: 2px solid #0084ffc0;
+    // outline: 2px solid #0084ffc0;
     outline-offset: 2px;
   }
 }
