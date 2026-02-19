@@ -15,9 +15,17 @@ export async function POST(request: NextRequest) {
     const { name, email, company, phone, caseStudyTitle } = body;
 
     // Validate required fields
-    if (!name || !email || !caseStudyTitle) {
+    if (!name || !caseStudyTitle) {
       return NextResponse.json(
-        { success: false, error: 'Name, email, and case study title are required' },
+        { success: false, error: 'Name and case study title are required' },
+        { status: 400 }
+      );
+    }
+
+    // At least one contact method (email or phone) is required
+    if (!email && !phone) {
+      return NextResponse.json(
+        { success: false, error: 'Please provide either email or phone number' },
         { status: 400 }
       );
     }
@@ -48,16 +56,16 @@ export async function POST(request: NextRequest) {
         <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
           <p><strong>Case Study:</strong> ${caseStudyTitle}</p>
           <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
+          ${email ? `<p><strong>Email:</strong> ${email}</p>` : ''}
           ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
+          ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
         </div>
         <p style="color: #666; margin-top: 20px;">
           This user has downloaded the case study: <strong>${caseStudyTitle}</strong>
         </p>
-        <p style="color: #666; margin-top: 10px;">
+        ${email ? `<p style="color: #666; margin-top: 10px;">
           Reply to: <a href="mailto:${email}">${email}</a>
-        </p>
+        </p>` : ''}
       </div>
     `;
 
@@ -67,7 +75,7 @@ export async function POST(request: NextRequest) {
       to: process.env.MICROSOFT365_EMAIL, // Send to same email
       cc:process.env.MICROSOFT365_CC,
       bcc:process.env.MICROSOFT365_BCC,
-      replyTo: email,
+      ...(email && { replyTo: email }), // Only add replyTo if email is provided
       subject: `Case Study Download: ${caseStudyTitle} - ${name}`,
       html: emailContent,
     });

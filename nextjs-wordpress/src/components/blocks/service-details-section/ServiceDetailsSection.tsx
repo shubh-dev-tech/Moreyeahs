@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import './styles.scss';
 
 interface ServiceItem {
@@ -32,6 +35,9 @@ interface ServiceDetailsSectionProps {
 const ServiceDetailsSection: React.FC<ServiceDetailsSectionProps> = ({
   data
 }) => {
+  const { ref: sectionRef, isVisible: sectionVisible } = useScrollAnimation({ threshold: 0.1 });
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.2 });
+
   // Safety check for data
   if (!data) {
     console.warn('ServiceDetailsSection: No data provided');
@@ -146,10 +152,17 @@ const ServiceDetailsSection: React.FC<ServiceDetailsSectionProps> = ({
   };
 
   return (
-    <section className="service-details-section" style={sectionStyles}>
+    <section 
+      ref={sectionRef as React.RefObject<HTMLElement>}
+      className={`service-details-section ${sectionVisible ? 'animate-in' : ''}`} 
+      style={sectionStyles}
+    >
       <div className="service-details-container">
         {(heading || sub_heading) && (
-          <div className="service-details-header">
+          <div 
+            ref={headerRef as React.RefObject<HTMLDivElement>}
+            className={`service-details-header ${headerVisible ? 'animate-in' : ''}`}
+          >
             {heading && (
               <h2 className="service-details-heading">{heading}</h2>
             )}
@@ -171,7 +184,13 @@ const ServiceDetailsSection: React.FC<ServiceDetailsSectionProps> = ({
               const linkText = service.service_link_text || 'See Solutions';
 
               return (
-                <div key={index} className="service-item">
+                <div 
+                  key={index} 
+                  className={`service-item ${sectionVisible ? 'animate-in' : ''}`}
+                  style={{ 
+                    animationDelay: `${index * 0.1}s` 
+                  }}
+                >
                   <ServiceWrapper {...wrapperProps}>
                     <div className="service-content">
                       {service.service_icon && (

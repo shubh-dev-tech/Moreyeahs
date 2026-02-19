@@ -161,7 +161,6 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
       checkBackgroundColor();
     };
 
-    console.log('[NewStepper] Adding scroll event listener');
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', checkBackgroundColor);
     
@@ -169,7 +168,6 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
     handleScroll();
 
     return () => {
-      console.log('[NewStepper] Removing scroll event listener');
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', checkBackgroundColor);
     };

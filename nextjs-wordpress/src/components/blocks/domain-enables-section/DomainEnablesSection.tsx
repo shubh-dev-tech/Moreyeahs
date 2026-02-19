@@ -36,9 +36,6 @@ interface DomainEnablesSectionProps {
 }
 
 const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => {
-  // Debug logging to see what data is being received
-  console.log('[DomainEnablesSection] Received data:', JSON.stringify(data, null, 2));
-  
   // Helper function to transform flattened ACF repeater data to array format
   const transformRepeaterData = (data: any, fieldName: string) => {
     if (!data) return [];
@@ -79,10 +76,6 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
   
   // Transform feature points data
   const feature_points = transformRepeaterData(data, 'feature_points');
-  
-  // Debug specific fields
-  console.log('[DomainEnablesSection] Feature points:', feature_points);
-  console.log('[DomainEnablesSection] Icon image:', icon_image);
 
   // Generate background style
   const getBackgroundStyle = (): React.CSSProperties => {

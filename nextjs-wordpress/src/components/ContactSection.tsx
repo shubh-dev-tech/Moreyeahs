@@ -42,19 +42,13 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
     setIsSubmitting(true);
     setMessage('');
 
-    console.log('Form submission started with data:', formData);
-
     try {
       // First, try to send to WordPress plugin API
       let wpSuccess = false;
       let wpError = '';
       
-      console.log('Attempting WordPress API call...');
-      
       const wpApiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'http://localhost/moreyeahs-new';
       const wpEndpoint = `${wpApiUrl}/wp-json/contact-form/v1/submit`;
-      
-      console.log('WordPress API endpoint:', wpEndpoint);
       
       try {
         const wpResponse = await fetch(wpEndpoint, {
@@ -69,11 +63,8 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
           }),
         });
         
-        console.log('WordPress API response status:', wpResponse.status);
-        
         if (wpResponse.ok) {
           const wpResult = await wpResponse.json();
-          console.log('WordPress API result:', wpResult);
           wpSuccess = wpResult.success;
           if (!wpSuccess) {
             wpError = wpResult.message || 'WordPress API failed';
@@ -99,11 +90,8 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
           body: JSON.stringify(formData),
         });
         
-        console.log('Email API response status:', emailResponse.status);
-        
         if (emailResponse.ok) {
           const emailResult = await emailResponse.json();
-          console.log('Email API result:', emailResult);
           emailSuccess = emailResult.success;
           if (!emailSuccess) {
             emailError = emailResult.error || 'Email API failed';
@@ -117,8 +105,6 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
       }
 
       // Show appropriate message based on results
-      console.log('Final results - Email success:', emailSuccess, 'WP success:', wpSuccess);
-      console.log('Errors - Email:', emailError, 'WP:', wpError);
       
       if (emailSuccess && wpSuccess) {
         setMessage('Thank you! Your message has been sent successfully and saved to our records.');

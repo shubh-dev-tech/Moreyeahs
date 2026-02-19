@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import CaseStudyCard from './CaseStudyCard';
 
 interface ProcessedCaseStudyData {
@@ -29,6 +30,9 @@ const SCROLL_LOADING_DELAY = 600; // milliseconds
 const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
   caseStudies
 }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [selectedIndustries, setSelectedIndustries] = useState<Set<number>>(new Set());
@@ -41,6 +45,7 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
   const [isCategoriesCollapsed, setIsCategoriesCollapsed] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   // Optimized debounce for search (300ms)
   useEffect(() => {
@@ -181,6 +186,52 @@ const CaseStudiesWithSidebar: React.FC<CaseStudiesWithSidebarProps> = ({
       .filter(ind => ind.count > 0)
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [caseStudies]);
+
+  // Initialize selected industries from URL on mount
+  useEffect(() => {
+    if (isInitialMount.current && availableIndustries.length > 0) {
+      const industryParam = searchParams.get('industry');
+      if (industryParam) {
+        const industrySlugs = industryParam.split(',').map(s => s.trim()).filter(Boolean);
+        const industryIds = new Set<number>();
+        
+        industrySlugs.forEach(slug => {
+          const industry = availableIndustries.find(ind => ind.slug === slug);
+          if (industry) {
+            industryIds.add(industry.id);
+          }
+        });
+        
+        if (industryIds.size > 0) {
+          setSelectedIndustries(industryIds);
+        }
+      }
+      isInitialMount.current = false;
+    }
+  }, [searchParams, availableIndustries]);
+
+  // Update URL when selected industries change (skip initial mount)
+  useEffect(() => {
+    if (!isInitialMount.current) {
+      const params = new URLSearchParams(searchParams.toString());
+      
+      if (selectedIndustries.size > 0) {
+        const industrySlugs = Array.from(selectedIndustries)
+          .map(id => availableIndustries.find(ind => ind.id === id)?.slug)
+          .filter(Boolean)
+          .join(',');
+        
+        if (industrySlugs) {
+          params.set('industry', industrySlugs);
+        }
+      } else {
+        params.delete('industry');
+      }
+      
+      const newUrl = params.toString() ? `?${params.toString()}` : '/case-study';
+      router.push(newUrl, { scroll: false });
+    }
+  }, [selectedIndustries, availableIndustries, router, searchParams]);
 
   // Filter categories based on search query (same search for both)
   const filteredCategories = useMemo(() => {

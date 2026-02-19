@@ -270,8 +270,11 @@ export default async function Footer() {
                          style={{
                           width: '24px',
                           height: '24px',
+                           minWidth: '24px',
+                          minHeight: '24px',
                           borderRadius: '50%',
-                          objectFit: 'cover'
+                          objectFit: 'cover',
+                          flexShrink: 0
                         }}
                       />
                     </div>
@@ -286,9 +289,11 @@ export default async function Footer() {
                         svg
                         style={{
                           width: '24px',
-                          height: '24px',
+                          minWidth: '24px',
+                          minHeight: '24px',
                           borderRadius: '50%',
-                          objectFit: 'cover'
+                          objectFit: 'cover',
+                          flexShrink: 0
                         }}
                       />
                     </div>

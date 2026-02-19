@@ -3,21 +3,65 @@
 }
 
 .blog-hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-image: url('https://dev.moreyeahs.com/wp-content/uploads/2026/02/Group-1000001836.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: white;
   padding: 80px 0;
   text-align: center;
+  position: relative;
+}
+
+.blog-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background: rgba(0, 0, 0, 0.3); */
+  z-index: 1;
+}
+
+.blog-hero .container {
+  position: relative;
+  z-index: 2;
 }
 
 .blog-hero__title {
   font-size: 48px;
   font-weight: 700;
   margin-bottom: 16px;
+  color: #000000;
 }
 
 .blog-hero__subtitle {
   font-size: 20px;
   opacity: 0.9;
+  color: #20202099;
+}
+
+/* Loading skeleton styles */
+.blog-hero__title.loading,
+.blog-hero__subtitle.loading {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+  border-radius: 4px;
+  color: transparent;
+  display: inline-block;
+  min-width: 300px;
+  min-height: 1em;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .blog-grid-section {

@@ -13,8 +13,6 @@ async function getIndustriesPage() {
     const { getWordPressApiUrl } = await import('@/lib/environment');
     const apiUrl = getWordPressApiUrl();
     
-    console.log('Fetching industries page from:', `${apiUrl}/wp/v2/pages?slug=industries&_embed`);
-    
     const response = await fetch(`${apiUrl}/wp/v2/pages?slug=industries&_embed`, {
       next: { revalidate: 60 },
       signal: AbortSignal.timeout(15000),
@@ -31,7 +29,6 @@ async function getIndustriesPage() {
     }
 
     const pages = await response.json();
-    console.log('Industries page response:', typeof pages, Array.isArray(pages) ? pages.length : 'not array');
     
     if (!Array.isArray(pages) || pages.length === 0) {
       console.error('No industries page found');
@@ -39,7 +36,6 @@ async function getIndustriesPage() {
     }
 
     const page = pages[0];
-    console.log('Industries page found:', page.title?.rendered || 'No title');
     
     const extractRendered = (field: any): string => {
       if (!field) return '';

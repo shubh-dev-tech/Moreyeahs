@@ -157,15 +157,7 @@ export function BlockRenderer({ blocks }: BlockRendererProps) {
   const renderBlock = (block: Block, index: number) => {
     if (!block.blockName) return null;
 
-    // Debug logging - check block structure
-    console.log(`[BlockRenderer] Block ${index}:`, {
-      blockName: block.blockName,
-      hasInnerBlocks: !!block.innerBlocks,
-      innerBlocksLength: block.innerBlocks?.length || 0,
-      innerBlockNames: block.innerBlocks?.map(b => b.blockName) || [],
-      hasAttrs: !!block.attrs,
-      anchor: block.attrs?.anchor
-    });
+    // Debug logging removed for production
 
     // Check if this is a core/group block wrapping ACF blocks FIRST (before checking for component)
     // If so, skip the wrapper and render inner blocks directly to preserve their section IDs
@@ -173,7 +165,6 @@ export function BlockRenderer({ blocks }: BlockRendererProps) {
       const hasACFInnerBlocks = block.innerBlocks.some(inner => inner.blockName?.startsWith('acf/'));
       
       if (hasACFInnerBlocks) {
-        console.log(`[BlockRenderer] ✓ Skipping core/group wrapper, rendering ${block.innerBlocks.length} inner blocks directly`);
         // Render inner blocks directly without wrapping section
         return (
           <React.Fragment key={`${block.blockName}-${index}`}>
@@ -204,7 +195,6 @@ export function BlockRenderer({ blocks }: BlockRendererProps) {
         );
       }
       
-      console.log(`[BlockRenderer] ✓ Rendering ${block.blockName} with section ID: ${sectionId}`);
       return (
         <section key={`${block.blockName}-${index}`} id={sectionId}>
           <BlockComponent data={blockData} innerHTML={block.innerHTML} {...block.attrs} />

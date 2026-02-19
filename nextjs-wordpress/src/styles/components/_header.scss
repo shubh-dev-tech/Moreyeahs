@@ -20,20 +20,68 @@
   padding: 0.55rem 0;
   transform: translateY(0);
   background: rgba(250, 250, 250, 0.4); // Off-white background
-  // background: transparent; 
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px); // Safari support
   opacity: 1;
   @include transition(all var(--header-animation-duration, 0.3s) ease);
 
-  // Always use light background - text always black
-  &--light-bg {
-    background-color: rgba(250, 250, 250, 0.4); // Off-white background
-    // background-color: transparent; 
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px); // Safari support
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  // Transparent header (default)
+  &--transparent {
+    background-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 
+    &.header--hidden {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+  }
+
+  // Sticky header (appears on scroll)
+  &--sticky {
+    background-color: rgba(250, 250, 250, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+        margin-top: 15px !important;
+    margin: 60px;
+    border-radius: 50px;
+
+    &.header--visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      margin: 20px;
+    }
+  }
+
+  // Dark background styling (white text)
+  &--dark-bg {
+    .header__logo {
+      color: #ffffff !important;
+    }
+
+    .header__menu a {
+      // color: #ffffff !important;
+    }
+
+    .header__search-btn {
+      color: #ffffff !important;
+    }
+
+    .hamburger-line {
+      background-color: #ffffff !important;
+    }
+  }
+
+  // Light background styling (black text)
+  &--light-bg {
     .header__logo {
       color: #202020 !important;
     }
@@ -122,6 +170,19 @@
 
     > li {
       position: relative;
+
+      // Create hover bridge for submenu
+      &.has-children::before {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: -10px;
+        right: -10px;
+        height: 12px;
+        background: transparent;
+        z-index: $z-index-dropdown - 1;
+        pointer-events: auto;
+      }
 
       &.has-mega-menu {
         position: static; // Allow mega menu to span full width
@@ -215,7 +276,32 @@
       display: none;
     }
 
+    // Dark background styling (white text)
+    &--dark-bg {
+      > li > a:not(.header__submenu a) {
+        color: #ffffff !important;
+        text-shadow: none;
 
+        &:hover {
+          color: #ffffff !important;
+          opacity: 0.8;
+        }
+
+        &::after {
+          background-color: #ffffff !important;
+        }
+      }
+
+      > li.has-children > a::before {
+        color: #ffffff !important;
+      }
+
+      .menu-chevron {
+        color: #ffffff !important;
+      }
+    }
+
+    // Light background styling (black text)
     &--light-bg {
       > li > a:not(.header__submenu a) {
         color: #000000 !important;
@@ -243,7 +329,7 @@
 
   &__submenu {
     position: absolute;
-    top: calc(100% - 0.25rem); // Reduce gap for easier hover
+    top: 100%;
     left: 0;
     background-color: #ffffff; // White background
     border: 1px solid #e0e0e0;
@@ -251,18 +337,16 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     min-width: 250px;
     max-width: 280px;
-     margin-top: 16px;
+    margin-top: 8px;
     list-style: none;
     padding: 0.75rem 0;
-    padding-top: 1rem; // Add extra padding at top for hover bridge
     font-weight: 700;
     margin: 0;
-    margin-top: 10px;
-    opacity: 0 !important; // Force hidden on load
-    visibility: hidden !important; // Force hidden on load
+    margin-top: 8px;
+    opacity: 0;
+    visibility: hidden;
     transform: translateY(-10px);
-    @include transition(opacity 0.25s ease, transform 0.25s ease, visibility 0.25s);
-    transition-delay: 0.3s, 0.3s, 0.3s; // Add delay before hiding
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
     z-index: $z-index-dropdown;
     pointer-events: none; // Prevent interaction when hidden
 
@@ -332,22 +416,32 @@ a {
     }
   }
 
-  // Only show submenu on hover, not on focus-within (to prevent auto-show on page load)
+  // Show submenu on hover with immediate transition
   &__menu .has-children:hover > &__submenu {
-    opacity: 1 !important;
-    visibility: visible !important;
+    opacity: 1;
+    visibility: visible;
     transform: translateY(0);
-    pointer-events: auto; // Re-enable interaction on hover
-    transition-delay: 0s, 0s, 0s; // Show immediately on hover
+    pointer-events: auto;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0s;
+  }
+  
+  // Keep submenu visible when hovering over it
+  &__submenu:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0s;
   }
   
   // Optional: Enable keyboard navigation with focus
   &__menu .has-children > a:focus + &__submenu,
   &__menu .has-children > a:focus-within + &__submenu {
-    opacity: 1 !important;
-    visibility: visible !important;
+    opacity: 1;
+    visibility: visible;
     transform: translateY(0);
-    pointer-events: auto; // Re-enable interaction on focus
+    pointer-events: auto;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0s;
   }
 
   &__actions {
@@ -355,6 +449,24 @@ a {
     align-items: center;
     gap: 0.5rem;
 
+    // Dark background styling (white icons)
+    &--dark-bg {
+      .header__search-btn {
+        color: #ffffff !important;
+        text-shadow: none;
+
+        &:hover {
+          color: #ffffff !important;
+          opacity: 0.8;
+        }
+      }
+
+      .hamburger-line {
+        background-color: #ffffff !important;
+      }
+    }
+
+    // Light background styling (black icons)
     &--light-bg {
       .header__search-btn {
         color: #000000 !important;
@@ -387,6 +499,18 @@ a {
     // Always black color
     color: #000000 !important;
 
+    // Dark background styling (white icon)
+    &--dark-bg {
+      color: #ffffff !important;
+      text-shadow: none;
+
+      &:hover {
+        color: #ffffff !important;
+        opacity: 0.8;
+      }
+    }
+
+    // Light background styling (black icon)
     &--light-bg {
       color: #000000 !important;
       text-shadow: none;

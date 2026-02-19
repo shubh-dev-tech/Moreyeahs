@@ -136,11 +136,13 @@
 
   .contact-icon {
     flex-shrink: 0;
-    width: 40px;
-    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 40px;
+    width: 40px;
+    min-height: 40px;
+    height: 40px;
     background-color: #f0f0f0;
     border-radius: 8px;
     color: #666;
@@ -148,6 +150,16 @@
     svg {
       width: 20px;
       height: 20px;
+      flex-shrink: 0;
+    }
+
+    img {
+      width: 100% !important;
+      height: 100% !important;
+      min-width: 40px !important;
+      min-height: 40px !important;
+      flex-shrink: 0;
+      object-fit: cover;
     }
   }
 
@@ -155,6 +167,8 @@
     font-size: 0.95rem;
     color: #333;
     line-height: 1.4;
+    flex: 1;
+    word-wrap: break-word;
   }
 
   // Contact Form Styles

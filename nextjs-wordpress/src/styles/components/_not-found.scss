@@ -1,0 +1,181 @@
+.not-found-page {
+  --bg-x: 50%;
+  --bg-y: 50%;
+  --bg-offset-x: 0px;
+  --bg-offset-y: 0px;
+  --bg-angle: 120deg;
+  --mesh-shift-x: 0px;
+  --mesh-shift-y: 0px;
+  --g1x: 18%;
+  --g1y: 18%;
+  --g2x: 78%;
+  --g2y: 20%;
+  --g3x: 22%;
+  --g3y: 76%;
+  --g4x: 72%;
+  --g4y: 70%;
+  --g5x: 50%;
+  --g5y: 50%;
+  --text-x: 0px;
+  --text-y: 0px;
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.5rem;
+  text-align: center;
+  background: #0b0f1f;
+  color: #ffffff;
+}
+
+.not-found-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(40% 40% at var(--g1x) var(--g1y), rgba(25, 59, 107, 0.95) 0%, rgba(25, 59, 107, 0) 70%),
+    radial-gradient(42% 42% at var(--g2x) var(--g2y), rgba(1, 68, 62, 0.95) 0%, rgba(1, 68, 62, 0) 70%),
+    radial-gradient(40% 40% at var(--g3x) var(--g3y), rgba(26, 107, 120, 0.95) 0%, rgba(26, 107, 120, 0) 70%),
+    radial-gradient(45% 45% at var(--g4x) var(--g4y), rgba(217, 119, 6, 0.9) 0%, rgba(217, 119, 6, 0) 70%),
+    radial-gradient(45% 45% at var(--g5x) var(--g5y), rgba(76, 6, 103, 0.9) 0%, rgba(76, 6, 103, 0) 70%),
+    linear-gradient(150deg, #07060c 0%, #0a0a14 100%);
+  transform: translate3d(var(--mesh-shift-x), var(--mesh-shift-y), 0) scale(1.08);
+  filter: saturate(1.15) blur(24px);
+  z-index: 0;
+}
+
+.not-found-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 60% at var(--g4x) var(--g4y), rgba(217, 119, 6, 0.45), transparent 72%),
+    radial-gradient(58% 58% at var(--g2x) var(--g2y), rgba(1, 68, 62, 0.42), transparent 72%),
+    radial-gradient(55% 55% at var(--g5x) var(--g5y), rgba(76, 6, 103, 0.48), transparent 72%),
+    radial-gradient(60% 60% at var(--g1x) var(--g1y), rgba(25, 59, 107, 0.35), transparent 72%);
+  opacity: 1;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+.not-found-shell {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  width: 100%;
+  padding: 3.6rem 3.2rem;
+  border-radius: 26px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 32px 70px rgba(5, 10, 24, 0.45);
+  backdrop-filter: blur(24px) saturate(160%);
+  transform-style: preserve-3d;
+  perspective: 900px;
+}
+
+.not-found-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.32), transparent 55%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+
+.not-found-shell > * {
+  position: relative;
+  transform: translate3d(var(--text-x), var(--text-y), 0) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transform-style: preserve-3d;
+}
+
+.not-found-hero {
+  display: block;
+  font-size: clamp(4.8rem, 12vw, 7.8rem);
+  font-weight: 800;
+  letter-spacing: 0.08rem;
+  text-shadow: 0 28px 45px rgba(0, 0, 0, 0.35);
+}
+
+.not-found-divider {
+  display: block;
+  width: 56px;
+  height: 4px;
+  margin: 1.1rem auto 1.4rem;
+  border-radius: 999px;
+  background: #d97706;
+  box-shadow: 0 0 20px rgba(217, 119, 6, 0.6);
+}
+
+.not-found-title {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+}
+
+.not-found-copy {
+  margin: 0 auto 2.4rem;
+  max-width: 520px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.not-found-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.not-found-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.8rem;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.not-found-btn.primary {
+  background: #ffffff;
+  color: #1b0f2d;
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.35);
+}
+
+.not-found-btn.primary:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+
+@media (max-width: 640px) {
+  .not-found-shell {
+    padding: 2.5rem 1.7rem;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+  }
+
+  .not-found-btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .not-found-page::before,
+  .not-found-page::after {
+    transition: none;
+  }
+}

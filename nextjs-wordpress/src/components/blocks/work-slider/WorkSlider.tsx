@@ -45,9 +45,6 @@ const WorkSlider: React.FC<WorkSliderProps> = ({ data }) => {
   const [isTransitioning, setIsTransitioning] = useState(true);
   const trackRef = useRef<HTMLDivElement>(null);
 
-  // Debug logging
-  console.log('[WorkSlider] Raw data:', data);
-
   // Destructure data with defaults
   const {
     heading = 'Our',
@@ -69,13 +66,10 @@ const WorkSlider: React.FC<WorkSliderProps> = ({ data }) => {
   let processedSlides: Slide[] = [];
   
   if (typeof rawSlides === 'number' && rawSlides > 0) {
-    console.log('[WorkSlider] Processing flattened format, count:', rawSlides);
     for (let i = 0; i < rawSlides; i++) {
       const title = data?.[`slides_${i}_title`] as string || '';
       const description = data?.[`slides_${i}_description`] as string || '';
       let image = data?.[`slides_${i}_image`] as any;
-      
-      console.log(`[WorkSlider] Slide ${i} raw image:`, image);
       
       // Handle different image formats
       if (typeof image === 'object' && image?.url) {
@@ -86,29 +80,22 @@ const WorkSlider: React.FC<WorkSliderProps> = ({ data }) => {
         image = '';
       }
       
-      console.log(`[WorkSlider] Slide ${i} processed image:`, image);
-      
       if (title) {
         processedSlides.push({ title, description, image });
       }
     }
   } else if (Array.isArray(rawSlides)) {
-    console.log('[WorkSlider] Processing array format:', rawSlides);
     // Process array format and normalize image URLs
-    processedSlides = rawSlides.map((slide, idx) => {
-      console.log(`[WorkSlider] Array slide ${idx}:`, slide);
+    processedSlides = rawSlides.map((slide) => {
       const processedImage = typeof slide.image === 'object' && slide.image?.url 
         ? slide.image.url 
         : (typeof slide.image === 'string' ? slide.image : '');
-      console.log(`[WorkSlider] Array slide ${idx} processed image:`, processedImage);
       return {
         ...slide,
         image: processedImage
       };
     });
   }
-
-  console.log('[WorkSlider] Final processed slides:', processedSlides);
 
   // Create infinite loop slides (clone first and last slides)
   const infiniteSlides = processedSlides.length > 0 
@@ -255,8 +242,6 @@ const WorkSlider: React.FC<WorkSliderProps> = ({ data }) => {
               const actualIndex = index - 1;
               const isActive = actualIndex === currentSlide;
               
-              console.log(`[WorkSlider] Rendering slide ${index}, imageUrl:`, imageUrl);
-              
               return (
               <div
                 key={`slide-${index}`}
@@ -274,11 +259,7 @@ const WorkSlider: React.FC<WorkSliderProps> = ({ data }) => {
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         priority={index === 0}
                         onError={(e) => {
-                          console.error('[WorkSlider] Image failed to load:', imageUrl);
                           e.currentTarget.style.display = 'none';
-                        }}
-                        onLoad={() => {
-                          console.log('[WorkSlider] Image loaded successfully:', imageUrl);
                         }}
                       />
                     </div>
