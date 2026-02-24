@@ -6,6 +6,7 @@ import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { generatePostMetadata } from '@/lib/seo';
 
+export const dynamic = 'force-dynamic';
 export const revalidate = parseInt(process.env.REVALIDATE_TIME || '3600');
 
 interface Post {
@@ -30,14 +31,6 @@ interface Post {
       avatar_urls: { [key: string]: string };
     }>;
   };
-}
-
-export async function generateStaticParams() {
-  // Build-safe: use wpFetch instead of fetchWordPressAPI
-  const posts = await getPosts({ per_page: 100 });
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
