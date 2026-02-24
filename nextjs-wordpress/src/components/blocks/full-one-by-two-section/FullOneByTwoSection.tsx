@@ -54,15 +54,13 @@ const FullOneByTwoSection: React.FC<FullOneByTwoSectionProps> = ({
       }
     );
 
-    const currentSection = sectionRef.current;
-
-    if (currentSection) {
-      observer.observe(currentSection);
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
     }
 
     return () => {
-      if (currentSection) {
-        observer.unobserve(currentSection);
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
       }
     };
   }, []);

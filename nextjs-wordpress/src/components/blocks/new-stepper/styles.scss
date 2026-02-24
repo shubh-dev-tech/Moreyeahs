@@ -154,8 +154,8 @@
   }
 }
 
-// Responsive
-@media (max-width: 1450px) {
+// Responsive - hide on tablets and mobile
+@media (max-width: 1024px) {
   .new-stepper {
     display: none;
   }
@@ -197,5 +197,10 @@
     .new-stepper__label {
       color: #cccccc !important;
     }
+  }
+}
+@media (max-width: 1450px) {
+  .new-stepper {
+    display: none;
   }
 }

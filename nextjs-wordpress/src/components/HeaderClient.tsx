@@ -79,9 +79,9 @@ export default function HeaderClient() {
   // Get current pathname to trigger background check on route changes
   const pathname = usePathname();
   
-  // Dynamic logo URLs
-  const lightBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Moreyeahs-Logo-7.png';
-  const darkBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Logo-1.png';
+  // Logo URLs - using working WordPress paths
+  const lightBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Moreyeahs-Logo-7.png'; // Black logo for light backgrounds
+  const darkBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Logo-1.png'; // White logo for dark backgrounds
   
   // Detect background color (re-check when pathname changes)
   const isDarkBackground = useBackgroundDetection('.header', [pathname]);

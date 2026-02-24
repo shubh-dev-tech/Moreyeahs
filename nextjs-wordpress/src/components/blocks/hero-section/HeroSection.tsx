@@ -133,7 +133,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       // Silently handle image ID - construct direct URL
       
       // For now, return a placeholder that shows the ID for debugging
-      return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Crect fill='%23ff6b6b' width='800' height='400'/%3E%3Ctext fill='%23ffffff' font-family='Arial' font-size='24' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EID ${imageId}%3C/text%3E%3C/svg%3E`;
+      return `https://via.placeholder.com/800x400/ff6b6b/ffffff?text=ID+${imageId}`;
     }
     
     // Try different possible structures for processed images
@@ -160,7 +160,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     }
     
     console.error('❌ Could not extract image URL from:', image);
-    return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Crect fill='%23cccccc' width='800' height='400'/%3E%3Ctext fill='%23666666' font-family='Arial' font-size='24' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EMissing Image%3C/text%3E%3C/svg%3E`;
+    return `https://via.placeholder.com/800x400/cccccc/666666?text=Missing+Image`;
   };
 
   // Debug logging removed for production
@@ -193,14 +193,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               // Create a fallback image object
               setProcessedImage({
                 id: imageId,
-                url: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Crect fill='%23ff6b6b' width='800' height='400'/%3E%3Ctext fill='%23ffffff' font-family='Arial' font-size='24' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EError ID ${imageId}%3C/text%3E%3C/svg%3E`,
+                url: `https://via.placeholder.com/800x400/ff6b6b/ffffff?text=Error+ID+${imageId}`,
                 alt: `Hero Image ${imageId}`,
                 title: `Hero Image ${imageId}`,
                 sizes: {
-                  thumbnail: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect fill='%23ff6b6b' width='150' height='150'/%3E%3C/svg%3E`,
-                  medium: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200'%3E%3Crect fill='%23ff6b6b' width='400' height='200'/%3E%3C/svg%3E`,
-                  large: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Crect fill='%23ff6b6b' width='800' height='400'/%3E%3C/svg%3E`,
-                  full: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='600'%3E%3Crect fill='%23ff6b6b' width='1200' height='600'/%3E%3C/svg%3E`
+                  thumbnail: `https://via.placeholder.com/150x150/ff6b6b/ffffff?text=Error+ID+${imageId}`,
+                  medium: `https://via.placeholder.com/400x200/ff6b6b/ffffff?text=Error+ID+${imageId}`,
+                  large: `https://via.placeholder.com/800x400/ff6b6b/ffffff?text=Error+ID+${imageId}`,
+                  full: `https://via.placeholder.com/1200x600/ff6b6b/ffffff?text=Error+ID+${imageId}`
                 }
               });
             }
@@ -236,14 +236,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               // Create a fallback image object
               setProcessedBackgroundImage({
                 id: imageId,
-                url: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='600'%3E%3Crect fill='%23cccccc' width='1200' height='600'/%3E%3Ctext fill='%23666666' font-family='Arial' font-size='24' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EBG Error ID ${imageId}%3C/text%3E%3C/svg%3E`,
+                url: `https://via.placeholder.com/1200x600/cccccc/666666?text=BG+Error+ID+${imageId}`,
                 alt: `Background Image ${imageId}`,
                 title: `Background Image ${imageId}`,
                 sizes: {
-                  thumbnail: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect fill='%23cccccc' width='150' height='150'/%3E%3C/svg%3E`,
-                  medium: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300'%3E%3Crect fill='%23cccccc' width='600' height='300'/%3E%3C/svg%3E`,
-                  large: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='600'%3E%3Crect fill='%23cccccc' width='1200' height='600'/%3E%3C/svg%3E`,
-                  full: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='800'%3E%3Crect fill='%23cccccc' width='1600' height='800'/%3E%3C/svg%3E`
+                  thumbnail: `https://via.placeholder.com/150x150/cccccc/666666?text=BG+Error+ID+${imageId}`,
+                  medium: `https://via.placeholder.com/600x300/cccccc/666666?text=BG+Error+ID+${imageId}`,
+                  large: `https://via.placeholder.com/1200x600/cccccc/666666?text=BG+Error+ID+${imageId}`,
+                  full: `https://via.placeholder.com/1600x800/cccccc/666666?text=BG+Error+ID+${imageId}`
                 }
               });
             }

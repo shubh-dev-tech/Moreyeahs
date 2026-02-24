@@ -3,9 +3,7 @@ import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 
-// Optimized ISR with longer revalidation for better performance
-// Adjust based on how frequently your content updates
-export const revalidate = 300; // 5 minutes instead of 60 seconds
+export const revalidate = 60;
 
 export default async function Home() {
   // Build-safe: getHomepageData never throws, returns safe fallbacks

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import './styles.scss';
 
@@ -48,7 +48,17 @@ const ImageGallerySection: React.FC<ImageGallerySectionProps> = ({
   // Generate unique ID for this instance
   const sliderId = `gallery-slider-${Math.random().toString(36).substr(2, 9)}`;
 
-  const moveSlider = useCallback(() => {
+  useEffect(() => {
+    if (!enable_slider || !autoplay_slider || gallery_images.length === 0) return;
+
+    const interval = setInterval(() => {
+      moveSlider();
+    }, slider_speed * 1000);
+
+    return () => clearInterval(interval);
+  }, [enable_slider, autoplay_slider, slider_speed, gallery_images.length]);
+
+  const moveSlider = () => {
     if (isAnimating || !trackRef.current) return;
 
     setIsAnimating(true);
@@ -73,17 +83,7 @@ const ImageGallerySection: React.FC<ImageGallerySectionProps> = ({
       }
       setIsAnimating(false);
     }, 500);
-  }, [currentIndex, gallery_images.length, gallery_layout, isAnimating]);
-
-  useEffect(() => {
-    if (!enable_slider || !autoplay_slider || gallery_images.length === 0) return;
-
-    const interval = setInterval(() => {
-      moveSlider();
-    }, slider_speed * 1000);
-
-    return () => clearInterval(interval);
-  }, [enable_slider, autoplay_slider, slider_speed, gallery_images.length, moveSlider]);
+  };
 
   if (gallery_images.length === 0) {
     return (

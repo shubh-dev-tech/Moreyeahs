@@ -1,13 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
+import CareersWithSidebar from '@/components/careers/CareersWithSidebar';
 import { generatePageMetadata } from '@/lib/seo';
 import styles from './page.module.css';
-
-const CareersWithSidebar = dynamic(
-  () => import('@/components/careers/CareersWithSidebar'),
-  { ssr: false }
-);
 
 interface CareerData {
   id: number;
