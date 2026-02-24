@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import './styles.scss';
 
 interface CounterItem {
@@ -27,9 +27,12 @@ export default function CounterBlock({ data }: CounterBlockProps) {
     background_color
   } = data || {};
 
+  // All hooks must be called at the top level
   const [hasAnimated, setHasAnimated] = useState(false);
   const [counterValues, setCounterValues] = useState<number[]>([]);
   const sectionRef = useRef<HTMLElement>(null);
+  const reactId = useId();
+  const blockId = `counter-block-${reactId}`;
 
   // Initialize counter values to 0
   useEffect(() => {
@@ -42,6 +45,7 @@ export default function CounterBlock({ data }: CounterBlockProps) {
   useEffect(() => {
     if (!counters || hasAnimated) return;
 
+    const currentSection = sectionRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -79,12 +83,11 @@ export default function CounterBlock({ data }: CounterBlockProps) {
       { threshold: 0.3 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (currentSection) {
+      observer.observe(currentSection);
     }
 
     return () => {
-      const currentSection = sectionRef.current;
       if (currentSection) {
         observer.unobserve(currentSection);
       }
@@ -95,8 +98,6 @@ export default function CounterBlock({ data }: CounterBlockProps) {
   if (!heading && !sub_heading && (!counters || counters.length === 0)) {
     return null;
   }
-
-  const blockId = `counter-block-${Math.random().toString(36).substring(2, 9)}`;
   
   // Set default background color if not specified
   const backgroundColor = background_color || '#ffffff';

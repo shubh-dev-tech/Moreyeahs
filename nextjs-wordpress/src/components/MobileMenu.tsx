@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -53,7 +53,7 @@ function MobileMenuItems({
         
         // Check if this is the Career menu item and use custom URL
         const isCareerItem = itemTitleLower === 'career' || itemTitleLower === 'careers';
-        const finalUrl = isCareerItem ? 'https://app.emossy.com/#/job-module/jobs?companyId=IjE' : item.url;
+        const finalUrl = isCareerItem ? '/careers' : item.url;
 
         if (hasMegaMenu) {
           return (
@@ -167,21 +167,23 @@ export default function MobileMenu({ items, logo, siteName, megaMenus = [], isDa
   const megaMenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
 
-  const megaMenuMap: Record<string, MegaMenuData> = megaMenus.reduce((acc, menu) => {
-    const key = menu.title.toLowerCase().trim();
-    acc[key] = menu;
-    
-    // Add flexible matching for common variations
-    if (key.endsWith('s')) {
-      // If mega menu ends with 's', also match without 's'
-      acc[key.slice(0, -1)] = menu;
-    } else {
-      // If mega menu doesn't end with 's', also match with 's'
-      acc[key + 's'] = menu;
-    }
-    
-    return acc;
-  }, {} as Record<string, MegaMenuData>);
+  const megaMenuMap: Record<string, MegaMenuData> = useMemo(() => {
+    return megaMenus.reduce((acc, menu) => {
+      const key = menu.title.toLowerCase().trim();
+      acc[key] = menu;
+      
+      // Add flexible matching for common variations
+      if (key.endsWith('s')) {
+        // If mega menu ends with 's', also match without 's'
+        acc[key.slice(0, -1)] = menu;
+      } else {
+        // If mega menu doesn't end with 's', also match with 's'
+        acc[key + 's'] = menu;
+      }
+      
+      return acc;
+    }, {} as Record<string, MegaMenuData>);
+  }, [megaMenus]);
 
   // Close mobile menu when route changes
   useEffect(() => {

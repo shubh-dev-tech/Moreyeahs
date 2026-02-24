@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { IoChevronDown } from 'react-icons/io5';
@@ -35,7 +35,7 @@ function MenuItems({ items, megaMenuMap, disableMegaMenu = false }: { items: Men
         
         // Check if this is the Career menu item and use custom URL
         const isCareerItem = itemTitleLower === 'career' || itemTitleLower === 'careers';
-        const finalUrl = isCareerItem ? 'https://app.emossy.com/#/job-module/jobs?companyId=IjE' : item.url;
+        const finalUrl = isCareerItem ? '/careers' : item.url;
         
         return (
           <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (hasChildren ? 'has-children' : '')}>
@@ -83,34 +83,43 @@ export default function HeaderWithMegaMenu({ siteName, logo, primaryMenuItems, s
   const [hideDefaultHeader, setHideDefaultHeader] = useState(false);
   const pathname = usePathname();
   
-  // Detect background color for default header
-  const isDarkBackground = useBackgroundDetection('.header--transparent', [pathname]);
+  // Check if current page should have black menu (careers, case-study, blog)
+  const shouldUseBlackMenu = pathname === '/careers' || 
+                             pathname.startsWith('/careers/') ||
+                             pathname.startsWith('/case-study') || 
+                             pathname.startsWith('/blog');
+  
+  // For all other pages, use white menu (dark background style)
+  const isDarkBackground = !shouldUseBlackMenu;
   
   // Logo URLs
   const lightBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Moreyeahs-Logo-7.png'; // Black logo
   const darkBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Logo-1.png'; // White logo
   
-  // Choose logo based on background for default header
+  // Choose logo based on menu color
+  // White menu = white logo (dark background), Black menu = black logo (light background)
   const defaultHeaderLogoUrl = isDarkBackground ? darkBgLogoUrl : lightBgLogoUrl;
   // Sticky header always uses black logo
   const stickyHeaderLogoUrl = lightBgLogoUrl;
   
   // Create a flexible mega menu mapping that handles variations
-  const megaMenuMap: Record<string, MegaMenuData> = megaMenus.reduce((acc, menu) => {
-    const key = menu.title.toLowerCase().trim();
-    acc[key] = menu;
-    
-    // Add flexible matching for common variations
-    if (key.endsWith('s')) {
-      // If mega menu ends with 's', also match without 's'
-      acc[key.slice(0, -1)] = menu;
-    } else {
-      // If mega menu doesn't end with 's', also match with 's'
-      acc[key + 's'] = menu;
-    }
-    
-    return acc;
-  }, {} as Record<string, MegaMenuData>);
+  const megaMenuMap: Record<string, MegaMenuData> = useMemo(() => {
+    return megaMenus.reduce((acc, menu) => {
+      const key = menu.title.toLowerCase().trim();
+      acc[key] = menu;
+      
+      // Add flexible matching for common variations
+      if (key.endsWith('s')) {
+        // If mega menu ends with 's', also match without 's'
+        acc[key.slice(0, -1)] = menu;
+      } else {
+        // If mega menu doesn't end with 's', also match with 's'
+        acc[key + 's'] = menu;
+      }
+      
+      return acc;
+    }, {} as Record<string, MegaMenuData>);
+  }, [megaMenus]);
 
   // Detect scroll to show/hide headers
   useEffect(() => {

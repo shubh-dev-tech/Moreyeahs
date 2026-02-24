@@ -27,7 +27,7 @@ export default function CareerNotFound() {
           marginBottom: '30px',
           lineHeight: '1.6'
         }}>
-          Sorry, we couldn't find the job you're looking for. It may have been filled or removed.
+          Sorry, we couldn&apos;t find the job you&apos;re looking for. It may have been filled or removed.
         </p>
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link 

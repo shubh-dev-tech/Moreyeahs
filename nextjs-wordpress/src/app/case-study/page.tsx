@@ -30,7 +30,7 @@ async function getCaseStudies(): Promise<ProcessedCaseStudyData[]> {
     const { getWordPressApiUrl } = await import('@/lib/environment');
     const apiUrl = getWordPressApiUrl();
     
-    const response = await fetch(`${apiUrl}/wp/v2/case_study?per_page=100&_embed`, {
+    const response = await fetch(`${apiUrl}/wp/v2/case_study?per_page=20&_embed`, {
       next: { revalidate: 60 },
       // Add timeout for build process
       signal: AbortSignal.timeout(15000), // 15 second timeout
@@ -132,7 +132,7 @@ async function getCaseStudies(): Promise<ProcessedCaseStudyData[]> {
 async function getCaseStudiesFromPosts(apiUrl: string): Promise<ProcessedCaseStudyData[]> {
   try {
     
-    const response = await fetch(`${apiUrl}/wp/v2/posts?categories=case-study&per_page=100&_embed`, {
+    const response = await fetch(`${apiUrl}/wp/v2/posts?categories=case-study&per_page=20&_embed`, {
       next: { revalidate: 60 },
       signal: AbortSignal.timeout(15000),
       headers: {

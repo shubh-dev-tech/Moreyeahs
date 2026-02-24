@@ -22,7 +22,7 @@ async function getIndustries(): Promise<Industry[]> {
     const { getWordPressApiUrl } = await import('@/lib/environment');
     const apiUrl = getWordPressApiUrl();
     
-    const response = await fetch(`${apiUrl}/wp/v2/industry?per_page=100`, {
+    const response = await fetch(`${apiUrl}/wp/v2/industry?per_page=20`, {
       next: { revalidate: 300 }, // Revalidate every 5 minutes
       signal: AbortSignal.timeout(10000),
       headers: {

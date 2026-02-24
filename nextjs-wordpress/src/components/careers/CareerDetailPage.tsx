@@ -87,7 +87,7 @@ const CareerDetailPage: React.FC<CareerDetailPageProps> = ({
       <section 
         className={styles.headerSection}
         style={{
-          backgroundImage: `linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)), url(${backgroundImage})`,
+          // backgroundImage: `linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)), url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}

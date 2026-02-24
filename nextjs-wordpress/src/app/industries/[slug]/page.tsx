@@ -231,13 +231,13 @@ export async function generateStaticParams() {
     const apiUrl = getWordPressApiUrl();
     
     // Try industries custom post type first
-    let response = await fetch(`${apiUrl}/wp/v2/industries?per_page=100`, {
+    let response = await fetch(`${apiUrl}/wp/v2/industries?per_page=20`, {
       next: { revalidate: 3600 }
     });
 
     // If industries custom post type doesn't exist, try posts
     if (!response.ok) {
-      response = await fetch(`${apiUrl}/wp/v2/posts?categories=industries&per_page=100`, {
+      response = await fetch(`${apiUrl}/wp/v2/posts?categories=industries&per_page=20`, {
         next: { revalidate: 3600 }
       });
     }

@@ -102,7 +102,7 @@
   /* Testimonial Card */
   .testimonial-card {
     position: absolute;
-    width: 350px;
+    width: 450px;
     height: 280px;
     display: flex;
     justify-content: center;
@@ -186,7 +186,7 @@
         }
 
         .testimonial-quote {
-            font-size: 12px;
+            font-size: 14px;
           line-height: 1.5;
           margin: 0 0 10px 0;
           font-style: italic;
@@ -680,7 +680,8 @@
   }
 }
 .dice-testimonial-block{
-      background: #F6F8FB !important;
+      // background: #F6F8FB !important;
+       background: #FFFFFF !important;
           min-height: auto!important;
           
 }

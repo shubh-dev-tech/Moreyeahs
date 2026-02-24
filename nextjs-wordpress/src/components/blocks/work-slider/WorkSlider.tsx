@@ -258,9 +258,7 @@ const WorkSlider: React.FC<WorkSliderProps> = ({ data }) => {
                         height={400}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         priority={index === 0}
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
+                        unoptimized
                       />
                     </div>
                   )}
