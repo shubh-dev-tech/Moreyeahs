@@ -6,33 +6,25 @@ interface PDFOptions {
   orientation?: 'portrait' | 'landscape';
 }
 
-// Lazy load function for html2canvas with enhanced error handling
+// Lazy load function for html2canvas
 const loadHtml2Canvas = async () => {
   try {
     const html2canvasModule = await import('html2canvas');
-    if (!html2canvasModule || !html2canvasModule.default) {
-      throw new Error('html2canvas module is invalid or corrupted');
-    }
     return html2canvasModule.default;
   } catch (error) {
     console.error('Failed to load html2canvas:', error);
-    // Return null instead of throwing to allow graceful fallback
-    return null;
+    throw new Error('PDF generation library not available. Please try refreshing the page.');
   }
 };
 
-// Lazy load function for jsPDF with enhanced error handling
+// Lazy load function for jsPDF
 const loadJsPDF = async () => {
   try {
     const jsPDFModule = await import('jspdf');
-    if (!jsPDFModule || !jsPDFModule.default) {
-      throw new Error('jsPDF module is invalid or corrupted');
-    }
     return jsPDFModule.default;
   } catch (error) {
     console.error('Failed to load jsPDF:', error);
-    // Return null instead of throwing to allow graceful fallback
-    return null;
+    throw new Error('PDF generation library not available. Please try refreshing the page.');
   }
 };
 
@@ -52,12 +44,6 @@ export const generatePDF = async (
       loadHtml2Canvas(),
       loadJsPDF()
     ]);
-
-    // Check if both libraries loaded successfully
-    if (!html2canvas || !jsPDF) {
-      throw new Error('PDF generation libraries failed to load. This may be due to missing dependencies or network issues. Please ensure node_modules are installed and try again.');
-    }
-
     // Get the element to convert
     const element = document.getElementById(elementId);
     if (!element) {
@@ -302,11 +288,6 @@ export const testPDFGeneration = async (): Promise<void> => {
       loadHtml2Canvas(),
       loadJsPDF()
     ]);
-
-    // Check if both libraries loaded successfully
-    if (!html2canvas || !jsPDF) {
-      throw new Error('PDF generation libraries failed to load. This may be due to missing dependencies or network issues. Please ensure node_modules are installed and try again.');
-    }
     
     // Create a simple test element
     const testElement = document.createElement('div');

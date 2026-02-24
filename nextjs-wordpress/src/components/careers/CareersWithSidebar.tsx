@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './CareersWithSidebar.module.css';
 
@@ -57,8 +57,18 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
   const [experienceLevels, setExperienceLevels] = useState<FilterOption[]>([]);
   const [jobPreferences, setJobPreferences] = useState<FilterOption[]>([]);
 
+  // Fetch taxonomy terms on component mount
+  useEffect(() => {
+    fetchTaxonomies();
+  }, []);
+
+  // Apply filters whenever selection changes
+  useEffect(() => {
+    applyFilters();
+  }, [selectedDepartment, selectedType, selectedLevel, selectedPreference, allCareers]);
+
   // Fetch all taxonomy terms from WordPress
-  const fetchTaxonomies = useCallback(async () => {
+  const fetchTaxonomies = async () => {
     try {
       // Use the environment utility to get the correct API URL
       const { getWordPressApiUrl } = await import('@/lib/environment');
@@ -66,10 +76,10 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
 
       // Fetch all taxonomies in parallel
       const [deptRes, typeRes, levelRes, prefRes] = await Promise.all([
-        fetch(`${apiUrl}/wp/v2/career_department?per_page=20`),
-        fetch(`${apiUrl}/wp/v2/career_type?per_page=20`),
-        fetch(`${apiUrl}/wp/v2/career_level?per_page=20`),
-        fetch(`${apiUrl}/wp/v2/career_preference?per_page=20`)
+        fetch(`${apiUrl}/wp/v2/career_department?per_page=50`),
+        fetch(`${apiUrl}/wp/v2/career_type?per_page=50`),
+        fetch(`${apiUrl}/wp/v2/career_level?per_page=50`),
+        fetch(`${apiUrl}/wp/v2/career_preference?per_page=50`)
       ]);
 
       const [deptData, typeData, levelData, prefData] = await Promise.all([
@@ -107,10 +117,10 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
     } catch (error) {
       console.error('Error fetching taxonomies:', error);
     }
-  }, [initialCareers]);
+  };
 
   // Apply filters to careers
-  const applyFilters = useCallback(() => {
+  const applyFilters = () => {
     setIsLoading(true);
     
     try {
@@ -151,17 +161,7 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
     } finally {
       setIsLoading(false);
     }
-  }, [allCareers, selectedDepartment, selectedType, selectedLevel, selectedPreference]);
-
-  // Fetch taxonomy terms on component mount
-  useEffect(() => {
-    fetchTaxonomies();
-  }, [fetchTaxonomies]);
-
-  // Apply filters whenever selection changes
-  useEffect(() => {
-    applyFilters();
-  }, [applyFilters]);
+  };
 
   // Handle filter changes - toggle on/off
   const handleFilterChange = (filterType: string, value: number) => {
@@ -208,8 +208,8 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
     // Sanitize and ensure valid HTML
     if (!excerpt) return '';
     try {
-      // Remove any potentially problematic HTML and normalize whitespace
-      return excerpt.replace(/\s+/g, ' ').trim();
+      // Remove any potentially problematic HTML
+      return excerpt.trim();
     } catch (error) {
       console.error('Error processing excerpt:', error);
       return '';

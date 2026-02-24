@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 
 interface ContactInfo {
   email?: string;
@@ -145,12 +144,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
             <div className="expertise-section">
               <div className="expertise-item">
                 <div className="expertise-icon">
-                  <Image
-                    src="https://dev.moreyeahs.com/wp-content/uploads/2026/02/WorkspacePremiumOutlined-5.png"
-                    alt="Expertise Icon"
-                    width={32}
-                    height={32}
-                  />
+                  <img src="https://dev.moreyeahs.com/wp-content/uploads/2026/02/WorkspacePremiumOutlined-5.png" alt="Expertise Icon" width="32" height="32" />
                 </div>
                 <div className="expertise-content">
                   <h3 className="expertise-title">11+ Years of Expertise</h3>
@@ -160,12 +154,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
 
               <div className="expertise-item">
                 <div className="expertise-icon">
-                  <Image
-                    src="https://dev.moreyeahs.com/wp-content/uploads/2026/02/HandshakeOutlined.png"
-                    alt="Handshake Icon"
-                    width={32}
-                    height={32}
-                  />
+                  <img src="https://dev.moreyeahs.com/wp-content/uploads/2026/02/HandshakeOutlined.png" alt="Handshake Icon" width="32" height="32" />
                 </div>
                 <div className="expertise-content">
                   <h3 className="expertise-title">100+ Satisfied Clients</h3>
@@ -175,12 +164,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contact_info }) => {
 
               <div className="expertise-item">
                 <div className="expertise-icon">
-                  <Image
-                    src="https://dev.moreyeahs.com/wp-content/uploads/2026/02/GroupsOutlined-1.png"
-                    alt="Groups Icon"
-                    width={32}
-                    height={32}
-                  />
+                  <img src="https://dev.moreyeahs.com/wp-content/uploads/2026/02/GroupsOutlined-1.png" alt="Groups Icon" width="32" height="32" />
                 </div>
                 <div className="expertise-content">
                   <h3 className="expertise-title">150+ In House Team Members</h3>

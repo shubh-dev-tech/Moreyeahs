@@ -7,10 +7,6 @@
 
 import { WORDPRESS_API_URL, IS_DEVELOPMENT } from './env';
 
-// Cache for failed endpoints to prevent repeated 404 requests
-const failedEndpointsCache = new Map<string, number>();
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
-
 // Safe fetch options with timeout and error handling
 const FETCH_OPTIONS = {
   method: 'POST',
@@ -64,12 +60,6 @@ export async function wpFetch<T = any>(endpoint: string, data?: any, method: 'GE
   
   const url = `${WORDPRESS_API_URL}${endpoint}`;
   
-  // Check if this endpoint recently failed (404) - skip to avoid repeated requests
-  const cachedFailure = failedEndpointsCache.get(url);
-  if (cachedFailure && Date.now() - cachedFailure < CACHE_DURATION) {
-    return null;
-  }
-  
   const options: RequestInit = {
     method,
     headers: {
@@ -92,22 +82,11 @@ export async function wpFetch<T = any>(endpoint: string, data?: any, method: 'GE
   
   // Handle non-200 responses gracefully
   if (!response.ok) {
-    // Cache 404 errors to prevent repeated requests
-    if (response.status === 404) {
-      failedEndpointsCache.set(url, Date.now());
-      // Silently ignore 404s - they're expected for missing content
-      return null;
-    }
-    
-    // Only log non-404 errors in development
-    if (IS_DEVELOPMENT && response.status >= 500) {
+    if (IS_DEVELOPMENT) {
       console.warn(`[wpFetch] HTTP ${response.status} for ${url}`);
     }
     return null;
   }
-  
-  // Clear from failed cache if it succeeds
-  failedEndpointsCache.delete(url);
   
   try {
     const text = await response.text();

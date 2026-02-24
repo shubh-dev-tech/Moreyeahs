@@ -1,5 +1,5 @@
 export const SITE_CONFIG = {
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001',
   name: process.env.NEXT_PUBLIC_SITE_NAME || 'My Site',
   description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION || '',
   locale: 'en_US',

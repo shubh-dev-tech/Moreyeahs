@@ -22,13 +22,6 @@ const authRoutes = [
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
-  // Block Elementor plugin requests early
-  if (pathname.includes('/wp-content/plugins/elementor') || 
-      pathname.includes('elementor-pro') ||
-      (pathname.includes('/wp-content/uploads/') && pathname.includes('elementor'))) {
-    return new NextResponse(null, { status: 404 });
-  }
-  
   // Create response
   let response = NextResponse.next();
   

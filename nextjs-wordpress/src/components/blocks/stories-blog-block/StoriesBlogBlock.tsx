@@ -370,7 +370,7 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
 
   const getFeaturedImage = (post: Post) => {
     const imageUrl = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-    return imageUrl || `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200'%3E%3Crect fill='%234a148c' width='400' height='200'/%3E%3Ctext fill='%23ffffff' font-family='Arial' font-size='18' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3ENo Image%3C/text%3E%3C/svg%3E`;
+    return imageUrl || 'https://via.placeholder.com/400x200/4a148c/ffffff?text=No+Image';
   };
 
   const getFeaturedImageAlt = (post: Post) => {
@@ -441,7 +441,10 @@ export default function StoriesBlogBlock({ data }: StoriesBlogBlockProps) {
                     height={200}
                     style={{ objectFit: 'cover' }}
                     loading="lazy"
-                    unoptimized
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = 'https://via.placeholder.com/400x200/4a148c/ffffff?text=Image+Not+Found';
+                    }}
                   />
                   {/* <div className="stories-blog-block__card-label">
                     {getPostTypeLabel()}

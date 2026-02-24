@@ -125,7 +125,7 @@ export const useBackgroundDetection = (elementSelector: string = '.header', depe
       window.removeEventListener('load', checkBackgroundColor);
       window.removeEventListener('popstate', handleRouteChange);
     };
-  }, [elementSelector, dependencies]);
+  }, [elementSelector, ...dependencies]);
 
   return isDarkBackground;
 };

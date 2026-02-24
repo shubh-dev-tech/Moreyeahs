@@ -139,7 +139,10 @@ const CaseStudyTemplatePage: React.FC<CaseStudyTemplatePageProps> = ({
         width={width}
         height={height}
         className={className}
-        unoptimized
+        onError={(e) => {
+          console.warn('Image failed to load:', src);
+          e.currentTarget.style.display = 'none';
+        }}
         {...props}
       />
     );

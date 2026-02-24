@@ -5,8 +5,6 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { generatePostMetadata } from '@/lib/seo';
 import { sanitizeSlug, isValidSlug, isMalformedSlug } from '@/utils/slugUtils';
 
-export const dynamic = 'force-dynamic';
-
 interface CaseStudyPageProps {
   params: {
     slug: string;
@@ -192,6 +190,46 @@ async function getCaseStudyFromPosts(slug: string, apiUrl: string): Promise<Case
 // Generate metadata for SEO
 export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
   return generatePostMetadata(params.slug, 'case_study');
+}
+
+// Generate static params for static generation (optional)
+export async function generateStaticParams() {
+  try {
+    // Use environment-aware URL detection
+    const { getWordPressApiUrl } = await import('@/lib/environment');
+    const apiUrl = getWordPressApiUrl();
+    
+
+    
+    const response = await fetch(`${apiUrl}/wp/v2/case_study?per_page=20`, {
+      // Add timeout and retry logic for build process
+      signal: AbortSignal.timeout(10000), // 10 second timeout
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!response.ok) {
+      console.warn(`Failed to fetch case studies for static generation: ${response.status}`);
+      return [];
+    }
+
+    const caseStudies = await response.json();
+    
+    if (!Array.isArray(caseStudies)) {
+      console.warn('Invalid case studies response format');
+      return [];
+    }
+    
+    return caseStudies.map((caseStudy: any) => ({
+      slug: caseStudy.slug
+    }));
+  } catch (error) {
+    console.warn('Error generating static params (will use dynamic rendering):', error);
+    // Return empty array to allow dynamic rendering
+    return [];
+  }
 }
 
 export default async function CaseStudyPageRoute({ params }: CaseStudyPageProps) {

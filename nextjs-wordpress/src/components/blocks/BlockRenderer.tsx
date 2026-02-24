@@ -3,7 +3,6 @@
  * Dynamically renders WordPress blocks based on their type
  */
 
-'use client';
 import React from 'react';
 import { Block, isACFBlock, getBlockType } from '@/lib/blocks';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';

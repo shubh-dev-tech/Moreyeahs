@@ -5,8 +5,6 @@ import { WordPressContent } from '@/components/WordPressContent';
 import { notFound } from 'next/navigation';
 import { generatePageMetadata } from '@/lib/seo';
 
-export const dynamic = 'force-dynamic';
-
 interface PageData {
   id: number;
   title: string;
@@ -52,6 +50,19 @@ export default async function CatchAllPage({ params }: { params: { slug: string[
       <BlockRenderer blocks={blocks} />
     </main>
   );
+}
+
+// Build-safe: Generate static params for known nested pages
+export async function generateStaticParams() {
+  // Build-safe: use wpFetch, return empty array on failure
+  const pages = await getPages({ per_page: 100 });
+  
+  // Filter for pages that have parent-child relationships (contain slashes)
+  return pages
+    .filter(page => page.slug && page.slug.includes('/'))
+    .map((page) => ({
+      slug: page.slug.split('/'),
+    }));
 }
 
 // Build-safe: ISR with 60s revalidation

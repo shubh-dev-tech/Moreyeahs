@@ -1,9 +1,5 @@
 import { getWordPressUrl, getWordPressApiUrl, transformMediaUrl } from './environment';
 
-// Cache for failed endpoints to prevent repeated 404 requests
-const failedEndpointsCache = new Map<string, number>();
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
-
 // WordPress REST API configuration
 function getBaseUrl() {
   return getWordPressUrl();
@@ -17,12 +13,6 @@ export async function fetchWordPressAPI<T>(endpoint: string, data?: any): Promis
   }
 
   const url = `${apiUrl}${endpoint}`;
-  
-  // Check if this endpoint recently failed (404) - skip to avoid repeated requests
-  const cachedFailure = failedEndpointsCache.get(url);
-  if (cachedFailure && Date.now() - cachedFailure < CACHE_DURATION) {
-    throw new Error(`Endpoint previously failed: ${url}`);
-  }
   
   try {
     const controller = new AbortController();
@@ -42,15 +32,8 @@ export async function fetchWordPressAPI<T>(endpoint: string, data?: any): Promis
     clearTimeout(timeoutId);
     
     if (!response.ok) {
-      // Cache 404 errors to prevent repeated requests
-      if (response.status === 404) {
-        failedEndpointsCache.set(url, Date.now());
-      }
       throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
     }
-    
-    // Clear from failed cache if it succeeds
-    failedEndpointsCache.delete(url);
     
     const responseData = await response.json();
     return responseData;
@@ -76,12 +59,6 @@ export async function fetchRestAPI(endpoint: string, data?: any) {
 
   const url = `${apiUrl}${endpoint}`;
   
-  // Check if this endpoint recently failed (404) - skip to avoid repeated requests
-  const cachedFailure = failedEndpointsCache.get(url);
-  if (cachedFailure && Date.now() - cachedFailure < CACHE_DURATION) {
-    throw new Error(`Endpoint previously failed: ${url}`);
-  }
-  
   try {
     // Add timeout to prevent hanging requests
     const controller = new AbortController();
@@ -101,15 +78,8 @@ export async function fetchRestAPI(endpoint: string, data?: any) {
     clearTimeout(timeoutId);
     
     if (!response.ok) {
-      // Cache 404 errors to prevent repeated requests
-      if (response.status === 404) {
-        failedEndpointsCache.set(url, Date.now());
-      }
       throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
     }
-    
-    // Clear from failed cache if it succeeds
-    failedEndpointsCache.delete(url);
     
     const responseData = await response.json();
     return responseData;

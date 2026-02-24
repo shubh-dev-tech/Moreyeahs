@@ -87,22 +87,9 @@ img, video, iframe, embed, object {
   z-index: 99999 !important;
 }
 
-/* Smooth transitions for content */
-.main-content {
-  transition: opacity 0.2s ease-in-out;
-  will-change: opacity;
-}
-
 /* Prevent flash of unstyled content during loading */
 .site-wrapper {
   min-height: 100vh;
-}
-
-/* Optimize loader performance */
-.pageLoader * {
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
 }
 
 /* Ensure smooth animations on all devices */
