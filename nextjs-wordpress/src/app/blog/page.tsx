@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
-import BlogCard from '@/components/blog/BlogCard';
 import { generatePageMetadata } from '@/lib/seo';
 import styles from './Blog.module.css';
+import BlogPostsWithLoading from '@/components/blog/BlogPostsWithLoading';
 
 // Interface for processed blog post data
 interface ProcessedBlogData {
@@ -25,21 +24,38 @@ export async function generateMetadata(): Promise<Metadata> {
   return generatePageMetadata('blog');
 }
 
-// Fetch all blog posts from WordPress API
+// Fetch blog posts from WordPress API
 async function getBlogPosts(): Promise<ProcessedBlogData[]> {
   try {
     // Use environment-aware URL detection
     const { getWordPressApiUrl } = await import('@/lib/environment');
     const apiUrl = getWordPressApiUrl();
-    
-    const response = await fetch(`${apiUrl}/wp/v2/posts?per_page=100&_embed`, {
-      next: { revalidate: 60 },
+
+    /**
+     * IMPORTANT:
+     * Next.js data cache has a ~2MB per-entry limit.
+     * Your previous request (per_page=100&_embed) produced ~7MB and broke caching.
+     *
+     * Fix: fetch fewer posts per request.
+     */
+    const PER_PAGE = 12; // adjust (10/12/16/20) but keep it reasonable
+    const PAGE = 1;
+
+    const url =
+      `${apiUrl}/wp/v2/posts` +
+      `?per_page=${PER_PAGE}` +
+      `&page=${PAGE}` +
+      `&_embed=1` +
+      `&orderby=date&order=desc`;
+
+    const response = await fetch(url, {
+      next: { revalidate: 60 }, // ISR: cache for 60s, then revalidate
       signal: AbortSignal.timeout(15000), // 15 second timeout
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
-        'User-Agent': 'NextJS-App/1.0'
-      }
+        'User-Agent': 'NextJS-App/1.0',
+      },
     });
 
     if (!response.ok) {
@@ -48,12 +64,12 @@ async function getBlogPosts(): Promise<ProcessedBlogData[]> {
     }
 
     const posts = await response.json();
-    
+
     if (!Array.isArray(posts)) {
       console.error('Invalid blog posts response format:', typeof posts);
       return [];
     }
-    
+
     // Extract rendered content helper
     const extractRendered = (field: any): string => {
       if (!field) return '';
@@ -61,36 +77,36 @@ async function getBlogPosts(): Promise<ProcessedBlogData[]> {
       if (field.rendered) return field.rendered;
       return '';
     };
-    
-    const processedData = posts.map((post: any) => {
+
+    const processedData: ProcessedBlogData[] = posts.map((post: any) => {
       const rawTitle = extractRendered(post.title);
       const content = extractRendered(post.content);
       const excerpt = extractRendered(post.excerpt);
-      
+
       // Extract author info
       const authorName = post._embedded?.author?.[0]?.name || 'Anonymous';
       const authorAvatar = post._embedded?.author?.[0]?.avatar_urls?.['96'] || null;
-      
+
       // Extract categories
       const categories = post._embedded?.['wp:term']?.[0]?.map((cat: any) => cat.name) || [];
-      
+
       return {
         id: post.id,
         title: rawTitle || 'Untitled Post',
         slug: post.slug,
-        content: content,
+        content,
         excerpt: excerpt || content.replace(/<[^>]+>/g, '').substring(0, 200),
         date: post.date,
         featured_image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url ?? null,
         author: {
           name: authorName,
-          avatar: authorAvatar
+          avatar: authorAvatar,
         },
-        categories: categories,
-        acf_fields: post.acf_fields || post.acf || {}
+        categories,
+        acf_fields: post.acf_fields || post.acf || {},
       };
     });
-    
+
     return processedData;
   } catch (error) {
     console.error('Error fetching blog posts:', error);
@@ -107,9 +123,9 @@ export default async function BlogPage() {
       <section className={styles['blog-hero']}>
         <div className={styles.container}>
           <h1 className={styles['blog-hero__title']}>Our Blog</h1>
-          <p className={styles['blog-hero__subtitle']}>
+          {/* <p className={styles['blog-hero__subtitle']}>
             Insights, updates, and stories from our team
-          </p>
+          </p> */}
         </div>
       </section>
 
@@ -121,21 +137,7 @@ export default async function BlogPage() {
               <p>No blog posts found. Check back soon!</p>
             </div>
           ) : (
-            <div className={styles['blog-grid']}>
-              {posts.map((post) => (
-                <BlogCard
-                  key={post.id}
-                  id={post.id}
-                  title={post.title}
-                  slug={post.slug}
-                  excerpt={post.excerpt}
-                  featured_image={post.featured_image}
-                  date={post.date}
-                  author={post.author}
-                  categories={post.categories}
-                />
-              ))}
-            </div>
+            <BlogPostsWithLoading posts={posts} gridClassName={styles['blog-grid']} />
           )}
         </div>
       </section>

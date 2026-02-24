@@ -18,8 +18,6 @@
             },
             "default_value": "About us",
             "placeholder": "About us",
-            "show_in_graphql": 1,
-            "graphql_field_name": "heading",
             "maxlength": "",
             "prepend": "",
             "append": ""
@@ -40,8 +38,6 @@
             },
             "default_value": "A global leader in next-generation digital services and consulting",
             "placeholder": "A global leader in next-generation digital services and consulting",
-            "show_in_graphql": 1,
-            "graphql_field_name": "subHeading",
             "maxlength": "",
             "rows": 3,
             "new_lines": ""
@@ -62,9 +58,7 @@
             },
             "default_value": "#ffffff",
             "enable_opacity": 1,
-            "return_format": "string",
-            "show_in_graphql": 1,
-            "graphql_field_name": "backgroundColor"
+            "return_format": "string"
         },
         {
             "key": "field_counter_counters",
@@ -80,8 +74,6 @@
                 "class": "",
                 "id": ""
             },
-            "show_in_graphql": 1,
-            "graphql_field_name": "counters",
             "layout": "block",
             "pagination": 0,
             "min": 0,
@@ -106,8 +98,6 @@
                     },
                     "default_value": "",
                     "placeholder": "59",
-                    "show_in_graphql": 1,
-                    "graphql_field_name": "number",
                     "maxlength": "",
                     "prepend": "",
                     "append": "",
@@ -129,8 +119,6 @@
                     },
                     "default_value": "",
                     "placeholder": "US$",
-                    "show_in_graphql": 1,
-                    "graphql_field_name": "prefix",
                     "maxlength": "",
                     "prepend": "",
                     "append": "",
@@ -152,8 +140,6 @@
                     },
                     "default_value": "",
                     "placeholder": "+",
-                    "show_in_graphql": 1,
-                    "graphql_field_name": "suffix",
                     "maxlength": "",
                     "prepend": "",
                     "append": "",
@@ -175,8 +161,6 @@
                     },
                     "default_value": "",
                     "placeholder": "countries where we have trusting clients",
-                    "show_in_graphql": 1,
-                    "graphql_field_name": "label",
                     "maxlength": "",
                     "rows": 2,
                     "new_lines": "",

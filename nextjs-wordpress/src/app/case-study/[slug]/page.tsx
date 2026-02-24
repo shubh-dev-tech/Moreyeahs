@@ -201,7 +201,7 @@ export async function generateStaticParams() {
     
 
     
-    const response = await fetch(`${apiUrl}/wp/v2/case_study?per_page=100`, {
+    const response = await fetch(`${apiUrl}/wp/v2/case_study?per_page=20`, {
       // Add timeout and retry logic for build process
       signal: AbortSignal.timeout(10000), // 10 second timeout
       headers: {

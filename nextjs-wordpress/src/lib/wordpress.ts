@@ -1,5 +1,9 @@
 import { getWordPressUrl, getWordPressApiUrl, transformMediaUrl } from './environment';
 
+// Cache for failed endpoints to prevent repeated 404 requests
+const failedEndpointsCache = new Map<string, number>();
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
 // WordPress REST API configuration
 function getBaseUrl() {
   return getWordPressUrl();
@@ -13,6 +17,12 @@ export async function fetchWordPressAPI<T>(endpoint: string, data?: any): Promis
   }
 
   const url = `${apiUrl}${endpoint}`;
+  
+  // Check if this endpoint recently failed (404) - skip to avoid repeated requests
+  const cachedFailure = failedEndpointsCache.get(url);
+  if (cachedFailure && Date.now() - cachedFailure < CACHE_DURATION) {
+    throw new Error(`Endpoint previously failed: ${url}`);
+  }
   
   try {
     const controller = new AbortController();
@@ -32,8 +42,15 @@ export async function fetchWordPressAPI<T>(endpoint: string, data?: any): Promis
     clearTimeout(timeoutId);
     
     if (!response.ok) {
+      // Cache 404 errors to prevent repeated requests
+      if (response.status === 404) {
+        failedEndpointsCache.set(url, Date.now());
+      }
       throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
     }
+    
+    // Clear from failed cache if it succeeds
+    failedEndpointsCache.delete(url);
     
     const responseData = await response.json();
     return responseData;
@@ -49,50 +66,6 @@ export async function fetchWordPressAPI<T>(endpoint: string, data?: any): Promis
   }
 }
 
-export async function fetchGraphQL<T = any>(query: string, variables?: Record<string, any>): Promise<T> {
-  const baseUrl = getWordPressUrl();
-  const graphqlUrl = `${baseUrl}/graphql`;
-
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-    const response = await fetch(graphqlUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        query,
-        variables: variables || {},
-      }),
-      next: { revalidate: 3600 },
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    if (result.errors) {
-      console.error('GraphQL errors:', result.errors);
-      throw new Error(`GraphQL error: ${result.errors[0]?.message || 'Unknown error'}`);
-    }
-
-    return result.data as T;
-  } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.warn('GraphQL request failed:', error instanceof Error ? error.message : 'Unknown error');
-    }
-    throw error;
-  }
-}
-
 export async function fetchRestAPI(endpoint: string, data?: any) {
   const apiUrl = getWordPressApiUrl();
 
@@ -102,6 +75,12 @@ export async function fetchRestAPI(endpoint: string, data?: any) {
   }
 
   const url = `${apiUrl}${endpoint}`;
+  
+  // Check if this endpoint recently failed (404) - skip to avoid repeated requests
+  const cachedFailure = failedEndpointsCache.get(url);
+  if (cachedFailure && Date.now() - cachedFailure < CACHE_DURATION) {
+    throw new Error(`Endpoint previously failed: ${url}`);
+  }
   
   try {
     // Add timeout to prevent hanging requests
@@ -122,8 +101,15 @@ export async function fetchRestAPI(endpoint: string, data?: any) {
     clearTimeout(timeoutId);
     
     if (!response.ok) {
+      // Cache 404 errors to prevent repeated requests
+      if (response.status === 404) {
+        failedEndpointsCache.set(url, Date.now());
+      }
       throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
     }
+    
+    // Clear from failed cache if it succeeds
+    failedEndpointsCache.delete(url);
     
     const responseData = await response.json();
     return responseData;

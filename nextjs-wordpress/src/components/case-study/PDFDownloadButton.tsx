@@ -81,14 +81,19 @@ const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
       errors.name = 'Name is required';
     }
     
-    if (!formData.email.trim()) {
-      errors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = 'Please enter a valid email address';
-    }
+    // Check if at least one contact method is provided
+    const hasEmail = formData.email.trim().length > 0;
+    const hasPhone = formData.phone.trim().length > 0;
     
-    if (!formData.phone.trim()) {
-      errors.phone = 'Phone number is required';
+    if (!hasEmail && !hasPhone) {
+      errors.email = 'Please provide either email or phone number';
+      errors.phone = 'Please provide either email or phone number';
+    } else {
+      // Validate email format only if email is provided
+      if (hasEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        errors.email = 'Please enter a valid email address';
+      }
+      // Phone validation can be added here if needed
     }
     
     setFormErrors(errors);
@@ -215,7 +220,7 @@ const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
         <div className={styles.modalBody}>
           <h3 className={styles.modalTitle}>Download Case Study</h3>
           <p className={styles.modalText}>
-            Please fill in your details to download this case study as PDF.
+            Please fill in your name and at least one contact method (email or phone) to download this case study as PDF.
           </p>
           
           <form onSubmit={handleSubmitAndDownload} className={styles.downloadForm}>
@@ -239,12 +244,11 @@ const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
               <input
                 type="email"
                 name="email"
-                placeholder="Email Address *"
+                placeholder="Email Address"
                 value={formData.email}
                 onChange={handleInputChange}
                 disabled={isGenerating}
                 className={formErrors.email ? styles.formInputError : styles.formInput}
-                required
               />
               {formErrors.email && (
                 <span className={styles.errorText}>{formErrors.email}</span>
@@ -255,12 +259,11 @@ const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
               <input
                 type="tel"
                 name="phone"
-                placeholder="Phone Number *"
+                placeholder="Phone Number"
                 value={formData.phone}
                 onChange={handleInputChange}
                 disabled={isGenerating}
                 className={formErrors.phone ? styles.formInputError : styles.formInput}
-                required
               />
               {formErrors.phone && (
                 <span className={styles.errorText}>{formErrors.phone}</span>

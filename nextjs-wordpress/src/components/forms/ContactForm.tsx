@@ -132,10 +132,12 @@ export default function ContactForm() {
       <form className="contact-form" onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group">
+            <label htmlFor="email">Email</label>
             <input
+              id="email"
               type="email"
               name="email"
-              placeholder="Email"
+              placeholder="Enter your name"
               required
               className="form-input"
               value={formData.email}
@@ -145,10 +147,12 @@ export default function ContactForm() {
           </div>
 
           <div className="form-group">
+            <label htmlFor="phone">Phone Number</label>
             <input
+              id="phone"
               type="tel"
               name="phone"
-              placeholder="Phone Number"
+              placeholder="Enter your name"
               className="form-input"
               value={formData.phone}
               onChange={handleInputChange}
@@ -158,9 +162,11 @@ export default function ContactForm() {
         </div>
 
         <div className="form-group">
+          <label htmlFor="message">Message</label>
           <textarea
+            id="message"
             name="message"
-            placeholder="Write your message..."
+            placeholder="Your message"
             required
             rows={2}
             className="form-textarea"
@@ -176,7 +182,7 @@ export default function ContactForm() {
           disabled={formState.isSubmitting}
         >
           {formState.isSubmitting ? 'Sending...' : 'Send Message'}
-          <svg width="16" height="16" viewBox="0 0 24 24">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
           </svg>
         </button>

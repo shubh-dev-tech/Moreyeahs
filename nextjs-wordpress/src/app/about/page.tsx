@@ -15,7 +15,7 @@ export default function AboutPage() {
           Welcome to our site! This is a Next.js application powered by WordPress as a headless CMS.
         </p>
         <p>
-          We use WPGraphQL to fetch content from WordPress and display it with modern web technologies
+          We use WordPress REST API to fetch content from WordPress and display it with modern web technologies
           including React, TypeScript, and Next.js 14 with the App Router.
         </p>
         <h2>Features</h2>

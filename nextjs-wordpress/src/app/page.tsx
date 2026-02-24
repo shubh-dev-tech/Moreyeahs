@@ -3,9 +3,9 @@ import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 
-// Build-safe: this page uses ISR with 60s revalidation
-// If WordPress is offline during build, it will show fallback content
-export const revalidate = 60;
+// Optimized ISR with longer revalidation for better performance
+// Adjust based on how frequently your content updates
+export const revalidate = 300; // 5 minutes instead of 60 seconds
 
 export default async function Home() {
   // Build-safe: getHomepageData never throws, returns safe fallbacks

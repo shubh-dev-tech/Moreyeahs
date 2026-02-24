@@ -25,7 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // TODO: Add dynamic post pages from GraphQL when available on Vercel
+  // TODO: Add dynamic post pages from REST API when available on Vercel
   // For now, only return static pages to allow build to succeed
   
   return staticPages;

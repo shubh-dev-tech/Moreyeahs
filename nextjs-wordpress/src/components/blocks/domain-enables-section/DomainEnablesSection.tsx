@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import './styles.scss';
 
 interface FeaturePoint {
@@ -35,9 +36,6 @@ interface DomainEnablesSectionProps {
 }
 
 const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => {
-  // Debug logging to see what data is being received
-  console.log('[DomainEnablesSection] Received data:', JSON.stringify(data, null, 2));
-  
   // Helper function to transform flattened ACF repeater data to array format
   const transformRepeaterData = (data: any, fieldName: string) => {
     if (!data) return [];
@@ -78,10 +76,6 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
   
   // Transform feature points data
   const feature_points = transformRepeaterData(data, 'feature_points');
-  
-  // Debug specific fields
-  console.log('[DomainEnablesSection] Feature points:', feature_points);
-  console.log('[DomainEnablesSection] Icon image:', icon_image);
 
   // Generate background style
   const getBackgroundStyle = (): React.CSSProperties => {
@@ -149,9 +143,11 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
                   <div key={index} className="feature-point">
                     {icon_image ? (
                       <div className="point-icon">
-                        <img 
+                        <Image 
                           src={icon_image.url} 
-                          alt={icon_image.alt || 'Feature icon'} 
+                          alt={icon_image.alt || 'Feature icon'}
+                          width={icon_image.width || 24}
+                          height={icon_image.height || 24}
                         />
                       </div>
                     ) : (
@@ -196,10 +192,12 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
 
           {main_image ? (
             <div className="image-wrapper">
-              <img 
+              <Image 
                 src={main_image.url} 
                 alt={main_image.alt || 'Main illustration'} 
-                className="main-image" 
+                className="main-image"
+                width={main_image.width || 600}
+                height={main_image.height || 400}
               />
             </div>
           ) : (

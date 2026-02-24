@@ -179,7 +179,7 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
       
       // This is a fallback - we don't know the actual filename, so we'll show a placeholder
       // but with a more helpful message
-      return `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Image+ID+${imageId}+Not+Processed`;
+      return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='150'%3E%3Crect fill='%23ff6b6b' width='300' height='150'/%3E%3Ctext fill='%23ffffff' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EImage ID ${imageId} Not Processed%3C/text%3E%3C/svg%3E`;
     }
     
     // Try different possible structures for processed images
@@ -206,7 +206,7 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
     }
     
     console.error('❌ Could not extract image URL from:', image);
-    return `https://via.placeholder.com/300x150/cccccc/666666?text=Missing+Image`;
+    return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='150'%3E%3Crect fill='%23cccccc' width='300' height='150'/%3E%3Ctext fill='%23666666' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EMissing Image%3C/text%3E%3C/svg%3E`;
   };
 
   // Debug logging removed for production
@@ -258,14 +258,14 @@ const PartnershipGallery: React.FC<PartnershipGalleryProps> = ({
             // Create a fallback image object
             processed.push({
               id: imageId,
-              url: `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Error+ID+${imageId}`,
+              url: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='150'%3E%3Crect fill='%23ff6b6b' width='300' height='150'/%3E%3Ctext fill='%23ffffff' font-family='Arial' font-size='14' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EError ID ${imageId}%3C/text%3E%3C/svg%3E`,
               alt: `Image ${imageId}`,
               title: `Image ${imageId}`,
               sizes: {
-                thumbnail: `https://via.placeholder.com/150x150/ff6b6b/ffffff?text=Error+ID+${imageId}`,
-                medium: `https://via.placeholder.com/300x150/ff6b6b/ffffff?text=Error+ID+${imageId}`,
-                large: `https://via.placeholder.com/600x300/ff6b6b/ffffff?text=Error+ID+${imageId}`,
-                full: `https://via.placeholder.com/800x400/ff6b6b/ffffff?text=Error+ID+${imageId}`
+                thumbnail: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect fill='%23ff6b6b' width='150' height='150'/%3E%3C/svg%3E`,
+                medium: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='150'%3E%3Crect fill='%23ff6b6b' width='300' height='150'/%3E%3C/svg%3E`,
+                large: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300'%3E%3Crect fill='%23ff6b6b' width='600' height='300'/%3E%3C/svg%3E`,
+                full: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Crect fill='%23ff6b6b' width='800' height='400'/%3E%3C/svg%3E`
               }
             });
           }

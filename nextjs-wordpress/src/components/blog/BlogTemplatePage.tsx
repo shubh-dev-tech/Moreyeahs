@@ -103,7 +103,7 @@ const BlogTemplatePage: React.FC<BlogTemplatePageProps> = ({
             />
           )}
           
-          <div className="blog-post-hero__meta">
+          {/* <div className="blog-post-hero__meta">
             {post.author && (
               <div className="blog-post-hero__author">
                 {post.author.avatar && (
@@ -127,12 +127,12 @@ const BlogTemplatePage: React.FC<BlogTemplatePageProps> = ({
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
 
       {/* Featured Image */}
-      {post.featured_image && (
+      {/* {post.featured_image && (
         <div className="blog-post-featured-image">
           <div className="blog-post-featured-image__container">
             <Image
@@ -145,7 +145,7 @@ const BlogTemplatePage: React.FC<BlogTemplatePageProps> = ({
             />
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Content */}
       <div className="blog-post-content">

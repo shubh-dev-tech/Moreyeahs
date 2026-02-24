@@ -13,6 +13,10 @@ export function sanitizeWordPressContent(html: string): string {
   return html
     // Remove all script tags and their content
     .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+    // Remove Elementor-related link tags (CSS)
+    .replace(/<link[^>]*elementor[^>]*>/gi, '')
+    // Remove Elementor-related style tags
+    .replace(/<style[^>]*elementor[^>]*>[\s\S]*?<\/style>/gi, '')
     // Remove inline event handlers
     .replace(/\s*on\w+="[^"]*"/gi, '')
     .replace(/\s*on\w+='[^']*'/gi, '')
@@ -24,7 +28,10 @@ export function sanitizeWordPressContent(html: string): string {
     // Clean up any WordPress-generated function calls that might be problematic
     .replace(/\w+_block_[a-f0-9]+\s*\(/gi, 'void(')
     // Remove any remaining script-like content
-    .replace(/<noscript[^>]*>[\s\S]*?<\/noscript>/gi, '');
+    .replace(/<noscript[^>]*>[\s\S]*?<\/noscript>/gi, '')
+    // Remove Elementor data attributes
+    .replace(/\s*data-elementor[^=]*="[^"]*"/gi, '')
+    .replace(/\s*data-elementor[^=]*='[^']*'/gi, '');
 }
 
 /**
@@ -57,6 +64,33 @@ export function processWordPressBlocks(blocks: any[]): any[] {
 export function setupWordPressErrorHandler(): void {
   if (typeof window === 'undefined') return;
 
+  // Block Elementor scripts from loading
+  const originalCreateElement = document.createElement.bind(document);
+  document.createElement = function(tagName: string, options?: any) {
+    const element = originalCreateElement(tagName, options);
+    
+    if (tagName.toLowerCase() === 'script' || tagName.toLowerCase() === 'link') {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && (mutation.attributeName === 'src' || mutation.attributeName === 'href')) {
+            const target = mutation.target as HTMLElement;
+            const src = target.getAttribute('src') || target.getAttribute('href') || '';
+            
+            // Block Elementor-related resources
+            if (src.includes('elementor') || src.includes('/wp-content/plugins/elementor')) {
+              console.warn('Blocked Elementor resource:', src);
+              target.remove();
+            }
+          }
+        });
+      });
+      
+      observer.observe(element, { attributes: true });
+    }
+    
+    return element;
+  };
+
   // Add global error handler for undefined WordPress functions
   const originalError = window.onerror;
   
@@ -65,6 +99,12 @@ export function setupWordPressErrorHandler(): void {
     if (typeof message === 'string' && message.includes('_block_') && message.includes('is not defined')) {
       console.warn('WordPress block function error caught and ignored:', message);
       return true; // Prevent the error from being thrown
+    }
+
+    // Check if this is an Elementor-related error
+    if (typeof message === 'string' && message.toLowerCase().includes('elementor')) {
+      console.warn('Elementor error caught and ignored:', message);
+      return true;
     }
 
     // Call original error handler if it exists
@@ -77,10 +117,27 @@ export function setupWordPressErrorHandler(): void {
 
   // Also handle unhandled promise rejections
   window.addEventListener('unhandledrejection', function(event) {
-    if (event.reason && typeof event.reason === 'string' && 
-        event.reason.includes('_block_') && event.reason.includes('is not defined')) {
-      console.warn('WordPress block promise rejection caught and ignored:', event.reason);
-      event.preventDefault();
+    if (event.reason && typeof event.reason === 'string') {
+      if ((event.reason.includes('_block_') && event.reason.includes('is not defined')) ||
+          event.reason.toLowerCase().includes('elementor')) {
+        console.warn('WordPress/Elementor promise rejection caught and ignored:', event.reason);
+        event.preventDefault();
+      }
     }
   });
+
+  // Block network requests to Elementor resources
+  if ('fetch' in window) {
+    const originalFetch = window.fetch;
+    window.fetch = function(...args) {
+      const url = args[0]?.toString() || '';
+      
+      if (url.includes('elementor') || url.includes('/wp-content/plugins/elementor')) {
+        console.warn('Blocked Elementor fetch request:', url);
+        return Promise.reject(new Error('Elementor resource blocked'));
+      }
+      
+      return originalFetch.apply(this, args);
+    };
+  }
 }

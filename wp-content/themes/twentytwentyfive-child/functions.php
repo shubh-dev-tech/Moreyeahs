@@ -97,6 +97,12 @@ function twentytwentyfive_child_include_parent_functions() {
         require_once $case_study_admin;
     }
     
+    // Include ACF careers fields template
+    $careers_acf_template = get_stylesheet_directory() . '/acf-careers-fields-template.php';
+    if (file_exists($careers_acf_template)) {
+        require_once $careers_acf_template;
+    }
+    
     // Include footer settings
     $footer_settings = get_stylesheet_directory() . '/inc/footer-settings.php';
     if (file_exists($footer_settings)) {
@@ -219,7 +225,7 @@ function register_case_study_post_type() {
         'query_var'             => true,
         'hierarchical'          => false,
         'supports'              => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields', 'revisions'),
-        'taxonomies'            => array('category', 'post_tag'), // Add default taxonomies
+        'taxonomies'            => array('industry', 'category', 'post_tag'), // Industries first, then categories and tags
         'can_export'            => true,
         'delete_with_user'      => false,
     );
@@ -229,10 +235,385 @@ function register_case_study_post_type() {
 add_action('init', 'register_case_study_post_type', 0);
 
 /**
+ * Register Careers Custom Post Type
+ */
+function register_careers_post_type() {
+    $labels = array(
+        'name'                  => _x('Careers', 'Post type general name', 'twentytwentyfive'),
+        'singular_name'         => _x('Career', 'Post type singular name', 'twentytwentyfive'),
+        'menu_name'             => _x('Careers', 'Admin Menu text', 'twentytwentyfive'),
+        'name_admin_bar'        => _x('Career', 'Add New on Toolbar', 'twentytwentyfive'),
+        'add_new'               => __('Add New', 'twentytwentyfive'),
+        'add_new_item'          => __('Add New Career', 'twentytwentyfive'),
+        'new_item'              => __('New Career', 'twentytwentyfive'),
+        'edit_item'             => __('Edit Career', 'twentytwentyfive'),
+        'view_item'             => __('View Career', 'twentytwentyfive'),
+        'all_items'             => __('All Careers', 'twentytwentyfive'),
+        'search_items'          => __('Search Careers', 'twentytwentyfive'),
+        'parent_item_colon'     => __('Parent Careers:', 'twentytwentyfive'),
+        'not_found'             => __('No careers found.', 'twentytwentyfive'),
+        'not_found_in_trash'    => __('No careers found in Trash.', 'twentytwentyfive'),
+        'featured_image'        => _x('Career Featured Image', 'Overrides the "Featured Image" phrase', 'twentytwentyfive'),
+        'set_featured_image'    => _x('Set featured image', 'Overrides the "Set featured image" phrase', 'twentytwentyfive'),
+        'remove_featured_image' => _x('Remove featured image', 'Overrides the "Remove featured image" phrase', 'twentytwentyfive'),
+        'use_featured_image'    => _x('Use as featured image', 'Overrides the "Use as featured image" phrase', 'twentytwentyfive'),
+        'archives'              => _x('Career archives', 'The post type archive label', 'twentytwentyfive'),
+        'insert_into_item'      => _x('Insert into career', 'Overrides the "Insert into post" phrase', 'twentytwentyfive'),
+        'uploaded_to_this_item' => _x('Uploaded to this career', 'Overrides the "Uploaded to this post" phrase', 'twentytwentyfive'),
+        'filter_items_list'     => _x('Filter careers list', 'Screen reader text for the filter links', 'twentytwentyfive'),
+        'items_list_navigation' => _x('Careers list navigation', 'Screen reader text for the pagination', 'twentytwentyfive'),
+        'items_list'            => _x('Careers list', 'Screen reader text for the items list', 'twentytwentyfive'),
+    );
+
+    $args = array(
+        'labels'                => $labels,
+        'description'           => __('Job openings and career opportunities', 'twentytwentyfive'),
+        'public'                => true,
+        'publicly_queryable'    => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'show_in_nav_menus'     => true,
+        'show_in_admin_bar'     => true,
+        'show_in_rest'          => true,
+        'rest_base'             => 'careers',
+        'rest_controller_class' => 'WP_REST_Posts_Controller',
+        'menu_position'         => 6,
+        'menu_icon'             => 'dashicons-groups',
+        'capability_type'       => 'post',
+        'map_meta_cap'          => true,
+        'has_archive'           => true,
+        'rewrite'               => array(
+            'slug'       => 'careers',
+            'with_front' => false,
+        ),
+        'query_var'             => true,
+        'hierarchical'          => false,
+        'supports'              => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields', 'revisions'),
+        'taxonomies'            => array('career_department', 'career_type', 'career_level', 'career_preference'),
+        'can_export'            => true,
+        'delete_with_user'      => false,
+    );
+
+    register_post_type('careers', $args);
+}
+add_action('init', 'register_careers_post_type', 0);
+
+/**
+ * Register Career Taxonomies
+ */
+function register_career_taxonomies() {
+    // Department Taxonomy
+    $department_labels = array(
+        'name'              => _x('Departments', 'taxonomy general name', 'twentytwentyfive'),
+        'singular_name'     => _x('Department', 'taxonomy singular name', 'twentytwentyfive'),
+        'search_items'      => __('Search Departments', 'twentytwentyfive'),
+        'all_items'         => __('All Departments', 'twentytwentyfive'),
+        'edit_item'         => __('Edit Department', 'twentytwentyfive'),
+        'update_item'       => __('Update Department', 'twentytwentyfive'),
+        'add_new_item'      => __('Add New Department', 'twentytwentyfive'),
+        'new_item_name'     => __('New Department Name', 'twentytwentyfive'),
+        'menu_name'         => __('Departments', 'twentytwentyfive'),
+    );
+
+    register_taxonomy('career_department', array('careers'), array(
+        'labels'            => $department_labels,
+        'hierarchical'      => true,
+        'public'            => true,
+        'show_ui'           => true,
+        'show_in_rest'      => true,
+        'show_admin_column' => true,
+        'rewrite'           => array('slug' => 'career-department'),
+    ));
+
+    // Job Type Taxonomy (Full-time, Part-time, Remote, etc.)
+    $type_labels = array(
+        'name'              => _x('Job Types', 'taxonomy general name', 'twentytwentyfive'),
+        'singular_name'     => _x('Job Type', 'taxonomy singular name', 'twentytwentyfive'),
+        'search_items'      => __('Search Job Types', 'twentytwentyfive'),
+        'all_items'         => __('All Job Types', 'twentytwentyfive'),
+        'parent_item'       => __('Parent Job Type', 'twentytwentyfive'),
+        'parent_item_colon' => __('Parent Job Type:', 'twentytwentyfive'),
+        'edit_item'         => __('Edit Job Type', 'twentytwentyfive'),
+        'update_item'       => __('Update Job Type', 'twentytwentyfive'),
+        'add_new_item'      => __('Add New Job Type', 'twentytwentyfive'),
+        'new_item_name'     => __('New Job Type Name', 'twentytwentyfive'),
+        'menu_name'         => __('Job Types', 'twentytwentyfive'),
+    );
+
+    register_taxonomy('career_type', array('careers'), array(
+        'labels'            => $type_labels,
+        'hierarchical'      => true,
+        'public'            => true,
+        'show_ui'           => true,
+        'show_in_rest'      => true,
+        'show_admin_column' => true,
+        'rewrite'           => array('slug' => 'job-type'),
+    ));
+
+    // Experience Level Taxonomy
+    $level_labels = array(
+        'name'              => _x('Experience Levels', 'taxonomy general name', 'twentytwentyfive'),
+        'singular_name'     => _x('Experience Level', 'taxonomy singular name', 'twentytwentyfive'),
+        'search_items'      => __('Search Experience Levels', 'twentytwentyfive'),
+        'all_items'         => __('All Experience Levels', 'twentytwentyfive'),
+        'parent_item'       => __('Parent Experience Level', 'twentytwentyfive'),
+        'parent_item_colon' => __('Parent Experience Level:', 'twentytwentyfive'),
+        'edit_item'         => __('Edit Experience Level', 'twentytwentyfive'),
+        'update_item'       => __('Update Experience Level', 'twentytwentyfive'),
+        'add_new_item'      => __('Add New Experience Level', 'twentytwentyfive'),
+        'new_item_name'     => __('New Experience Level Name', 'twentytwentyfive'),
+        'menu_name'         => __('Experience Levels', 'twentytwentyfive'),
+    );
+
+    register_taxonomy('career_level', array('careers'), array(
+        'labels'            => $level_labels,
+        'hierarchical'      => true,
+        'public'            => true,
+        'show_ui'           => true,
+        'show_in_rest'      => true,
+        'show_admin_column' => true,
+        'rewrite'           => array('slug' => 'experience-level'),
+    ));
+
+    // Job Preference Taxonomy
+    $preference_labels = array(
+        'name'              => _x('Job Preferences', 'taxonomy general name', 'twentytwentyfive'),
+        'singular_name'     => _x('Job Preference', 'taxonomy singular name', 'twentytwentyfive'),
+        'search_items'      => __('Search Job Preferences', 'twentytwentyfive'),
+        'all_items'         => __('All Job Preferences', 'twentytwentyfive'),
+        'parent_item'       => __('Parent Job Preference', 'twentytwentyfive'),
+        'parent_item_colon' => __('Parent Job Preference:', 'twentytwentyfive'),
+        'edit_item'         => __('Edit Job Preference', 'twentytwentyfive'),
+        'update_item'       => __('Update Job Preference', 'twentytwentyfive'),
+        'add_new_item'      => __('Add New Job Preference', 'twentytwentyfive'),
+        'new_item_name'     => __('New Job Preference Name', 'twentytwentyfive'),
+        'menu_name'         => __('Job Preferences', 'twentytwentyfive'),
+    );
+
+    register_taxonomy('career_preference', array('careers'), array(
+        'labels'            => $preference_labels,
+        'hierarchical'      => true,
+        'public'            => true,
+        'show_ui'           => true,
+        'show_in_rest'      => true,
+        'show_admin_column' => true,
+        'rewrite'           => array('slug' => 'job-preference'),
+    ));
+}
+add_action('init', 'register_career_taxonomies', 0);
+
+/**
+ * Add ACF fields to REST API for careers
+ */
+function add_acf_to_careers_rest() {
+    if (!function_exists('get_fields')) {
+        return;
+    }
+    
+    register_rest_field('careers', 'acf_fields', array(
+        'get_callback' => function($post) {
+            return get_fields($post['id']);
+        },
+        'schema' => null,
+    ));
+}
+add_action('rest_api_init', 'add_acf_to_careers_rest');
+
+/**
+ * Register custom REST API endpoint for career filters
+ */
+function register_career_filters_endpoint() {
+    register_rest_route('careers/v1', '/filters', array(
+        'methods' => 'GET',
+        'callback' => 'get_career_filters_data',
+        'permission_callback' => '__return_true',
+    ));
+}
+add_action('rest_api_init', 'register_career_filters_endpoint');
+
+/**
+ * Get career filters data (taxonomies and ACF field values)
+ */
+function get_career_filters_data() {
+    $filters = array(
+        'departments' => array(),
+        'job_types' => array(),
+        'experience_levels' => array(),
+        'job_preferences' => array(),
+    );
+
+    // Get all published careers
+    $careers = get_posts(array(
+        'post_type' => 'careers',
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'fields' => 'ids',
+    ));
+
+    // Count occurrences of each filter value
+    $department_counts = array();
+    $type_counts = array();
+    $level_counts = array();
+    $preference_counts = array();
+
+    foreach ($careers as $career_id) {
+        // Get ACF fields
+        $department = get_field('department', $career_id);
+        $job_type = get_field('job_type', $career_id);
+        $experience_level = get_field('experience_level', $career_id);
+        
+        // Get taxonomy terms for job preference
+        $preference_terms = wp_get_post_terms($career_id, 'career_preference', array('fields' => 'names'));
+
+        // Count departments
+        if ($department) {
+            if (!isset($department_counts[$department])) {
+                $department_counts[$department] = 0;
+            }
+            $department_counts[$department]++;
+        }
+
+        // Count job types
+        if ($job_type) {
+            if (!isset($type_counts[$job_type])) {
+                $type_counts[$job_type] = 0;
+            }
+            $type_counts[$job_type]++;
+        }
+
+        // Count experience levels
+        if ($experience_level) {
+            if (!isset($level_counts[$experience_level])) {
+                $level_counts[$experience_level] = 0;
+            }
+            $level_counts[$experience_level]++;
+        }
+
+        // Count job preferences from taxonomy
+        if (!empty($preference_terms) && !is_wp_error($preference_terms)) {
+            foreach ($preference_terms as $pref_term) {
+                if (!isset($preference_counts[$pref_term])) {
+                    $preference_counts[$pref_term] = 0;
+                }
+                $preference_counts[$pref_term]++;
+            }
+        }
+    }
+
+    // Format response
+    foreach ($department_counts as $dept => $count) {
+        $filters['departments'][] = array(
+            'label' => $dept,
+            'value' => $dept,
+            'count' => $count,
+        );
+    }
+
+    foreach ($type_counts as $type => $count) {
+        $filters['job_types'][] = array(
+            'label' => $type,
+            'value' => $type,
+            'count' => $count,
+        );
+    }
+
+    foreach ($level_counts as $level => $count) {
+        $filters['experience_levels'][] = array(
+            'label' => $level,
+            'value' => $level,
+            'count' => $count,
+        );
+    }
+
+    foreach ($preference_counts as $pref => $count) {
+        $filters['job_preferences'][] = array(
+            'label' => $pref,
+            'value' => $pref,
+            'count' => $count,
+        );
+    }
+
+    // Sort alphabetically
+    usort($filters['departments'], function($a, $b) {
+        return strcmp($a['label'], $b['label']);
+    });
+    usort($filters['job_types'], function($a, $b) {
+        return strcmp($a['label'], $b['label']);
+    });
+    usort($filters['experience_levels'], function($a, $b) {
+        return strcmp($a['label'], $b['label']);
+    });
+    usort($filters['job_preferences'], function($a, $b) {
+        return strcmp($a['label'], $b['label']);
+    });
+
+    return rest_ensure_response($filters);
+}
+
+/**
+ * Register Industries Taxonomy for Case Studies
+ */
+function register_case_study_industries_taxonomy() {
+    $labels = array(
+        'name'                       => _x('Industries', 'taxonomy general name', 'twentytwentyfive'),
+        'singular_name'              => _x('Industry', 'taxonomy singular name', 'twentytwentyfive'),
+        'search_items'               => __('Search Industries', 'twentytwentyfive'),
+        'popular_items'              => __('Popular Industries', 'twentytwentyfive'),
+        'all_items'                  => __('All Industries', 'twentytwentyfive'),
+        'parent_item'                => __('Parent Industry', 'twentytwentyfive'),
+        'parent_item_colon'          => __('Parent Industry:', 'twentytwentyfive'),
+        'edit_item'                  => __('Edit Industry', 'twentytwentyfive'),
+        'update_item'                => __('Update Industry', 'twentytwentyfive'),
+        'add_new_item'               => __('Add New Industry', 'twentytwentyfive'),
+        'new_item_name'              => __('New Industry Name', 'twentytwentyfive'),
+        'separate_items_with_commas' => __('Separate industries with commas', 'twentytwentyfive'),
+        'add_or_remove_items'        => __('Add or remove industries', 'twentytwentyfive'),
+        'choose_from_most_used'      => __('Choose from the most used industries', 'twentytwentyfive'),
+        'not_found'                  => __('No industries found.', 'twentytwentyfive'),
+        'menu_name'                  => __('Industries', 'twentytwentyfive'),
+    );
+
+    $args = array(
+        'labels'                => $labels,
+        'description'           => __('Industries for organizing case studies', 'twentytwentyfive'),
+        'hierarchical'          => true, // Like categories (set to false if you want it like tags)
+        'public'                => true,
+        'publicly_queryable'    => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'show_in_nav_menus'     => true,
+        'show_in_rest'          => true, // Enable for Gutenberg and REST API
+        'rest_base'             => 'industries',
+        'rest_controller_class' => 'WP_REST_Terms_Controller',
+        'show_tagcloud'         => true,
+        'show_in_quick_edit'    => true,
+        'show_admin_column'     => true, // Show in admin columns
+        'rewrite'               => array(
+            'slug'         => 'industry',
+            'with_front'   => false,
+            'hierarchical' => true,
+        ),
+        'query_var'             => true,
+        'capabilities'          => array(
+            'manage_terms' => 'manage_categories',
+            'edit_terms'   => 'manage_categories',
+            'delete_terms' => 'manage_categories',
+            'assign_terms' => 'edit_posts',
+        ),
+    );
+
+    register_taxonomy('industry', array('case_study'), $args);
+}
+add_action('init', 'register_case_study_industries_taxonomy', 0);
+
+/**
  * Flush rewrite rules on theme activation
  */
 function case_study_flush_rewrites() {
     register_case_study_post_type();
+    register_case_study_industries_taxonomy();
+    register_careers_post_type();
+    register_career_taxonomies();
     flush_rewrite_rules();
 }
 register_activation_hook(__FILE__, 'case_study_flush_rewrites');
@@ -242,6 +623,9 @@ register_activation_hook(__FILE__, 'case_study_flush_rewrites');
  */
 add_action('after_switch_theme', function() {
     register_case_study_post_type();
+    register_case_study_industries_taxonomy();
+    register_careers_post_type();
+    register_career_taxonomies();
     flush_rewrite_rules();
 });
 
@@ -1340,6 +1724,46 @@ function twentytwentyfive_child_register_acf_blocks() {
         ),
     ));
 
+    // Work Slider Block
+    acf_register_block_type(array(
+        'name'              => 'work-slider',
+        'title'             => __('Work Slider', 'twentytwentyfive'),
+        'description'       => __('Responsive slider showcasing work/projects with customizable background, colors, and dynamic slides', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'slides',
+        'keywords'          => array('work', 'slider', 'carousel', 'projects', 'portfolio', 'background'),
+        'render_template'   => 'blocks/work-slider/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/work-slider/style.css',
+        'supports'          => array(
+            'align'  => array('full', 'wide'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading' => 'Our',
+                    'heading_span_text' => 'Work',
+                    'subheading' => 'Powered solutions enabling intelligent automation, smarter document management, and enhanced enterprise collaboration across industries.',
+                    'background_type' => 'color',
+                    'background_color' => '#d4e4f0',
+                    'heading_color' => '#333333',
+                    'heading_span_color' => '#4a90e2',
+                    'subheading_color' => '#666666',
+                    'slides' => array(
+                        array(
+                            'title' => 'Defect Detection and Pit Mapping',
+                            'description' => 'A leading global aluminum and copper manufacturer involved in mining, refining, smelting, and value added metal solutions across industries.',
+                            'image' => ''
+                        )
+                    )
+                ),
+            ),
+        ),
+    ));
+
     // Services Section Block
     acf_register_block_type(array(
         'name'              => 'services-section',
@@ -1715,6 +2139,24 @@ function add_acf_to_case_study_rest_api() {
     ));
 }
 add_action('rest_api_init', 'add_acf_to_case_study_rest_api');
+
+/**
+ * Ensure ACF fields are available in REST API for Careers
+ */
+function add_acf_to_careers_rest_api() {
+    if (!function_exists('get_fields')) {
+        return;
+    }
+    
+    register_rest_field('careers', 'acf_fields', array(
+        'get_callback' => function($post) {
+            $fields = get_fields($post['id']);
+            return $fields ? $fields : array();
+        },
+        'schema' => null,
+    ));
+}
+add_action('rest_api_init', 'add_acf_to_careers_rest_api');
 
 /**
  * Debug ACF field saving

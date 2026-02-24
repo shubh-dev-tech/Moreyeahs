@@ -11,15 +11,15 @@
 
   &__header {
     text-align: center !important;
-    margin-bottom: 80px !important;
+    margin-bottom: 40px !important;
     position: relative;
   }
 
   &__heading {
-    font-size: 56px !important;
+    font-size: 50px !important;
     font-weight: 700 !important;
     color: #1a1a1a !important;
-    margin: 0 0 24px 0 !important;
+    margin: 0 0 10px 0 !important;
     line-height: 1.1 !important;
     font-family: inherit !important;
     letter-spacing: -0.02em !important;
@@ -81,7 +81,7 @@
     display: flex !important;
     align-items: baseline !important;
     justify-content: center !important;
-    font-size: 80px !important;
+    font-size: 65px !important;
     font-weight: 700 !important;
     color: #1a1a1a !important;
     line-height: 1 !important;
@@ -110,6 +110,7 @@
 
   &__value {
     font-weight: 700 !important;
+    transition: all 0.1s ease-out !important;
   }
 
   &__suffix {

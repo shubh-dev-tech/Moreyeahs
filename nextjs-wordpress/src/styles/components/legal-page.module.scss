@@ -1,0 +1,178 @@
+@import '../variables';
+@import '../mixins';
+
+.legalPage {
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  min-height: 100vh;
+  padding: 4rem 0;
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 2rem 0;
+  }
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 0 1rem;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid $color-border;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: $color-primary;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 2rem;
+  }
+}
+
+.effectiveDate {
+  color: $color-text-light;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.content {
+  background: $color-bg;
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 20px rgba(0, 0, 0, 0.05);
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+}
+
+.section {
+  margin-bottom: 3rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sectionTitle {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: $color-primary;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid $color-bg-alt;
+
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 1.5rem;
+  }
+}
+
+.subsectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $color-text;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.paragraph {
+  color: $color-text;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.list {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+
+  li {
+    color: $color-text;
+    line-height: 1.8;
+    margin-bottom: 0.75rem;
+    position: relative;
+
+    &::marker {
+      color: $color-primary;
+      font-weight: 600;
+    }
+  }
+}
+
+.contactBox {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-left: 4px solid $color-primary;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+
+  p {
+    margin: 0.5rem 0;
+    color: $color-text;
+    font-size: 1rem;
+
+    strong {
+      color: $color-primary;
+      font-weight: 600;
+    }
+  }
+}
+
+.highlight {
+  background: #fff9e6;
+  border-left: 4px solid #ffc107;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+
+  p {
+    margin: 0;
+    color: $color-text;
+  }
+}
+
+.tableOfContents {
+  background: $color-bg-alt;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: $color-primary;
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+
+      a {
+        color: $color-text;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: $color-primary;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
