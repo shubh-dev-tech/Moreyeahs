@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from './CareersWithSidebar.module.css';
 
@@ -57,18 +57,8 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
   const [experienceLevels, setExperienceLevels] = useState<FilterOption[]>([]);
   const [jobPreferences, setJobPreferences] = useState<FilterOption[]>([]);
 
-  // Fetch taxonomy terms on component mount
-  useEffect(() => {
-    fetchTaxonomies();
-  }, []);
-
-  // Apply filters whenever selection changes
-  useEffect(() => {
-    applyFilters();
-  }, [selectedDepartment, selectedType, selectedLevel, selectedPreference, allCareers]);
-
   // Fetch all taxonomy terms from WordPress
-  const fetchTaxonomies = async () => {
+  const fetchTaxonomies = useCallback(async () => {
     try {
       // Use the environment utility to get the correct API URL
       const { getWordPressApiUrl } = await import('@/lib/environment');
@@ -117,10 +107,10 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
     } catch (error) {
       console.error('Error fetching taxonomies:', error);
     }
-  };
+  }, [initialCareers]);
 
   // Apply filters to careers
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     setIsLoading(true);
     
     try {
@@ -161,7 +151,17 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [allCareers, selectedDepartment, selectedType, selectedLevel, selectedPreference]);
+
+  // Fetch taxonomy terms on component mount
+  useEffect(() => {
+    fetchTaxonomies();
+  }, [fetchTaxonomies]);
+
+  // Apply filters whenever selection changes
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
 
   // Handle filter changes - toggle on/off
   const handleFilterChange = (filterType: string, value: number) => {

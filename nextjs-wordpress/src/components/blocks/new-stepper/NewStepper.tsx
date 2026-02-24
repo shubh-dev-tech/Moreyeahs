@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import './styles.scss';
 
 interface Step {
@@ -26,10 +26,10 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
   const { data } = props || {};
 
   // Extract steps - following the Full One by Two Section pattern
-  const rawSteps = props?.steps || data?.steps || [];
+  const rawSteps = useMemo(() => (props?.steps || data?.steps || []), [props?.steps, data?.steps]);
   
   // Handle WordPress ACF data - convert false to empty array
-  const safeSteps = React.useMemo(() => {
+  const safeSteps = useMemo(() => {
     let steps: { label: string; section_id: string }[] = [];
     
     // If steps is a number, it might be the count - try to get the actual data from a different property
@@ -93,7 +93,7 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
   }, [rawSteps, data]);
 
   // Function to detect if background is dark - using the same method as header
-  const checkBackgroundColor = () => {
+  const checkBackgroundColor = useCallback(() => {
     if (safeSteps.length === 0) return;
 
     // Get the stepper element
@@ -130,7 +130,7 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
         setIsDarkBackground(isDark);
       }
     }
-  };
+  }, [safeSteps.length]);
 
   // Debug logging - following Full One by Two Section pattern
   useEffect(() => {
@@ -171,7 +171,7 @@ const NewStepper: React.FC<NewStepperProps> = (props) => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', checkBackgroundColor);
     };
-  }, [safeSteps]);
+  }, [safeSteps, checkBackgroundColor]);
 
   // Don't render if no valid steps - following Full One by Two Section pattern
   if (!props || safeSteps.length === 0) {

@@ -5,6 +5,8 @@ import { WordPressContent } from '@/components/WordPressContent';
 import { notFound } from 'next/navigation';
 import { generatePageMetadata } from '@/lib/seo';
 
+export const dynamic = 'force-dynamic';
+
 interface PageData {
   id: number;
   title: string;
@@ -49,15 +51,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
       <BlockRenderer blocks={blocks} />
     </main>
   );
-}
-
-// Build-safe: Generate static params for known pages
-export async function generateStaticParams() {
-  // Build-safe: use wpFetch, return empty array on failure
-  const pages = await getPages({ per_page: 100 });
-  return pages.map((page) => ({
-    slug: page.slug,
-  }));
 }
 
 // Build-safe: ISR with 60s revalidation

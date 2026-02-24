@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { transformMediaUrl } from '@/lib/wpFetch';
 import './styles.scss';
@@ -71,7 +71,7 @@ const TestimonialBlock: React.FC<TestimonialBlockProps> = ({ data }) => {
   ];
 
   // Autoplay functionality
-  const startAutoplay = () => {
+  const startAutoplay = useCallback(() => {
     if (displayTestimonials.length <= 1) return;
     
     autoplayRef.current = setInterval(() => {
@@ -79,14 +79,14 @@ const TestimonialBlock: React.FC<TestimonialBlockProps> = ({ data }) => {
         setCurrentSlide((prev) => (prev + 1) % displayTestimonials.length);
       }
     }, 5000); // Change slide every 5 seconds
-  };
+  }, [displayTestimonials.length, isAutoplayPaused]);
 
-  const stopAutoplay = () => {
+  const stopAutoplay = useCallback(() => {
     if (autoplayRef.current) {
       clearInterval(autoplayRef.current);
       autoplayRef.current = null;
     }
-  };
+  }, []);
 
   const pauseAutoplay = () => {
     setIsAutoplayPaused(true);
@@ -130,7 +130,7 @@ const TestimonialBlock: React.FC<TestimonialBlockProps> = ({ data }) => {
         clearTimeout(pauseTimeoutRef.current);
       }
     };
-  }, [displayTestimonials.length, isAutoplayPaused]);
+  }, [startAutoplay, stopAutoplay]);
 
   // Handle mouse enter/leave for hover pause
   const handleMouseEnter = () => {
