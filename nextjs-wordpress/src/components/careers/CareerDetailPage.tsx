@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import LoadingSpinner from '../LoadingSpinner';
+import PitchYourCraft from './PitchYourCraft';
 import styles from './CareerDetailPage.module.css';
 
 interface CareerDetailData {
@@ -62,7 +63,7 @@ const CareerDetailPage: React.FC<CareerDetailPageProps> = ({
 
   const acf = career.acf_fields || {};
   const jobSections = acf.job_sections || [];
-  const backgroundImage = acf.background_image?.url || 'https://dev.moreyeahs.com/wp-content/uploads/2026/02/Group-1000001836.webp';
+  const backgroundImage = acf.background_image?.url || 'https://dev.moreyeahs.com/wp-content/uploads/2026/02/Group-1000001836-1.webp';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -147,7 +148,9 @@ const CareerDetailPage: React.FC<CareerDetailPageProps> = ({
             <aside className={styles.applicationSidebar}>
               <div className={styles.applicationForm}>
                 <h3 className={styles.formTitle}>
-                  <span className={styles.formIcon}>✈️</span> Apply Now
+                  <span className={styles.formIcon}>
+                    <img src="https://dev.moreyeahs.com/wp-content/uploads/2026/02/Vector-3.png" alt="" />
+                  </span> Apply Now
                 </h3>
                 
                 <form onSubmit={handleSubmit}>
@@ -190,12 +193,12 @@ const CareerDetailPage: React.FC<CareerDetailPageProps> = ({
                   </div>
 
                   <div className={styles.formGroup}>
-                    <label htmlFor="dateOfBirth">Date of Birth *</label>
+                    <label htmlFor="dateOfBirth">Passing year *</label>
                     <input
-                      type="text"
+                      type="number"
                       id="dateOfBirth"
                       name="dateOfBirth"
-                      placeholder="Your message"
+                      placeholder="e.g., 2024"
                       value={formData.dateOfBirth}
                       onChange={handleInputChange}
                       required
@@ -213,10 +216,14 @@ const CareerDetailPage: React.FC<CareerDetailPageProps> = ({
                         onChange={handleFileChange}
                         required
                       />
-                      <div className={styles.fileUploadLabel}>
-                        <span className={styles.uploadIcon}>📎</span>
-                        <span>Upload Attachment</span>
-                      </div>
+                      <label htmlFor="resume" className={styles.fileUploadLabel}>
+                        <span className={styles.uploadIcon}>
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10 15V5M10 5L6 9M10 5L14 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </span>
+                        <span className={styles.uploadText}>Upload Attachment</span>
+                      </label>
                     </div>
                   </div>
 
@@ -229,6 +236,9 @@ const CareerDetailPage: React.FC<CareerDetailPageProps> = ({
           </div>
         </div>
       </section>
+
+      {/* Pitch Your Craft Section */}
+      <PitchYourCraft />
     </div>
   );
 };
