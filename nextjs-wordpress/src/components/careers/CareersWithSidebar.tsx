@@ -141,18 +141,18 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
       }
 
       // Apply experience level filter
-      if (selectedLevel !== null) {
-        filtered = filtered.filter(c => 
-          c.career_level?.includes(selectedLevel)
-        );
-      }
+      // if (selectedLevel !== null) {
+      //   filtered = filtered.filter(c => 
+      //     c.career_level?.includes(selectedLevel)
+      //   );
+      // }
 
       // Apply job preference filter
-      if (selectedPreference !== null) {
-        filtered = filtered.filter(c => 
-          c.career_preference?.includes(selectedPreference)
-        );
-      }
+      // if (selectedPreference !== null) {
+      //   filtered = filtered.filter(c => 
+      //     c.career_preference?.includes(selectedPreference)
+      //   );
+      // }
 
       setFilteredCareers(filtered);
     } catch (error) {
@@ -267,50 +267,6 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
                 onClick={() => handleFilterChange('department', deptOption.id)}
               >
                 <span>{deptOption.name} ({deptOption.count})</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Job Type Filter */}
-        <div className={styles.filterGroup}>
-          <h3 
-            className={`${styles.filterTitle} ${styles.clickableTitle}`}
-            onClick={() => handleClearFilter('type')}
-            title="Click to show all job types"
-          >
-            All Job Type ({jobTypes.reduce((sum, item) => sum + item.count, 0)})
-          </h3>
-          <div className={styles.filterOptions}>
-            {jobTypes.map((typeOption) => (
-              <div 
-                key={typeOption.id} 
-                className={`${styles.filterOption} ${selectedType === typeOption.id ? styles.active : ''}`}
-                onClick={() => handleFilterChange('type', typeOption.id)}
-              >
-                <span>{typeOption.name} ({typeOption.count})</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Job Preference Filter */}
-        <div className={styles.filterGroup}>
-          <h3 
-            className={`${styles.filterTitle} ${styles.clickableTitle}`}
-            onClick={() => handleClearFilter('preference')}
-            title="Click to show all job preferences"
-          >
-            All Job Preference ({jobPreferences.reduce((sum, item) => sum + item.count, 0)})
-          </h3>
-          <div className={styles.filterOptions}>
-            {jobPreferences.map((prefOption) => (
-              <div 
-                key={prefOption.id} 
-                className={`${styles.filterOption} ${selectedPreference === prefOption.id ? styles.active : ''}`}
-                onClick={() => handleFilterChange('preference', prefOption.id)}
-              >
-                <span>{prefOption.name} ({prefOption.count})</span>
               </div>
             ))}
           </div>

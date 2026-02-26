@@ -10,9 +10,6 @@ import ScrollToTop from '@/components/ScrollToTop';
 import { AuthProvider } from '@/contexts/AuthContext';
 import './globals.scss';
 
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
-
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'),
   title: {

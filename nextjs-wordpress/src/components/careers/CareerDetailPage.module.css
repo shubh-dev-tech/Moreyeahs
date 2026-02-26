@@ -160,6 +160,12 @@
   gap: 10px;
 }
 
+.applicationForm form {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+
 .formIcon {
   font-size: 28px;
 }
@@ -189,7 +195,7 @@
 .formGroup input:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #000000;
 }
 
 .formGroup textarea {
@@ -204,9 +210,8 @@
 .fileUpload input[type="file"] {
   position: absolute;
   opacity: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
+  width: 0;
+  height: 0;
 }
 
 .fileUploadLabel {
@@ -223,33 +228,47 @@
 }
 
 .fileUploadLabel:hover {
-  border-color: #667eea;
+  border-color: #000000;
   background: #f0f2ff;
 }
 
 .uploadIcon {
-  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.uploadText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 14px;
 }
 
 .submitButton {
-  width: 100%;
-  padding: 14px 24px;
-  background: #667eea;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
+  max-width: 100%;
+ padding: 10px 20px;
+  background: none;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 400;
   cursor: pointer;
   transition: background 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  display: flex;
+  align-self: flex-end;
 }
 
 .submitButton:hover {
-  background: #5568d3;
+  background: #000;
+  color: #fff;
 }
 
 @media (max-width: 968px) {

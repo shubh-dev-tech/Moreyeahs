@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CareersWithSidebar from '@/components/careers/CareersWithSidebar';
+import PitchYourCraft from '@/components/careers/PitchYourCraft';
 import { generatePageMetadata } from '@/lib/seo';
 import styles from './page.module.css';
 
@@ -103,6 +104,9 @@ export default async function CareersPage() {
           )}
         </div>
       </section>
+
+      {/* Pitch Your Craft Section */}
+      <PitchYourCraft />
     </div>
   );
 }
