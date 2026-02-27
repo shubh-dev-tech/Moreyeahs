@@ -89,13 +89,12 @@ function MobileMenuItems({
             {item.children.length > 0 ? (
               <>
                 <div className="mobile-menu__item-wrapper">
-                  {isCareerItem || wpUrlToPath(finalUrl).startsWith('#') ? (
+                  {wpUrlToPath(finalUrl).startsWith('#') ? (
                     <a 
-                      href={isCareerItem ? finalUrl : wpUrlToPath(finalUrl)} 
-                      target={isCareerItem ? '_blank' : item.target}
+                      href={wpUrlToPath(finalUrl)} 
+                      target={item.target}
                       className={`mobile-menu__link ${item.classes}`}
                       onClick={onLinkClick}
-                      rel={isCareerItem ? 'noopener noreferrer' : undefined}
                     >
                       {item.title}
                     </a>
@@ -132,13 +131,12 @@ function MobileMenuItems({
               </>
             ) : (
               <div className="mobile-menu__item-wrapper">
-                {isCareerItem || wpUrlToPath(finalUrl).startsWith('#') ? (
+                {wpUrlToPath(finalUrl).startsWith('#') ? (
                   <a 
-                    href={isCareerItem ? finalUrl : wpUrlToPath(finalUrl)} 
-                    target={isCareerItem ? '_blank' : item.target}
+                    href={wpUrlToPath(finalUrl)} 
+                    target={item.target}
                     className={`mobile-menu__link ${item.classes}`}
                     onClick={onLinkClick}
-                    rel={isCareerItem ? 'noopener noreferrer' : undefined}
                   >
                     {item.title}
                   </a>

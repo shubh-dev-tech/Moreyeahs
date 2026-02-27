@@ -43,12 +43,11 @@ function MenuItems({ items, megaMenuMap, disableMegaMenu = false }: { items: Men
               <MegaMenu trigger={item.title} menuData={hasMegaMenu} />
             ) : (
               <>
-                {isCareerItem || wpUrlToPath(finalUrl).startsWith('#') ? (
+                {wpUrlToPath(finalUrl).startsWith('#') ? (
                   <a 
-                    href={isCareerItem ? finalUrl : wpUrlToPath(finalUrl)} 
-                    target={isCareerItem ? '_blank' : item.target}
+                    href={wpUrlToPath(finalUrl)} 
+                    target={item.target}
                     className={item.classes}
-                    rel={isCareerItem ? 'noopener noreferrer' : undefined}
                   >
                     {item.title}
                     {hasChildren && <IoChevronDown className="menu-chevron" />}
