@@ -4,7 +4,7 @@ import { wpFetch } from '@/lib/wpFetch';
 export async function GET() {
   try {
     // Try to fetch a page that might have domain enables section
-    const pages = await wpFetch('/wp/v2/pages?per_page=100');
+    const pages = await wpFetch('/wp/v2/pages?per_page=20');
     
     if (!pages || !Array.isArray(pages)) {
       return NextResponse.json({ error: 'No pages found' });

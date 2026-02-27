@@ -10,7 +10,6 @@ html, body {
   max-width: 100vw;
   margin: 0;
   padding: 0;
-  scroll-behavior: smooth;
 }
 
 /* Prevent any element from causing horizontal scroll */
@@ -46,6 +45,24 @@ img, video, iframe, embed, object {
     width: 100%;
     max-width: 100%;
   }
+  
+  /* Fix for WordPress-rendered blocks that have animation states */
+  /* Make them visible by default since JS animations won't run on static HTML */
+  .full-one-by-two-section {
+    .content-half,
+    .image-half,
+    .main-heading,
+    .sub-heading,
+    .highlights-section,
+    .cta-section {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    
+    .main-image {
+      transform: scale(1) !important;
+    }
+  }
 }
 
 /* Prevent layout issues with blocks */
@@ -70,21 +87,9 @@ img, video, iframe, embed, object {
   z-index: 99999 !important;
 }
 
-/* Smooth transitions for content */
-.main-content {
-  transition: opacity 0.3s ease-in-out;
-}
-
 /* Prevent flash of unstyled content during loading */
 .site-wrapper {
   min-height: 100vh;
-}
-
-/* Optimize loader performance */
-.pageLoader * {
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
 }
 
 /* Ensure smooth animations on all devices */

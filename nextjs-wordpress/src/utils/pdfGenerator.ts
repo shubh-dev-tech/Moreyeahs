@@ -149,7 +149,7 @@ export const generatePDF = async (
       logging: true, // Enable logging for debugging
       width: element.scrollWidth,
       height: element.scrollHeight,
-      background: '#ffffff'
+      backgroundColor: '#ffffff'
     });
     
     console.log('Canvas generated successfully:', {

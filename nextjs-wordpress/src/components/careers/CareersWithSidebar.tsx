@@ -70,15 +70,16 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
   // Fetch all taxonomy terms from WordPress
   const fetchTaxonomies = async () => {
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 
-                     window.location.origin.replace(':3000', '') + '/wp-json';
+      // Use the environment utility to get the correct API URL
+      const { getWordPressApiUrl } = await import('@/lib/environment');
+      const apiUrl = getWordPressApiUrl();
 
       // Fetch all taxonomies in parallel
       const [deptRes, typeRes, levelRes, prefRes] = await Promise.all([
-        fetch(`${apiUrl}/wp/v2/career_department?per_page=100`),
-        fetch(`${apiUrl}/wp/v2/career_type?per_page=100`),
-        fetch(`${apiUrl}/wp/v2/career_level?per_page=100`),
-        fetch(`${apiUrl}/wp/v2/career_preference?per_page=100`)
+        fetch(`${apiUrl}/wp/v2/career_department?per_page=50`),
+        fetch(`${apiUrl}/wp/v2/career_type?per_page=50`),
+        fetch(`${apiUrl}/wp/v2/career_level?per_page=50`),
+        fetch(`${apiUrl}/wp/v2/career_preference?per_page=50`)
       ]);
 
       const [deptData, typeData, levelData, prefData] = await Promise.all([
@@ -140,18 +141,18 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
       }
 
       // Apply experience level filter
-      if (selectedLevel !== null) {
-        filtered = filtered.filter(c => 
-          c.career_level?.includes(selectedLevel)
-        );
-      }
+      // if (selectedLevel !== null) {
+      //   filtered = filtered.filter(c => 
+      //     c.career_level?.includes(selectedLevel)
+      //   );
+      // }
 
       // Apply job preference filter
-      if (selectedPreference !== null) {
-        filtered = filtered.filter(c => 
-          c.career_preference?.includes(selectedPreference)
-        );
-      }
+      // if (selectedPreference !== null) {
+      //   filtered = filtered.filter(c => 
+      //     c.career_preference?.includes(selectedPreference)
+      //   );
+      // }
 
       setFilteredCareers(filtered);
     } catch (error) {
@@ -180,12 +181,39 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
     }
   };
 
+  // Handle clicking on filter heading to clear that filter
+  const handleClearFilter = (filterType: string) => {
+    switch (filterType) {
+      case 'department':
+        setSelectedDepartment(null);
+        break;
+      case 'type':
+        setSelectedType(null);
+        break;
+      case 'level':
+        setSelectedLevel(null);
+        break;
+      case 'preference':
+        setSelectedPreference(null);
+        break;
+    }
+  };
+
   const getRenderedTitle = (career: CareerData): string => {
     return career.title?.rendered || '';
   };
 
   const getRenderedExcerpt = (career: CareerData): string => {
-    return career.excerpt?.rendered || '';
+    const excerpt = career.excerpt?.rendered || '';
+    // Sanitize and ensure valid HTML
+    if (!excerpt) return '';
+    try {
+      // Remove any potentially problematic HTML
+      return excerpt.trim();
+    } catch (error) {
+      console.error('Error processing excerpt:', error);
+      return '';
+    }
   };
 
   // Get display name for taxonomy term
@@ -202,7 +230,11 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
 
         {/* Experience Level Filter */}
         <div className={styles.filterGroup}>
-          <h3 className={styles.filterTitle}>
+          <h3 
+            className={`${styles.filterTitle} ${styles.clickableTitle}`}
+            onClick={() => handleClearFilter('level')}
+            title="Click to show all experience levels"
+          >
             All Experience Level ({experienceLevels.reduce((sum, item) => sum + item.count, 0)})
           </h3>
           <div className={styles.filterOptions}>
@@ -220,7 +252,11 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
 
         {/* Department Filter */}
         <div className={styles.filterGroup}>
-          <h3 className={styles.filterTitle}>
+          <h3 
+            className={`${styles.filterTitle} ${styles.clickableTitle}`}
+            onClick={() => handleClearFilter('department')}
+            title="Click to show all positions"
+          >
             All positions ({departments.reduce((sum, item) => sum + item.count, 0)})
           </h3>
           <div className={styles.filterOptions}>
@@ -231,42 +267,6 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
                 onClick={() => handleFilterChange('department', deptOption.id)}
               >
                 <span>{deptOption.name} ({deptOption.count})</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Job Type Filter */}
-        <div className={styles.filterGroup}>
-          <h3 className={styles.filterTitle}>
-            All Job Type ({jobTypes.reduce((sum, item) => sum + item.count, 0)})
-          </h3>
-          <div className={styles.filterOptions}>
-            {jobTypes.map((typeOption) => (
-              <div 
-                key={typeOption.id} 
-                className={`${styles.filterOption} ${selectedType === typeOption.id ? styles.active : ''}`}
-                onClick={() => handleFilterChange('type', typeOption.id)}
-              >
-                <span>{typeOption.name} ({typeOption.count})</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Job Preference Filter */}
-        <div className={styles.filterGroup}>
-          <h3 className={styles.filterTitle}>
-            All Job Preference ({jobPreferences.reduce((sum, item) => sum + item.count, 0)})
-          </h3>
-          <div className={styles.filterOptions}>
-            {jobPreferences.map((prefOption) => (
-              <div 
-                key={prefOption.id} 
-                className={`${styles.filterOption} ${selectedPreference === prefOption.id ? styles.active : ''}`}
-                onClick={() => handleFilterChange('preference', prefOption.id)}
-              >
-                <span>{prefOption.name} ({prefOption.count})</span>
               </div>
             ))}
           </div>
@@ -290,38 +290,48 @@ const CareersWithSidebar: React.FC<CareersWithSidebarProps> = ({ careers: initia
           <p className={styles.noResults}>No jobs found matching your filters.</p>
         ) : (
           <div className={`${styles.jobList} ${isLoading ? styles.loading : ''}`}>
-            {filteredCareers.map((career) => (
-              <article key={career.id} className={styles.jobCard}>
-                <div className={styles.jobHeader}>
-                  <h3 className={styles.jobTitle}>
-                    <Link href={`/careers/${career.slug}`}>
+            {filteredCareers.map((career) => {
+              // Get taxonomy term names
+              const deptName = career.career_department && career.career_department.length > 0 
+                ? getTermName(career.career_department[0], departments) 
+                : '';
+              const typeName = career.career_type && career.career_type.length > 0 
+                ? getTermName(career.career_type[0], jobTypes) 
+                : '';
+              
+              // Ensure we have valid data before rendering
+              if (!career.id || !career.slug) {
+                return null;
+              }
+              
+              return (
+                <Link key={`career-${career.id}`} href={`/careers/${career.slug}`} className={styles.jobCard}>
+                  <div className={styles.jobHeader}>
+                    <h3 className={styles.jobTitle}>
                       {getRenderedTitle(career)}
-                    </Link>
-                  </h3>
-                  <div className={styles.jobMeta}>
-                    {career.career_department && career.career_department.length > 0 && (
-                      <span className={styles.jobBadge}>
-                        {getTermName(career.career_department[0], departments)}
-                      </span>
-                    )}
-                    {career.career_type && career.career_type.length > 0 && (
-                      <span className={styles.jobBadge}>
-                        {getTermName(career.career_type[0], jobTypes)}
-                      </span>
-                    )}
+                    </h3>
+                    <div className={styles.jobMeta}>
+                      {deptName && (
+                        <span className={styles.jobBadge}>
+                          {deptName}
+                        </span>
+                      )}
+                      {typeName && (
+                        <span className={styles.jobBadge}>
+                          {typeName}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div 
-                  className={styles.jobExcerpt}
-                  dangerouslySetInnerHTML={{ __html: getRenderedExcerpt(career) }}
-                />
-                <Link href={`/careers/${career.slug}`} className={styles.jobLink}>
-                  {career.career_type && career.career_type.length > 0 
-                    ? getTermName(career.career_type[0], jobTypes)
-                    : 'View Details'}
+                  {getRenderedExcerpt(career) && (
+                    <div 
+                      className={styles.jobExcerpt}
+                      dangerouslySetInnerHTML={{ __html: getRenderedExcerpt(career) }}
+                    />
+                  )}
                 </Link>
-              </article>
-            ))}
+              );
+            })}
           </div>
         )}
       </main>

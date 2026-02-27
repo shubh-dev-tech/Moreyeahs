@@ -1,0 +1,82 @@
+.life-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.life-hero {
+  background-image: url('https://dev.moreyeahs.com/wp-content/uploads/2026/02/Group-1000001836-1.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.life-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.life-hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.life-hero__title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  color: #000000;
+}
+
+.life-hero__subtitle {
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto 15px;
+  opacity: 0.95;
+  color: #20202099;
+}
+
+.life-content-section {
+  padding: 60px 20px;
+}
+
+.no-content {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .life-hero {
+    padding: 60px 20px;
+  }
+
+  .life-hero__title {
+    font-size: 36px;
+  }
+
+  .life-hero__subtitle {
+    font-size: 16px;
+  }
+
+  .life-content-section {
+    padding: 40px 20px;
+  }
+}

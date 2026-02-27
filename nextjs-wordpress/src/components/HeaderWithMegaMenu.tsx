@@ -35,7 +35,7 @@ function MenuItems({ items, megaMenuMap, disableMegaMenu = false }: { items: Men
         
         // Check if this is the Career menu item and use custom URL
         const isCareerItem = itemTitleLower === 'career' || itemTitleLower === 'careers';
-        const finalUrl = isCareerItem ? 'https://app.emossy.com/#/job-module/jobs?companyId=IjE' : item.url;
+        const finalUrl = isCareerItem ? '/careers' : item.url;
         
         return (
           <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (hasChildren ? 'has-children' : '')}>
@@ -83,14 +83,21 @@ export default function HeaderWithMegaMenu({ siteName, logo, primaryMenuItems, s
   const [hideDefaultHeader, setHideDefaultHeader] = useState(false);
   const pathname = usePathname();
   
-  // Detect background color for default header
-  const isDarkBackground = useBackgroundDetection('.header--transparent', [pathname]);
+  // Check if current page should have black menu (careers, case-study, blog)
+  const shouldUseBlackMenu = pathname === '/careers' || 
+                             pathname.startsWith('/careers/') ||
+                             pathname.startsWith('/case-study') || 
+                             pathname.startsWith('/blog');
   
-  // Logo URLs
-  const lightBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Moreyeahs-Logo-7.png'; // Black logo
-  const darkBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Logo-1.png'; // White logo
+  // For all other pages, use white menu (dark background style)
+  const isDarkBackground = !shouldUseBlackMenu;
   
-  // Choose logo based on background for default header
+  // Logo URLs - using working WordPress paths
+  const lightBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Moreyeahs-Logo-7.png'; // Black logo for light backgrounds
+  const darkBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Logo-1.png'; // White logo for dark backgrounds
+  
+  // Choose logo based on menu color
+  // White menu = white logo (dark background), Black menu = black logo (light background)
   const defaultHeaderLogoUrl = isDarkBackground ? darkBgLogoUrl : lightBgLogoUrl;
   // Sticky header always uses black logo
   const stickyHeaderLogoUrl = lightBgLogoUrl;

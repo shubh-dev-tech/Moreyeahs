@@ -2,8 +2,8 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import DiceTestimonialWrapper from '@/components/DiceTestimonialWrapper';
 import JsonLd from '@/components/JsonLd';
+import DiceTestimonialWrapper from '@/components/DiceTestimonialWrapper';
 import ClientBlockInitializer from '@/components/ClientBlockInitializer';
 import WordPressErrorHandler from '@/components/WordPressErrorHandler';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -11,19 +11,19 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import './globals.scss';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'),
   title: {
     default: process.env.NEXT_PUBLIC_SITE_NAME || 'MoreYeahs',
     template: `%s | ${process.env.NEXT_PUBLIC_SITE_NAME || 'MoreYeahs'}`,
   },
   description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'A modern headless CMS powered by WordPress and Next.js',
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Logo-1.png',
+    apple: 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Logo-1.png',
   },
   manifest: '/site.webmanifest',
 };

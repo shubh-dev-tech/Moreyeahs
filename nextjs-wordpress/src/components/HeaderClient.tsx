@@ -34,7 +34,7 @@ function MenuItems({ items, megaMenuMap }: { items: MenuItem[], megaMenuMap: Rec
         
         // Check if this is the Career menu item and use custom URL
         const isCareerItem = itemTitleLower === 'career' || itemTitleLower === 'careers';
-        const finalUrl = isCareerItem ? 'https://app.emossy.com/#/job-module/jobs?companyId=IjE' : item.url;
+        const finalUrl = isCareerItem ? '/careers' : item.url;
         
         return (
           <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (item.children && item.children.length > 0 ? 'has-children' : '')}>
@@ -79,9 +79,9 @@ export default function HeaderClient() {
   // Get current pathname to trigger background check on route changes
   const pathname = usePathname();
   
-  // Dynamic logo URLs
-  const lightBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Moreyeahs-Logo-7.png';
-  const darkBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Logo-1.png';
+  // Logo URLs - using working WordPress paths
+  const lightBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Moreyeahs-Logo-7.png'; // Black logo for light backgrounds
+  const darkBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Logo-1.png'; // White logo for dark backgrounds
   
   // Detect background color (re-check when pathname changes)
   const isDarkBackground = useBackgroundDetection('.header', [pathname]);

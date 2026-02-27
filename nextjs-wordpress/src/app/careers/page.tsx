@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CareersWithSidebar from '@/components/careers/CareersWithSidebar';
+import PitchYourCraft from '@/components/careers/PitchYourCraft';
 import { generatePageMetadata } from '@/lib/seo';
 import styles from './page.module.css';
 
@@ -35,7 +36,7 @@ async function getCareers(): Promise<CareerData[]> {
     const { getWordPressApiUrl } = await import('@/lib/environment');
     const apiUrl = getWordPressApiUrl();
 
-    const response = await fetch(`${apiUrl}/wp/v2/careers?per_page=100&_embed`, {
+    const response = await fetch(`${apiUrl}/wp/v2/careers?per_page=20&_embed`, {
       next: { revalidate: 60 },
       signal: AbortSignal.timeout(15000),
       headers: {
@@ -103,6 +104,9 @@ export default async function CareersPage() {
           )}
         </div>
       </section>
+
+      {/* Pitch Your Craft Section */}
+      <PitchYourCraft />
     </div>
   );
 }

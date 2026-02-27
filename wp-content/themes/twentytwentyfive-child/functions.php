@@ -97,6 +97,12 @@ function twentytwentyfive_child_include_parent_functions() {
         require_once $case_study_admin;
     }
     
+    // Include ACF careers fields template
+    $careers_acf_template = get_stylesheet_directory() . '/acf-careers-fields-template.php';
+    if (file_exists($careers_acf_template)) {
+        require_once $careers_acf_template;
+    }
+    
     // Include footer settings
     $footer_settings = get_stylesheet_directory() . '/inc/footer-settings.php';
     if (file_exists($footer_settings)) {
@@ -2133,6 +2139,24 @@ function add_acf_to_case_study_rest_api() {
     ));
 }
 add_action('rest_api_init', 'add_acf_to_case_study_rest_api');
+
+/**
+ * Ensure ACF fields are available in REST API for Careers
+ */
+function add_acf_to_careers_rest_api() {
+    if (!function_exists('get_fields')) {
+        return;
+    }
+    
+    register_rest_field('careers', 'acf_fields', array(
+        'get_callback' => function($post) {
+            $fields = get_fields($post['id']);
+            return $fields ? $fields : array();
+        },
+        'schema' => null,
+    ));
+}
+add_action('rest_api_init', 'add_acf_to_careers_rest_api');
 
 /**
  * Debug ACF field saving

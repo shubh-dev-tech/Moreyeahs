@@ -3,8 +3,6 @@ import { parseBlocks } from '@/lib/blocks';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
 import { sanitizeWordPressContent } from '@/lib/wordpress-content';
 
-// Build-safe: this page uses ISR with 60s revalidation
-// If WordPress is offline during build, it will show fallback content
 export const revalidate = 60;
 
 export default async function Home() {

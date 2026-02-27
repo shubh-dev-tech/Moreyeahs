@@ -1,10 +1,10 @@
 .careerDetail {
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: #ffffff;
 }
 
 .headerSection {
-  padding: 80px 20px;
+  padding: 80px 20px 10px;
   color: white;
   text-align: center;
   background-size: cover;
@@ -20,13 +20,16 @@
   font-size: 42px;
   font-weight: 700;
   margin-bottom: 20px;
+  margin-top: 30px;
   line-height: 1.2;
+      text-align: left;
+    color: #202020;
 }
 
 .jobMeta {
   display: flex;
   gap: 12px;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
@@ -38,7 +41,8 @@
   border-radius: 20px;
   font-size: 14px;
   font-weight: 500;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid #20202099;
+    color: #20202099;
 }
 
 .mainContent {
@@ -57,10 +61,10 @@
 }
 
 .jobContent {
-  background: white;
-  padding: 40px;
+  background: #ffffff;
+  padding: 0px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
 }
 
 .jobSection {
@@ -76,6 +80,19 @@
   font-weight: 700;
   margin-bottom: 20px;
   color: #1a1a1a;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0px;
+}
+
+.sectionHeading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent 0%, transparent 25%, #000000 25%, #000000 100%);
 }
 
 .sectionContent {
@@ -115,7 +132,7 @@
   content: '•';
   position: absolute;
   left: 8px;
-  color: #667eea;
+  color: #20202099;
   font-size: 20px;
   font-weight: bold;
 }
@@ -141,6 +158,12 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.applicationForm form {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
 }
 
 .formIcon {
@@ -172,7 +195,7 @@
 .formGroup input:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #000000;
 }
 
 .formGroup textarea {
@@ -187,9 +210,8 @@
 .fileUpload input[type="file"] {
   position: absolute;
   opacity: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
+  width: 0;
+  height: 0;
 }
 
 .fileUploadLabel {
@@ -206,33 +228,47 @@
 }
 
 .fileUploadLabel:hover {
-  border-color: #667eea;
+  border-color: #000000;
   background: #f0f2ff;
 }
 
 .uploadIcon {
-  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.uploadText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 14px;
 }
 
 .submitButton {
-  width: 100%;
-  padding: 14px 24px;
-  background: #667eea;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
+  max-width: 100%;
+ padding: 10px 20px;
+  background: none;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 400;
   cursor: pointer;
   transition: background 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  display: flex;
+  align-self: flex-end;
 }
 
 .submitButton:hover {
-  background: #5568d3;
+  background: #000;
+  color: #fff;
 }
 
 @media (max-width: 968px) {

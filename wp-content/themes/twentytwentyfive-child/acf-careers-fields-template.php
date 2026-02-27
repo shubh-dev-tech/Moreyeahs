@@ -172,7 +172,7 @@ $careers_acf_fields = array(
 );
 
 // Uncomment the line below to programmatically register the field group
-// acf_add_local_field_group($careers_acf_fields);
+acf_add_local_field_group($careers_acf_fields);
 
 /**
  * Export as JSON for ACF Import Tool

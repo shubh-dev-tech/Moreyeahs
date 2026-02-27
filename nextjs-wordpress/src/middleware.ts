@@ -22,6 +22,9 @@ const authRoutes = [
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
+  // Create response
+  let response = NextResponse.next();
+  
   // Handle malformed case study URLs
   if (pathname.startsWith('/case-study/')) {
     const slug = pathname.replace('/case-study/', '');
@@ -46,32 +49,29 @@ export function middleware(request: NextRequest) {
   // Check if auth middleware is enabled
   const authEnabled = process.env.ENABLE_AUTH_MIDDLEWARE === 'true';
   
-  if (!authEnabled) {
-    // Auth middleware disabled - allow all requests
-    return NextResponse.next();
+  if (authEnabled) {
+    // Check if the route is protected
+    const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
+    const isAuthRoute = authRoutes.some(route => pathname.startsWith(route));
+    
+    // Get token from cookie or header
+    const token = request.cookies.get('jwt_token')?.value || 
+                  request.headers.get('authorization')?.replace('Bearer ', '');
+    
+    // Redirect to login if accessing protected route without token
+    if (isProtectedRoute && !token) {
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('redirect', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    
+    // Redirect to dashboard if accessing auth routes with valid token
+    if (isAuthRoute && token) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
   }
   
-  // Check if the route is protected
-  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
-  const isAuthRoute = authRoutes.some(route => pathname.startsWith(route));
-  
-  // Get token from cookie or header
-  const token = request.cookies.get('jwt_token')?.value || 
-                request.headers.get('authorization')?.replace('Bearer ', '');
-  
-  // Redirect to login if accessing protected route without token
-  if (isProtectedRoute && !token) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('redirect', pathname);
-    return NextResponse.redirect(loginUrl);
-  }
-  
-  // Redirect to dashboard if accessing auth routes with valid token
-  if (isAuthRoute && token) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
-  }
-  
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {

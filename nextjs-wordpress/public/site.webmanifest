@@ -3,12 +3,12 @@
   "short_name": "MoreYeahs",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png",
+      "src": "https://dev.moreyeahs.com/wp-content/uploads/2026/02/cropped-Moreyeahs-Logo-7.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "https://dev.moreyeahs.com/wp-content/uploads/2026/02/cropped-Moreyeahs-Logo-7.png",
       "sizes": "512x512",
       "type": "image/png"
     }

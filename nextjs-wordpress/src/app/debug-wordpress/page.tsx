@@ -37,7 +37,7 @@ export default async function DebugWordPressPage() {
   // Get all pages to see what's available
   let allPages: any[] = [];
   try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/pages?per_page=100`, {
+    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/pages?per_page=20`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

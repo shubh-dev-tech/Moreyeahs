@@ -106,7 +106,7 @@ export async function generateStaticParams() {
     const { getWordPressApiUrl } = await import('@/lib/environment');
     const apiUrl = getWordPressApiUrl();
 
-    const response = await fetch(`${apiUrl}/wp/v2/careers?per_page=100`, {
+    const response = await fetch(`${apiUrl}/wp/v2/careers?per_page=20`, {
       signal: AbortSignal.timeout(10000),
       headers: {
         'Accept': 'application/json',

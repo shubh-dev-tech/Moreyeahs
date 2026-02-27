@@ -32,7 +32,7 @@ async function getBlogPosts(): Promise<ProcessedBlogData[]> {
     const { getWordPressApiUrl } = await import('@/lib/environment');
     const apiUrl = getWordPressApiUrl();
     
-    const response = await fetch(`${apiUrl}/wp/v2/posts?per_page=100&_embed`, {
+    const response = await fetch(`${apiUrl}/wp/v2/posts?per_page=20&_embed`, {
       next: { revalidate: 60 },
       signal: AbortSignal.timeout(15000), // 15 second timeout
       headers: {
