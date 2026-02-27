@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import './styles.scss';
 
 interface FeaturePoint {
@@ -26,6 +27,8 @@ interface DomainEnablesSectionData {
   icon_image?: ImageData;
   feature_points?: FeaturePoint[];
   main_image?: ImageData;
+  // Allow for flattened ACF repeater format
+  [key: string]: any;
 }
 
 interface DomainEnablesSectionProps {
@@ -33,6 +36,29 @@ interface DomainEnablesSectionProps {
 }
 
 const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => {
+  // Helper function to transform flattened ACF repeater data to array format
+  const transformRepeaterData = (data: any, fieldName: string) => {
+    if (!data) return [];
+    
+    // If already in array format, return as-is
+    if (Array.isArray(data[fieldName])) {
+      return data[fieldName];
+    }
+    
+    // Transform flattened format (feature_points_0_text, feature_points_1_text, etc.)
+    const items: any[] = [];
+    let index = 0;
+    
+    while (data[`${fieldName}_${index}_text`] !== undefined) {
+      items.push({
+        text: data[`${fieldName}_${index}_text`]
+      });
+      index++;
+    }
+    
+    return items;
+  };
+  
   // Destructure data with defaults
   const {
     heading,
@@ -45,9 +71,11 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
     background_image,
     section_height = 'auto',
     icon_image,
-    feature_points = [],
     main_image,
   } = data || {};
+  
+  // Transform feature points data
+  const feature_points = transformRepeaterData(data, 'feature_points');
 
   // Generate background style
   const getBackgroundStyle = (): React.CSSProperties => {
@@ -105,7 +133,7 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
               />
             ) : (
               <div className="subheading">
-                <p>We help organizations unlock the full value of the Microsoft ecosystem by transforming individual tools into a unified business platform.</p>
+                <p>121</p>
               </div>
             )}
 
@@ -115,9 +143,11 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
                   <div key={index} className="feature-point">
                     {icon_image ? (
                       <div className="point-icon">
-                        <img 
+                        <Image 
                           src={icon_image.url} 
-                          alt={icon_image.alt || 'Feature icon'} 
+                          alt={icon_image.alt || 'Feature icon'}
+                          width={icon_image.width || 24}
+                          height={icon_image.height || 24}
                         />
                       </div>
                     ) : (
@@ -135,13 +165,13 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
                     <div className="point-icon default-icon">
                       <div className="checkmark">✓</div>
                     </div>
-                    <span className="point-text">Centralize business operations</span>
+                    <span className="point-text">1s</span>
                   </div>
                   <div className="feature-point">
                     <div className="point-icon default-icon">
                       <div className="checkmark">✓</div>
                     </div>
-                    <span className="point-text">Automate repetitive processes</span>
+                    <span className="point-text">2s</span>
                   </div>
                   <div className="feature-point">
                     <div className="point-icon default-icon">
@@ -162,10 +192,12 @@ const DomainEnablesSection: React.FC<DomainEnablesSectionProps> = ({ data }) => 
 
           {main_image ? (
             <div className="image-wrapper">
-              <img 
+              <Image 
                 src={main_image.url} 
                 alt={main_image.alt || 'Main illustration'} 
-                className="main-image" 
+                className="main-image"
+                width={main_image.width || 600}
+                height={main_image.height || 400}
               />
             </div>
           ) : (

@@ -1,4 +1,8 @@
+'use client';
+
 import React from 'react';
+import Image from 'next/image';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import './styles.scss';
 
 interface ServiceItem {
@@ -9,6 +13,7 @@ interface ServiceItem {
   service_title: string;
   service_description: string;
   service_link?: string;
+  service_link_text?: string;
 }
 
 interface ServiceDetailsSectionProps {
@@ -30,6 +35,9 @@ interface ServiceDetailsSectionProps {
 const ServiceDetailsSection: React.FC<ServiceDetailsSectionProps> = ({
   data
 }) => {
+  const { ref: sectionRef, isVisible: sectionVisible } = useScrollAnimation({ threshold: 0.1 });
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.2 });
+
   // Safety check for data
   if (!data) {
     console.warn('ServiceDetailsSection: No data provided');
@@ -64,6 +72,7 @@ const ServiceDetailsSection: React.FC<ServiceDetailsSectionProps> = ({
         service_title: data[`services_${serviceIndex}_service_title`],
         service_description: data[`services_${serviceIndex}_service_description`],
         service_link: data[`services_${serviceIndex}_service_link`],
+        service_link_text: data[`services_${serviceIndex}_service_link_text`],
         service_icon: data[`services_${serviceIndex}_service_icon`]
       };
       reconstructedServices.push(service);
@@ -143,10 +152,17 @@ const ServiceDetailsSection: React.FC<ServiceDetailsSectionProps> = ({
   };
 
   return (
-    <section className="service-details-section" style={sectionStyles}>
+    <section 
+      ref={sectionRef as React.RefObject<HTMLElement>}
+      className={`service-details-section ${sectionVisible ? 'animate-in' : ''}`} 
+      style={sectionStyles}
+    >
       <div className="service-details-container">
         {(heading || sub_heading) && (
-          <div className="service-details-header">
+          <div 
+            ref={headerRef as React.RefObject<HTMLDivElement>}
+            className={`service-details-header ${headerVisible ? 'animate-in' : ''}`}
+          >
             {heading && (
               <h2 className="service-details-heading">{heading}</h2>
             )}
@@ -164,14 +180,22 @@ const ServiceDetailsSection: React.FC<ServiceDetailsSectionProps> = ({
               const wrapperProps = service.service_link 
                 ? { href: service.service_link, className: 'service-link' }
                 : {};
+              
+              const linkText = service.service_link_text || 'See Solutions';
 
               return (
-                <div key={index} className="service-item">
+                <div 
+                  key={index} 
+                  className={`service-item ${sectionVisible ? 'animate-in' : ''}`}
+                  style={{ 
+                    animationDelay: `${index * 0.1}s` 
+                  }}
+                >
                   <ServiceWrapper {...wrapperProps}>
                     <div className="service-content">
                       {service.service_icon && (
                         <div className="service-icon">
-                          <img 
+                          <Image 
                             src={service.service_icon.url} 
                             alt={service.service_icon.alt || service.service_title}
                             width={64}
@@ -204,6 +228,15 @@ const ServiceDetailsSection: React.FC<ServiceDetailsSectionProps> = ({
                             )
                             : formatDescription(service.service_description)
                           }
+                        </div>
+                      )}
+                      
+                      {service.service_link && (
+                        <div className="service-link-wrapper">
+                          <span className="service-link-text">{linkText}</span>
+                          <svg className="service-link-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
                         </div>
                       )}
                     </div>

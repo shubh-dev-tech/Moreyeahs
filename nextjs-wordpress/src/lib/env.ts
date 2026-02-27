@@ -29,8 +29,8 @@ function getWordPressApiUrl(): string {
   
   // Auto-detect based on environment
   if (IS_LOCAL) {
-    // Local development - use localhost
-    return 'http://localhost/moreyeahs-new/wp-json';
+    // Local development - use 127.0.0.1 instead of localhost to avoid IPv6 issues
+    return 'http://127.0.0.1/moreyeahs-new/wp-json';
   } else {
     // Vercel or other production environments - use dev server
     return 'https://dev.moreyeahs.com/wp-json';

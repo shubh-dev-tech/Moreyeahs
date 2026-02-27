@@ -1,6 +1,12 @@
 .contai-new {
-      padding-left: 40px;
-    padding-right: 40px;
+  padding-left: 40px;
+  padding-right: 40px;
+
+
+  @media (max-width: 1023px) {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }
                                 
 .header {
@@ -11,18 +17,94 @@
   padding-left: 40px!important;
   padding-right: 40px!important;
   z-index: $z-index-header;
-  padding: 1.25rem 0;
-  // background-color: #ffffff40;
-  // backdrop-filter: blur(10px);
-  // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 0.55rem 0;
   transform: translateY(0);
-  background: #FFFFFFCC;
+  background: rgba(250, 250, 250, 0.4); // Off-white background
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px); // Safari support
   opacity: 1;
-  @include transition(transform var(--header-animation-duration, 0.3s) ease, opacity var(--header-animation-duration, 0.3s) ease);
+  @include transition(all var(--header-animation-duration, 0.3s) ease);
 
+  // Transparent header (default)
+  &--transparent {
+    background-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+
+    &.header--hidden {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+  }
+
+  // Sticky header (appears on scroll)
+  &--sticky {
+    background-color: rgba(250, 250, 250, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+        margin-top: 15px !important;
+    margin: 60px;
+    border-radius: 50px;
+
+    &.header--visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      margin: 20px;
+    }
+  }
+
+  // Dark background styling (white text)
+  &--dark-bg {
+    .header__logo {
+      color: #ffffff !important;
+    }
+
+    .header__menu a {
+      // color: #ffffff !important;
+    }
+
+    .header__search-btn {
+      color: #ffffff !important;
+    }
+
+    .hamburger-line {
+      background-color: #ffffff !important;
+    }
+  }
+
+  // Light background styling (black text)
+  &--light-bg {
+    .header__logo {
+      color: #202020 !important;
+    }
+
+    .header__menu a {
+      color: #202020 !important;
+    }
+
+    .header__search-btn {
+        color: #202020 !important;
+    }
+
+    .hamburger-line {
+      background-color: #202020  !important;
+    }
+  }
+
+  // Apply glass effect on all screen sizes including mobile and tablet
   @include mobile {
-    position: relative;
-    background: #000000ab;
+    position: fixed; // Keep fixed positioning
+    background: rgba(250, 250, 250, 0.4); // Same glass background
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); // Safari support
   }
 
   &__nav {
@@ -41,10 +123,9 @@
   &__logo {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #000;
+    color: #000000 !important; // Always black
     letter-spacing: -0.5px;
     @include transition(color 0.2s ease);
-    // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
 
@@ -59,8 +140,11 @@
     width: 130px;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    @include transition(filter 0.3s ease);
+    filter: none; // Remove filter - logo always visible as is
+    @include transition(filter 0.3s ease, opacity 0.3s ease);
+
+    // Smooth transition for logo changes
+    transition: opacity 0.3s ease, filter 0.3s ease;
   }
 
   &__logo-text {
@@ -74,74 +158,168 @@
     align-items: center;
     margin: 0;
     padding: 0;
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0.3s ease, opacity 0.3s ease;
+
+    // Removed --hidden class - menu always visible
+    // &--hidden {
+    //   visibility: hidden !important;
+    //   opacity: 0 !important;
+    // }
 
     > li {
       position: relative;
+
+      // Create hover bridge for submenu
+      &.has-children::before {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: -10px;
+        right: -10px;
+        height: 12px;
+        background: transparent;
+        z-index: $z-index-dropdown - 1;
+        pointer-events: auto;
+      }
 
       &.has-mega-menu {
         position: static; // Allow mega menu to span full width
         
         .mega-menu-trigger::after {
-          content: ' ▾';
-          font-size: 0.75em;
-          margin-left: 0.35rem;
-          opacity: 0.6;
-          transition: transform 0.2s ease;
+          content: '';
           display: inline-block;
+          width: 6px;
+          height: 6px;
+          margin-left: 0.5rem;
+          border-right: 1.5px solid currentColor;
+          border-bottom: 1.5px solid currentColor;
+          transform: rotate(45deg);
+          opacity: 0.8;
+          transition: transform 0.2s ease;
+          vertical-align: middle;
+          margin-top: -2px;
         }
 
         &:hover .mega-menu-trigger::after {
-          transform: rotate(180deg);
+          transform: rotate(-135deg);
         }
       }
     }
 
     a {
-      color: #000000;
-      padding: 0.75rem 0;
+      padding: 0.15rem 0;
       display: block;
-          font-weight: 700;
+      font-weight: 700;
       position: relative;
       @include transition(color 0.2s ease);
-      // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      
+      // Always black color
+      color: #000000 !important;
 
       &:hover {
-        color: #000000;
-        opacity: 1;
-        font-weight: 700;
+        opacity: 0.8;
       }
     }
 
     > li > a {
       font-size: 1rem;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background-color: #000000;
-        @include transition(width 0.3s ease);
-      }
-
-      &:hover::after {
-        width: 100%;
-      }
     }
 
-    .has-children > a::before {
-      content: ' ▾';
-      font-size: 0.75em;
-      margin-left: 0.35rem;
-      opacity: 0.6;
-      @include transition(transform 0.2s ease);
+    // Underline effect only for links WITHOUT children
+    > li:not(.has-children):not(.has-mega-menu) > a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      @include transition(width 0.3s ease);
+      
+      // Always black underline
+      background-color: #666666!important;
+    }
+
+    > li:not(.has-children):not(.has-mega-menu) > a:hover::after {
+      width: 100%;
+    }
+
+    // Style for React chevron icon
+    .menu-chevron {
       display: inline-block;
+      margin-left: 0.35rem;
+      font-size: 14px;
+      transition: transform 0.2s ease;
+      vertical-align: middle;
+      margin-top: -2px;
     }
 
-    .has-children:hover > a::before {
+    > li.has-children:hover .menu-chevron {
       transform: rotate(180deg);
+    }
+
+    // Removed dark-bg styling - always use light-bg with black text
+
+  // 1400px - 1100px: Smaller gap and font size
+    @media (min-width: 1100px) and (max-width: 1400px) {
+      display: flex;
+      gap: 1.5rem;
+      
+      > li > a {
+        font-size: 14px;
+      }
+    }
+
+    // 1099px and below: Hide menu
+    @media (max-width: 1099px) {
+      display: none;
+    }
+
+    // Dark background styling (white text)
+    &--dark-bg {
+      > li > a:not(.header__submenu a) {
+        color: #ffffff !important;
+        text-shadow: none;
+
+        &:hover {
+          color: #ffffff !important;
+          opacity: 0.8;
+        }
+
+        &::after {
+          background-color: #ffffff !important;
+        }
+      }
+
+      > li.has-children > a::before {
+        color: #ffffff !important;
+      }
+
+      .menu-chevron {
+        color: #ffffff !important;
+      }
+    }
+
+    // Light background styling (black text)
+    &--light-bg {
+      > li > a:not(.header__submenu a) {
+        color: #000000 !important;
+        text-shadow: none;
+
+        &:hover {
+          color: #000000 !important;
+          opacity: 0.8;
+        }
+
+        &::after {
+          background-color: #000000 !important;
+        }
+      }
+
+      > li.has-children > a::before {
+        color: #000000 !important;
+      }
     }
 
     @include mobile {
@@ -151,23 +329,24 @@
 
   &__submenu {
     position: absolute;
-    top: calc(100% - 0.25rem); // Reduce gap for easier hover
+    top: 100%;
     left: 0;
-    background-color: #FFFFFFCC;
-    border: 1px solid $color-border;
+    background-color: #ffffff; // White background
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     min-width: 250px;
+    max-width: 280px;
+    margin-top: 8px;
     list-style: none;
     padding: 0.75rem 0;
-    padding-top: 1rem; // Add extra padding at top for hover bridge
     font-weight: 700;
     margin: 0;
-    opacity: 0 !important; // Force hidden on load
-    visibility: hidden !important; // Force hidden on load
+    margin-top: 8px;
+    opacity: 0;
+    visibility: hidden;
     transform: translateY(-10px);
-    @include transition(opacity 0.25s ease, transform 0.25s ease, visibility 0.25s);
-    transition-delay: 0s, 0s, 0s; // Instant hide
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
     z-index: $z-index-dropdown;
     pointer-events: none; // Prevent interaction when hidden
 
@@ -176,32 +355,40 @@
       margin: 0;
     }
 
-    a {
-      padding: 0.875rem 1.5rem;
-      white-space: nowrap;
+a {
+      padding: 0.800rem 1rem;
+      white-space: normal; // Allow text to wrap
+      word-wrap: break-word; // Break long words if needed
       font-size: 0.95rem;
       border-left: 3px solid transparent;
+      color: #000000 !important; // Black text by default
+      line-height: 1.4; // Better line height for wrapped text
       @include transition(all 0.2s ease);
 
+      // Override main menu arrow for submenu items
       &::after {
-        display: none;
+        display: none !important;
+      }
+      
+      // Hide chevron icon in nested submenu items only
+      .menu-chevron {
+        display: none !important;
       }
 
       &:hover {
-        background-color: $color-bg-alt;
+        background-color: #f5f5f5; // Light gray on hover
         border-left-color: $color-primary;
-        padding-left: 1.75rem;
+        padding-left: 1.65rem;
+        color: #000000 !important; // Black text on hover
       }
     }
 
     .has-children {
       position: relative;
 
-      > a::before {
-        content: ' ▸';
-        float: right;
-        margin-left: 1.5rem;
-        opacity: 0.6;
+      // Arrow removed from submenu items
+      > a::after {
+        display: none !important;
       }
     }
 
@@ -229,42 +416,110 @@
     }
   }
 
-  // Only show submenu on hover, not on focus-within (to prevent auto-show on page load)
+  // Show submenu on hover with immediate transition
   &__menu .has-children:hover > &__submenu {
-    opacity: 1 !important;
-    visibility: visible !important;
+    opacity: 1;
+    visibility: visible;
     transform: translateY(0);
-    pointer-events: auto; // Re-enable interaction on hover
-    transition-delay: 0.15s, 0.15s, 0.15s; // Small delay before showing
+    pointer-events: auto;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0s;
+  }
+  
+  // Keep submenu visible when hovering over it
+  &__submenu:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0s;
   }
   
   // Optional: Enable keyboard navigation with focus
   &__menu .has-children > a:focus + &__submenu,
   &__menu .has-children > a:focus-within + &__submenu {
-    opacity: 1 !important;
-    visibility: visible !important;
+    opacity: 1;
+    visibility: visible;
     transform: translateY(0);
-    pointer-events: auto; // Re-enable interaction on focus
+    pointer-events: auto;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0s;
   }
 
   &__actions {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+
+    // Dark background styling (white icons)
+    &--dark-bg {
+      .header__search-btn {
+        color: #ffffff !important;
+        text-shadow: none;
+
+        &:hover {
+          color: #ffffff !important;
+          opacity: 0.8;
+        }
+      }
+
+      .hamburger-line {
+        background-color: #ffffff !important;
+      }
+    }
+
+    // Light background styling (black icons)
+    &--light-bg {
+      .header__search-btn {
+        color: #000000 !important;
+        text-shadow: none;
+
+        &:hover {
+          color: #000000 !important;
+          opacity: 0.8;
+        }
+      }
+
+      .hamburger-line {
+        background-color: #202020 !important;
+      }
+    }
   }
 
   &__search-btn {
     background: none;
     border: none;
     cursor: pointer;
+    display: none!important;
     padding: 0.5rem;
-    color: #000;
     border-radius: 50%;
     width: 44px;
     height: 44px;
     @include flex-center;
     @include transition(all 0.2s ease);
-    // text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    
+    // Always black color
+    color: #000000 !important;
+
+    // Dark background styling (white icon)
+    &--dark-bg {
+      color: #ffffff !important;
+      text-shadow: none;
+
+      &:hover {
+        color: #ffffff !important;
+        opacity: 0.8;
+      }
+    }
+
+    // Light background styling (black icon)
+    &--light-bg {
+      color: #000000 !important;
+      text-shadow: none;
+
+      &:hover {
+        color: #000000 !important;
+        opacity: 0.8;
+      }
+    }
 
     @include mobile {
       display: none;

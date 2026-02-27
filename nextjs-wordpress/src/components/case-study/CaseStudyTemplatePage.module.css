@@ -257,6 +257,7 @@
     padding: 40px 30px;
     border-radius: 30px;
     color: white;
+        margin-top: 55px;
 }
 
 .sidebarSection {
@@ -357,8 +358,8 @@
   text-align: left;
   position: relative;
 
-  /* background: linear-gradient(135deg, rgb(0, 188, 212), rgb(156, 39, 176)); */
-  background: black;
+  background: linear-gradient(135deg, rgb(0, 188, 212), rgb(156, 39, 176));
+
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -800,6 +801,42 @@
   min-height: 100vh;
 }
 
+/* PDF-friendly dynamic heading styles */
+.pdf-mode .dynamicHeading {
+  /* Remove gradient text and animations for PDF */
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  background-clip: initial !important;
+  color: #516FC2 !important;
+  animation: none !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+}
+
+.pdf-mode .dynamicHeading::after {
+  /* Remove shine animation for PDF */
+  display: none !important;
+}
+
+.pdf-mode .dynamicHeadingSection::before {
+  /* Remove sliding dot animation for PDF */
+  display: none !important;
+}
+
+.pdf-mode .dynamicHeadingSection::after {
+  /* Keep the gradient line but make it static */
+  animation: none !important;
+  background: linear-gradient(135deg, rgb(0, 188, 212), rgb(156, 39, 176)) !important;
+}
+
+/* Fallback for PDF generation using data attribute */
+.pdf-mode .dynamicHeading:empty::before {
+  content: attr(data-pdf-text);
+  color: #516FC2;
+  font-weight: 700;
+}
+
 /* Hide decorative elements during PDF generation */
 .pdf-generating {
   overflow: visible !important;
@@ -816,27 +853,46 @@
 @media print {
   #case-study-pdf-content {
     -webkit-print-color-adjust: exact;
-    color-adjust: exact;
     print-color-adjust: exact;
   }
   
   .sidebar {
     background: linear-gradient(135deg, rgb(46, 188, 212), rgb(30, 39, 176)) !important;
     -webkit-print-color-adjust: exact;
-    color-adjust: exact;
     print-color-adjust: exact;
   }
   
   .headerBackground {
     -webkit-print-color-adjust: exact;
-    color-adjust: exact;
     print-color-adjust: exact;
   }
   
   .sectionIcon {
     -webkit-print-color-adjust: exact;
-    color-adjust: exact;
     print-color-adjust: exact;
+  }
+  
+  /* PDF-friendly dynamic heading for print */
+  .dynamicHeading {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    background-clip: initial !important;
+    color: #516FC2 !important;
+    animation: none !important;
+  }
+  
+  .dynamicHeading::after {
+    display: none !important;
+  }
+  
+  .dynamicHeadingSection::before {
+    display: none !important;
+  }
+  
+  .dynamicHeadingSection::after {
+    animation: none !important;
+    background: linear-gradient(135deg, rgb(0, 188, 212), rgb(156, 39, 176)) !important;
   }
 }
 

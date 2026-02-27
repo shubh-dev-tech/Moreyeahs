@@ -1,0 +1,105 @@
+.careers-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.careers-hero {
+  background-image: url('https://dev.moreyeahs.com/wp-content/uploads/2026/02/Group-1000001836.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.careers-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background: rgba(0, 0, 0, 0.3); */
+  z-index: 1;
+}
+
+.careers-hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.careers-hero__title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+      color: #000000;
+}
+
+.careers-hero__subtitle {
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto 15px;
+  opacity: 0.95;
+      color: #20202099;
+}
+
+/* Loading skeleton styles */
+.careers-hero__title.loading,
+.careers-hero__subtitle.loading {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+  border-radius: 4px;
+  color: transparent;
+  display: inline-block;
+  min-width: 300px;
+  min-height: 1em;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.careers-content-section {
+  padding: 60px 20px;
+}
+
+.no-careers {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .careers-hero {
+    padding: 60px 20px;
+  }
+
+  .careers-hero__title {
+    font-size: 36px;
+  }
+
+  .careers-hero__subtitle {
+    font-size: 16px;
+  }
+
+  .careers-content-section {
+    padding: 40px 20px;
+  }
+}

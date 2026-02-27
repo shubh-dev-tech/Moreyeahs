@@ -3,11 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { MenuItem } from '@/types/menu';
 import MobileMenu from './MobileMenu';
 import MegaMenu, { MegaMenuData } from './MegaMenu';
 import { wpUrlToPath } from '@/lib/url-utils';
 import { transformMediaUrl } from '@/lib/wpFetch';
+import { useBackgroundDetection } from '@/hooks/useBackgroundDetection';
 
 interface SiteSettings {
   title: string;
@@ -32,7 +34,7 @@ function MenuItems({ items, megaMenuMap }: { items: MenuItem[], megaMenuMap: Rec
         
         // Check if this is the Career menu item and use custom URL
         const isCareerItem = itemTitleLower === 'career' || itemTitleLower === 'careers';
-        const finalUrl = isCareerItem ? 'https://app.emossy.com/#/job-module/jobs?companyId=IjE' : item.url;
+        const finalUrl = isCareerItem ? '/careers' : item.url;
         
         return (
           <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (item.children && item.children.length > 0 ? 'has-children' : '')}>
@@ -74,6 +76,19 @@ function MenuItems({ items, megaMenuMap }: { items: MenuItem[], megaMenuMap: Rec
 }
 
 export default function HeaderClient() {
+  // Get current pathname to trigger background check on route changes
+  const pathname = usePathname();
+  
+  // Dynamic logo URLs
+  const lightBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Moreyeahs-Logo-7.png';
+  const darkBgLogoUrl = 'https://dev.moreyeahs.com/wp-content/uploads/2026/01/Logo-1.png';
+  
+  // Detect background color (re-check when pathname changes)
+  const isDarkBackground = useBackgroundDetection('.header', [pathname]);
+  
+  // Choose logo based on background
+  const currentLogoUrl = isDarkBackground ? darkBgLogoUrl : lightBgLogoUrl;
+  
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
   const [primaryMenu, setPrimaryMenu] = useState<Menu | null>(null);
   const [secondMenu, setSecondMenu] = useState<Menu | null>(null);
@@ -139,7 +154,14 @@ export default function HeaderClient() {
         <div className="contai-new">
           <nav className="header__nav">
             <Link href="/" className="header__logo">
-              <span className="header__logo-text">Loading...</span>
+              <Image
+                src={currentLogoUrl}
+                alt="MoreYeahs"
+                width={220}
+                height={50}
+                priority
+                className="header__logo-image"
+              />
             </Link>
           </nav>
         </div>
@@ -152,27 +174,23 @@ export default function HeaderClient() {
       <div className="contai-new">
         <nav className="header__nav">
           <Link href="/" className="header__logo">
-            {logo ? (
-              <Image
-                src={transformMediaUrl(logo.url)}
-                alt={logo.alt || siteName}
-                width={logo.width}
-                height={logo.height}
-                priority
-                className="header__logo-image"
-              />
-            ) : (
-              <span className="header__logo-text">{siteName}</span>
-            )}
+            <Image
+              src={currentLogoUrl}
+              alt={siteName}
+              width={220}
+              height={50}
+              priority
+              className="header__logo-image"
+            />
           </Link>
           
           {/* Desktop Primary Menu */}
           {primaryMenuItems.length > 0 ? (
-            <ul className="header__menu">
+            <ul className={`header__menu ${isDarkBackground ? 'header__menu--dark-bg' : 'header__menu--light-bg'}`}>
               <MenuItems items={primaryMenuItems} megaMenuMap={{}} />
             </ul>
           ) : (
-            <ul className="header__menu">
+            <ul className={`header__menu ${isDarkBackground ? 'header__menu--dark-bg' : 'header__menu--light-bg'}`}>
               <li>
                 <Link href="/">Home</Link>
               </li>
@@ -180,9 +198,9 @@ export default function HeaderClient() {
           )}
 
           {/* Desktop & Mobile Burger Menu */}
-          <div className="header__actions">
+          <div className={`header__actions ${isDarkBackground ? 'header__actions--dark-bg' : 'header__actions--light-bg'}`}>
             {/* Search Icon (optional) */}
-            <button className="header__search-btn" aria-label="Search">
+            <button className={`header__search-btn ${isDarkBackground ? 'header__search-btn--dark-bg' : 'header__search-btn--light-bg'}`} aria-label="Search">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="2"/>
                 <path d="M12.5 12.5L17 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -192,9 +210,10 @@ export default function HeaderClient() {
             {/* Burger Menu - uses second-menu if available, falls back to primary */}
             <MobileMenu 
               items={secondMenuItems.length > 0 ? secondMenuItems : primaryMenuItems}
-              logo={logo || undefined}
+              logo={{ url: currentLogoUrl, alt: siteName, width: 220, height: 50 }}
               siteName={siteName}
               megaMenus={megaMenus}
+              isDarkBackground={isDarkBackground}
             />
           </div>
         </nav>

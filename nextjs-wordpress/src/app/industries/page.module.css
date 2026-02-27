@@ -1,0 +1,268 @@
+.industries-page {
+  min-height: 100vh;
+}
+
+.industries-hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 80px 0;
+  text-align: center;
+}
+
+.industries-hero__title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.industries-hero__subtitle {
+  font-size: 20px;
+  opacity: 0.9;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.industries-content-section {
+  padding: 0;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.industries-content {
+  width: 100%;
+}
+
+.page-content {
+  line-height: 1.8;
+  font-size: 16px;
+  color: #333;
+}
+
+.page-content h1,
+.page-content h2,
+.page-content h3,
+.page-content h4,
+.page-content h5,
+.page-content h6 {
+  margin-top: 2em;
+  margin-bottom: 1em;
+  color: #333;
+}
+
+.page-content h1 {
+  font-size: 2.5em;
+  font-weight: 700;
+}
+
+.page-content h2 {
+  font-size: 2em;
+  font-weight: 600;
+}
+
+.page-content h3 {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.page-content p {
+  margin-bottom: 1.5em;
+}
+
+.page-content ul,
+.page-content ol {
+  margin-bottom: 1.5em;
+  padding-left: 2em;
+}
+
+.page-content li {
+  margin-bottom: 0.5em;
+}
+
+.page-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5em 0;
+}
+
+.page-content a {
+  color: #667eea;
+  text-decoration: underline;
+}
+
+.page-content a:hover {
+  color: #764ba2;
+}
+
+.industries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.industry-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.industry-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.industry-card-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.industry-card:hover .card-image {
+  transform: scale(1.05);
+}
+
+.industry-card-content {
+  padding: 30px;
+}
+
+.industry-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.industry-card-title a {
+  color: #333;
+  text-decoration: none;
+}
+
+.industry-card-title a:hover {
+  color: #667eea;
+}
+
+.industry-card-excerpt {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.industry-card-excerpt p {
+  margin: 0;
+}
+
+.industry-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.industry-card-link:hover {
+  color: #764ba2;
+}
+
+.no-industries {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #6b7280;
+}
+
+.no-industries a {
+  color: #667eea;
+  text-decoration: underline;
+}
+
+.no-industries a:hover {
+  color: #764ba2;
+}
+
+@media (max-width: 768px) {
+  .industries-hero {
+    padding: 60px 0;
+  }
+
+  .industries-hero__title {
+    font-size: 36px;
+  }
+
+  .industries-hero__subtitle {
+    font-size: 18px;
+  }
+
+  .industries-content-section {
+    padding: 40px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+
+  .industries-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .industry-card-content {
+    padding: 25px 20px;
+  }
+
+  .industry-card-title {
+    font-size: 1.3rem;
+  }
+
+  .page-content h1 {
+    font-size: 2em;
+  }
+
+  .page-content h2 {
+    font-size: 1.5em;
+  }
+
+  .page-content h3 {
+    font-size: 1.3em;
+  }
+}
+
+@media (max-width: 480px) {
+  .industries-hero {
+    padding: 40px 0;
+  }
+
+  .industries-hero__title {
+    font-size: 28px;
+  }
+
+  .industries-hero__subtitle {
+    font-size: 16px;
+  }
+
+  .industry-card-content {
+    padding: 20px 15px;
+  }
+
+  .page-content h1 {
+    font-size: 1.8em;
+  }
+
+  .page-content h2 {
+    font-size: 1.4em;
+  }
+}

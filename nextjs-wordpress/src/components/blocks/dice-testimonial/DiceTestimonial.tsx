@@ -208,7 +208,7 @@ const DiceTestimonial: React.FC<DiceTestimonialProps> = ({ data }) => {
 
   // Helper function to get image URL
   const getImageUrl = (image: any, size: string = 'medium') => {
-    if (!image) return '/placeholder-avatar.jpg';
+    if (!image) return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23e0e0e0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-size='40' fill='%23999'%3E%3F%3C/text%3E%3C/svg%3E";
     
     if (image?.sizes?.[size]) {
       return image.sizes[size];
@@ -220,7 +220,7 @@ const DiceTestimonial: React.FC<DiceTestimonialProps> = ({ data }) => {
       return image;
     }
     
-    return '/placeholder-avatar.jpg';
+    return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23e0e0e0'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-size='40' fill='%23999'%3E%3F%3C/text%3E%3C/svg%3E";
   };
 
   // Render stars for rating
@@ -333,7 +333,7 @@ const DiceTestimonial: React.FC<DiceTestimonialProps> = ({ data }) => {
               <button 
                 className="nav-btn prev-btn"
                 onClick={() => moveSlider('prev')}
-                disabled={isAnimating}
+                // disabled={isAnimating}
                 style={{ borderColor: accent_color }}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -344,7 +344,7 @@ const DiceTestimonial: React.FC<DiceTestimonialProps> = ({ data }) => {
               <button 
                 className="nav-btn next-btn"
                 onClick={() => moveSlider('next')}
-                disabled={isAnimating}
+                // disabled={isAnimating}
                 style={{ borderColor: accent_color }}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

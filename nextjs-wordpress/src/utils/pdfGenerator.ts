@@ -50,6 +50,34 @@ export const generatePDF = async (
       throw new Error(`Element with ID "${elementId}" not found`);
     }
 
+    // Add PDF mode class to make styles PDF-friendly
+    const originalClasses = element.className;
+    element.classList.add('pdf-mode');
+    document.body.classList.add('pdf-generating');
+
+    // Force style recalculation for dynamic headings
+    const dynamicHeadings = element.querySelectorAll('[class*="dynamicHeading"]');
+    console.log(`Found ${dynamicHeadings.length} dynamic headings for PDF processing`);
+    dynamicHeadings.forEach((heading, index) => {
+      if (heading instanceof HTMLElement) {
+        console.log(`Processing dynamic heading ${index + 1}:`, heading.textContent);
+        // Force a repaint by temporarily changing a style
+        const originalDisplay = heading.style.display;
+        heading.style.display = 'none';
+        heading.offsetHeight; // Trigger reflow
+        heading.style.display = originalDisplay || '';
+        
+        // Ensure text is visible by setting explicit styles
+        heading.style.color = '#516FC2';
+        heading.style.background = 'none';
+        heading.style.webkitBackgroundClip = 'initial';
+        heading.style.webkitTextFillColor = 'initial';
+        heading.style.animation = 'none';
+        
+        console.log(`Applied PDF-friendly styles to heading ${index + 1}`);
+      }
+    });
+
     // Show loading state
     const loadingElement = document.createElement('div');
     loadingElement.id = 'pdf-loading-overlay';
@@ -103,7 +131,7 @@ export const generatePDF = async (
       })
     );
 
-    // Wait a bit for layout to settle
+    // Wait a bit for layout to settle and styles to apply
     await new Promise(resolve => setTimeout(resolve, 500));
 
     // Generate canvas from HTML with better options
@@ -120,7 +148,8 @@ export const generatePDF = async (
       allowTaint: true,
       logging: true, // Enable logging for debugging
       width: element.scrollWidth,
-      height: element.scrollHeight
+      height: element.scrollHeight,
+      backgroundColor: '#ffffff'
     });
     
     console.log('Canvas generated successfully:', {
@@ -194,11 +223,27 @@ export const generatePDF = async (
     // Save the PDF
     pdf.save(filename);
 
-    // Remove loading element
+    // Remove loading element and restore original classes
     const overlay = document.getElementById('pdf-loading-overlay');
     if (overlay) {
       document.body.removeChild(overlay);
     }
+    
+    // Restore original state
+    element.className = originalClasses;
+    document.body.classList.remove('pdf-generating');
+    
+    // Restore original styles for dynamic headings
+    const dynamicHeadingsRestore = element.querySelectorAll('[class*="dynamicHeading"]');
+    dynamicHeadingsRestore.forEach(heading => {
+      if (heading instanceof HTMLElement) {
+        heading.style.color = '';
+        heading.style.background = '';
+        heading.style.webkitBackgroundClip = '';
+        heading.style.webkitTextFillColor = '';
+        heading.style.animation = '';
+      }
+    });
 
   } catch (error) {
     console.error('Error generating PDF:', error);
@@ -208,6 +253,25 @@ export const generatePDF = async (
     if (overlay) {
       document.body.removeChild(overlay);
     }
+    
+    // Restore original state
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.classList.remove('pdf-mode');
+      
+      // Restore original styles for dynamic headings
+      const dynamicHeadings = element.querySelectorAll('[class*="dynamicHeading"]');
+      dynamicHeadings.forEach(heading => {
+        if (heading instanceof HTMLElement) {
+          heading.style.color = '';
+          heading.style.background = '';
+          heading.style.webkitBackgroundClip = '';
+          heading.style.webkitTextFillColor = '';
+          heading.style.animation = '';
+        }
+      });
+    }
+    document.body.classList.remove('pdf-generating');
     
     // Show error message with more details
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';

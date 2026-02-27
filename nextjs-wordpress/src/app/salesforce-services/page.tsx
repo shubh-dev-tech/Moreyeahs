@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { BlockRenderer } from '@/components/blocks/BlockRenderer';
-import { WORDPRESS_API_URL } from '@/lib/env';
-import { sanitizeWordPressContent } from '@/lib/wordpress-content';
+import { getPageWithBlocks } from '@/lib/wpFetch';
 import { parseBlocks } from '@/lib/blocks';
 import { WordPressContent } from '@/components/WordPressContent';
 import { generatePageMetadata } from '@/lib/seo';
@@ -13,24 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getSalesforceServicesPageData() {
-  try {
-    const response = await fetch(
-      `${WORDPRESS_API_URL}/wp/v2/pages?slug=salesforce-services`,
-      { next: { revalidate: 60 } }
-    );
-    
-    if (response.ok) {
-      const pages = await response.json();
-      if (pages && pages.length > 0) {
-        return pages[0];
-      }
-    }
-    
-    return null;
-  } catch (error) {
-    console.error('Error fetching Salesforce Services page:', error);
-    return null;
-  }
+  return await getPageWithBlocks('salesforce-services');
 }
 
 export default async function SalesforceServicesPage() {
@@ -47,7 +29,7 @@ export default async function SalesforceServicesPage() {
     }
 
     // Parse blocks from content if available
-    const blocks = parseBlocks(pageData.content?.rendered || '') || [];
+    const blocks = parseBlocks(pageData.content || '') || [];
 
     // If we have parsed blocks, render them with BlockRenderer
     if (blocks && blocks.length > 0) {
@@ -59,25 +41,10 @@ export default async function SalesforceServicesPage() {
     }
 
     // If no blocks but we have content, render with WordPressContent
-    if (pageData.content?.rendered) {
+    if (pageData.content) {
       return (
         <main className="min-h-screen">
-          <WordPressContent content={pageData.content.rendered} />
-        </main>
-      );
-    }
-
-    // If WordPress page exists but has no content, render with ACF blocks if available
-    if (pageData.acf && pageData.acf.blocks) {
-      return (
-        <main className="min-h-screen">
-          <div className="salesforce-services-page">
-            <div className="mx-auto px-4 py-8">
-              <div className="blocks">
-                <BlockRenderer blocks={pageData.acf.blocks} />
-              </div>
-            </div>
-          </div>
+          <WordPressContent content={pageData.content} />
         </main>
       );
     }

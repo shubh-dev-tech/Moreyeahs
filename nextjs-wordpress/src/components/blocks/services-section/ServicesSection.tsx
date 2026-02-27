@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import './styles.scss';
 
 interface ServiceItem {
@@ -222,7 +223,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ data }) => {
                   >
                     {item.image && (
                       <div className="services-section__item-icon">
-                        <img 
+                        <Image 
                           src={item.image.url} 
                           alt={item.image.alt || item.heading}
                           width={item.image.width || 48}

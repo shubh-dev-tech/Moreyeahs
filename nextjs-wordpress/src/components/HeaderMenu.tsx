@@ -21,7 +21,7 @@ function MenuItems({ items, megaMenuMap }: HeaderMenuProps) {
         
         // Check if this is the Career menu item and use custom URL
         const isCareerItem = itemTitleLower === 'career' || itemTitleLower === 'careers';
-        const finalUrl = isCareerItem ? 'https://app.emossy.com/#/job-module/jobs?companyId=IjE' : item.url;
+        const finalUrl = isCareerItem ? '/careers' : item.url;
         
         return (
           <li key={item.id} className={hasMegaMenu ? 'has-mega-menu' : (hasChildren ? 'has-children' : '')}>

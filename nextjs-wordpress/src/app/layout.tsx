@@ -3,10 +3,14 @@ import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import JsonLd from '@/components/JsonLd';
+import { AuthProvider } from '@/contexts/AuthContext';
+import DiceTestimonialWrapper from '@/components/DiceTestimonialWrapper';
 import ClientBlockInitializer from '@/components/ClientBlockInitializer';
 import WordPressErrorHandler from '@/components/WordPressErrorHandler';
-import { AuthProvider } from '@/contexts/AuthContext';
+import ScrollToTop from '@/components/ScrollToTop';
+import AIChatbot from '@/components/AIChatbot';
 import './globals.scss';
+import '@/styles/chatbot.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
@@ -16,12 +20,12 @@ export const metadata: Metadata = {
   },
   description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'A modern headless CMS powered by WordPress and Next.js',
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: 'https://dev.moreyeahs.com/wp-content/uploads/2026/02/cropped-Moreyeahs-Logo-7.png',
+    apple: 'https://dev.moreyeahs.com/wp-content/uploads/2026/02/cropped-Moreyeahs-Logo-7.png',
   },
   manifest: '/site.webmanifest',
 };
@@ -51,7 +55,10 @@ export default function RootLayout({
             <main className="main-content">
               {children}
             </main>
+            <DiceTestimonialWrapper />
             <Footer />
+            <ScrollToTop />
+            <AIChatbot />
           </div>
           <ClientBlockInitializer />
         </AuthProvider>
