@@ -91,6 +91,16 @@ $table_prefix = 'wp_';
 // The dynamic config will set these based on environment
 // You can override them here if needed
 
+// Increase memory limit for large images and complex blocks
+define('WP_MEMORY_LIMIT', '256M');
+define('WP_MAX_MEMORY_LIMIT', '512M');
+
+// Enable WordPress REST API (should be enabled by default, but ensuring it)
+// If you need to debug REST API issues, uncomment these:
+// define('WP_DEBUG', true);
+// define('WP_DEBUG_LOG', true);
+// define('WP_DEBUG_DISPLAY', false);
+
 
 
 /* That's all, stop editing! Happy publishing. */

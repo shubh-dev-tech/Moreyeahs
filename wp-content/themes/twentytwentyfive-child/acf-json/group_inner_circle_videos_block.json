@@ -1,0 +1,200 @@
+{
+    "key": "group_inner_circle_videos_block",
+    "title": "Inner Circle Videos Block",
+    "fields": [
+        {
+            "key": "field_inner_circle_heading",
+            "label": "Heading",
+            "name": "heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the main heading (e.g., Inner Circle Videos)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placeholder": "Inner Circle Videos",
+            "default_value": "Inner Circle Videos",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_inner_circle_subheading",
+            "label": "Subheading",
+            "name": "subheading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the subheading text",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placeholder": "Real stories and insights straight from our team.",
+            "default_value": "Real stories and insights straight from our team.",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_inner_circle_videos",
+            "label": "Team Videos",
+            "name": "videos",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add team member videos",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "min": 1,
+            "max": 0,
+            "layout": "block",
+            "button_label": "Add Video",
+            "rows_per_page": 20,
+            "collapsed": "field_inner_circle_name",
+            "sub_fields": [
+                {
+                    "key": "field_inner_circle_name",
+                    "label": "Name",
+                    "name": "name",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter team member name",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "Sarah Jenkins",
+                    "default_value": "",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_inner_circle_videos"
+                },
+                {
+                    "key": "field_inner_circle_title",
+                    "label": "Job Title",
+                    "name": "title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter job title",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "Project Manager",
+                    "default_value": "",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_inner_circle_videos"
+                },
+                {
+                    "key": "field_inner_circle_thumbnail",
+                    "label": "Thumbnail Image",
+                    "name": "thumbnail",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Upload thumbnail image (recommended: 600x400px)",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "min_width": 400,
+                    "min_height": 300,
+                    "min_size": 0,
+                    "max_width": 0,
+                    "max_height": 0,
+                    "max_size": 0,
+                    "mime_types": "jpg,jpeg,png,webp",
+                    "parent_repeater": "field_inner_circle_videos"
+                },
+                {
+                    "key": "field_inner_circle_video_url",
+                    "label": "Video URL",
+                    "name": "video_url",
+                    "aria-label": "",
+                    "type": "url",
+                    "instructions": "Enter video URL (YouTube, Vimeo, or direct MP4 link)",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "https:\/\/www.youtube.com\/watch?v=...",
+                    "default_value": "",
+                    "parent_repeater": "field_inner_circle_videos"
+                }
+            ]
+        },
+        {
+            "key": "field_inner_circle_background_image",
+            "label": "Background Image (Optional)",
+            "name": "background_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Upload a background image for the section (will be overlaid with semi-transparent background)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "large",
+            "library": "all",
+            "min_width": 1200,
+            "min_height": 600,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0,
+            "mime_types": "jpg,jpeg,png,webp"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/inner-circle-videos"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Display team member videos in an infinite loop slider with video popup",
+    "show_in_rest": 1,
+    "display_title": "",
+    "modified": 1772194471
+}

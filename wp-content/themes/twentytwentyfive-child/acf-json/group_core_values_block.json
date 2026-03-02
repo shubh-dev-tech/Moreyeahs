@@ -1,0 +1,181 @@
+{
+    "key": "group_core_values_block",
+    "title": "Core Values Block",
+    "fields": [
+        {
+            "key": "field_core_values_values",
+            "label": "Core Values",
+            "name": "values",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Add your company core values (recommended: 8 values for optimal layout - 4 top row, 2 middle row, 2 bottom row)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "min": 1,
+            "max": 8,
+            "layout": "block",
+            "button_label": "Add Value",
+            "rows_per_page": 20,
+            "collapsed": "field_core_values_title",
+            "sub_fields": [
+                {
+                    "key": "field_core_values_title",
+                    "label": "Title",
+                    "name": "title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter the core value title (e.g., Humility, Integrity, Team Spirit)",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "Humility",
+                    "default_value": "",
+                    "maxlength": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_core_values_values"
+                },
+                {
+                    "key": "field_core_values_description",
+                    "label": "Description",
+                    "name": "description",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Enter the description for this core value",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "placeholder": "We remain grounded and open to learning...",
+                    "default_value": "",
+                    "maxlength": "",
+                    "rows": 3,
+                    "new_lines": "",
+                    "parent_repeater": "field_core_values_values"
+                }
+            ]
+        },
+        {
+            "key": "field_core_values_team_image",
+            "label": "Team Image",
+            "name": "team_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Upload the team photo (recommended size: 1200x400px for best results)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": 800,
+            "min_height": 300,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0,
+            "mime_types": "jpg,jpeg,png,webp"
+        },
+        {
+            "key": "field_core_values_center_heading",
+            "label": "Center Heading",
+            "name": "center_heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Enter the main heading for the center section",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placeholder": "Push Beyond Boundaries",
+            "default_value": "Push Beyond Boundaries",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_core_values_center_description",
+            "label": "Center Description",
+            "name": "center_description",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Enter the description text for the center section",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placeholder": "We challenge the ordinary, question limits...",
+            "default_value": "We challenge the ordinary, question limits, and pursue bold ideas with courage. By stepping out of comfort zones, we drive innovation and open new possibilities. Pushing boundaries empowers us to stay ahead of change, inspire creativity, and achieve extraordinary results.",
+            "maxlength": "",
+            "rows": 4,
+            "new_lines": ""
+        },
+        {
+            "key": "field_core_values_background_image",
+            "label": "Background Image (Optional)",
+            "name": "background_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Upload a background image for the section (will be overlaid with semi-transparent white)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0,
+            "mime_types": "jpg,jpeg,png,webp"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/core-values-block"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Display company core values with team image in a responsive grid layout",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1772188816
+}

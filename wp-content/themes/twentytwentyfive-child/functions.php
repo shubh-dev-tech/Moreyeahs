@@ -1938,6 +1938,71 @@ function twentytwentyfive_child_register_acf_blocks() {
             ),
         ),
     ));
+
+    // Core Values Block
+    acf_register_block_type(array(
+        'name'              => 'core-values-block',
+        'title'             => __('Core Values Block', 'twentytwentyfive'),
+        'description'       => __('Display company core values with team image in a responsive grid layout', 'twentytwentyfive'),
+        'category'          => 'formatting',
+        'icon'              => 'star-filled',
+        'keywords'          => array('core', 'values', 'team', 'culture', 'company', 'mission'),
+        'render_template'   => 'blocks/core-values-block/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/core-values-block/style.css',
+        'enqueue_script'    => get_stylesheet_directory_uri() . '/blocks/core-values-block/script.js',
+        'supports'          => array(
+            'align'  => array('wide', 'full'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'values' => array(
+                        array('title' => 'Humility', 'description' => 'We remain grounded and open to learning, no matter our achievements.'),
+                        array('title' => 'Integrity', 'description' => 'We act with honesty, transparency, and strong moral principles.'),
+                        array('title' => 'Team Spirit', 'description' => 'We believe success is a collective achievement built on collaboration.'),
+                    ),
+                    'center_heading' => 'Push Beyond Boundaries',
+                    'center_description' => 'We challenge the ordinary, question limits, and pursue bold ideas with courage.',
+                ),
+            ),
+        ),
+    ));
+
+    // Inner Circle Videos Block
+    acf_register_block_type(array(
+        'name'              => 'inner-circle-videos',
+        'title'             => __('Inner Circle Videos', 'twentytwentyfive'),
+        'description'       => __('Display team member videos in an infinite loop slider with popup functionality', 'twentytwentyfive'),
+        'category'          => 'media',
+        'icon'              => 'video-alt3',
+        'keywords'          => array('video', 'team', 'testimonial', 'slider', 'carousel', 'inner circle'),
+        'render_template'   => 'blocks/inner-circle-videos/block.php',
+        'enqueue_style'     => get_stylesheet_directory_uri() . '/blocks/inner-circle-videos/style.css',
+        'enqueue_script'    => get_stylesheet_directory_uri() . '/blocks/inner-circle-videos/script.js',
+        'supports'          => array(
+            'align'  => array('wide', 'full'),
+            'mode'   => true,
+            'jsx'    => true,
+            'anchor' => true,
+        ),
+        'example'           => array(
+            'attributes' => array(
+                'mode' => 'preview',
+                'data' => array(
+                    'heading' => 'Inner Circle Videos',
+                    'subheading' => 'Real stories and insights straight from our team.',
+                    'videos' => array(
+                        array('name' => 'Sarah Jenkins', 'title' => 'Project Manager'),
+                        array('name' => 'David Chen', 'title' => 'Sales Manager'),
+                    ),
+                ),
+            ),
+        ),
+    ));
 }
 add_action('acf/init', 'twentytwentyfive_child_register_acf_blocks');
 
