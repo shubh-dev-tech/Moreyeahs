@@ -43,14 +43,12 @@ function MenuItems({ items, megaMenuMap }: { items: MenuItem[], megaMenuMap: Rec
             ) : (
               <>
                 {isCareerItem ? (
-                  <a 
+                  <Link 
                     href={finalUrl} 
-                    target="_blank"
                     className={item.classes}
-                    rel="noopener noreferrer"
                   >
                     {item.title}
-                  </a>
+                  </Link>
                 ) : (
                   <Link 
                     href={wpUrlToPath(finalUrl)} 

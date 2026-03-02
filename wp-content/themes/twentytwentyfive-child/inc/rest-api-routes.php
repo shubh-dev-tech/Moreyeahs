@@ -34,7 +34,7 @@ add_action('rest_api_init', function() {
     
     // Pages with blocks endpoint
     register_rest_route('wp/v2', '/pages-with-blocks/(?P<slug>[a-zA-Z0-9-_]+)', [
-        'methods' => 'POST',
+        'methods' => array('GET', 'POST'),
         'callback' => 'twentytwentyfive_child_pages_with_blocks_callback',
         'permission_callback' => '__return_true'
     ]);
@@ -163,18 +163,22 @@ function twentytwentyfive_child_site_settings_callback() {
  * This is a complex callback - keeping the inline implementation from functions.php
  */
 function twentytwentyfive_child_pages_with_blocks_callback($request) {
-    $slug = $request['slug'];
-    $page = get_page_by_path($slug);
-    
-    if (!$page) {
-        return new WP_Error('page_not_found', 'Page not found', ['status' => 404]);
-    }
-    
-    $post_id = $page->ID;
-    $blocks = parse_blocks($page->post_content);
+    try {
+        $slug = $request['slug'];
+        $page = get_page_by_path($slug);
+        
+        if (!$page) {
+            return new WP_Error('page_not_found', 'Page not found', ['status' => 404]);
+        }
+        
+        $post_id = $page->ID;
+        $blocks = parse_blocks($page->post_content);
     
     // Process ACF blocks to include field data - ENHANCED FOR NESTED BLOCKS
     $processed_blocks = [];
+    
+    // Debug logging
+    $debug_mode = defined('WP_DEBUG') && WP_DEBUG;
     
     // Function to extract ACF data from block attributes
     $extract_acf_data_from_attrs = function($block_data) {
@@ -313,10 +317,85 @@ function twentytwentyfive_child_pages_with_blocks_callback($request) {
             
             $processed_data['steps'] = $steps;
         }
+
+        // Handle inner-circle-videos repeater
+        if (isset($block_data['videos'])) {
+            $videos = [];
+            
+            if ($debug_mode) {
+                error_log('ICVBlock: Processing videos. Type: ' . gettype($block_data['videos']) . ', Value: ' . $block_data['videos']);
+            }
+
+            // Check if it's already an array (proper ACF data)
+            if (is_array($block_data['videos']) && !is_numeric($block_data['videos'])) {
+                if ($debug_mode) {
+                    error_log('ICVBlock: Videos is an array');
+                }
+                $videos = $block_data['videos'];
+
+                foreach ($videos as &$video) {
+                    if (isset($video['thumbnail']) && $video['thumbnail']) {
+                        $video['thumbnail'] = process_acf_image_field($video['thumbnail']);
+                    }
+                }
+                unset($video);
+            }
+            // Handle numeric count format (flattened repeater)
+            elseif (is_numeric($block_data['videos'])) {
+                $video_count = intval($block_data['videos']);
+                if ($debug_mode) {
+                    error_log('ICVBlock: Videos is flattened format, count: ' . $video_count);
+                }
+
+                for ($i = 0; $i < $video_count; $i++) {
+                    $video = [];
+                    $video['name'] = $block_data["videos_{$i}_name"] ?? '';
+                    $video['title'] = $block_data["videos_{$i}_title"] ?? '';
+                    $video['video_url'] = $block_data["videos_{$i}_video_url"] ?? '';
+
+                    $thumb_id = $block_data["videos_{$i}_thumbnail"] ?? null;
+                    if ($thumb_id) {
+                        $expanded_thumb = process_acf_image_field($thumb_id);
+                        if ($expanded_thumb) {
+                            $video['thumbnail'] = $expanded_thumb;
+                            if ($debug_mode) {
+                                error_log('ICVBlock: Expanded thumbnail for video ' . $i . ': ' . $expanded_thumb['url']);
+                            }
+                        } else {
+                            // Keep the raw ID if expansion fails, let frontend handle it
+                            $video['thumbnail'] = $thumb_id;
+                            if ($debug_mode) {
+                                error_log('ICVBlock: Failed to expand thumbnail ' . $thumb_id);
+                            }
+                        }
+                    }
+
+                    if (!empty($video['name']) && !empty($video['video_url'])) {
+                        $videos[] = $video;
+                    }
+                }
+            }
+
+            // Only set videos if we have any processed videos
+            if (!empty($videos)) {
+                $processed_data['videos'] = $videos;
+                if ($debug_mode) {
+                    error_log('ICVBlock: Processed ' . count($videos) . ' videos');
+                }
+            }
+        }
+
+        // Process background image if present
+        if (isset($block_data['background_image']) && $block_data['background_image']) {
+            $bg_image = process_acf_image_field($block_data['background_image']);
+            if ($bg_image) {
+                $processed_data['background_image'] = $bg_image;
+            }
+        }
         
         // Copy other fields
         foreach ($block_data as $key => $value) {
-            if (!isset($processed_data[$key]) && !preg_match('/^(left_items_\d+_|right_paragraphs_\d+_|service_items_\d+_|steps_\d+_|_)/', $key)) {
+            if (!isset($processed_data[$key]) && !preg_match('/^(left_items_\d+_|right_paragraphs_\d+_|service_items_\d+_|steps_\d+_|videos_\d+_|_)/', $key)) {
                 $processed_data[$key] = $value;
             }
         }
@@ -485,6 +564,58 @@ function twentytwentyfive_child_pages_with_blocks_callback($request) {
                 }
             }
             
+            // ENHANCED: For inner-circle-videos, ensure videos data is properly formatted
+            if ($block['blockName'] === 'acf/inner-circle-videos') {
+                // Ensure data exists
+                if (!isset($block['attrs']['data'])) {
+                    $block['attrs']['data'] = [];
+                }
+                
+                $videos_data = $block['attrs']['data']['videos'] ?? [];
+                
+                // If videos is empty or not an array, try to get it from post meta as fallback
+                if (empty($videos_data) || !is_array($videos_data)) {
+                    // Try to get from post meta using ACF
+                    if (function_exists('get_field')) {
+                        $post_videos = get_field('videos', $post_id);
+                        if (is_array($post_videos) && !empty($post_videos)) {
+                            $videos_data = $post_videos;
+                        }
+                    }
+                }
+                
+                // Process videos array to expand thumbnails
+                if (is_array($videos_data) && !empty($videos_data)) {
+                    $processed_videos = [];
+                    
+                    foreach ($videos_data as $video) {
+                        $processed_video = [
+                            'name' => $video['name'] ?? '',
+                            'title' => $video['title'] ?? '',
+                            'video_url' => $video['video_url'] ?? '',
+                        ];
+                        
+                        // Process thumbnail if present
+                        if (isset($video['thumbnail'])) {
+                            $processed_video['thumbnail'] = process_acf_image_field($video['thumbnail']);
+                        }
+                        
+                        if (!empty($processed_video['name']) || !empty($processed_video['video_url'])) {
+                            $processed_videos[] = $processed_video;
+                        }
+                    }
+                    
+                    if (!empty($processed_videos)) {
+                        $block['attrs']['data']['videos'] = $processed_videos;
+                    }
+                }
+                
+                // Ensure background_image is processed if present
+                if (isset($block['attrs']['data']['background_image']) && $block['attrs']['data']['background_image']) {
+                    $block['attrs']['data']['background_image'] = process_acf_image_field($block['attrs']['data']['background_image']);
+                }
+            }
+            
             // ENHANCED: For new-stepper, get ACF data directly from post
             if ($block['blockName'] === 'acf/new-stepper') {
                 $direct_acf_data = [];
@@ -527,6 +658,9 @@ function twentytwentyfive_child_pages_with_blocks_callback($request) {
         'content' => $page->post_content,
         'blocks' => $processed_blocks
     ]);
+    } catch (Exception $e) {
+        return new WP_Error('endpoint_error', 'Error processing page: ' . $e->getMessage(), ['status' => 500]);
+    }
 }
 
 // NOTE: The remaining callback functions (posts_with_acf_blocks, posts_data, categories_data, etc.)

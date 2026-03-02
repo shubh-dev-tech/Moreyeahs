@@ -30,14 +30,12 @@ function MenuItems({ items, megaMenuMap }: HeaderMenuProps) {
             ) : (
               <>
                 {isCareerItem ? (
-                  <a 
+                  <Link 
                     href={finalUrl} 
-                    target="_blank"
                     className={item.classes}
-                    rel="noopener noreferrer"
                   >
                     {item.title}
-                  </a>
+                  </Link>
                 ) : (
                   <Link 
                     href={wpUrlToPath(finalUrl)} 

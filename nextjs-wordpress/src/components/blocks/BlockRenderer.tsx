@@ -57,6 +57,8 @@ import { FooterSection } from './footer-section';
 import { CoreParagraph } from './core/Paragraph';
 import { CoreHeading } from './core/Heading';
 import { CoreImage } from './core/Image';
+import { CoreValuesBlock } from './core-values-block';
+import InnerCircleVideosBlock from './inner-circle-videos/InnerCircleVideosBlock';
 
 interface BlockRendererProps {
   blocks: Block[];
@@ -110,6 +112,8 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType<any>> = {
   'acf/fits-together-section': FitsTogetherSection,
   'acf/faq-section': FaqSection,
   'acf/footer-section': FooterSection,
+  'acf/core-values-block': CoreValuesBlock,
+  'acf/inner-circle-videos': InnerCircleVideosBlock,
   
   // Custom Blocks (without ACF)
   'moreyeahs/slider': MoreyeahsSliderBlock,
